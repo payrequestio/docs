@@ -2,32 +2,32 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "PayRequest Documentation",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "https://dashboard.payrequest.io/media/logo/logo-white.svg",
+    "light": "https://dashboard.payrequest.io/media/logo/logo-white.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
+    "primary": "#24B3C4",
     "light": "#07C983",
-    "dark": "#0D9373",
+    "dark": "#3259A5",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#24B3C4",
+      "to": "#3259A5"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:support@payrequest.io"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://dashboard.payrequest.io"
   },
   "tabs": [
     {
-      "name": "API Reference",
+      "name": "API",
       "url": "api-reference"
     }
   ],
@@ -84,8 +84,6 @@
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://twitter.com/payrequest_io"
   }
 }
