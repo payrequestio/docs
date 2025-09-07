@@ -48,14 +48,22 @@
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Core Concepts",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "essentials/payments",
+        "essentials/authentication",
+        "essentials/webhooks",
+        "essentials/payment-methods",
+        "essentials/security"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "essentials/integration-guide",
+        "essentials/testing",
+        "essentials/errors",
+        "essentials/rate-limits"
       ]
     },
     {
@@ -65,11 +73,19 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Payments",
       "pages": [
-        "api-reference/endpoint/get",
         "api-reference/endpoint/create",
+        "api-reference/endpoint/get",
         "api-reference/endpoint/delete"
+      ]
+    },
+    {
+      "group": "Resources",
+      "pages": [
+        "api-reference/customers",
+        "api-reference/webhooks",
+        "api-reference/subscriptions"
       ]
     }
   ],

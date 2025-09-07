@@ -1,0 +1,514 @@
+---
+title: 'Webhooks'
+description: 'Receive real-time notifications about payment events'
+---
+
+# Webhooks
+
+Webhooks allow your application to receive real-time notifications when events occur in your PayRequest account. Instead of polling the API, PayRequest will send HTTP POST requests to your specified endpoint URL whenever an event happens.
+
+## How Webhooks Work
+
+<Steps>
+  <Step title="Event Occurs">
+    An event happens in your PayRequest account (e.g., a payment is completed)
+  </Step>
+  <Step title="PayRequest Sends Request">
+    PayRequest sends an HTTP POST request to your webhook endpoint
+  </Step>
+  <Step title="Your App Processes">
+    Your application receives and processes the webhook payload
+  </Step>
+  <Step title="Return 200 Response">
+    Your endpoint returns a 200 status code to acknowledge receipt
+  </Step>
+</Steps>
+
+## Setting Up Webhooks
+
+### 1. Create a Webhook Endpoint
+
+Create an endpoint in your application to receive webhook notifications:
+
+<CodeGroup>
+```javascript Express.js
+const express = require('express');
+const app = express();
+
+// Middleware to capture raw body
+app.use('/webhook', express.raw({ type: 'application/json' }));
+
+app.post('/webhook', (req, res) => {
+  const event = JSON.parse(req.body);
+  
+  // Process the event
+  console.log('Received event:', event.type);
+  
+  // Return 200 to acknowledge receipt
+  res.status(200).send('OK');
+});
+```
+
+```python Flask
+from flask import Flask, request, jsonify
+import json
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    event = request.get_json()
+    
+    # Process the event
+    print(f"Received event: {event['type']}")
+    
+    # Return 200 to acknowledge receipt
+    return 'OK', 200
+```
+
+```php PHP
+<?php
+// webhook.php
+$payload = file_get_contents('php://input');
+$event = json_decode($payload, true);
+
+// Process the event
+error_log("Received event: " . $event['type']);
+
+// Return 200 to acknowledge receipt
+http_response_code(200);
+echo 'OK';
+?>
+```
+
+```ruby Rails
+class WebhooksController < ApplicationController
+  skip_before_action :verify_authenticity_token
+  
+  def payrequest
+    event = JSON.parse(request.body.read)
+    
+    # Process the event
+    Rails.logger.info "Received event: #{event['type']}"
+    
+    # Return 200 to acknowledge receipt
+    head :ok
+  end
+end
+```
+</CodeGroup>
+
+### 2. Register Your Webhook
+
+Register your webhook endpoint through the dashboard or API:
+
+<Tabs>
+  <Tab title="Dashboard">
+    1. Go to **Settings > Webhooks** in your PayRequest dashboard
+    2. Click **Add Webhook Endpoint**
+    3. Enter your endpoint URL (must be HTTPS in production)
+    4. Select the events you want to receive
+    5. Click **Create Webhook**
+  </Tab>
+
+  <Tab title="API">
+    ```bash
+    curl -X POST https://api.payrequest.io/v1/webhooks \
+      -H "Authorization: Bearer your_api_key" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "url": "https://yoursite.com/webhook",
+        "events": ["payment.completed", "payment.failed"]
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+## Webhook Events
+
+PayRequest sends webhooks for various events. Here are the most common ones:
+
+<AccordionGroup>
+  <Accordion title="payment.created" icon="plus">
+    Triggered when a new payment request is created.
+    
+    ```json
+    {
+      "type": "payment.created",
+      "data": {
+        "id": "pay_1234567890",
+        "amount": 2500,
+        "currency": "USD",
+        "status": "pending",
+        "created_at": "2024-01-15T10:30:00Z"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="payment.completed" icon="check">
+    Triggered when a payment is successfully completed.
+    
+    ```json
+    {
+      "type": "payment.completed",
+      "data": {
+        "id": "pay_1234567890",
+        "amount": 2500,
+        "currency": "USD",
+        "status": "completed",
+        "completed_at": "2024-01-15T10:35:00Z"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="payment.failed" icon="x">
+    Triggered when a payment attempt fails.
+    
+    ```json
+    {
+      "type": "payment.failed",
+      "data": {
+        "id": "pay_1234567890",
+        "amount": 2500,
+        "currency": "USD",
+        "status": "failed",
+        "failure_reason": "insufficient_funds"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="payment.cancelled" icon="ban">
+    Triggered when a payment is cancelled.
+    
+    ```json
+    {
+      "type": "payment.cancelled",
+      "data": {
+        "id": "pay_1234567890",
+        "amount": 2500,
+        "currency": "USD",
+        "status": "cancelled",
+        "cancelled_at": "2024-01-15T10:32:00Z"
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Webhook Security
+
+### Verifying Webhook Signatures
+
+PayRequest signs each webhook with a secret key. Always verify the signature to ensure the webhook came from PayRequest:
+
+<CodeGroup>
+```javascript Node.js
+const crypto = require('crypto');
+
+function verifyWebhookSignature(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload, 'utf8')
+    .digest('hex');
+  
+  return signature === `sha256=${expectedSignature}`;
+}
+
+app.post('/webhook', (req, res) => {
+  const signature = req.headers['payrequest-signature'];
+  const payload = req.body;
+  
+  if (!verifyWebhookSignature(payload, signature, webhookSecret)) {
+    return res.status(401).send('Invalid signature');
+  }
+  
+  // Process the webhook...
+  res.status(200).send('OK');
+});
+```
+
+```python Python
+import hmac
+import hashlib
+
+def verify_webhook_signature(payload, signature, secret):
+    expected_signature = hmac.new(
+        secret.encode('utf-8'),
+        payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    return signature == f"sha256={expected_signature}"
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('payrequest-signature')
+    payload = request.get_data(as_text=True)
+    
+    if not verify_webhook_signature(payload, signature, webhook_secret):
+        return 'Invalid signature', 401
+    
+    # Process the webhook...
+    return 'OK', 200
+```
+</CodeGroup>
+
+### Best Practices
+
+<Warning>
+  **Always verify webhook signatures** to prevent malicious requests from reaching your application.
+</Warning>
+
+- **Use HTTPS**: Only accept webhooks over HTTPS in production
+- **Verify Signatures**: Always validate the webhook signature
+- **Idempotency**: Handle duplicate webhooks gracefully
+- **Quick Response**: Return a 200 status quickly; do heavy processing asynchronously
+- **Timeout Handling**: PayRequest will timeout after 30 seconds
+
+## Handling Webhook Events
+
+### Event Processing Pattern
+
+<CodeGroup>
+```javascript Node.js
+app.post('/webhook', (req, res) => {
+  const event = JSON.parse(req.body);
+  
+  // Acknowledge receipt immediately
+  res.status(200).send('OK');
+  
+  // Process event asynchronously
+  processEventAsync(event);
+});
+
+async function processEventAsync(event) {
+  try {
+    switch (event.type) {
+      case 'payment.completed':
+        await fulfillOrder(event.data);
+        await sendConfirmationEmail(event.data);
+        break;
+        
+      case 'payment.failed':
+        await handleFailedPayment(event.data);
+        break;
+        
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    // Consider adding to a retry queue
+  }
+}
+```
+
+```python Python
+from celery import Celery
+
+app = Celery('webhook_processor')
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    event = request.get_json()
+    
+    # Acknowledge receipt immediately
+    # Process event asynchronously
+    process_event_async.delay(event)
+    
+    return 'OK', 200
+
+@app.task
+def process_event_async(event):
+    try:
+        if event['type'] == 'payment.completed':
+            fulfill_order(event['data'])
+            send_confirmation_email(event['data'])
+        elif event['type'] == 'payment.failed':
+            handle_failed_payment(event['data'])
+    except Exception as e:
+        print(f"Error processing webhook: {e}")
+        # Consider adding to a retry queue
+```
+</CodeGroup>
+
+### Idempotency
+
+Handle duplicate webhooks by making your processing idempotent:
+
+```javascript
+const processedEvents = new Set();
+
+app.post('/webhook', (req, res) => {
+  const event = JSON.parse(req.body);
+  const eventId = event.id;
+  
+  // Check if we've already processed this event
+  if (processedEvents.has(eventId)) {
+    return res.status(200).send('Already processed');
+  }
+  
+  // Process the event
+  processEvent(event);
+  
+  // Mark as processed
+  processedEvents.add(eventId);
+  
+  res.status(200).send('OK');
+});
+```
+
+## Testing Webhooks
+
+### Local Development
+
+Use tools like ngrok to expose your local server for webhook testing:
+
+```bash
+# Install ngrok
+npm install -g ngrok
+
+# Expose your local server
+ngrok http 3000
+
+# Use the generated URL in your webhook settings
+# https://abc123.ngrok.io/webhook
+```
+
+### Webhook Testing Tool
+
+PayRequest provides a webhook testing tool in the dashboard:
+
+1. Go to **Settings > Webhooks**
+2. Click **Test Webhook** next to your endpoint
+3. Select an event type and send a test payload
+4. View the response and debug any issues
+
+### Sample Test Events
+
+<AccordionGroup>
+  <Accordion title="Test Payment Completed">
+    ```json
+    {
+      "id": "evt_test_12345",
+      "type": "payment.completed",
+      "created_at": "2024-01-15T10:30:00Z",
+      "data": {
+        "id": "pay_test_12345",
+        "amount": 2500,
+        "currency": "USD",
+        "status": "completed",
+        "description": "Test payment",
+        "metadata": {
+          "order_id": "test_order_123"
+        }
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Test Payment Failed">
+    ```json
+    {
+      "id": "evt_test_67890",
+      "type": "payment.failed",
+      "created_at": "2024-01-15T10:30:00Z",
+      "data": {
+        "id": "pay_test_67890",
+        "amount": 1000,
+        "currency": "USD",
+        "status": "failed",
+        "failure_reason": "card_declined",
+        "failure_message": "Your card was declined."
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+  <Accordion title="Webhook Not Received" icon="exclamation-triangle">
+    **Possible Causes:**
+    - Endpoint URL is incorrect or unreachable
+    - Firewall blocking incoming requests
+    - Server returning non-200 status code
+    
+    **Solutions:**
+    - Verify your endpoint URL is accessible
+    - Check firewall settings
+    - Ensure your endpoint returns 200 status
+  </Accordion>
+
+  <Accordion title="Signature Verification Fails" icon="key">
+    **Possible Causes:**
+    - Wrong webhook secret
+    - Body modification by middleware
+    - Incorrect signature calculation
+    
+    **Solutions:**
+    - Verify webhook secret from dashboard
+    - Capture raw request body
+    - Check signature calculation logic
+  </Accordion>
+
+  <Accordion title="Duplicate Events" icon="copy">
+    **Possible Causes:**
+    - Network timeouts
+    - Server returning non-200 status
+    - PayRequest retry mechanism
+    
+    **Solutions:**
+    - Implement idempotency checking
+    - Return 200 status quickly
+    - Handle duplicates gracefully
+  </Accordion>
+</AccordionGroup>
+
+### Debugging Tools
+
+Monitor webhook delivery in your dashboard:
+
+- **Delivery Attempts**: See all webhook delivery attempts
+- **Response Codes**: View HTTP status codes returned
+- **Payload Inspector**: Examine the exact payload sent
+- **Retry Schedule**: Understand when failed webhooks will be retried
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/webhooks"
+  >
+    Manage webhooks via API
+  </Card>
+  <Card
+    title="Security Guide"
+    icon="shield"
+    href="/essentials/security"
+  >
+    Secure your webhook endpoints
+  </Card>
+  <Card
+    title="Error Handling"
+    icon="triangle-exclamation"
+    href="/essentials/errors"
+  >
+    Handle webhook errors gracefully
+  </Card>
+  <Card
+    title="Testing Guide"
+    icon="flask"
+    href="/essentials/testing"
+  >
+    Test your webhook integration
+  </Card>
+</CardGroup>
