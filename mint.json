@@ -25,12 +25,7 @@
     "name": "Dashboard",
     "url": "https://dashboard.payrequest.io"
   },
-  "tabs": [
-    {
-      "name": "API",
-      "url": "api-reference"
-    }
-  ],
+
   "anchors": [
     {
       "name": "Documentation",
@@ -51,41 +46,26 @@
       "group": "Core Concepts",
       "pages": [
         "essentials/payments",
-        "essentials/authentication",
-        "essentials/webhooks",
         "essentials/payment-methods",
+        "essentials/webhooks",
         "essentials/security"
       ]
     },
     {
-      "group": "Guides",
+      "group": "Business Workflows",
       "pages": [
-        "essentials/integration-guide",
-        "essentials/testing",
-        "essentials/errors",
-        "essentials/rate-limits"
+        "essentials/invoice-templates",
+        "essentials/customer-management",
+        "essentials/payment-tracking",
+        "essentials/reporting"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Invoice Management",
       "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Payments",
-      "pages": [
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/delete"
-      ]
-    },
-    {
-      "group": "Resources",
-      "pages": [
-        "api-reference/customers",
-        "api-reference/webhooks",
-        "api-reference/subscriptions"
+        "essentials/creating-invoices",
+        "essentials/sending-invoices", 
+        "essentials/tracking-payments"
       ]
     }
   ],
