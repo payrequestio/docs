@@ -5,36 +5,47 @@ description: 'Get started with PayRequest in under 5 minutes'
 
 # Quick Start Guide
 
-Get your PayRequest integration up and running in just a few steps. This guide will walk you through creating your first payment request and integrating with our API.
+Get started with PayRequest and create your first invoice in just a few steps. This guide will walk you through setting up your account and sending your first professional invoice.
 
 ## Step 1: Create Your Account
 
 <Steps>
   <Step title="Sign up for PayRequest">
-    Visit [dashboard.payrequest.io](https://dashboard.payrequest.io) and create your free account. You'll get instant access to our sandbox environment for testing.
+    Visit [dashboard.payrequest.io](https://dashboard.payrequest.io) and create your free account. You'll get instant access to create and send invoices.
   </Step>
-  <Step title="Get your API keys">
-    Navigate to **Settings > API Keys** in your dashboard to find your test and live API keys.
-    
-    <Warning>
-      Keep your API keys secure and never expose them in client-side code.
-    </Warning>
+  <Step title="Set up your business profile">
+    Navigate to **Settings > Business Profile** in your dashboard to add your company information, logo, and payment details.
   </Step>
-  <Step title="Choose your integration method">
-    Select how you want to integrate PayRequest into your application:
-    - **Payment Links** - No coding required
-    - **API Integration** - Full programmatic control
-    - **Plugins** - Ready-made solutions for popular platforms
+  <Step title="Choose how you want to get paid">
+    Configure your preferred payment methods and bank account information where you want to receive payments:
+    - **Bank Transfer** - Direct deposits to your bank account
+    - **Credit Cards** - Accept Visa, MasterCard, and other major cards
+    - **Digital Wallets** - PayPal, Apple Pay, Google Pay, and more
   </Step>
 </Steps>
 
-## Step 2: Create Your First Payment
+## Step 2: Create Your First Invoice
 
 <Tabs>
-  <Tab title="Payment Links (No Code)">
-    The fastest way to start accepting payments:
+  <Tab title="Dashboard Invoice Creation">
+    The easiest way to create professional invoices:
 
-    1. Go to **Payments > Create Payment** in your dashboard
+    1. Go to **Invoices > Create Invoice** in your dashboard
+    2. Fill in the invoice details:
+       - **Customer Information**: Name, email, and billing address
+       - **Invoice Items**: Description, quantity, and price for each item/service
+       - **Payment Terms**: Due date and payment instructions
+       - **Branding**: Add your logo and customize colors
+    3. Preview your invoice to ensure it looks professional
+    4. Click **Send Invoice** to email it directly to your customer
+
+    Your customer will receive a beautifully formatted invoice with a secure payment link where they can pay instantly.
+  </Tab>
+
+  <Tab title="Quick Payment Link">
+    For simple one-off payments:
+
+    1. Go to **Payments > Create Payment Link** in your dashboard
     2. Fill in the payment details (amount, description, recipient email)
     3. Click **Create Payment Link**
     4. Share the generated link with your customer
@@ -46,149 +57,64 @@ Get your PayRequest integration up and running in just a few steps. This guide w
     Your customer can pay instantly using this link, and you'll receive real-time notifications.
   </Tab>
 
-  <Tab title="API Integration">
-    For developers who want programmatic control:
+  <Tab title="Recurring Invoices">
+    For subscription or recurring billing:
 
-    <CodeGroup>
-    ```javascript Node.js
-    const payrequest = require('@payrequest/api');
+    1. Create an invoice as described above
+    2. In the invoice settings, enable **Recurring Invoice**
+    3. Set your billing frequency (weekly, monthly, quarterly, yearly)
+    4. Configure automatic sending and payment processing
+    5. Save the recurring invoice template
 
-    // Initialize with your API key
-    const pr = new payrequest('your-api-key');
-
-    // Create a payment request
-    const payment = await pr.payments.create({
-      amount: 2500, // Amount in cents ($25.00)
-      currency: 'USD',
-      description: 'Product purchase',
-      recipient: {
-        email: 'customer@example.com',
-        name: 'John Doe'
-      },
-      callback_url: 'https://yoursite.com/webhook'
-    });
-
-    console.log(payment.payment_url);
-    ```
-
-    ```python Python
-    import payrequest
-
-    # Initialize with your API key
-    pr = payrequest.PayRequest('your-api-key')
-
-    # Create a payment request
-    payment = pr.payments.create(
-        amount=2500,  # Amount in cents ($25.00)
-        currency='USD',
-        description='Product purchase',
-        recipient={
-            'email': 'customer@example.com',
-            'name': 'John Doe'
-        },
-        callback_url='https://yoursite.com/webhook'
-    )
-
-    print(payment['payment_url'])
-    ```
-
-    ```php PHP
-    <?php
-    require_once 'vendor/autoload.php';
-
-    // Initialize with your API key
-    $payrequest = new \PayRequest\PayRequest('your-api-key');
-
-    // Create a payment request
-    $payment = $payrequest->payments->create([
-        'amount' => 2500, // Amount in cents ($25.00)
-        'currency' => 'USD',
-        'description' => 'Product purchase',
-        'recipient' => [
-            'email' => 'customer@example.com',
-            'name' => 'John Doe'
-        ],
-        'callback_url' => 'https://yoursite.com/webhook'
-    ]);
-
-    echo $payment['payment_url'];
-    ?>
-    ```
-    </CodeGroup>
-  </Tab>
-
-  <Tab title="WordPress Plugin">
-    For WordPress sites, install our official plugin:
-
-    1. Download the PayRequest plugin from the WordPress repository
-    2. Upload and activate the plugin
-    3. Go to **Settings > PayRequest** and enter your API key
-    4. Use the `[payrequest]` shortcode to create payment buttons
-
-    ```html
-    [payrequest amount="25.00" description="Product Name" button_text="Buy Now"]
-    ```
+    PayRequest will automatically generate and send invoices according to your schedule, and process payments when customers pay.
   </Tab>
 </Tabs>
 
-## Step 3: Handle Payment Notifications
+## Step 3: Track Payments and Manage Customers
 
-Set up webhooks to receive real-time payment updates:
+Stay on top of your invoices and payments:
 
-<CodeGroup>
-```javascript Express.js
-app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
-  const event = req.body;
-  
-  switch (event.type) {
-    case 'payment.completed':
-      console.log('Payment completed:', event.data);
-      // Update your database, send confirmation email, etc.
-      break;
-    case 'payment.failed':
-      console.log('Payment failed:', event.data);
-      // Handle failed payment
-      break;
-    default:
-      console.log('Unhandled event type:', event.type);
-  }
-  
-  res.status(200).send('OK');
-});
-```
+<CardGroup cols={2}>
+  <Card title="Payment Tracking" icon="chart-line">
+    Monitor invoice status in real-time:
+    - **Sent**: Invoice has been emailed to customer
+    - **Viewed**: Customer has opened the invoice
+    - **Paid**: Payment has been completed
+    - **Overdue**: Invoice is past due date
+  </Card>
+  <Card title="Customer Management" icon="users">
+    Build and maintain your customer database:
+    - Store customer contact information
+    - Track payment history and preferences
+    - Set up automatic payment reminders
+    - Export customer data for accounting
+  </Card>
+</CardGroup>
 
-```python Flask
-from flask import Flask, request
+### Payment Notifications
 
-@app.route('/webhook', methods=['POST'])
-def handle_webhook():
-    event = request.get_json()
-    
-    if event['type'] == 'payment.completed':
-        print(f"Payment completed: {event['data']}")
-        # Update your database, send confirmation email, etc.
-    elif event['type'] == 'payment.failed':
-        print(f"Payment failed: {event['data']}")
-        # Handle failed payment
-    
-    return 'OK', 200
-```
-</CodeGroup>
+You'll receive instant notifications when:
+- A customer views your invoice
+- A payment is completed
+- An invoice becomes overdue
+- A payment fails or is disputed
 
-## Step 4: Go Live
+Configure notifications in **Settings > Notifications** to choose how you want to be alerted (email, SMS, or dashboard only).
+
+## Step 4: Optimize Your Invoice Process
 
 <Steps>
-  <Step title="Test thoroughly">
-    Use our sandbox environment to test all payment flows and webhook handling.
+  <Step title="Create invoice templates">
+    Save time by creating reusable templates for common services or products.
   </Step>
-  <Step title="Switch to live keys">
-    Replace your test API key with your live API key in your application.
+  <Step title="Set up automatic reminders">
+    Configure PayRequest to automatically send payment reminders for overdue invoices.
   </Step>
-  <Step title="Configure webhooks">
-    Update your webhook endpoints to point to your production environment.
+  <Step title="Customize your branding">
+    Upload your logo and customize colors to make invoices match your brand.
   </Step>
-  <Step title="Start accepting payments">
-    Your PayRequest integration is now live and ready to accept real payments!
+  <Step title="Export for accounting">
+    Export your invoice and payment data to integrate with your accounting software.
   </Step>
 </Steps>
 
@@ -196,11 +122,11 @@ def handle_webhook():
 
 <CardGroup cols={2}>
   <Card
-    title="API Reference"
-    icon="code"
-    href="/api-reference/introduction"
+    title="Invoice Templates"
+    icon="file-invoice"
+    href="/essentials/creating-invoices"
   >
-    Explore our complete API documentation
+    Learn how to create and manage invoice templates
   </Card>
   <Card
     title="Payment Methods"
@@ -210,18 +136,18 @@ def handle_webhook():
     Learn about supported payment methods
   </Card>
   <Card
-    title="Webhooks"
-    icon="webhook"
-    href="/essentials/webhooks"
+    title="Customer Management"
+    icon="users"
+    href="/essentials/customer-management"
   >
-    Set up real-time payment notifications
+    Organize and manage your customer relationships
   </Card>
   <Card
-    title="Security"
-    icon="shield"
-    href="/essentials/security"
+    title="Payment Tracking"
+    icon="chart-bar"
+    href="/essentials/payment-tracking"
   >
-    Best practices for secure payments
+    Monitor and track your payment performance
   </Card>
 </CardGroup>
 
