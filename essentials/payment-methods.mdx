@@ -1,0 +1,260 @@
+---
+title: 'Payment Methods'
+description: 'Learn about the payment methods supported by PayRequest'
+---
+
+# Payment Methods
+
+PayRequest supports a wide variety of payment methods to ensure your customers can pay in the way that's most convenient for them. From traditional credit cards to modern digital wallets, we've got you covered.
+
+## Supported Payment Methods
+
+<CardGroup cols={2}>
+  <Card title="Credit & Debit Cards" icon="credit-card">
+    Accept all major card brands worldwide with secure processing
+  </Card>
+  <Card title="Bank Transfers" icon="building-columns">
+    Direct bank transfers and ACH payments for lower fees
+  </Card>
+  <Card title="Digital Wallets" icon="wallet">
+    Popular digital payment options for modern customers
+  </Card>
+  <Card title="Local Payment Methods" icon="globe">
+    Region-specific payment options for international customers
+  </Card>
+</CardGroup>
+
+## Credit & Debit Cards
+
+### Supported Card Brands
+We accept all major credit and debit cards:
+
+<Tabs>
+  <Tab title="Major Brands">
+    - **Visa**: Most widely accepted card brand globally
+    - **MasterCard**: Second most popular card network
+    - **American Express**: Premium card option with higher fees
+    - **Discover**: Popular in North America
+    - **Diners Club**: International card for business travelers
+    - **JCB**: Popular in Japan and Asia-Pacific
+  </Tab>
+  <Tab title="Regional Cards">
+    - **Maestro**: European debit card network
+    - **UnionPay**: Chinese card network
+    - **Cartes Bancaires**: French domestic card scheme
+    - **Elo**: Brazilian payment network
+    - **Dankort**: Danish payment card
+  </Tab>
+</Tabs>
+
+### Card Security Features
+<AccordionGroup>
+  <Accordion title="3D Secure Authentication" icon="shield-check">
+    Enhanced security for online card payments with customer authentication
+  </Accordion>
+  <Accordion title="CVV Verification" icon="key">
+    Card security code verification for all transactions
+  </Accordion>
+  <Accordion title="Fraud Prevention" icon="eye">
+    Advanced fraud detection and prevention systems
+  </Accordion>
+</AccordionGroup>
+
+## Bank Transfers
+
+### Direct Bank Transfers
+Lower cost option for larger payments:
+
+<CardGroup cols={2}>
+  <Card title="ACH Transfers (US)" icon="building-columns">
+    - Lower processing fees
+    - 2-3 business day settlement
+    - Perfect for recurring payments
+    - Reduced chargeback risk
+  </Card>
+  <Card title="SEPA Transfers (Europe)" icon="euro-sign">
+    - Euro-denominated transfers
+    - Same-day or next-day settlement
+    - Low cost for European customers
+    - Bank-to-bank security
+  </Card>
+</CardGroup>
+
+### Wire Transfers
+For high-value international payments:
+- Secure bank-to-bank transfers
+- Same-day processing available
+- Higher fees but immediate settlement
+- Full payment traceability
+
+## Digital Wallets
+
+### Popular Digital Payment Options
+
+<Tabs>
+  <Tab title="Mobile Wallets">
+    - **Apple Pay**: Secure payments using Touch ID or Face ID
+    - **Google Pay**: Android-based mobile payment solution
+    - **Samsung Pay**: Samsung device payment system
+    - **PayPal**: Most widely recognized digital wallet
+  </Tab>
+  <Tab title="Online Wallets">
+    - **PayPal**: Complete online payment ecosystem
+    - **Amazon Pay**: Amazon account-based payments
+    - **Shop Pay**: Shopify's payment solution
+    - **Alipay**: Popular in China and Asia
+    - **WeChat Pay**: Chinese social media payment platform
+  </Tab>
+</Tabs>
+
+### Benefits of Digital Wallets
+- **Faster Checkout**: One-click payment experience
+- **Enhanced Security**: Tokenized payment information
+- **Customer Convenience**: No need to enter card details
+- **Higher Conversion**: Reduced checkout abandonment
+
+## Local Payment Methods
+
+### Regional Preferences
+Different regions prefer different payment methods:
+
+<AccordionGroup>
+  <Accordion title="Europe" icon="flag">
+    - **iDEAL** (Netherlands): Direct bank payments
+    - **Sofort** (Germany): Real-time bank transfers  
+    - **Bancontact** (Belgium): Local card payment system
+    - **Giropay** (Germany): Online banking payments
+    - **EPS** (Austria): Electronic payment standard
+  </Accordion>
+  <Accordion title="Asia-Pacific" icon="flag">
+    - **Alipay** (China): Dominant mobile payment platform
+    - **WeChat Pay** (China): Social media integrated payments
+    - **GrabPay** (Southeast Asia): Regional super app payments
+    - **Paytm** (India): Popular Indian digital wallet
+  </Accordion>
+  <Accordion title="Latin America" icon="flag">
+    - **OXXO** (Mexico): Cash payment at convenience stores
+    - **Boleto Bancário** (Brazil): Bank slip payments
+    - **PSE** (Colombia): Online bank transfer system
+    - **PagoEfectivo** (Peru): Cash payment network
+  </Accordion>
+</AccordionGroup>
+
+## Payment Method Configuration
+
+### Setting Up Payment Methods
+Configure which payment methods to offer:
+
+<Steps>
+  <Step title="Access Payment Settings">
+    Go to Settings > Payment Methods in your dashboard
+  </Step>
+  <Step title="Select Methods">
+    Choose which payment methods to enable for your customers
+  </Step>
+  <Step title="Configure Options">
+    Set up specific options for each payment method
+  </Step>
+  <Step title="Test Integration">
+    Test each payment method before going live
+  </Step>
+</Steps>
+
+### Customization Options
+- **Payment Method Order**: Arrange methods by preference
+- **Conditional Display**: Show different methods based on amount or region
+- **Custom Branding**: Add your branding to payment pages
+- **Fee Management**: Configure who pays processing fees
+
+## Payment Processing Fees
+
+### Understanding Payment Costs
+
+<CardGroup cols={2}>
+  <Card title="Card Payments" icon="credit-card">
+    - Visa/MasterCard: 2.9% + $0.30
+    - American Express: 3.4% + $0.30
+    - International cards: +1% extra
+    - No monthly fees
+  </Card>
+  <Card title="Bank Transfers" icon="building-columns">
+    - ACH transfers: 1% (max $10)
+    - Wire transfers: $15 flat fee
+    - SEPA transfers: €0.35 flat fee
+    - No percentage fees
+  </Card>
+</CardGroup>
+
+### Fee Optimization Tips
+<Tip>
+  Encourage bank transfers for larger payments to reduce processing fees and improve your margins.
+</Tip>
+
+- Offer bank transfer discounts for large invoices
+- Set minimum amounts for credit card payments
+- Consider passing fees to customers for small payments
+- Use ACH for recurring payments when possible
+
+## Security and Compliance
+
+### Payment Security Standards
+All payment methods are secured with:
+
+<AccordionGroup>
+  <Accordion title="PCI DSS Compliance" icon="shield-check">
+    Payment Card Industry Data Security Standard compliance for all card processing
+  </Accordion>
+  <Accordion title="Encryption" icon="lock">
+    End-to-end encryption for all payment data transmission
+  </Accordion>
+  <Accordion title="Tokenization" icon="key">
+    Secure token storage instead of actual payment information
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+### Optimizing Payment Success
+- **Offer Multiple Options**: Give customers choice in payment methods
+- **Local Preferences**: Enable regional payment methods for international customers
+- **Clear Pricing**: Display all fees transparently
+- **Mobile Optimization**: Ensure all payment methods work on mobile devices
+
+### Improving Customer Experience
+- **One-Click Payments**: Enable saved payment methods for returning customers
+- **Guest Checkout**: Allow payments without account creation
+- **Payment Confirmation**: Send immediate payment confirmations
+- **Receipt Management**: Provide easy access to payment receipts
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Creating Invoices"
+    icon="file-invoice"
+    href="/essentials/creating-invoices"
+  >
+    Learn how to create invoices with payment method options
+  </Card>
+  <Card
+    title="Customer Management"
+    icon="users"
+    href="/essentials/customer-management"
+  >
+    Store customer payment preferences
+  </Card>
+  <Card
+    title="Payment Tracking"
+    icon="chart-line"
+    href="/essentials/tracking-payments"
+  >
+    Monitor payment method performance
+  </Card>
+  <Card
+    title="Security"
+    icon="shield"
+    href="/essentials/security"
+  >
+    Learn about payment security best practices
+  </Card>
+</CardGroup>
