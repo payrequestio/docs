@@ -1,0 +1,881 @@
+---
+title: 'Testing'
+description: 'Complete guide to testing your PayRequest integration'
+---
+
+# Testing Guide
+
+Thorough testing is crucial for a reliable payment integration. This guide covers everything you need to test your PayRequest implementation, from basic API calls to complex payment flows.
+
+## Test Environment
+
+### Sandbox Environment
+
+PayRequest provides a full-featured sandbox environment for testing:
+
+<CardGroup cols={2}>
+  <Card title="Sandbox API" icon="flask">
+    **URL**: `https://api.sandbox.payrequest.io/v1`
+    
+    **Features**: Full API functionality without real money
+  </Card>
+  <Card title="Test Dashboard" icon="chart-line">
+    **URL**: `https://dashboard.sandbox.payrequest.io`
+    
+    **Features**: Separate dashboard for test data
+  </Card>
+</CardGroup>
+
+### API Keys
+
+Use separate API keys for testing:
+
+```bash
+# Test keys (start with test_)
+PAYREQUEST_TEST_KEY=test_1234567890abcdef
+
+# Live keys (start with live_) - DO NOT use in testing
+PAYREQUEST_LIVE_KEY=live_1234567890abcdef
+```
+
+<Warning>
+  Never use live API keys in your test environment. Always use test keys that start with `test_`.
+</Warning>
+
+## Test Cards
+
+Use these test card numbers to simulate different scenarios:
+
+### Successful Payments
+
+<AccordionGroup>
+  <Accordion title="Visa" icon="cc-visa">
+    **Card Number**: `4111 1111 1111 1111`
+    
+    **Result**: Successful payment
+    
+    **Use Case**: Standard successful transaction
+  </Accordion>
+  
+  <Accordion title="Mastercard" icon="cc-mastercard">
+    **Card Number**: `5555 5555 5555 4444`
+    
+    **Result**: Successful payment
+    
+    **Use Case**: Alternative successful card
+  </Accordion>
+  
+  <Accordion title="American Express" icon="cc-amex">
+    **Card Number**: `3782 822463 10005`
+    
+    **Result**: Successful payment
+    
+    **Use Case**: Higher fee card processing
+  </Accordion>
+</AccordionGroup>
+
+### Failed Payments
+
+<AccordionGroup>
+  <Accordion title="Declined Card" icon="x">
+    **Card Number**: `4000 0000 0000 0002`
+    
+    **Result**: Generic decline
+    
+    **Use Case**: Test decline handling
+  </Accordion>
+  
+  <Accordion title="Insufficient Funds" icon="credit-card">
+    **Card Number**: `4000 0000 0000 9995`
+    
+    **Result**: Insufficient funds error
+    
+    **Use Case**: Specific decline reason
+  </Accordion>
+  
+  <Accordion title="Expired Card" icon="calendar-x">
+    **Card Number**: `4000 0000 0000 0069`
+    
+    **Result**: Expired card error
+    
+    **Use Case**: Card validation testing
+  </Accordion>
+  
+  <Accordion title="Invalid CVV" icon="shield-x">
+    **Card Number**: `4000 0000 0000 0127`
+    
+    **Result**: CVV check failed
+    
+    **Use Case**: Security code validation
+  </Accordion>
+</AccordionGroup>
+
+### 3D Secure Testing
+
+<AccordionGroup>
+  <Accordion title="Authentication Required" icon="lock">
+    **Card Number**: `4000 0000 0000 3220`
+    
+    **Result**: Requires 3D Secure authentication
+    
+    **Use Case**: Test authentication flow
+  </Accordion>
+  
+  <Accordion title="Failed Authentication" icon="lock-open">
+    **Card Number**: `4000 0000 0000 3238`
+    
+    **Result**: 3D Secure authentication fails
+    
+    **Use Case**: Test authentication failure
+  </Accordion>
+</AccordionGroup>
+
+### Card Details for Testing
+
+For all test cards, use:
+- **Expiry Date**: Any future month/year (e.g., 12/25)
+- **CVV**: Any 3-4 digit number (e.g., 123)
+- **Name**: Any name
+- **Address**: Any valid address
+
+## Testing Payment Flows
+
+### Basic Payment Creation
+
+Test creating payments with different parameters:
+
+<CodeGroup>
+```javascript Node.js
+const payrequest = require('@payrequest/node');
+const pr = new payrequest('test_your_api_key');
+
+// Test basic payment creation
+async function testPaymentCreation() {
+  try {
+    const payment = await pr.payments.create({
+      amount: 2500, // $25.00
+      currency: 'USD',
+      description: 'Test Payment'
+    });
+    
+    console.log('✅ Payment created:', payment.id);
+    return payment;
+  } catch (error) {
+    console.error('❌ Payment creation failed:', error.message);
+    throw error;
+  }
+}
+
+// Test payment with metadata
+async function testPaymentWithMetadata() {
+  const payment = await pr.payments.create({
+    amount: 1000,
+    currency: 'USD',
+    description: 'Test Payment with Metadata',
+    metadata: {
+      order_id: 'TEST-123',
+      customer_type: 'premium'
+    }
+  });
+  
+  console.log('✅ Payment with metadata:', payment.id);
+  return payment;
+}
+
+// Test payment with recipient
+async function testPaymentWithRecipient() {
+  const payment = await pr.payments.create({
+    amount: 1500,
+    currency: 'USD',
+    description: 'Test Payment with Recipient',
+    recipient: {
+      email: 'customer@example.com',
+      name: 'Test Customer'
+    }
+  });
+  
+  console.log('✅ Payment with recipient:', payment.id);
+  return payment;
+}
+```
+
+```python Python
+import payrequest
+
+pr = payrequest.PayRequest('test_your_api_key')
+
+def test_payment_creation():
+    """Test basic payment creation"""
+    try:
+        payment = pr.payments.create(
+            amount=2500,  # $25.00
+            currency='USD',
+            description='Test Payment'
+        )
+        
+        print(f'✅ Payment created: {payment["id"]}')
+        return payment
+    except Exception as e:
+        print(f'❌ Payment creation failed: {e}')
+        raise
+
+def test_payment_with_metadata():
+    """Test payment with metadata"""
+    payment = pr.payments.create(
+        amount=1000,
+        currency='USD',
+        description='Test Payment with Metadata',
+        metadata={
+            'order_id': 'TEST-123',
+            'customer_type': 'premium'
+        }
+    )
+    
+    print(f'✅ Payment with metadata: {payment["id"]}')
+    return payment
+
+def test_payment_with_recipient():
+    """Test payment with recipient"""
+    payment = pr.payments.create(
+        amount=1500,
+        currency='USD',
+        description='Test Payment with Recipient',
+        recipient={
+            'email': 'customer@example.com',
+            'name': 'Test Customer'
+        }
+    )
+    
+    print(f'✅ Payment with recipient: {payment["id"]}')
+    return payment
+```
+</CodeGroup>
+
+### Error Handling Tests
+
+Test how your application handles various error scenarios:
+
+<CodeGroup>
+```javascript Error Tests
+// Test invalid amount
+async function testInvalidAmount() {
+  try {
+    await pr.payments.create({
+      amount: -100, // Invalid negative amount
+      currency: 'USD',
+      description: 'Invalid Amount Test'
+    });
+    console.log('❌ Should have failed with negative amount');
+  } catch (error) {
+    console.log('✅ Correctly handled negative amount error');
+  }
+}
+
+// Test invalid currency
+async function testInvalidCurrency() {
+  try {
+    await pr.payments.create({
+      amount: 1000,
+      currency: 'INVALID', // Invalid currency code
+      description: 'Invalid Currency Test'
+    });
+    console.log('❌ Should have failed with invalid currency');
+  } catch (error) {
+    console.log('✅ Correctly handled invalid currency error');
+  }
+}
+
+// Test missing required fields
+async function testMissingFields() {
+  try {
+    await pr.payments.create({
+      // Missing amount, currency, description
+    });
+    console.log('❌ Should have failed with missing fields');
+  } catch (error) {
+    console.log('✅ Correctly handled missing fields error');
+  }
+}
+
+// Test unauthorized request
+async function testUnauthorized() {
+  const invalidPr = new payrequest('invalid_key');
+  
+  try {
+    await invalidPr.payments.create({
+      amount: 1000,
+      currency: 'USD',
+      description: 'Unauthorized Test'
+    });
+    console.log('❌ Should have failed with invalid API key');
+  } catch (error) {
+    console.log('✅ Correctly handled unauthorized error');
+  }
+}
+```
+
+```python Error Tests
+def test_invalid_amount():
+    """Test invalid amount handling"""
+    try:
+        pr.payments.create(
+            amount=-100,  # Invalid negative amount
+            currency='USD',
+            description='Invalid Amount Test'
+        )
+        print('❌ Should have failed with negative amount')
+    except Exception as e:
+        print('✅ Correctly handled negative amount error')
+
+def test_invalid_currency():
+    """Test invalid currency handling"""
+    try:
+        pr.payments.create(
+            amount=1000,
+            currency='INVALID',  # Invalid currency code
+            description='Invalid Currency Test'
+        )
+        print('❌ Should have failed with invalid currency')
+    except Exception as e:
+        print('✅ Correctly handled invalid currency error')
+
+def test_missing_fields():
+    """Test missing required fields"""
+    try:
+        pr.payments.create()  # Missing all required fields
+        print('❌ Should have failed with missing fields')
+    except Exception as e:
+        print('✅ Correctly handled missing fields error')
+
+def test_unauthorized():
+    """Test unauthorized request"""
+    invalid_pr = payrequest.PayRequest('invalid_key')
+    
+    try:
+        invalid_pr.payments.create(
+            amount=1000,
+            currency='USD',
+            description='Unauthorized Test'
+        )
+        print('❌ Should have failed with invalid API key')
+    except Exception as e:
+        print('✅ Correctly handled unauthorized error')
+```
+</CodeGroup>
+
+## Webhook Testing
+
+### Local Webhook Testing
+
+Use ngrok to expose your local server for webhook testing:
+
+<Steps>
+  <Step title="Install ngrok">
+    ```bash
+    # Install ngrok
+    npm install -g ngrok
+    # or download from https://ngrok.com
+    ```
+  </Step>
+  
+  <Step title="Start Your Server">
+    ```bash
+    # Start your local server
+    node server.js
+    # Server running on port 3000
+    ```
+  </Step>
+  
+  <Step title="Expose with ngrok">
+    ```bash
+    # Expose local server
+    ngrok http 3000
+    # Copy the generated HTTPS URL
+    ```
+  </Step>
+  
+  <Step title="Configure Webhook">
+    Use the ngrok URL in your webhook settings:
+    ```
+    https://abc123.ngrok.io/webhook
+    ```
+  </Step>
+</Steps>
+
+### Webhook Test Handler
+
+<CodeGroup>
+```javascript Webhook Test Handler
+const crypto = require('crypto');
+
+// Webhook test handler
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  console.log('📨 Webhook received');
+  
+  const signature = req.headers['payrequest-signature'];
+  const payload = req.body;
+  
+  // Verify signature
+  const expectedSignature = crypto
+    .createHmac('sha256', process.env.WEBHOOK_SECRET)
+    .update(payload)
+    .digest('hex');
+  
+  if (signature !== `sha256=${expectedSignature}`) {
+    console.log('❌ Invalid webhook signature');
+    return res.status(401).send('Invalid signature');
+  }
+  
+  const event = JSON.parse(payload);
+  console.log('✅ Webhook verified:', event.type);
+  
+  // Log event details
+  console.log('Event ID:', event.id);
+  console.log('Event Type:', event.type);
+  console.log('Payment ID:', event.data.id);
+  console.log('Payment Status:', event.data.status);
+  
+  // Handle event
+  switch (event.type) {
+    case 'payment.created':
+      console.log('💰 Payment created');
+      break;
+    case 'payment.completed':
+      console.log('✅ Payment completed');
+      break;
+    case 'payment.failed':
+      console.log('❌ Payment failed');
+      break;
+    case 'payment.cancelled':
+      console.log('🚫 Payment cancelled');
+      break;
+    default:
+      console.log(`❓ Unknown event: ${event.type}`);
+  }
+  
+  res.status(200).send('OK');
+});
+```
+
+```python Webhook Test Handler
+import hmac
+import hashlib
+import json
+
+@app.route('/webhook', methods=['POST'])
+def test_webhook():
+    print('📨 Webhook received')
+    
+    signature = request.headers.get('payrequest-signature')
+    payload = request.get_data()
+    
+    # Verify signature
+    expected_signature = hmac.new(
+        os.getenv('WEBHOOK_SECRET').encode(),
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+    
+    if signature != f'sha256={expected_signature}':
+        print('❌ Invalid webhook signature')
+        return 'Invalid signature', 401
+    
+    event = request.get_json()
+    print(f'✅ Webhook verified: {event["type"]}')
+    
+    # Log event details
+    print(f'Event ID: {event["id"]}')
+    print(f'Event Type: {event["type"]}')
+    print(f'Payment ID: {event["data"]["id"]}')
+    print(f'Payment Status: {event["data"]["status"]}')
+    
+    # Handle event
+    if event['type'] == 'payment.created':
+        print('💰 Payment created')
+    elif event['type'] == 'payment.completed':
+        print('✅ Payment completed')
+    elif event['type'] == 'payment.failed':
+        print('❌ Payment failed')
+    elif event['type'] == 'payment.cancelled':
+        print('🚫 Payment cancelled')
+    else:
+        print(f'❓ Unknown event: {event["type"]}')
+    
+    return 'OK', 200
+```
+</CodeGroup>
+
+### Manual Webhook Testing
+
+Test webhooks manually using the dashboard:
+
+1. Go to **Settings > Webhooks** in your test dashboard
+2. Click **"Test Webhook"** next to your endpoint
+3. Select an event type
+4. Send test payload
+5. Verify your endpoint receives and processes the webhook
+
+## Automated Testing
+
+### Unit Tests
+
+<CodeGroup>
+```javascript Jest Tests
+const payrequest = require('@payrequest/node');
+
+describe('PayRequest Integration', () => {
+  let pr;
+  
+  beforeAll(() => {
+    pr = new payrequest(process.env.PAYREQUEST_TEST_KEY);
+  });
+  
+  test('should create payment successfully', async () => {
+    const payment = await pr.payments.create({
+      amount: 1000,
+      currency: 'USD',
+      description: 'Test payment'
+    });
+    
+    expect(payment.id).toBeDefined();
+    expect(payment.amount).toBe(1000);
+    expect(payment.currency).toBe('USD');
+    expect(payment.status).toBe('pending');
+  });
+  
+  test('should handle invalid amount', async () => {
+    await expect(pr.payments.create({
+      amount: -100,
+      currency: 'USD',
+      description: 'Invalid amount test'
+    })).rejects.toThrow();
+  });
+  
+  test('should retrieve payment by ID', async () => {
+    const created = await pr.payments.create({
+      amount: 1500,
+      currency: 'USD',
+      description: 'Retrieve test'
+    });
+    
+    const retrieved = await pr.payments.retrieve(created.id);
+    
+    expect(retrieved.id).toBe(created.id);
+    expect(retrieved.amount).toBe(1500);
+  });
+  
+  test('should list payments', async () => {
+    const payments = await pr.payments.list({ limit: 10 });
+    
+    expect(Array.isArray(payments.data)).toBe(true);
+    expect(payments.data.length).toBeLessThanOrEqual(10);
+  });
+});
+```
+
+```python Pytest Tests
+import pytest
+import payrequest
+import os
+
+class TestPayRequestIntegration:
+    
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        self.pr = payrequest.PayRequest(os.getenv('PAYREQUEST_TEST_KEY'))
+    
+    def test_create_payment_successfully(self):
+        payment = self.pr.payments.create(
+            amount=1000,
+            currency='USD',
+            description='Test payment'
+        )
+        
+        assert 'id' in payment
+        assert payment['amount'] == 1000
+        assert payment['currency'] == 'USD'
+        assert payment['status'] == 'pending'
+    
+    def test_handle_invalid_amount(self):
+        with pytest.raises(Exception):
+            self.pr.payments.create(
+                amount=-100,
+                currency='USD',
+                description='Invalid amount test'
+            )
+    
+    def test_retrieve_payment_by_id(self):
+        created = self.pr.payments.create(
+            amount=1500,
+            currency='USD',
+            description='Retrieve test'
+        )
+        
+        retrieved = self.pr.payments.retrieve(created['id'])
+        
+        assert retrieved['id'] == created['id']
+        assert retrieved['amount'] == 1500
+    
+    def test_list_payments(self):
+        payments = self.pr.payments.list(limit=10)
+        
+        assert isinstance(payments['data'], list)
+        assert len(payments['data']) <= 10
+```
+</CodeGroup>
+
+### Integration Tests
+
+Test complete payment flows:
+
+<CodeGroup>
+```javascript Integration Test
+describe('Payment Flow Integration', () => {
+  test('complete payment flow', async () => {
+    // 1. Create payment
+    const payment = await pr.payments.create({
+      amount: 2000,
+      currency: 'USD',
+      description: 'Integration test',
+      webhook_url: 'https://yoursite.com/webhook'
+    });
+    
+    expect(payment.status).toBe('pending');
+    expect(payment.payment_url).toBeDefined();
+    
+    // 2. Simulate payment completion (in sandbox)
+    // This would happen when customer pays
+    
+    // 3. Check payment status
+    const updated = await pr.payments.retrieve(payment.id);
+    // In real scenario, wait for webhook or poll for status
+    
+    expect(['pending', 'completed']).toContain(updated.status);
+  });
+  
+  test('webhook signature verification', () => {
+    const payload = JSON.stringify({
+      type: 'payment.completed',
+      data: { id: 'pay_test_123', status: 'completed' }
+    });
+    
+    const signature = crypto
+      .createHmac('sha256', 'test_webhook_secret')
+      .update(payload)
+      .digest('hex');
+    
+    const isValid = verifyWebhookSignature(
+      payload,
+      `sha256=${signature}`,
+      'test_webhook_secret'
+    );
+    
+    expect(isValid).toBe(true);
+  });
+});
+```
+
+```python Integration Test
+class TestPaymentFlowIntegration:
+    
+    def test_complete_payment_flow(self):
+        # 1. Create payment
+        payment = self.pr.payments.create(
+            amount=2000,
+            currency='USD',
+            description='Integration test',
+            webhook_url='https://yoursite.com/webhook'
+        )
+        
+        assert payment['status'] == 'pending'
+        assert 'payment_url' in payment
+        
+        # 2. Simulate payment completion (in sandbox)
+        # This would happen when customer pays
+        
+        # 3. Check payment status
+        updated = self.pr.payments.retrieve(payment['id'])
+        # In real scenario, wait for webhook or poll for status
+        
+        assert updated['status'] in ['pending', 'completed']
+    
+    def test_webhook_signature_verification(self):
+        payload = json.dumps({
+            'type': 'payment.completed',
+            'data': {'id': 'pay_test_123', 'status': 'completed'}
+        })
+        
+        signature = hmac.new(
+            'test_webhook_secret'.encode(),
+            payload.encode(),
+            hashlib.sha256
+        ).hexdigest()
+        
+        is_valid = verify_webhook_signature(
+            payload,
+            f'sha256={signature}',
+            'test_webhook_secret'
+        )
+        
+        assert is_valid == True
+```
+</CodeGroup>
+
+## Testing Checklist
+
+### Pre-Integration Testing
+
+<AccordionGroup>
+  <Accordion title="API Connectivity" icon="wifi">
+    - [ ] Can connect to sandbox API
+    - [ ] API key authentication works
+    - [ ] HTTPS requests successful
+    - [ ] Error responses handled properly
+  </Accordion>
+  
+  <Accordion title="Payment Creation" icon="plus">
+    - [ ] Basic payment creation works
+    - [ ] Different currencies supported
+    - [ ] Metadata included correctly
+    - [ ] Recipient information handled
+  </Accordion>
+  
+  <Accordion title="Error Handling" icon="triangle-exclamation">
+    - [ ] Invalid parameters rejected
+    - [ ] Network errors handled
+    - [ ] Rate limits respected
+    - [ ] Timeout handling implemented
+  </Accordion>
+</AccordionGroup>
+
+### Payment Flow Testing
+
+<AccordionGroup>
+  <Accordion title="Payment Page" icon="browser">
+    - [ ] Payment URL accessible
+    - [ ] Correct amount displayed
+    - [ ] Payment methods available
+    - [ ] Mobile-friendly design
+  </Accordion>
+  
+  <Accordion title="Payment Processing" icon="credit-card">
+    - [ ] Successful payments work
+    - [ ] Declined payments handled
+    - [ ] 3D Secure flow tested
+    - [ ] Different payment methods tested
+  </Accordion>
+  
+  <Accordion title="Return Flow" icon="arrow-left">
+    - [ ] Success URL redirects work
+    - [ ] Cancel URL redirects work
+    - [ ] Proper status messages shown
+    - [ ] Order fulfillment triggered
+  </Accordion>
+</AccordionGroup>
+
+### Webhook Testing
+
+<AccordionGroup>
+  <Accordion title="Webhook Reception" icon="webhook">
+    - [ ] Webhook endpoint receives events
+    - [ ] HTTPS requirement met
+    - [ ] Correct content-type handled
+    - [ ] Large payloads supported
+  </Accordion>
+  
+  <Accordion title="Security" icon="shield">
+    - [ ] Signature verification implemented
+    - [ ] Replay attack protection
+    - [ ] Timestamp validation
+    - [ ] IP whitelist (if applicable)
+  </Accordion>
+  
+  <Accordion title="Event Processing" icon="gear">
+    - [ ] All event types handled
+    - [ ] Idempotency implemented
+    - [ ] Error handling in place
+    - [ ] Async processing used
+  </Accordion>
+</AccordionGroup>
+
+## Performance Testing
+
+### Load Testing
+
+Test your integration under load:
+
+```javascript
+// Example using artillery.io
+// artillery-config.yml
+{
+  "config": {
+    "target": "https://your-api.com",
+    "phases": [
+      {"duration": 60, "arrivalRate": 10}
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "Create Payment",
+      "requests": [
+        {
+          "post": {
+            "url": "/api/payments",
+            "headers": {
+              "Authorization": "Bearer test_key",
+              "Content-Type": "application/json"
+            },
+            "json": {
+              "amount": 1000,
+              "currency": "USD",
+              "description": "Load test payment"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Monitoring
+
+Set up monitoring for your test environment:
+
+- **Response Times**: API call latency
+- **Success Rates**: Percentage of successful requests
+- **Error Rates**: Failed requests and error types
+- **Webhook Delivery**: Webhook success rates
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Go Live"
+    icon="rocket"
+    href="/essentials/integration-guide#going-live"
+  >
+    Deploy your tested integration
+  </Card>
+  <Card
+    title="Monitoring"
+    icon="chart-line"
+    href="/essentials/monitoring"
+  >
+    Set up production monitoring
+  </Card>
+  <Card
+    title="Security"
+    icon="shield"
+    href="/essentials/security"
+  >
+    Implement security best practices
+  </Card>
+  <Card
+    title="Support"
+    icon="life-ring"
+    href="mailto:support@payrequest.io"
+  >
+    Get help from our team
+  </Card>
+</CardGroup>

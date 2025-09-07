@@ -1,0 +1,589 @@
+---
+title: 'Security'
+description: 'Best practices for secure payment processing with PayRequest'
+---
+
+# Security
+
+Security is paramount when handling payments. PayRequest is built with industry-leading security practices, and this guide helps you implement secure integrations that protect both your business and your customers.
+
+## PayRequest Security
+
+### Compliance & Certifications
+
+<CardGroup cols={2}>
+  <Card title="PCI DSS Level 1" icon="shield-check">
+    **Highest level of payment security compliance**
+    
+    - Annual security audits
+    - Secure data handling
+    - Network security monitoring
+    - Incident response procedures
+  </Card>
+  <Card title="SOC 2 Type II" icon="certificate">
+    **Rigorous security controls audit**
+    
+    - Data security controls
+    - Processing integrity
+    - System availability
+    - Confidentiality measures
+  </Card>
+</CardGroup>
+
+### Data Protection
+
+<AccordionGroup>
+  <Accordion title="Encryption" icon="lock">
+    **In Transit**: All data encrypted with TLS 1.2+
+    
+    **At Rest**: AES-256 encryption for stored data
+    
+    **Keys**: Hardware Security Modules (HSMs)
+  </Accordion>
+
+  <Accordion title="Tokenization" icon="key">
+    **Card Data**: Never stored, immediately tokenized
+    
+    **Tokens**: Useless if intercepted
+    
+    **Scope**: Reduces PCI compliance requirements
+  </Accordion>
+
+  <Accordion title="Secure Infrastructure" icon="server">
+    **AWS**: Enterprise-grade cloud infrastructure
+    
+    **Isolation**: Multi-tenant security isolation
+    
+    **Monitoring**: 24/7 security monitoring
+  </Accordion>
+</AccordionGroup>
+
+## API Security
+
+### Authentication Security
+
+<Warning>
+  **Never expose API keys in client-side code, logs, or public repositories**
+</Warning>
+
+Best practices for API key security:
+
+<Tabs>
+  <Tab title="Environment Variables">
+    Store API keys in environment variables:
+
+    ```bash
+    # .env file
+    PAYREQUEST_API_KEY=your_secret_key_here
+    PAYREQUEST_WEBHOOK_SECRET=your_webhook_secret_here
+    ```
+
+    ```javascript
+    // Load from environment
+    const apiKey = process.env.PAYREQUEST_API_KEY;
+    ```
+  </Tab>
+
+  <Tab title="Key Rotation">
+    Regularly rotate your API keys:
+
+    1. Generate new API key
+    2. Update all applications
+    3. Test thoroughly
+    4. Revoke old key
+    
+    **Recommended**: Rotate every 90 days
+  </Tab>
+
+  <Tab title="IP Restrictions">
+    Restrict API key usage to specific IP addresses:
+
+    ```json
+    {
+      "api_key": "live_12345...",
+      "allowed_ips": [
+        "203.0.113.1",
+        "203.0.113.0/24"
+      ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Request Security
+
+Secure your API requests:
+
+<CardGroup cols={2}>
+  <Card title="HTTPS Only" icon="shield">
+    - Always use HTTPS endpoints
+    - Verify SSL certificates
+    - Use TLS 1.2 or higher
+    - Enable certificate pinning
+  </Card>
+  <Card title="Request Signing" icon="signature">
+    - Sign sensitive requests
+    - Include timestamps
+    - Use idempotency keys
+    - Validate request integrity
+  </Card>
+</CardGroup>
+
+## Webhook Security
+
+### Signature Verification
+
+Always verify webhook signatures to prevent spoofing:
+
+<CodeGroup>
+```javascript Node.js
+const crypto = require('crypto');
+
+function verifyWebhookSignature(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload, 'utf8')
+    .digest('hex');
+  
+  const receivedSignature = signature.replace('sha256=', '');
+  
+  return crypto.timingSafeEqual(
+    Buffer.from(expectedSignature, 'hex'),
+    Buffer.from(receivedSignature, 'hex')
+  );
+}
+
+app.post('/webhook', (req, res) => {
+  const signature = req.headers['payrequest-signature'];
+  
+  if (!verifyWebhookSignature(req.body, signature, webhookSecret)) {
+    return res.status(401).send('Invalid signature');
+  }
+  
+  // Process webhook securely...
+});
+```
+
+```python Python
+import hmac
+import hashlib
+
+def verify_webhook_signature(payload, signature, secret):
+    expected_signature = hmac.new(
+        secret.encode('utf-8'),
+        payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    received_signature = signature.replace('sha256=', '')
+    
+    return hmac.compare_digest(expected_signature, received_signature)
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('payrequest-signature')
+    
+    if not verify_webhook_signature(request.data, signature, webhook_secret):
+        return 'Invalid signature', 401
+    
+    # Process webhook securely...
+```
+</CodeGroup>
+
+### Webhook Endpoint Security
+
+Secure your webhook endpoints:
+
+<AccordionGroup>
+  <Accordion title="HTTPS Endpoints" icon="shield">
+    - Use HTTPS URLs only
+    - Valid SSL certificates
+    - No self-signed certificates
+    - Proper certificate chain
+  </Accordion>
+
+  <Accordion title="Authentication" icon="key">
+    - Verify webhook signatures
+    - Use webhook secrets
+    - Implement replay protection
+    - Check timestamp freshness
+  </Accordion>
+
+  <Accordion title="Rate Limiting" icon="gauge">
+    - Implement rate limiting
+    - Prevent DDoS attacks
+    - Monitor unusual traffic
+    - Block suspicious IPs
+  </Accordion>
+
+  <Accordion title="Input Validation" icon="check">
+    - Validate all webhook data
+    - Sanitize input fields
+    - Check data types
+    - Enforce business rules
+  </Accordion>
+</AccordionGroup>
+
+## Frontend Security
+
+### Payment Form Security
+
+<Warning>
+  **Never collect or store sensitive payment data on your servers**
+</Warning>
+
+Best practices for payment forms:
+
+<Tabs>
+  <Tab title="Hosted Pages">
+    Use PayRequest hosted payment pages:
+
+    ```javascript
+    // Redirect to secure hosted page
+    window.location.href = payment.payment_url;
+    ```
+
+    **Benefits**:
+    - PCI compliance handled by PayRequest
+    - No sensitive data on your servers
+    - Optimized for conversions
+    - Mobile-responsive design
+  </Tab>
+
+  <Tab title="Embedded Forms">
+    If using embedded forms, use secure tokenization:
+
+    ```javascript
+    // Use PayRequest.js for secure tokenization
+    PayRequest.createToken(cardElement, (token) => {
+      // Send token to your server, not card data
+      submitPayment(token);
+    });
+    ```
+
+    **Requirements**:
+    - HTTPS website required
+    - PCI SAQ A-EP compliance
+    - Secure token handling
+  </Tab>
+</Tabs>
+
+### Client-Side Security
+
+Protect your frontend implementation:
+
+<CardGroup cols={2}>
+  <Card title="HTTPS Everywhere" icon="shield">
+    - Serve all pages over HTTPS
+    - Use HSTS headers
+    - Implement CSP headers
+    - Secure cookie settings
+  </Card>
+  <Card title="Input Validation" icon="check">
+    - Validate all user inputs
+    - Sanitize form data
+    - Prevent XSS attacks
+    - Use proper encoding
+  </Card>
+</CardGroup>
+
+## Data Security
+
+### Sensitive Data Handling
+
+<AccordionGroup>
+  <Accordion title="Customer Data" icon="user">
+    **Collect Minimally**: Only collect necessary data
+    
+    **Store Securely**: Encrypt at rest
+    
+    **Access Controls**: Role-based access
+    
+    **Retention**: Delete when no longer needed
+  </Accordion>
+
+  <Accordion title="Payment Data" icon="credit-card">
+    **Never Store**: Don't store card numbers, CVV
+    
+    **Tokenize**: Use PayRequest tokens
+    
+    **Logs**: Exclude sensitive data from logs
+    
+    **Transit**: Always use HTTPS
+  </Accordion>
+
+  <Accordion title="Compliance" icon="gavel">
+    **PCI DSS**: Follow payment card industry standards
+    
+    **GDPR**: Respect European privacy rights
+    
+    **CCPA**: California consumer privacy
+    
+    **Local Laws**: Comply with regional regulations
+  </Accordion>
+</AccordionGroup>
+
+### Data Encryption
+
+Implement proper encryption practices:
+
+<CodeGroup>
+```javascript Node.js
+const crypto = require('crypto');
+
+// Encrypt sensitive data
+function encryptData(data, key) {
+  const cipher = crypto.createCipher('aes-256-cbc', key);
+  let encrypted = cipher.update(data, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  return encrypted;
+}
+
+// Decrypt data
+function decryptData(encryptedData, key) {
+  const decipher = crypto.createDecipher('aes-256-cbc', key);
+  let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
+```
+
+```python Python
+from cryptography.fernet import Fernet
+
+# Generate encryption key
+key = Fernet.generate_key()
+cipher_suite = Fernet(key)
+
+# Encrypt data
+def encrypt_data(data):
+    return cipher_suite.encrypt(data.encode())
+
+# Decrypt data
+def decrypt_data(encrypted_data):
+    return cipher_suite.decrypt(encrypted_data).decode()
+```
+</CodeGroup>
+
+## Infrastructure Security
+
+### Server Security
+
+Secure your application servers:
+
+<CardGroup cols={2}>
+  <Card title="Access Control" icon="lock">
+    - Use SSH keys, not passwords
+    - Implement 2FA for admin access
+    - Regular security patches
+    - Firewall configuration
+  </Card>
+  <Card title="Monitoring" icon="eye">
+    - Log all access attempts
+    - Monitor for suspicious activity
+    - Set up security alerts
+    - Regular security audits
+  </Card>
+</CardGroup>
+
+### Database Security
+
+Protect your database:
+
+<AccordionGroup>
+  <Accordion title="Access Controls" icon="key">
+    - Database user permissions
+    - Network access restrictions
+    - Connection encryption (SSL)
+    - Regular password rotation
+  </Accordion>
+
+  <Accordion title="Data Protection" icon="database">
+    - Encrypt data at rest
+    - Secure backup storage
+    - Anonymize test data
+    - Regular backup testing
+  </Accordion>
+
+  <Accordion title="Monitoring" icon="chart-line">
+    - Query monitoring
+    - Failed login attempts
+    - Unusual access patterns
+    - Performance anomalies
+  </Accordion>
+</AccordionGroup>
+
+## Fraud Prevention
+
+### PayRequest Fraud Tools
+
+Built-in fraud prevention features:
+
+<CardGroup cols={2}>
+  <Card title="Risk Scoring" icon="scale-balanced">
+    - Machine learning analysis
+    - Real-time risk assessment
+    - Velocity checking
+    - Device fingerprinting
+  </Card>
+  <Card title="3D Secure" icon="shield-check">
+    - Strong customer authentication
+    - Liability shift protection
+    - Reduced chargebacks
+    - Regulatory compliance
+  </Card>
+</CardGroup>
+
+### Custom Fraud Rules
+
+Implement additional fraud prevention:
+
+<CodeGroup>
+```javascript Custom Rules
+// Example: Velocity checking
+function checkVelocity(customerEmail, amount) {
+  const recentPayments = getRecentPayments(customerEmail, '1hour');
+  const totalAmount = recentPayments.reduce((sum, p) => sum + p.amount, 0);
+  
+  if (totalAmount + amount > 1000) {
+    return { block: true, reason: 'velocity_exceeded' };
+  }
+  
+  return { block: false };
+}
+
+// Example: Geographic checks
+function checkGeography(ipAddress, billingCountry) {
+  const ipCountry = getCountryFromIP(ipAddress);
+  
+  if (ipCountry !== billingCountry) {
+    return { flag: true, reason: 'country_mismatch' };
+  }
+  
+  return { flag: false };
+}
+```
+</CodeGroup>
+
+## Incident Response
+
+### Security Incident Plan
+
+Prepare for security incidents:
+
+<Steps>
+  <Step title="Detection">
+    - Monitor security alerts
+    - Automated threat detection
+    - Customer reports
+    - Regular security scans
+  </Step>
+  <Step title="Assessment">
+    - Determine incident scope
+    - Assess potential damage
+    - Identify affected systems
+    - Classify severity level
+  </Step>
+  <Step title="Containment">
+    - Isolate affected systems
+    - Revoke compromised credentials
+    - Block malicious traffic
+    - Preserve evidence
+  </Step>
+  <Step title="Recovery">
+    - Restore from clean backups
+    - Apply security patches
+    - Update access controls
+    - Monitor for reoccurrence
+  </Step>
+  <Step title="Communication">
+    - Notify affected customers
+    - Report to authorities
+    - Document lessons learned
+    - Update security procedures
+  </Step>
+</Steps>
+
+### Contact Information
+
+Report security issues immediately:
+
+<CardGroup cols={2}>
+  <Card title="Security Team" icon="shield">
+    **Email**: security@payrequest.io
+    
+    **Response**: Within 4 hours
+    
+    **Encryption**: PGP key available
+  </Card>
+  <Card title="Emergency Hotline" icon="phone">
+    **Phone**: +1-800-PAY-SEC
+    
+    **Available**: 24/7
+    
+    **For**: Critical security incidents
+  </Card>
+</CardGroup>
+
+## Security Checklist
+
+Use this checklist to ensure secure implementation:
+
+<AccordionGroup>
+  <Accordion title="API Security" icon="code">
+    - [ ] API keys stored in environment variables
+    - [ ] HTTPS used for all API calls
+    - [ ] Webhook signatures verified
+    - [ ] Rate limiting implemented
+    - [ ] Input validation in place
+  </Accordion>
+
+  <Accordion title="Data Security" icon="database">
+    - [ ] No sensitive data stored
+    - [ ] Encryption at rest and in transit
+    - [ ] Secure backup procedures
+    - [ ] Access controls implemented
+    - [ ] Data retention policies
+  </Accordion>
+
+  <Accordion title="Infrastructure" icon="server">
+    - [ ] Servers properly secured
+    - [ ] Firewalls configured
+    - [ ] Security monitoring active
+    - [ ] Regular security updates
+    - [ ] Incident response plan ready
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Testing Security"
+    icon="flask"
+    href="/essentials/testing"
+  >
+    Test your security implementation
+  </Card>
+  <Card
+    title="Compliance Guide"
+    icon="gavel"
+    href="/essentials/compliance"
+  >
+    Understand compliance requirements
+  </Card>
+  <Card
+    title="Error Handling"
+    icon="triangle-exclamation"
+    href="/essentials/errors"
+  >
+    Handle security errors properly
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Secure API implementation
+  </Card>
+</CardGroup>

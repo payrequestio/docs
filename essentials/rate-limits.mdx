@@ -1,0 +1,783 @@
+---
+title: 'Rate Limits'
+description: 'Understanding and working with PayRequest API rate limits'
+---
+
+# Rate Limits
+
+Rate limiting protects the PayRequest API from abuse and ensures fair usage across all users. This guide explains how rate limits work and how to handle them effectively in your integration.
+
+## Understanding Rate Limits
+
+PayRequest implements multiple types of rate limits to ensure optimal performance:
+
+<CardGroup cols={2}>
+  <Card title="Request Rate Limits" icon="gauge">
+    **Limit**: Number of requests per time window
+    
+    **Purpose**: Prevent API abuse
+    
+    **Scope**: Per API key
+  </Card>
+  <Card title="Burst Limits" icon="zap">
+    **Limit**: Maximum requests in short bursts
+    
+    **Purpose**: Handle traffic spikes
+    
+    **Scope**: Per API key
+  </Card>
+</CardGroup>
+
+## Rate Limit Types
+
+### Standard Limits
+
+<AccordionGroup>
+  <Accordion title="API Endpoints" icon="code">
+    **Limit**: 100 requests per minute
+    
+    **Applies to**: Most API endpoints (payments, customers, etc.)
+    
+    **Window**: 60 seconds, sliding window
+  </Accordion>
+  
+  <Accordion title="Webhook Endpoints" icon="webhook">
+    **Limit**: 500 requests per minute
+    
+    **Applies to**: Webhook management endpoints
+    
+    **Window**: 60 seconds, sliding window
+  </Accordion>
+  
+  <Accordion title="Read-Only Endpoints" icon="eye">
+    **Limit**: 1000 requests per minute
+    
+    **Applies to**: GET endpoints (retrieve, list)
+    
+    **Window**: 60 seconds, sliding window
+  </Accordion>
+</AccordionGroup>
+
+### Burst Limits
+
+<AccordionGroup>
+  <Accordion title="Short Burst" icon="flash">
+    **Limit**: 20 requests per 10 seconds
+    
+    **Purpose**: Allow brief traffic spikes
+    
+    **Recovery**: Linear recovery rate
+  </Accordion>
+  
+  <Accordion title="Medium Burst" icon="zap">
+    **Limit**: 50 requests per 30 seconds
+    
+    **Purpose**: Handle moderate load increases
+    
+    **Recovery**: Exponential recovery
+  </Accordion>
+</AccordionGroup>
+
+## Rate Limit Headers
+
+Every API response includes rate limit information in the headers:
+
+```http
+HTTP/1.1 200 OK
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 87
+X-RateLimit-Reset: 1640995200
+X-RateLimit-Retry-After: 30
+```
+
+### Header Descriptions
+
+<AccordionGroup>
+  <Accordion title="X-RateLimit-Limit" icon="limit">
+    **Description**: Total number of requests allowed in the time window
+    
+    **Example**: `100` (100 requests per minute)
+    
+    **Usage**: Plan your request frequency
+  </Accordion>
+  
+  <Accordion title="X-RateLimit-Remaining" icon="counter">
+    **Description**: Number of requests remaining in current window
+    
+    **Example**: `87` (87 requests left)
+    
+    **Usage**: Monitor usage and throttle if needed
+  </Accordion>
+  
+  <Accordion title="X-RateLimit-Reset" icon="clock">
+    **Description**: Unix timestamp when the rate limit resets
+    
+    **Example**: `1640995200` (January 1, 2022 00:00:00 UTC)
+    
+    **Usage**: Calculate when to resume requests
+  </Accordion>
+  
+  <Accordion title="X-RateLimit-Retry-After" icon="pause">
+    **Description**: Seconds to wait before retrying (when rate limited)
+    
+    **Example**: `30` (wait 30 seconds)
+    
+    **Usage**: Implement proper retry delays
+  </Accordion>
+</AccordionGroup>
+
+## Rate Limit Responses
+
+When you exceed rate limits, you'll receive a `429 Too Many Requests` response:
+
+```json
+{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "Too many requests. Try again in 30 seconds.",
+    "type": "rate_limit_error"
+  }
+}
+```
+
+### Response Details
+
+<CardGroup cols={2}>
+  <Card title="HTTP Status" icon="warning">
+    **Code**: `429 Too Many Requests`
+    
+    **Meaning**: Rate limit exceeded
+  </Card>
+  <Card title="Retry Information" icon="clock">
+    **Header**: `Retry-After: 30`
+    
+    **Meaning**: Wait 30 seconds before retrying
+  </Card>
+</CardGroup>
+
+## Handling Rate Limits
+
+### Monitoring Rate Limits
+
+<CodeGroup>
+```javascript Rate Limit Monitoring
+const payrequest = require('@payrequest/node');
+
+class RateLimitAwareClient {
+  constructor(apiKey) {
+    this.pr = new payrequest(apiKey);
+    this.remaining = null;
+    this.resetTime = null;
+  }
+  
+  async makeRequest(requestFn) {
+    try {
+      const response = await requestFn();
+      
+      // Update rate limit info from headers
+      this.updateRateLimitInfo(response.headers);
+      
+      return response;
+    } catch (error) {
+      if (error.status === 429) {
+        const retryAfter = error.headers['retry-after'] || 60;
+        console.log(`Rate limited. Retrying after ${retryAfter} seconds`);
+        
+        await this.sleep(retryAfter * 1000);
+        return this.makeRequest(requestFn);
+      }
+      throw error;
+    }
+  }
+  
+  updateRateLimitInfo(headers) {
+    this.remaining = parseInt(headers['x-ratelimit-remaining'] || '0');
+    this.resetTime = parseInt(headers['x-ratelimit-reset'] || '0');
+    
+    // Log if approaching limit
+    if (this.remaining < 10) {
+      console.warn(`Rate limit warning: ${this.remaining} requests remaining`);
+    }
+  }
+  
+  shouldThrottle() {
+    return this.remaining !== null && this.remaining < 5;
+  }
+  
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+
+// Usage
+const client = new RateLimitAwareClient('your-api-key');
+
+async function createPayment(paymentData) {
+  if (client.shouldThrottle()) {
+    console.log('Throttling requests to avoid rate limit');
+    await client.sleep(1000); // Wait 1 second
+  }
+  
+  return client.makeRequest(() => client.pr.payments.create(paymentData));
+}
+```
+
+```python Rate Limit Monitoring
+import time
+import payrequest
+
+class RateLimitAwareClient:
+    def __init__(self, api_key):
+        self.pr = payrequest.PayRequest(api_key)
+        self.remaining = None
+        self.reset_time = None
+    
+    def make_request(self, request_fn):
+        try:
+            response = request_fn()
+            
+            # Update rate limit info (assuming response has headers)
+            self.update_rate_limit_info(getattr(response, 'headers', {}))
+            
+            return response
+        except payrequest.RateLimitError as e:
+            retry_after = getattr(e, 'retry_after', 60)
+            print(f"Rate limited. Retrying after {retry_after} seconds")
+            
+            time.sleep(retry_after)
+            return self.make_request(request_fn)
+    
+    def update_rate_limit_info(self, headers):
+        self.remaining = int(headers.get('x-ratelimit-remaining', 0))
+        self.reset_time = int(headers.get('x-ratelimit-reset', 0))
+        
+        # Log if approaching limit
+        if self.remaining < 10:
+            print(f"Rate limit warning: {self.remaining} requests remaining")
+    
+    def should_throttle(self):
+        return self.remaining is not None and self.remaining < 5
+
+# Usage
+client = RateLimitAwareClient('your-api-key')
+
+def create_payment(payment_data):
+    if client.should_throttle():
+        print('Throttling requests to avoid rate limit')
+        time.sleep(1)  # Wait 1 second
+    
+    return client.make_request(lambda: client.pr.payments.create(**payment_data))
+```
+</CodeGroup>
+
+### Exponential Backoff
+
+Implement exponential backoff for retry logic:
+
+<CodeGroup>
+```javascript Exponential Backoff
+class ExponentialBackoff {
+  constructor(maxRetries = 5, baseDelay = 1000) {
+    this.maxRetries = maxRetries;
+    this.baseDelay = baseDelay;
+  }
+  
+  async retry(fn, attempt = 1) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error.status !== 429 || attempt >= this.maxRetries) {
+        throw error;
+      }
+      
+      const delay = this.calculateDelay(attempt);
+      console.log(`Rate limited. Retry ${attempt}/${this.maxRetries} after ${delay}ms`);
+      
+      await this.sleep(delay);
+      return this.retry(fn, attempt + 1);
+    }
+  }
+  
+  calculateDelay(attempt) {
+    // Exponential backoff: 1s, 2s, 4s, 8s, 16s
+    const exponentialDelay = this.baseDelay * Math.pow(2, attempt - 1);
+    
+    // Add jitter (±25%) to prevent thundering herd
+    const jitter = exponentialDelay * 0.25 * (Math.random() * 2 - 1);
+    
+    // Cap at 30 seconds
+    return Math.min(exponentialDelay + jitter, 30000);
+  }
+  
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+
+// Usage
+const backoff = new ExponentialBackoff();
+
+async function createPaymentWithBackoff(paymentData) {
+  return backoff.retry(() => pr.payments.create(paymentData));
+}
+```
+
+```python Exponential Backoff
+import time
+import random
+import math
+
+class ExponentialBackoff:
+    def __init__(self, max_retries=5, base_delay=1):
+        self.max_retries = max_retries
+        self.base_delay = base_delay
+    
+    def retry(self, fn, attempt=1):
+        try:
+            return fn()
+        except payrequest.RateLimitError as e:
+            if attempt >= self.max_retries:
+                raise
+            
+            delay = self.calculate_delay(attempt)
+            print(f"Rate limited. Retry {attempt}/{self.max_retries} after {delay}s")
+            
+            time.sleep(delay)
+            return self.retry(fn, attempt + 1)
+    
+    def calculate_delay(self, attempt):
+        # Exponential backoff: 1s, 2s, 4s, 8s, 16s
+        exponential_delay = self.base_delay * (2 ** (attempt - 1))
+        
+        # Add jitter (±25%) to prevent thundering herd
+        jitter = exponential_delay * 0.25 * (random.random() * 2 - 1)
+        
+        # Cap at 30 seconds
+        return min(exponential_delay + jitter, 30)
+
+# Usage
+backoff = ExponentialBackoff()
+
+def create_payment_with_backoff(payment_data):
+    return backoff.retry(lambda: pr.payments.create(**payment_data))
+```
+</CodeGroup>
+
+### Request Queuing
+
+Implement a request queue to manage high-volume applications:
+
+<CodeGroup>
+```javascript Request Queue
+class RequestQueue {
+  constructor(maxConcurrent = 5, requestsPerMinute = 90) {
+    this.maxConcurrent = maxConcurrent;
+    this.requestsPerMinute = requestsPerMinute;
+    this.queue = [];
+    this.active = 0;
+    this.requestTimestamps = [];
+  }
+  
+  async enqueue(requestFn) {
+    return new Promise((resolve, reject) => {
+      this.queue.push({ requestFn, resolve, reject });
+      this.processQueue();
+    });
+  }
+  
+  async processQueue() {
+    if (this.active >= this.maxConcurrent || this.queue.length === 0) {
+      return;
+    }
+    
+    // Check if we're within rate limits
+    if (!this.canMakeRequest()) {
+      setTimeout(() => this.processQueue(), 1000);
+      return;
+    }
+    
+    const { requestFn, resolve, reject } = this.queue.shift();
+    this.active++;
+    
+    try {
+      this.recordRequest();
+      const result = await requestFn();
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    } finally {
+      this.active--;
+      this.processQueue();
+    }
+  }
+  
+  canMakeRequest() {
+    const now = Date.now();
+    const oneMinuteAgo = now - 60000;
+    
+    // Remove old timestamps
+    this.requestTimestamps = this.requestTimestamps.filter(
+      timestamp => timestamp > oneMinuteAgo
+    );
+    
+    return this.requestTimestamps.length < this.requestsPerMinute;
+  }
+  
+  recordRequest() {
+    this.requestTimestamps.push(Date.now());
+  }
+}
+
+// Usage
+const queue = new RequestQueue();
+
+async function createPaymentQueued(paymentData) {
+  return queue.enqueue(() => pr.payments.create(paymentData));
+}
+
+// Create multiple payments without exceeding rate limits
+const payments = await Promise.all([
+  createPaymentQueued(payment1),
+  createPaymentQueued(payment2),
+  createPaymentQueued(payment3),
+  // ... more payments
+]);
+```
+
+```python Request Queue
+import time
+import asyncio
+from collections import deque
+
+class RequestQueue:
+    def __init__(self, max_concurrent=5, requests_per_minute=90):
+        self.max_concurrent = max_concurrent
+        self.requests_per_minute = requests_per_minute
+        self.queue = deque()
+        self.active = 0
+        self.request_timestamps = deque()
+        self.semaphore = asyncio.Semaphore(max_concurrent)
+    
+    async def enqueue(self, request_fn):
+        await self.semaphore.acquire()
+        
+        try:
+            # Wait if we're hitting rate limits
+            while not self.can_make_request():
+                await asyncio.sleep(1)
+            
+            self.record_request()
+            return await request_fn()
+        finally:
+            self.semaphore.release()
+    
+    def can_make_request(self):
+        now = time.time()
+        one_minute_ago = now - 60
+        
+        # Remove old timestamps
+        while self.request_timestamps and self.request_timestamps[0] <= one_minute_ago:
+            self.request_timestamps.popleft()
+        
+        return len(self.request_timestamps) < self.requests_per_minute
+    
+    def record_request(self):
+        self.request_timestamps.append(time.time())
+
+# Usage (with asyncio)
+queue = RequestQueue()
+
+async def create_payment_queued(payment_data):
+    return await queue.enqueue(lambda: pr.payments.create(**payment_data))
+
+# Create multiple payments without exceeding rate limits
+payments = await asyncio.gather(
+    create_payment_queued(payment1),
+    create_payment_queued(payment2),
+    create_payment_queued(payment3),
+    # ... more payments
+)
+```
+</CodeGroup>
+
+## Best Practices
+
+### Proactive Rate Limit Management
+
+<CardGroup cols={2}>
+  <Card title="Monitor Usage" icon="chart-line">
+    - Track rate limit headers
+    - Log approaching limits
+    - Set up alerts for high usage
+    - Monitor trends over time
+  </Card>
+  <Card title="Implement Throttling" icon="gauge">
+    - Slow down when approaching limits
+    - Use request queues for high volume
+    - Implement circuit breakers
+    - Batch operations when possible
+  </Card>
+</CardGroup>
+
+### Optimization Strategies
+
+<AccordionGroup>
+  <Accordion title="Caching" icon="database">
+    **Strategy**: Cache API responses to reduce requests
+    
+    **Example**: Cache customer data, payment statuses
+    
+    **TTL**: Set appropriate cache expiration times
+    
+    **Benefits**: Reduce API calls, improve performance
+  </Accordion>
+  
+  <Accordion title="Batching" icon="layers">
+    **Strategy**: Combine multiple operations into single requests
+    
+    **Example**: Create multiple customers in one request
+    
+    **Limits**: Check API documentation for batch limits
+    
+    **Benefits**: Reduce total request count
+  </Accordion>
+  
+  <Accordion title="Webhooks" icon="webhook">
+    **Strategy**: Use webhooks instead of polling
+    
+    **Example**: Get payment updates via webhooks
+    
+    **Benefits**: Real-time updates, no polling overhead
+    
+    **Setup**: Configure webhook endpoints properly
+  </Accordion>
+  
+  <Accordion title="Pagination" icon="page-break">
+    **Strategy**: Use pagination efficiently
+    
+    **Example**: Request appropriate page sizes
+    
+    **Optimization**: Balance between requests and payload size
+    
+    **Benefits**: Avoid large responses, manage memory
+  </Accordion>
+</AccordionGroup>
+
+### Error Handling for Rate Limits
+
+<CodeGroup>
+```javascript Rate Limit Error Handling
+async function handleRateLimitedRequest(requestFn, maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await requestFn();
+    } catch (error) {
+      if (error.status === 429) {
+        const retryAfter = error.headers['retry-after'] || Math.pow(2, attempt);
+        
+        console.log(`Rate limited on attempt ${attempt}. Waiting ${retryAfter}s`);
+        
+        if (attempt < maxRetries) {
+          await sleep(retryAfter * 1000);
+          continue;
+        }
+      }
+      throw error;
+    }
+  }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+```
+
+```python Rate Limit Error Handling
+import time
+
+def handle_rate_limited_request(request_fn, max_retries=3):
+    for attempt in range(1, max_retries + 1):
+        try:
+            return request_fn()
+        except payrequest.RateLimitError as e:
+            retry_after = getattr(e, 'retry_after', 2 ** attempt)
+            
+            print(f"Rate limited on attempt {attempt}. Waiting {retry_after}s")
+            
+            if attempt < max_retries:
+                time.sleep(retry_after)
+                continue
+            raise
+```
+</CodeGroup>
+
+## Rate Limit Monitoring
+
+### Dashboard Metrics
+
+Monitor rate limit usage in your dashboard:
+
+- **Current Usage**: Real-time rate limit consumption
+- **Historical Trends**: Usage patterns over time
+- **Peak Usage**: Identify high-traffic periods
+- **Limit Breaches**: Track when limits are exceeded
+
+### Custom Monitoring
+
+<CodeGroup>
+```javascript Custom Monitoring
+class RateLimitMonitor {
+  constructor() {
+    this.metrics = {
+      requests: 0,
+      rateLimited: 0,
+      avgRemaining: 0
+    };
+  }
+  
+  recordRequest(headers) {
+    this.metrics.requests++;
+    
+    const remaining = parseInt(headers['x-ratelimit-remaining'] || '0');
+    this.metrics.avgRemaining = 
+      (this.metrics.avgRemaining + remaining) / this.metrics.requests;
+  }
+  
+  recordRateLimit() {
+    this.metrics.rateLimited++;
+  }
+  
+  getMetrics() {
+    return {
+      ...this.metrics,
+      rateLimitRate: this.metrics.rateLimited / this.metrics.requests
+    };
+  }
+  
+  shouldAlert() {
+    const rateLimitRate = this.metrics.rateLimited / this.metrics.requests;
+    return rateLimitRate > 0.01; // Alert if >1% of requests are rate limited
+  }
+}
+
+const monitor = new RateLimitMonitor();
+
+// Use in request handling
+try {
+  const response = await pr.payments.create(paymentData);
+  monitor.recordRequest(response.headers);
+} catch (error) {
+  if (error.status === 429) {
+    monitor.recordRateLimit();
+  }
+  throw error;
+}
+
+// Check metrics periodically
+setInterval(() => {
+  const metrics = monitor.getMetrics();
+  console.log('Rate limit metrics:', metrics);
+  
+  if (monitor.shouldAlert()) {
+    console.warn('High rate limit frequency detected!');
+  }
+}, 60000); // Every minute
+```
+</CodeGroup>
+
+## Scaling Considerations
+
+### High-Volume Applications
+
+For applications with high request volumes:
+
+<CardGroup cols={2}>
+  <Card title="Multiple API Keys" icon="key">
+    - Use different API keys for different services
+    - Distribute load across keys
+    - Monitor usage per key
+    - Rotate keys as needed
+  </Card>
+  <Card title="Request Optimization" icon="rocket">
+    - Minimize unnecessary API calls
+    - Use webhooks instead of polling
+    - Implement smart caching strategies
+    - Batch operations when possible
+  </Card>
+</CardGroup>
+
+### Load Balancing
+
+<AccordionGroup>
+  <Accordion title="Geographic Distribution" icon="globe">
+    **Strategy**: Distribute requests across regions
+    
+    **Implementation**: Use multiple API endpoints
+    
+    **Benefits**: Reduce latency, distribute load
+  </Accordion>
+  
+  <Accordion title="Time-based Spreading" icon="clock">
+    **Strategy**: Spread non-urgent requests over time
+    
+    **Implementation**: Queue and delay non-critical operations
+    
+    **Benefits**: Smooth out traffic spikes
+  </Accordion>
+</AccordionGroup>
+
+## Getting Rate Limit Increases
+
+If you need higher rate limits:
+
+<Steps>
+  <Step title="Contact Support">
+    Email support@payrequest.io with your requirements
+  </Step>
+  <Step title="Provide Details">
+    Include:
+    - Current usage patterns
+    - Expected growth
+    - Use case description
+    - Business justification
+  </Step>
+  <Step title="Review Process">
+    PayRequest will review your request and may ask for additional information
+  </Step>
+  <Step title="Implementation">
+    Approved increases are typically implemented within 1-2 business days
+  </Step>
+</Steps>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Error Handling"
+    icon="triangle-exclamation"
+    href="/essentials/errors"
+  >
+    Handle rate limit errors properly
+  </Card>
+  <Card
+    title="Testing"
+    icon="flask"
+    href="/essentials/testing"
+  >
+    Test your rate limit handling
+  </Card>
+  <Card
+    title="Monitoring"
+    icon="chart-line"
+    href="/essentials/monitoring"
+  >
+    Monitor your API usage
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Complete API documentation
+  </Card>
+</CardGroup>

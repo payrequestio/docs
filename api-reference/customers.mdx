@@ -1,0 +1,492 @@
+---
+title: 'Customers API'
+description: 'Manage customer information and payment history'
+---
+
+# Customers API
+
+The Customers API allows you to store and manage customer information, making it easier to process future payments and track customer history.
+
+## Customer Object
+
+A customer object represents a person or business that can make payments through your PayRequest integration.
+
+```json Customer Object
+{
+  "id": "cust_1234567890",
+  "email": "customer@example.com",
+  "name": "John Doe",
+  "phone": "+1234567890",
+  "address": {
+    "line1": "123 Main St",
+    "line2": "Apt 4B",
+    "city": "New York",
+    "state": "NY",
+    "postal_code": "10001",
+    "country": "US"
+  },
+  "metadata": {
+    "user_id": "12345",
+    "segment": "premium"
+  },
+  "created_at": "2024-01-15T10:30:00Z",
+  "updated_at": "2024-01-15T10:30:00Z"
+}
+```
+
+## Create Customer
+
+Create a new customer object.
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://api.payrequest.io/v1/customers \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "customer@example.com",
+    "name": "John Doe",
+    "phone": "+1234567890"
+  }'
+```
+
+```javascript JavaScript
+const customer = await payrequest.customers.create({
+  email: 'customer@example.com',
+  name: 'John Doe',
+  phone: '+1234567890'
+});
+```
+
+```python Python
+customer = payrequest.customers.create(
+    email='customer@example.com',
+    name='John Doe',
+    phone='+1234567890'
+)
+```
+
+```php PHP
+$customer = $payrequest->customers->create([
+    'email' => 'customer@example.com',
+    'name' => 'John Doe',
+    'phone' => '+1234567890'
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **email** *string* **required**  
+  Customer's email address
+
+- **name** *string* *optional*  
+  Customer's full name
+
+- **phone** *string* *optional*  
+  Customer's phone number
+
+- **address** *object* *optional*  
+  Customer's address information
+
+- **metadata** *object* *optional*  
+  Custom metadata for the customer
+
+### Returns
+
+Returns a customer object if successful. Otherwise, returns an error.
+
+## Retrieve Customer
+
+Retrieve an existing customer by ID.
+
+<CodeGroup>
+```bash cURL
+curl https://api.payrequest.io/v1/customers/cust_1234567890 \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+const customer = await payrequest.customers.retrieve('cust_1234567890');
+```
+
+```python Python
+customer = payrequest.customers.retrieve('cust_1234567890')
+```
+
+```php PHP
+$customer = $payrequest->customers->retrieve('cust_1234567890');
+```
+</CodeGroup>
+
+### Parameters
+
+- **id** *string* **required**  
+  The ID of the customer to retrieve
+
+### Returns
+
+Returns a customer object if a valid customer ID is provided. Otherwise, returns an error.
+
+## Update Customer
+
+Update an existing customer's information.
+
+<CodeGroup>
+```bash cURL
+curl -X PATCH https://api.payrequest.io/v1/customers/cust_1234567890 \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Smith",
+    "phone": "+1987654321"
+  }'
+```
+
+```javascript JavaScript
+const customer = await payrequest.customers.update('cust_1234567890', {
+  name: 'John Smith',
+  phone: '+1987654321'
+});
+```
+
+```python Python
+customer = payrequest.customers.update('cust_1234567890', {
+    'name': 'John Smith',
+    'phone': '+1987654321'
+})
+```
+
+```php PHP
+$customer = $payrequest->customers->update('cust_1234567890', [
+    'name' => 'John Smith',
+    'phone' => '+1987654321'
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **name** *string* *optional*  
+  Customer's full name
+
+- **phone** *string* *optional*  
+  Customer's phone number
+
+- **address** *object* *optional*  
+  Customer's address information
+
+- **metadata** *object* *optional*  
+  Custom metadata for the customer
+
+### Returns
+
+Returns the updated customer object if successful. Otherwise, returns an error.
+
+## List Customers
+
+List all customers, with optional filtering and pagination.
+
+<CodeGroup>
+```bash cURL
+curl "https://api.payrequest.io/v1/customers?limit=10&email=customer@example.com" \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+const customers = await payrequest.customers.list({
+  limit: 10,
+  email: 'customer@example.com'
+});
+```
+
+```python Python
+customers = payrequest.customers.list(
+    limit=10,
+    email='customer@example.com'
+)
+```
+
+```php PHP
+$customers = $payrequest->customers->all([
+    'limit' => 10,
+    'email' => 'customer@example.com'
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **limit** *integer* *optional*  
+  Number of customers to return (1-100, default: 10)
+
+- **offset** *integer* *optional*  
+  Number of customers to skip (default: 0)
+
+- **email** *string* *optional*  
+  Filter by customer email address
+
+- **created_after** *timestamp* *optional*  
+  Return customers created after this date
+
+- **created_before** *timestamp* *optional*  
+  Return customers created before this date
+
+### Returns
+
+Returns a list of customer objects, with pagination information.
+
+```json Response
+{
+  "data": [
+    {
+      "id": "cust_1234567890",
+      "email": "customer@example.com",
+      "name": "John Doe",
+      // ... other customer fields
+    }
+  ],
+  "pagination": {
+    "total": 150,
+    "limit": 10,
+    "offset": 0,
+    "has_more": true
+  }
+}
+```
+
+## Delete Customer
+
+Delete a customer permanently.
+
+<Warning>
+  Deleting a customer cannot be undone. Consider deactivating instead of deleting if you need to preserve payment history.
+</Warning>
+
+<CodeGroup>
+```bash cURL
+curl -X DELETE https://api.payrequest.io/v1/customers/cust_1234567890 \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+await payrequest.customers.delete('cust_1234567890');
+```
+
+```python Python
+payrequest.customers.delete('cust_1234567890')
+```
+
+```php PHP
+$payrequest->customers->delete('cust_1234567890');
+```
+</CodeGroup>
+
+### Parameters
+
+- **id** *string* **required**  
+  The ID of the customer to delete
+
+### Returns
+
+Returns an object with a deleted parameter on success. If the customer ID does not exist, returns an error.
+
+```json Success Response
+{
+  "id": "cust_1234567890",
+  "deleted": true
+}
+```
+
+## Customer Payments
+
+Retrieve all payments associated with a customer.
+
+<CodeGroup>
+```bash cURL
+curl "https://api.payrequest.io/v1/customers/cust_1234567890/payments" \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+const payments = await payrequest.customers.payments('cust_1234567890');
+```
+
+```python Python
+payments = payrequest.customers.payments('cust_1234567890')
+```
+
+```php PHP
+$payments = $payrequest->customers->payments('cust_1234567890');
+```
+</CodeGroup>
+
+### Parameters
+
+- **id** *string* **required**  
+  The customer ID
+
+- **limit** *integer* *optional*  
+  Number of payments to return (default: 10)
+
+- **status** *string* *optional*  
+  Filter by payment status
+
+### Returns
+
+Returns a list of payment objects associated with the customer.
+
+## Best Practices
+
+### Customer Data Management
+
+<CardGroup cols={2}>
+  <Card title="Data Minimization" icon="shield">
+    Only collect customer data that you actually need for your business operations.
+  </Card>
+  <Card title="Regular Updates" icon="refresh">
+    Keep customer information up to date to ensure successful payment processing.
+  </Card>
+  <Card title="Privacy Compliance" icon="lock">
+    Ensure your customer data handling complies with GDPR, CCPA, and other privacy regulations.
+  </Card>
+  <Card title="Metadata Usage" icon="tag">
+    Use metadata to store additional information that helps with your business logic.
+  </Card>
+</CardGroup>
+
+### Integration Tips
+
+<AccordionGroup>
+  <Accordion title="Duplicate Prevention" icon="copy">
+    Check for existing customers by email before creating new ones to avoid duplicates.
+    
+    ```javascript
+    // Check if customer exists first
+    const existingCustomers = await payrequest.customers.list({
+      email: 'customer@example.com',
+      limit: 1
+    });
+    
+    if (existingCustomers.data.length > 0) {
+      // Customer exists, use existing ID
+      const customer = existingCustomers.data[0];
+    } else {
+      // Create new customer
+      const customer = await payrequest.customers.create({
+        email: 'customer@example.com',
+        name: 'John Doe'
+      });
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Linking Payments" icon="link">
+    Reference customer IDs when creating payments for better tracking and reporting.
+    
+    ```javascript
+    const payment = await payrequest.payments.create({
+      amount: 2500,
+      currency: 'USD',
+      description: 'Product purchase',
+      customer_id: 'cust_1234567890'
+    });
+    ```
+  </Accordion>
+  
+  <Accordion title="Batch Operations" icon="layers">
+    For importing large numbers of customers, consider batching operations to stay within rate limits.
+    
+    ```javascript
+    const customers = [/* array of customer data */];
+    const batchSize = 10;
+    
+    for (let i = 0; i < customers.length; i += batchSize) {
+      const batch = customers.slice(i, i + batchSize);
+      
+      await Promise.all(
+        batch.map(customerData => 
+          payrequest.customers.create(customerData)
+        )
+      );
+      
+      // Small delay between batches
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Error Handling
+
+Common errors when working with customers:
+
+<AccordionGroup>
+  <Accordion title="Invalid Email" icon="envelope">
+    ```json
+    {
+      "error": {
+        "code": "invalid_email",
+        "message": "Please provide a valid email address",
+        "param": "email"
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Customer Not Found" icon="search-x">
+    ```json
+    {
+      "error": {
+        "code": "customer_not_found",
+        "message": "Customer with ID 'cust_invalid' does not exist"
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Duplicate Email" icon="copy">
+    ```json
+    {
+      "error": {
+        "code": "duplicate_email",
+        "message": "A customer with this email already exists",
+        "param": "email"
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Payments API"
+    icon="credit-card"
+    href="/api-reference/endpoint/create"
+  >
+    Create payments for your customers
+  </Card>
+  <Card
+    title="Subscriptions API"
+    icon="refresh"
+    href="/api-reference/subscriptions"
+  >
+    Set up recurring billing for customers
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/essentials/webhooks"
+  >
+    Receive customer event notifications
+  </Card>
+  <Card
+    title="Privacy Guide"
+    icon="shield"
+    href="/essentials/privacy"
+  >
+    Handle customer data responsibly
+  </Card>
+</CardGroup>

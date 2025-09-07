@@ -1,0 +1,965 @@
+---
+title: 'Error Handling'
+description: 'Understanding and handling PayRequest API errors'
+---
+
+# Error Handling
+
+Robust error handling is essential for a reliable payment integration. This guide covers all types of errors you might encounter when using the PayRequest API and how to handle them gracefully.
+
+## Error Response Format
+
+All PayRequest API errors follow a consistent format:
+
+```json
+{
+  "error": {
+    "code": "invalid_request",
+    "message": "The amount field is required",
+    "type": "invalid_request_error",
+    "param": "amount"
+  }
+}
+```
+
+### Error Object Properties
+
+<AccordionGroup>
+  <Accordion title="code" icon="code">
+    **Type**: String
+    
+    **Description**: Machine-readable error identifier
+    
+    **Example**: `invalid_request`, `authentication_required`
+  </Accordion>
+  
+  <Accordion title="message" icon="message">
+    **Type**: String
+    
+    **Description**: Human-readable error description
+    
+    **Example**: "The amount field is required"
+  </Accordion>
+  
+  <Accordion title="type" icon="tag">
+    **Type**: String
+    
+    **Description**: Category of error
+    
+    **Values**: `api_error`, `authentication_error`, `invalid_request_error`, `rate_limit_error`
+  </Accordion>
+  
+  <Accordion title="param" icon="parameter">
+    **Type**: String (optional)
+    
+    **Description**: The parameter that caused the error
+    
+    **Example**: `amount`, `currency`, `email`
+  </Accordion>
+</AccordionGroup>
+
+## HTTP Status Codes
+
+PayRequest uses standard HTTP status codes to indicate the success or failure of requests:
+
+### Success Codes
+
+<CardGroup cols={2}>
+  <Card title="200 OK" icon="check">
+    **Usage**: Successful GET, PATCH requests
+    
+    **Description**: Request succeeded
+  </Card>
+  <Card title="201 Created" icon="plus">
+    **Usage**: Successful POST requests
+    
+    **Description**: Resource created successfully
+  </Card>
+  <Card title="204 No Content" icon="check">
+    **Usage**: Successful DELETE requests
+    
+    **Description**: Resource deleted successfully
+  </Card>
+</CardGroup>
+
+### Error Codes
+
+<AccordionGroup>
+  <Accordion title="400 Bad Request" icon="x">
+    **Cause**: Invalid request parameters
+    
+    **Examples**:
+    - Missing required fields
+    - Invalid data format
+    - Business rule violations
+    
+    **Handling**: Validate and fix request parameters
+  </Accordion>
+  
+  <Accordion title="401 Unauthorized" icon="lock">
+    **Cause**: Authentication failure
+    
+    **Examples**:
+    - Invalid API key
+    - Missing authorization header
+    - Revoked credentials
+    
+    **Handling**: Check API key and authentication
+  </Accordion>
+  
+  <Accordion title="403 Forbidden" icon="ban">
+    **Cause**: Insufficient permissions
+    
+    **Examples**:
+    - Test key used in production
+    - Restricted API access
+    - Account limitations
+    
+    **Handling**: Check account permissions and API key type
+  </Accordion>
+  
+  <Accordion title="404 Not Found" icon="search-x">
+    **Cause**: Resource not found
+    
+    **Examples**:
+    - Invalid payment ID
+    - Non-existent customer
+    - Wrong endpoint URL
+    
+    **Handling**: Verify resource IDs and endpoint URLs
+  </Accordion>
+  
+  <Accordion title="409 Conflict" icon="git-merge">
+    **Cause**: Resource conflict
+    
+    **Examples**:
+    - Duplicate idempotency key
+    - Resource state conflict
+    - Concurrent modification
+    
+    **Handling**: Handle idempotency and retry logic
+  </Accordion>
+  
+  <Accordion title="429 Too Many Requests" icon="gauge">
+    **Cause**: Rate limit exceeded
+    
+    **Examples**:
+    - Too many API calls
+    - Burst limit exceeded
+    - Sustained high volume
+    
+    **Handling**: Implement exponential backoff and retry
+  </Accordion>
+  
+  <Accordion title="500 Internal Server Error" icon="server">
+    **Cause**: PayRequest server error
+    
+    **Examples**:
+    - Temporary service issues
+    - Database problems
+    - Infrastructure failures
+    
+    **Handling**: Retry with exponential backoff
+  </Accordion>
+  
+  <Accordion title="503 Service Unavailable" icon="server-off">
+    **Cause**: Temporary service unavailability
+    
+    **Examples**:
+    - Scheduled maintenance
+    - System overload
+    - Service degradation
+    
+    **Handling**: Retry after delay, check status page
+  </Accordion>
+</AccordionGroup>
+
+## Common Error Types
+
+### Authentication Errors
+
+<CodeGroup>
+```json Invalid API Key
+{
+  "error": {
+    "code": "invalid_api_key",
+    "message": "Invalid API key provided",
+    "type": "authentication_error"
+  }
+}
+```
+
+```json Missing Authorization
+{
+  "error": {
+    "code": "missing_authorization",
+    "message": "Authorization header is required",
+    "type": "authentication_error"
+  }
+}
+```
+
+```json Revoked Key
+{
+  "error": {
+    "code": "api_key_revoked",
+    "message": "The API key has been revoked",
+    "type": "authentication_error"
+  }
+}
+```
+</CodeGroup>
+
+### Validation Errors
+
+<CodeGroup>
+```json Missing Required Field
+{
+  "error": {
+    "code": "missing_required_parameter",
+    "message": "The amount field is required",
+    "type": "invalid_request_error",
+    "param": "amount"
+  }
+}
+```
+
+```json Invalid Amount
+{
+  "error": {
+    "code": "invalid_amount",
+    "message": "Amount must be at least 50 cents",
+    "type": "invalid_request_error",
+    "param": "amount"
+  }
+}
+```
+
+```json Invalid Currency
+{
+  "error": {
+    "code": "invalid_currency",
+    "message": "Currency 'XYZ' is not supported",
+    "type": "invalid_request_error",
+    "param": "currency"
+  }
+}
+```
+</CodeGroup>
+
+### Rate Limit Errors
+
+<CodeGroup>
+```json Rate Limit Exceeded
+{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "Too many requests. Try again in 60 seconds",
+    "type": "rate_limit_error"
+  }
+}
+```
+</CodeGroup>
+
+## Error Handling Implementation
+
+### Basic Error Handling
+
+<CodeGroup>
+```javascript Node.js
+const payrequest = require('@payrequest/node');
+const pr = new payrequest('your-api-key');
+
+async function createPayment(paymentData) {
+  try {
+    const payment = await pr.payments.create(paymentData);
+    return { success: true, payment };
+  } catch (error) {
+    console.error('Payment creation failed:', error.message);
+    
+    // Handle specific error types
+    switch (error.type) {
+      case 'authentication_error':
+        return { 
+          success: false, 
+          error: 'Authentication failed. Please check your API key.' 
+        };
+      
+      case 'invalid_request_error':
+        return { 
+          success: false, 
+          error: `Invalid request: ${error.message}` 
+        };
+      
+      case 'rate_limit_error':
+        return { 
+          success: false, 
+          error: 'Too many requests. Please try again later.' 
+        };
+      
+      default:
+        return { 
+          success: false, 
+          error: 'An unexpected error occurred. Please try again.' 
+        };
+    }
+  }
+}
+```
+
+```python Python
+import payrequest
+
+pr = payrequest.PayRequest('your-api-key')
+
+def create_payment(payment_data):
+    try:
+        payment = pr.payments.create(**payment_data)
+        return {'success': True, 'payment': payment}
+    except payrequest.AuthenticationError as e:
+        return {
+            'success': False,
+            'error': 'Authentication failed. Please check your API key.'
+        }
+    except payrequest.InvalidRequestError as e:
+        return {
+            'success': False,
+            'error': f'Invalid request: {e.message}'
+        }
+    except payrequest.RateLimitError as e:
+        return {
+            'success': False,
+            'error': 'Too many requests. Please try again later.'
+        }
+    except payrequest.PayRequestError as e:
+        return {
+            'success': False,
+            'error': 'An unexpected error occurred. Please try again.'
+        }
+```
+
+```php PHP
+<?php
+use PayRequest\PayRequest;
+use PayRequest\Exception\AuthenticationException;
+use PayRequest\Exception\InvalidRequestException;
+use PayRequest\Exception\RateLimitException;
+
+$payrequest = new PayRequest('your-api-key');
+
+function createPayment($paymentData) {
+    global $payrequest;
+    
+    try {
+        $payment = $payrequest->payments->create($paymentData);
+        return ['success' => true, 'payment' => $payment];
+    } catch (AuthenticationException $e) {
+        return [
+            'success' => false,
+            'error' => 'Authentication failed. Please check your API key.'
+        ];
+    } catch (InvalidRequestException $e) {
+        return [
+            'success' => false,
+            'error' => 'Invalid request: ' . $e->getMessage()
+        ];
+    } catch (RateLimitException $e) {
+        return [
+            'success' => false,
+            'error' => 'Too many requests. Please try again later.'
+        ];
+    } catch (Exception $e) {
+        return [
+            'success' => false,
+            'error' => 'An unexpected error occurred. Please try again.'
+        ];
+    }
+}
+?>
+```
+</CodeGroup>
+
+### Advanced Error Handling with Retry Logic
+
+<CodeGroup>
+```javascript Retry Logic
+class PayRequestClient {
+  constructor(apiKey) {
+    this.pr = new payrequest(apiKey);
+    this.maxRetries = 3;
+  }
+  
+  async createPaymentWithRetry(paymentData, attempt = 1) {
+    try {
+      return await this.pr.payments.create(paymentData);
+    } catch (error) {
+      // Don't retry certain error types
+      if (error.type === 'authentication_error' || 
+          error.type === 'invalid_request_error') {
+        throw error;
+      }
+      
+      // Retry on server errors or rate limits
+      if (attempt < this.maxRetries && 
+          (error.type === 'api_error' || error.type === 'rate_limit_error')) {
+        
+        const delay = this.calculateDelay(attempt);
+        console.log(`Retry attempt ${attempt} after ${delay}ms`);
+        
+        await this.sleep(delay);
+        return this.createPaymentWithRetry(paymentData, attempt + 1);
+      }
+      
+      throw error;
+    }
+  }
+  
+  calculateDelay(attempt) {
+    // Exponential backoff with jitter
+    const baseDelay = 1000; // 1 second
+    const maxDelay = 30000; // 30 seconds
+    const delay = Math.min(baseDelay * Math.pow(2, attempt), maxDelay);
+    
+    // Add jitter (±25%)
+    const jitter = delay * 0.25 * (Math.random() * 2 - 1);
+    return Math.round(delay + jitter);
+  }
+  
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+
+// Usage
+const client = new PayRequestClient('your-api-key');
+
+async function createPayment(paymentData) {
+  try {
+    const payment = await client.createPaymentWithRetry(paymentData);
+    return { success: true, payment };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+```
+
+```python Retry Logic
+import time
+import random
+import payrequest
+
+class PayRequestClient:
+    def __init__(self, api_key):
+        self.pr = payrequest.PayRequest(api_key)
+        self.max_retries = 3
+    
+    def create_payment_with_retry(self, payment_data, attempt=1):
+        try:
+            return self.pr.payments.create(**payment_data)
+        except (payrequest.AuthenticationError, payrequest.InvalidRequestError):
+            # Don't retry these errors
+            raise
+        except (payrequest.ApiError, payrequest.RateLimitError) as e:
+            # Retry on server errors or rate limits
+            if attempt < self.max_retries:
+                delay = self.calculate_delay(attempt)
+                print(f"Retry attempt {attempt} after {delay}ms")
+                
+                time.sleep(delay / 1000)  # Convert to seconds
+                return self.create_payment_with_retry(payment_data, attempt + 1)
+            raise
+    
+    def calculate_delay(self, attempt):
+        # Exponential backoff with jitter
+        base_delay = 1000  # 1 second
+        max_delay = 30000  # 30 seconds
+        delay = min(base_delay * (2 ** attempt), max_delay)
+        
+        # Add jitter (±25%)
+        jitter = delay * 0.25 * (random.random() * 2 - 1)
+        return round(delay + jitter)
+
+# Usage
+client = PayRequestClient('your-api-key')
+
+def create_payment(payment_data):
+    try:
+        payment = client.create_payment_with_retry(payment_data)
+        return {'success': True, 'payment': payment}
+    except Exception as e:
+        return {'success': False, 'error': str(e)}
+```
+</CodeGroup>
+
+### User-Friendly Error Messages
+
+Map technical errors to user-friendly messages:
+
+<CodeGroup>
+```javascript Error Mapping
+const ERROR_MESSAGES = {
+  'invalid_api_key': 'Service temporarily unavailable. Please try again.',
+  'missing_required_parameter': 'Please fill in all required fields.',
+  'invalid_amount': 'Please enter a valid amount.',
+  'invalid_currency': 'The selected currency is not supported.',
+  'insufficient_funds': 'Insufficient funds. Please try a different payment method.',
+  'card_declined': 'Your card was declined. Please try a different card.',
+  'expired_card': 'Your card has expired. Please use a different card.',
+  'invalid_cvc': 'Invalid security code. Please check and try again.',
+  'rate_limit_exceeded': 'Too many requests. Please wait a moment and try again.'
+};
+
+function getUserFriendlyMessage(error) {
+  return ERROR_MESSAGES[error.code] || 
+         'An unexpected error occurred. Please try again.';
+}
+
+// Usage in UI
+function displayError(error) {
+  const userMessage = getUserFriendlyMessage(error);
+  document.getElementById('error-message').textContent = userMessage;
+}
+```
+
+```python Error Mapping
+ERROR_MESSAGES = {
+    'invalid_api_key': 'Service temporarily unavailable. Please try again.',
+    'missing_required_parameter': 'Please fill in all required fields.',
+    'invalid_amount': 'Please enter a valid amount.',
+    'invalid_currency': 'The selected currency is not supported.',
+    'insufficient_funds': 'Insufficient funds. Please try a different payment method.',
+    'card_declined': 'Your card was declined. Please try a different card.',
+    'expired_card': 'Your card has expired. Please use a different card.',
+    'invalid_cvc': 'Invalid security code. Please check and try again.',
+    'rate_limit_exceeded': 'Too many requests. Please wait a moment and try again.'
+}
+
+def get_user_friendly_message(error):
+    return ERROR_MESSAGES.get(
+        error.code,
+        'An unexpected error occurred. Please try again.'
+    )
+
+# Usage in web framework
+def handle_payment_error(error):
+    user_message = get_user_friendly_message(error)
+    return {'error': user_message, 'code': error.code}
+```
+</CodeGroup>
+
+## Webhook Error Handling
+
+Handle errors in webhook processing:
+
+<CodeGroup>
+```javascript Webhook Error Handling
+app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  try {
+    // Verify webhook signature
+    const signature = req.headers['payrequest-signature'];
+    if (!verifyWebhookSignature(req.body, signature, webhookSecret)) {
+      console.error('Invalid webhook signature');
+      return res.status(401).send('Invalid signature');
+    }
+    
+    const event = JSON.parse(req.body);
+    
+    // Process webhook event
+    await processWebhookEvent(event);
+    
+    res.status(200).send('OK');
+  } catch (error) {
+    console.error('Webhook processing error:', error);
+    
+    // Return 200 to prevent retries for unrecoverable errors
+    if (error.type === 'UNRECOVERABLE') {
+      return res.status(200).send('Error logged');
+    }
+    
+    // Return 500 for recoverable errors to trigger retries
+    res.status(500).send('Processing error');
+  }
+});
+
+async function processWebhookEvent(event) {
+  try {
+    switch (event.type) {
+      case 'payment.completed':
+        await fulfillOrder(event.data);
+        break;
+      case 'payment.failed':
+        await handleFailedPayment(event.data);
+        break;
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+  } catch (error) {
+    // Add to retry queue for important events
+    if (event.type === 'payment.completed') {
+      await addToRetryQueue(event);
+    }
+    throw error;
+  }
+}
+```
+
+```python Webhook Error Handling
+from flask import Flask, request
+import logging
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    try:
+        # Verify webhook signature
+        signature = request.headers.get('payrequest-signature')
+        if not verify_webhook_signature(request.data, signature, webhook_secret):
+            logging.error('Invalid webhook signature')
+            return 'Invalid signature', 401
+        
+        event = request.get_json()
+        
+        # Process webhook event
+        process_webhook_event(event)
+        
+        return 'OK', 200
+    except UnrecoverableError as e:
+        logging.error(f'Unrecoverable webhook error: {e}')
+        # Return 200 to prevent retries
+        return 'Error logged', 200
+    except Exception as e:
+        logging.error(f'Webhook processing error: {e}')
+        # Return 500 to trigger retries
+        return 'Processing error', 500
+
+def process_webhook_event(event):
+    try:
+        if event['type'] == 'payment.completed':
+            fulfill_order(event['data'])
+        elif event['type'] == 'payment.failed':
+            handle_failed_payment(event['data'])
+        else:
+            logging.info(f"Unhandled event type: {event['type']}")
+    except Exception as e:
+        # Add to retry queue for important events
+        if event['type'] == 'payment.completed':
+            add_to_retry_queue(event)
+        raise
+```
+</CodeGroup>
+
+## Error Monitoring and Logging
+
+### Structured Logging
+
+<CodeGroup>
+```javascript Structured Logging
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.errors({ stack: true }),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+function logPaymentError(error, context) {
+  logger.error('Payment error', {
+    error_code: error.code,
+    error_message: error.message,
+    error_type: error.type,
+    payment_id: context.paymentId,
+    customer_id: context.customerId,
+    amount: context.amount,
+    currency: context.currency,
+    stack: error.stack
+  });
+}
+
+// Usage
+try {
+  const payment = await pr.payments.create(paymentData);
+} catch (error) {
+  logPaymentError(error, {
+    paymentId: paymentData.id,
+    customerId: paymentData.customer?.id,
+    amount: paymentData.amount,
+    currency: paymentData.currency
+  });
+  throw error;
+}
+```
+
+```python Structured Logging
+import logging
+import json
+from datetime import datetime
+
+class PayRequestLogger:
+    def __init__(self):
+        self.logger = logging.getLogger('payrequest')
+        handler = logging.FileHandler('payrequest.log')
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
+        self.logger.setLevel(logging.INFO)
+    
+    def log_payment_error(self, error, context):
+        error_data = {
+            'timestamp': datetime.utcnow().isoformat(),
+            'error_code': getattr(error, 'code', None),
+            'error_message': str(error),
+            'error_type': type(error).__name__,
+            'payment_id': context.get('payment_id'),
+            'customer_id': context.get('customer_id'),
+            'amount': context.get('amount'),
+            'currency': context.get('currency')
+        }
+        
+        self.logger.error(f'Payment error: {json.dumps(error_data)}')
+
+# Usage
+logger = PayRequestLogger()
+
+try:
+    payment = pr.payments.create(**payment_data)
+except Exception as e:
+    logger.log_payment_error(e, {
+        'payment_id': payment_data.get('id'),
+        'customer_id': payment_data.get('customer', {}).get('id'),
+        'amount': payment_data.get('amount'),
+        'currency': payment_data.get('currency')
+    })
+    raise
+```
+</CodeGroup>
+
+### Error Alerting
+
+Set up alerts for critical errors:
+
+<CodeGroup>
+```javascript Error Alerting
+const slack = require('slack-webhook');
+
+async function sendErrorAlert(error, context) {
+  const isApiDown = error.status >= 500;
+  const isHighValueTransaction = context.amount > 100000; // $1000+
+  
+  if (isApiDown || isHighValueTransaction) {
+    await slack.send({
+      text: `🚨 PayRequest Error Alert`,
+      attachments: [{
+        color: 'danger',
+        fields: [
+          { title: 'Error', value: error.message, short: true },
+          { title: 'Code', value: error.code, short: true },
+          { title: 'Amount', value: `$${context.amount / 100}`, short: true },
+          { title: 'Payment ID', value: context.paymentId, short: true }
+        ]
+      }]
+    });
+  }
+}
+```
+
+```python Error Alerting
+import requests
+
+def send_error_alert(error, context):
+    is_api_down = getattr(error, 'status', 0) >= 500
+    is_high_value = context.get('amount', 0) > 100000  # $1000+
+    
+    if is_api_down or is_high_value:
+        webhook_url = os.getenv('SLACK_WEBHOOK_URL')
+        payload = {
+            'text': '🚨 PayRequest Error Alert',
+            'attachments': [{
+                'color': 'danger',
+                'fields': [
+                    {'title': 'Error', 'value': str(error), 'short': True},
+                    {'title': 'Code', 'value': getattr(error, 'code', 'Unknown'), 'short': True},
+                    {'title': 'Amount', 'value': f"${context.get('amount', 0) / 100}", 'short': True},
+                    {'title': 'Payment ID', 'value': context.get('payment_id', 'Unknown'), 'short': True}
+                ]
+            }]
+        }
+        requests.post(webhook_url, json=payload)
+```
+</CodeGroup>
+
+## Error Recovery Strategies
+
+### Idempotency for Recovery
+
+Use idempotency keys to safely retry operations:
+
+<CodeGroup>
+```javascript Idempotency
+const { v4: uuidv4 } = require('uuid');
+
+async function createPaymentSafely(paymentData) {
+  const idempotencyKey = uuidv4();
+  
+  try {
+    const payment = await pr.payments.create({
+      ...paymentData,
+      idempotency_key: idempotencyKey
+    });
+    
+    return { success: true, payment };
+  } catch (error) {
+    if (error.code === 'idempotency_key_already_used') {
+      // Payment already exists, retrieve it
+      const existingPayment = await pr.payments.retrieve(error.payment_id);
+      return { success: true, payment: existingPayment };
+    }
+    
+    throw error;
+  }
+}
+```
+
+```python Idempotency
+import uuid
+
+def create_payment_safely(payment_data):
+    idempotency_key = str(uuid.uuid4())
+    
+    try:
+        payment_data['idempotency_key'] = idempotency_key
+        payment = pr.payments.create(**payment_data)
+        return {'success': True, 'payment': payment}
+    except payrequest.IdempotencyError as e:
+        # Payment already exists, retrieve it
+        existing_payment = pr.payments.retrieve(e.payment_id)
+        return {'success': True, 'payment': existing_payment}
+```
+</CodeGroup>
+
+### Circuit Breaker Pattern
+
+Prevent cascading failures:
+
+<CodeGroup>
+```javascript Circuit Breaker
+class CircuitBreaker {
+  constructor(threshold = 5, timeout = 60000) {
+    this.failureThreshold = threshold;
+    this.resetTimeout = timeout;
+    this.failureCount = 0;
+    this.lastFailureTime = null;
+    this.state = 'CLOSED'; // CLOSED, OPEN, HALF_OPEN
+  }
+  
+  async call(fn) {
+    if (this.state === 'OPEN') {
+      if (Date.now() - this.lastFailureTime > this.resetTimeout) {
+        this.state = 'HALF_OPEN';
+      } else {
+        throw new Error('Circuit breaker is OPEN');
+      }
+    }
+    
+    try {
+      const result = await fn();
+      this.onSuccess();
+      return result;
+    } catch (error) {
+      this.onFailure();
+      throw error;
+    }
+  }
+  
+  onSuccess() {
+    this.failureCount = 0;
+    this.state = 'CLOSED';
+  }
+  
+  onFailure() {
+    this.failureCount++;
+    this.lastFailureTime = Date.now();
+    
+    if (this.failureCount >= this.failureThreshold) {
+      this.state = 'OPEN';
+    }
+  }
+}
+
+// Usage
+const circuitBreaker = new CircuitBreaker();
+
+async function createPaymentWithCircuitBreaker(paymentData) {
+  return circuitBreaker.call(() => pr.payments.create(paymentData));
+}
+```
+</CodeGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Graceful Degradation" icon="shield">
+    - Provide fallback functionality
+    - Show appropriate error messages
+    - Allow users to retry or use alternatives
+    - Maintain core functionality during failures
+  </Card>
+  <Card title="Monitoring & Alerting" icon="bell">
+    - Log all errors with context
+    - Set up alerts for critical errors
+    - Monitor error rates and patterns
+    - Track error resolution times
+  </Card>
+  <Card title="User Experience" icon="user">
+    - Show clear, actionable error messages
+    - Provide helpful guidance for resolution
+    - Avoid exposing technical details
+    - Offer alternative payment methods
+  </Card>
+  <Card title="Recovery Strategies" icon="refresh">
+    - Implement retry logic with exponential backoff
+    - Use idempotency for safe retries
+    - Implement circuit breakers for cascading failures
+    - Have rollback mechanisms for failed operations
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Rate Limits"
+    icon="gauge"
+    href="/essentials/rate-limits"
+  >
+    Learn about API rate limiting
+  </Card>
+  <Card
+    title="Testing"
+    icon="flask"
+    href="/essentials/testing"
+  >
+    Test your error handling
+  </Card>
+  <Card
+    title="Security"
+    icon="shield"
+    href="/essentials/security"
+  >
+    Secure error handling practices
+  </Card>
+  <Card
+    title="Monitoring"
+    icon="chart-line"
+    href="/essentials/monitoring"
+  >
+    Monitor and track errors
+  </Card>
+</CardGroup>

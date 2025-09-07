@@ -1,0 +1,641 @@
+---
+title: 'Webhooks API'
+description: 'Manage webhook endpoints and event subscriptions'
+---
+
+# Webhooks API
+
+The Webhooks API allows you to manage webhook endpoints that receive real-time notifications about events in your PayRequest account.
+
+## Webhook Endpoint Object
+
+A webhook endpoint object represents a URL that receives webhook events.
+
+```json Webhook Endpoint Object
+{
+  "id": "we_1234567890",
+  "url": "https://yoursite.com/webhook",
+  "events": [
+    "payment.created",
+    "payment.completed",
+    "payment.failed"
+  ],
+  "active": true,
+  "secret": "whsec_1234567890abcdef",
+  "created_at": "2024-01-15T10:30:00Z",
+  "updated_at": "2024-01-15T10:30:00Z"
+}
+```
+
+## Create Webhook Endpoint
+
+Create a new webhook endpoint to receive event notifications.
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://api.payrequest.io/v1/webhooks \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://yoursite.com/webhook",
+    "events": [
+      "payment.created",
+      "payment.completed",
+      "payment.failed"
+    ]
+  }'
+```
+
+```javascript JavaScript
+const webhook = await payrequest.webhooks.create({
+  url: 'https://yoursite.com/webhook',
+  events: [
+    'payment.created',
+    'payment.completed',
+    'payment.failed'
+  ]
+});
+```
+
+```python Python
+webhook = payrequest.webhooks.create(
+    url='https://yoursite.com/webhook',
+    events=[
+        'payment.created',
+        'payment.completed',
+        'payment.failed'
+    ]
+)
+```
+
+```php PHP
+$webhook = $payrequest->webhooks->create([
+    'url' => 'https://yoursite.com/webhook',
+    'events' => [
+        'payment.created',
+        'payment.completed',
+        'payment.failed'
+    ]
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **url** *string* **required**  
+  The HTTPS URL where webhook events will be sent
+
+- **events** *array* **required**  
+  Array of event types to subscribe to
+
+- **description** *string* *optional*  
+  Description of the webhook endpoint
+
+### Supported Events
+
+<AccordionGroup>
+  <Accordion title="Payment Events" icon="credit-card">
+    - `payment.created` - Payment request created
+    - `payment.completed` - Payment successfully completed
+    - `payment.failed` - Payment attempt failed
+    - `payment.cancelled` - Payment was cancelled
+    - `payment.expired` - Payment request expired
+  </Accordion>
+  
+  <Accordion title="Customer Events" icon="user">
+    - `customer.created` - New customer created
+    - `customer.updated` - Customer information updated
+    - `customer.deleted` - Customer was deleted
+  </Accordion>
+  
+  <Accordion title="Subscription Events" icon="refresh">
+    - `subscription.created` - New subscription created
+    - `subscription.updated` - Subscription modified
+    - `subscription.cancelled` - Subscription cancelled
+    - `subscription.payment_succeeded` - Recurring payment succeeded
+    - `subscription.payment_failed` - Recurring payment failed
+  </Accordion>
+  
+  <Accordion title="Dispute Events" icon="gavel">
+    - `dispute.created` - Chargeback or dispute created
+    - `dispute.updated` - Dispute status changed
+    - `dispute.resolved` - Dispute resolved
+  </Accordion>
+</AccordionGroup>
+
+### Returns
+
+Returns a webhook endpoint object if successful, including a secret for signature verification.
+
+## Retrieve Webhook Endpoint
+
+Retrieve details of an existing webhook endpoint.
+
+<CodeGroup>
+```bash cURL
+curl https://api.payrequest.io/v1/webhooks/we_1234567890 \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+const webhook = await payrequest.webhooks.retrieve('we_1234567890');
+```
+
+```python Python
+webhook = payrequest.webhooks.retrieve('we_1234567890')
+```
+
+```php PHP
+$webhook = $payrequest->webhooks->retrieve('we_1234567890');
+```
+</CodeGroup>
+
+### Parameters
+
+- **id** *string* **required**  
+  The ID of the webhook endpoint to retrieve
+
+### Returns
+
+Returns a webhook endpoint object if valid ID is provided.
+
+## Update Webhook Endpoint
+
+Update an existing webhook endpoint's configuration.
+
+<CodeGroup>
+```bash cURL
+curl -X PATCH https://api.payrequest.io/v1/webhooks/we_1234567890 \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "events": [
+      "payment.completed",
+      "payment.failed"
+    ],
+    "active": false
+  }'
+```
+
+```javascript JavaScript
+const webhook = await payrequest.webhooks.update('we_1234567890', {
+  events: ['payment.completed', 'payment.failed'],
+  active: false
+});
+```
+
+```python Python
+webhook = payrequest.webhooks.update('we_1234567890', {
+    'events': ['payment.completed', 'payment.failed'],
+    'active': False
+})
+```
+
+```php PHP
+$webhook = $payrequest->webhooks->update('we_1234567890', [
+    'events' => ['payment.completed', 'payment.failed'],
+    'active' => false
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **url** *string* *optional*  
+  Update the webhook URL
+
+- **events** *array* *optional*  
+  Update the subscribed events
+
+- **active** *boolean* *optional*  
+  Enable or disable the webhook
+
+- **description** *string* *optional*  
+  Update the description
+
+### Returns
+
+Returns the updated webhook endpoint object.
+
+## List Webhook Endpoints
+
+List all webhook endpoints for your account.
+
+<CodeGroup>
+```bash cURL
+curl "https://api.payrequest.io/v1/webhooks?limit=10" \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+const webhooks = await payrequest.webhooks.list({
+  limit: 10
+});
+```
+
+```python Python
+webhooks = payrequest.webhooks.list(limit=10)
+```
+
+```php PHP
+$webhooks = $payrequest->webhooks->all(['limit' => 10]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **limit** *integer* *optional*  
+  Number of webhooks to return (1-100, default: 10)
+
+- **offset** *integer* *optional*  
+  Number of webhooks to skip
+
+### Returns
+
+Returns a list of webhook endpoint objects.
+
+## Delete Webhook Endpoint
+
+Delete a webhook endpoint permanently.
+
+<CodeGroup>
+```bash cURL
+curl -X DELETE https://api.payrequest.io/v1/webhooks/we_1234567890 \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+await payrequest.webhooks.delete('we_1234567890');
+```
+
+```python Python
+payrequest.webhooks.delete('we_1234567890')
+```
+
+```php PHP
+$payrequest->webhooks->delete('we_1234567890');
+```
+</CodeGroup>
+
+### Returns
+
+Returns a confirmation object on successful deletion.
+
+## Test Webhook Endpoint
+
+Send a test event to a webhook endpoint to verify it's working correctly.
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://api.payrequest.io/v1/webhooks/we_1234567890/test \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event_type": "payment.completed"
+  }'
+```
+
+```javascript JavaScript
+const testResult = await payrequest.webhooks.test('we_1234567890', {
+  event_type: 'payment.completed'
+});
+```
+
+```python Python
+test_result = payrequest.webhooks.test('we_1234567890', {
+    'event_type': 'payment.completed'
+})
+```
+
+```php PHP
+$testResult = $payrequest->webhooks->test('we_1234567890', [
+    'event_type' => 'payment.completed'
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **event_type** *string* **required**  
+  The type of test event to send
+
+### Returns
+
+Returns the HTTP response status and any error details from your endpoint.
+
+## Webhook Event Object
+
+When events occur, PayRequest sends HTTP POST requests to your webhook URLs with event data.
+
+```json Webhook Event Object
+{
+  "id": "evt_1234567890",
+  "type": "payment.completed",
+  "created_at": "2024-01-15T10:35:00Z",
+  "data": {
+    "id": "pay_1234567890",
+    "amount": 2500,
+    "currency": "USD",
+    "status": "completed",
+    "description": "Product purchase",
+    "customer": {
+      "id": "cust_1234567890",
+      "email": "customer@example.com",
+      "name": "John Doe"
+    },
+    "metadata": {
+      "order_id": "ORD-12345"
+    },
+    "completed_at": "2024-01-15T10:35:00Z"
+  }
+}
+```
+
+### Event Properties
+
+- **id** *string*  
+  Unique identifier for the event
+
+- **type** *string*  
+  The type of event that occurred
+
+- **created_at** *timestamp*  
+  When the event was created
+
+- **data** *object*  
+  The object that the event relates to
+
+## Signature Verification
+
+All webhook requests include a signature in the `PayRequest-Signature` header that you should verify.
+
+<CodeGroup>
+```javascript Signature Verification
+const crypto = require('crypto');
+
+function verifyWebhookSignature(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(payload, 'utf8')
+    .digest('hex');
+  
+  return signature === `sha256=${expectedSignature}`;
+}
+
+// In your webhook handler
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['payrequest-signature'];
+  const payload = req.body;
+  
+  if (!verifyWebhookSignature(payload, signature, webhookSecret)) {
+    return res.status(401).send('Invalid signature');
+  }
+  
+  const event = JSON.parse(payload);
+  // Process the event...
+  
+  res.status(200).send('OK');
+});
+```
+
+```python Signature Verification
+import hmac
+import hashlib
+
+def verify_webhook_signature(payload, signature, secret):
+    expected_signature = hmac.new(
+        secret.encode('utf-8'),
+        payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    return signature == f'sha256={expected_signature}'
+
+# In your webhook handler
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('payrequest-signature')
+    payload = request.get_data(as_text=True)
+    
+    if not verify_webhook_signature(payload, signature, webhook_secret):
+        return 'Invalid signature', 401
+    
+    event = request.get_json()
+    # Process the event...
+    
+    return 'OK', 200
+```
+
+```php Signature Verification
+<?php
+function verifyWebhookSignature($payload, $signature, $secret) {
+    $expectedSignature = 'sha256=' . hash_hmac('sha256', $payload, $secret);
+    return hash_equals($expectedSignature, $signature);
+}
+
+// In your webhook handler
+$signature = $_SERVER['HTTP_PAYREQUEST_SIGNATURE'];
+$payload = file_get_contents('php://input');
+
+if (!verifyWebhookSignature($payload, $signature, $webhookSecret)) {
+    http_response_code(401);
+    exit('Invalid signature');
+}
+
+$event = json_decode($payload, true);
+// Process the event...
+
+http_response_code(200);
+echo 'OK';
+?>
+```
+</CodeGroup>
+
+## Best Practices
+
+### Endpoint Security
+
+<CardGroup cols={2}>
+  <Card title="HTTPS Required" icon="shield">
+    All webhook URLs must use HTTPS to ensure secure transmission of sensitive data.
+  </Card>
+  <Card title="Signature Verification" icon="key">
+    Always verify webhook signatures to ensure requests are from PayRequest.
+  </Card>
+  <Card title="Idempotency" icon="refresh">
+    Handle duplicate events gracefully by implementing idempotency checks.
+  </Card>
+  <Card title="Quick Response" icon="zap">
+    Return HTTP 200 status codes quickly to avoid timeouts and retries.
+  </Card>
+</CardGroup>
+
+### Error Handling
+
+<AccordionGroup>
+  <Accordion title="Retry Logic" icon="refresh">
+    PayRequest automatically retries failed webhook deliveries with exponential backoff:
+    
+    - **Immediate retry** after failure
+    - **5 minutes** after first retry
+    - **30 minutes** after second retry
+    - **2 hours** after third retry
+    - **8 hours** after fourth retry
+    
+    After 5 failed attempts, the webhook is marked as failed.
+  </Accordion>
+  
+  <Accordion title="Status Codes" icon="code">
+    Return appropriate HTTP status codes:
+    
+    - **200-299**: Success (stops retries)
+    - **400-499**: Client error (stops retries)
+    - **500-599**: Server error (triggers retries)
+  </Accordion>
+  
+  <Accordion title="Timeout Handling" icon="clock">
+    PayRequest waits up to 30 seconds for your endpoint to respond. Ensure your webhook handlers complete within this time.
+  </Accordion>
+</AccordionGroup>
+
+### Event Processing
+
+<CodeGroup>
+```javascript Event Processing
+app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const event = JSON.parse(req.body);
+  
+  // Acknowledge receipt immediately
+  res.status(200).send('OK');
+  
+  // Process event asynchronously
+  processEventAsync(event);
+});
+
+async function processEventAsync(event) {
+  try {
+    switch (event.type) {
+      case 'payment.completed':
+        await fulfillOrder(event.data);
+        await sendConfirmationEmail(event.data);
+        break;
+        
+      case 'payment.failed':
+        await notifyCustomer(event.data);
+        await updateOrderStatus(event.data, 'failed');
+        break;
+        
+      case 'subscription.payment_succeeded':
+        await extendServiceAccess(event.data);
+        break;
+        
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    // Consider adding to a retry queue
+  }
+}
+```
+
+```python Event Processing
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    event = request.get_json()
+    
+    # Acknowledge receipt immediately
+    # Process event asynchronously
+    process_event_async.delay(event)
+    
+    return 'OK', 200
+
+@celery.task
+def process_event_async(event):
+    try:
+        if event['type'] == 'payment.completed':
+            fulfill_order(event['data'])
+            send_confirmation_email(event['data'])
+        elif event['type'] == 'payment.failed':
+            notify_customer(event['data'])
+            update_order_status(event['data'], 'failed')
+        elif event['type'] == 'subscription.payment_succeeded':
+            extend_service_access(event['data'])
+        else:
+            print(f"Unhandled event type: {event['type']}")
+    except Exception as e:
+        print(f"Error processing webhook: {e}")
+        # Consider adding to a retry queue
+```
+</CodeGroup>
+
+## Webhook Monitoring
+
+### Delivery Status
+
+Monitor webhook delivery status in your dashboard:
+
+- **Successful Deliveries**: Events delivered successfully
+- **Failed Deliveries**: Events that failed after all retries
+- **Response Times**: Average response time from your endpoints
+- **Error Rates**: Percentage of failed deliveries
+
+### Debugging Failed Webhooks
+
+<AccordionGroup>
+  <Accordion title="Check Endpoint URL" icon="link">
+    Ensure your webhook URL is:
+    - Publicly accessible
+    - Using HTTPS
+    - Returning proper status codes
+    - Not behind authentication
+  </Accordion>
+  
+  <Accordion title="Verify Signature Handling" icon="key">
+    Common signature verification issues:
+    - Using wrong webhook secret
+    - Incorrect signature calculation
+    - Body modification by middleware
+  </Accordion>
+  
+  <Accordion title="Review Logs" icon="file-text">
+    Check your server logs for:
+    - Incoming webhook requests
+    - Processing errors
+    - Response times
+    - Memory or timeout issues
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Webhook Guide"
+    icon="webhook"
+    href="/essentials/webhooks"
+  >
+    Complete webhook implementation guide
+  </Card>
+  <Card
+    title="Event Types"
+    icon="list"
+    href="/api-reference/webhook-events"
+  >
+    All available webhook events
+  </Card>
+  <Card
+    title="Security"
+    icon="shield"
+    href="/essentials/security"
+  >
+    Webhook security best practices
+  </Card>
+  <Card
+    title="Testing"
+    icon="flask"
+    href="/essentials/testing"
+  >
+    Test your webhook integration
+  </Card>
+</CardGroup>

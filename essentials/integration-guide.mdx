@@ -1,0 +1,754 @@
+---
+title: 'Integration Guide'
+description: 'Step-by-step guide to integrating PayRequest into your application'
+---
+
+# Integration Guide
+
+This comprehensive guide walks you through integrating PayRequest into your application, from basic setup to advanced features. Choose the integration method that best fits your needs and technical requirements.
+
+## Integration Options
+
+<CardGroup cols={2}>
+  <Card title="Payment Links" icon="link">
+    **Best for**: Quick setup, no-code solutions
+    
+    **Time to integrate**: 5 minutes
+    
+    **Technical knowledge**: None required
+  </Card>
+  <Card title="API Integration" icon="code">
+    **Best for**: Custom experiences, full control
+    
+    **Time to integrate**: 2-4 hours
+    
+    **Technical knowledge**: Developer required
+  </Card>
+  <Card title="Hosted Checkout" icon="browser">
+    **Best for**: Secure, PCI-compliant checkout
+    
+    **Time to integrate**: 30 minutes
+    
+    **Technical knowledge**: Basic web development
+  </Card>
+  <Card title="Embedded Forms" icon="window">
+    **Best for**: Seamless user experience
+    
+    **Time to integrate**: 4-8 hours
+    
+    **Technical knowledge**: Advanced developer
+  </Card>
+</CardGroup>
+
+## Option 1: Payment Links (No Code)
+
+Perfect for businesses that need to start accepting payments immediately without any technical setup.
+
+### Step 1: Create Payment Links
+
+<Steps>
+  <Step title="Access Dashboard">
+    Log into your PayRequest dashboard at [dashboard.payrequest.io](https://dashboard.payrequest.io)
+  </Step>
+  <Step title="Create Payment">
+    1. Click **"Create Payment"**
+    2. Enter payment details (amount, description)
+    3. Add customer information (optional)
+    4. Set expiration date (optional)
+    5. Click **"Generate Link"**
+  </Step>
+  <Step title="Share Link">
+    Copy the generated link and share it with your customer via:
+    - Email
+    - SMS
+    - Social media
+    - Website/app
+  </Step>
+</Steps>
+
+### Example Payment Link
+```
+https://payrequest.io/p/pay_1234567890abcdef
+```
+
+### Use Cases
+- **Invoicing**: Send payment requests to customers
+- **E-commerce**: Simple "Buy Now" buttons
+- **Services**: Collect payment for completed work
+- **Donations**: Accept charitable contributions
+
+## Option 2: Hosted Checkout
+
+Redirect customers to a secure PayRequest-hosted checkout page.
+
+### Step 1: Create Payment via API
+
+<CodeGroup>
+```javascript Node.js
+const payrequest = require('@payrequest/node');
+const pr = new payrequest('your-api-key');
+
+async function createPayment() {
+  const payment = await pr.payments.create({
+    amount: 2500, // $25.00 in cents
+    currency: 'USD',
+    description: 'Product Purchase',
+    success_url: 'https://yoursite.com/success',
+    cancel_url: 'https://yoursite.com/cancel',
+    webhook_url: 'https://yoursite.com/webhook'
+  });
+  
+  return payment.payment_url;
+}
+```
+
+```python Python
+import payrequest
+
+pr = payrequest.PayRequest('your-api-key')
+
+def create_payment():
+    payment = pr.payments.create(
+        amount=2500,  # $25.00 in cents
+        currency='USD',
+        description='Product Purchase',
+        success_url='https://yoursite.com/success',
+        cancel_url='https://yoursite.com/cancel',
+        webhook_url='https://yoursite.com/webhook'
+    )
+    
+    return payment['payment_url']
+```
+
+```php PHP
+<?php
+require_once 'vendor/autoload.php';
+
+$payrequest = new \PayRequest\PayRequest('your-api-key');
+
+function createPayment() {
+    $payment = $payrequest->payments->create([
+        'amount' => 2500, // $25.00 in cents
+        'currency' => 'USD',
+        'description' => 'Product Purchase',
+        'success_url' => 'https://yoursite.com/success',
+        'cancel_url' => 'https://yoursite.com/cancel',
+        'webhook_url' => 'https://yoursite.com/webhook'
+    ]);
+    
+    return $payment['payment_url'];
+}
+?>
+```
+</CodeGroup>
+
+### Step 2: Redirect Customer
+
+```html
+<!-- Redirect button -->
+<button onclick="redirectToPayment()">Pay Now</button>
+
+<script>
+async function redirectToPayment() {
+  const response = await fetch('/create-payment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      amount: 2500,
+      description: 'Product Purchase'
+    })
+  });
+  
+  const { payment_url } = await response.json();
+  window.location.href = payment_url;
+}
+</script>
+```
+
+### Step 3: Handle Return URLs
+
+<Tabs>
+  <Tab title="Success Page">
+    ```html
+    <!-- success.html -->
+    <div class="success-message">
+      <h1>Payment Successful!</h1>
+      <p>Thank you for your purchase.</p>
+      <p>You will receive a confirmation email shortly.</p>
+    </div>
+    ```
+  </Tab>
+
+  <Tab title="Cancel Page">
+    ```html
+    <!-- cancel.html -->
+    <div class="cancel-message">
+      <h1>Payment Cancelled</h1>
+      <p>Your payment was cancelled.</p>
+      <a href="/checkout">Try Again</a>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## Option 3: API Integration
+
+Full programmatic control over the payment flow.
+
+### Step 1: Set Up Backend
+
+<CodeGroup>
+```javascript Express.js
+const express = require('express');
+const payrequest = require('@payrequest/node');
+
+const app = express();
+const pr = new payrequest(process.env.PAYREQUEST_API_KEY);
+
+app.use(express.json());
+
+// Create payment endpoint
+app.post('/api/payments', async (req, res) => {
+  try {
+    const { amount, description, customer } = req.body;
+    
+    const payment = await pr.payments.create({
+      amount: amount,
+      currency: 'USD',
+      description: description,
+      recipient: customer,
+      webhook_url: 'https://yoursite.com/webhook'
+    });
+    
+    res.json(payment);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Webhook endpoint
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const event = JSON.parse(req.body);
+  
+  switch (event.type) {
+    case 'payment.completed':
+      // Fulfill order
+      fulfillOrder(event.data);
+      break;
+    case 'payment.failed':
+      // Handle failure
+      handleFailedPayment(event.data);
+      break;
+  }
+  
+  res.status(200).send('OK');
+});
+
+app.listen(3000);
+```
+
+```python Flask
+from flask import Flask, request, jsonify
+import payrequest
+import os
+
+app = Flask(__name__)
+pr = payrequest.PayRequest(os.getenv('PAYREQUEST_API_KEY'))
+
+@app.route('/api/payments', methods=['POST'])
+def create_payment():
+    try:
+        data = request.get_json()
+        
+        payment = pr.payments.create(
+            amount=data['amount'],
+            currency='USD',
+            description=data['description'],
+            recipient=data.get('customer'),
+            webhook_url='https://yoursite.com/webhook'
+        )
+        
+        return jsonify(payment)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    event = request.get_json()
+    
+    if event['type'] == 'payment.completed':
+        fulfill_order(event['data'])
+    elif event['type'] == 'payment.failed':
+        handle_failed_payment(event['data'])
+    
+    return 'OK', 200
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+</CodeGroup>
+
+### Step 2: Frontend Implementation
+
+<CodeGroup>
+```javascript React
+import React, { useState } from 'react';
+
+function PaymentForm() {
+  const [payment, setPayment] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const createPayment = async (formData) => {
+    setLoading(true);
+    
+    try {
+      const response = await fetch('/api/payments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      const payment = await response.json();
+      setPayment(payment);
+    } catch (error) {
+      console.error('Error creating payment:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    createPayment({
+      amount: parseInt(formData.get('amount')) * 100, // Convert to cents
+      description: formData.get('description'),
+      customer: {
+        email: formData.get('email'),
+        name: formData.get('name')
+      }
+    });
+  };
+
+  if (payment) {
+    return (
+      <div className="payment-created">
+        <h2>Payment Created</h2>
+        <p>Payment ID: {payment.id}</p>
+        <a href={payment.payment_url}>Complete Payment</a>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Amount ($):</label>
+        <input type="number" name="amount" required />
+      </div>
+      <div>
+        <label>Description:</label>
+        <input type="text" name="description" required />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input type="email" name="email" required />
+      </div>
+      <div>
+        <label>Name:</label>
+        <input type="text" name="name" required />
+      </div>
+      <button type="submit" disabled={loading}>
+        {loading ? 'Creating...' : 'Create Payment'}
+      </button>
+    </form>
+  );
+}
+
+export default PaymentForm;
+```
+
+```html Vanilla JavaScript
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Form</title>
+</head>
+<body>
+    <form id="payment-form">
+        <div>
+            <label>Amount ($):</label>
+            <input type="number" id="amount" required>
+        </div>
+        <div>
+            <label>Description:</label>
+            <input type="text" id="description" required>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" id="email" required>
+        </div>
+        <div>
+            <label>Name:</label>
+            <input type="text" id="name" required>
+        </div>
+        <button type="submit">Create Payment</button>
+    </form>
+
+    <div id="payment-result" style="display: none;">
+        <h2>Payment Created</h2>
+        <p>Payment ID: <span id="payment-id"></span></p>
+        <a id="payment-link" href="#">Complete Payment</a>
+    </div>
+
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                amount: parseInt(document.getElementById('amount').value) * 100,
+                description: document.getElementById('description').value,
+                customer: {
+                    email: document.getElementById('email').value,
+                    name: document.getElementById('name').value
+                }
+            };
+            
+            try {
+                const response = await fetch('/api/payments', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const payment = await response.json();
+                
+                document.getElementById('payment-form').style.display = 'none';
+                document.getElementById('payment-result').style.display = 'block';
+                document.getElementById('payment-id').textContent = payment.id;
+                document.getElementById('payment-link').href = payment.payment_url;
+            } catch (error) {
+                alert('Error creating payment: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
+```
+</CodeGroup>
+
+## Option 4: Embedded Forms
+
+Integrate payment forms directly into your website using PayRequest.js.
+
+### Step 1: Include PayRequest.js
+
+```html
+<script src="https://js.payrequest.io/v1/payrequest.js"></script>
+```
+
+### Step 2: Initialize PayRequest
+
+```javascript
+const payrequest = PayRequest('your-publishable-key');
+```
+
+### Step 3: Create Payment Form
+
+```html
+<form id="payment-form">
+  <div id="card-element">
+    <!-- PayRequest Elements will create form elements here -->
+  </div>
+  <button id="submit-button">Pay Now</button>
+</form>
+
+<script>
+// Create card element
+const cardElement = payrequest.elements().create('card');
+cardElement.mount('#card-element');
+
+// Handle form submission
+document.getElementById('payment-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const { token, error } = await payrequest.createToken(cardElement);
+  
+  if (error) {
+    console.error('Error:', error);
+    return;
+  }
+  
+  // Send token to your server
+  const response = await fetch('/process-payment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: token.id })
+  });
+  
+  const result = await response.json();
+  
+  if (result.success) {
+    // Payment successful
+    window.location.href = '/success';
+  } else {
+    // Handle error
+    console.error('Payment failed:', result.error);
+  }
+});
+</script>
+```
+
+## Webhook Implementation
+
+Essential for all integration types to receive real-time payment updates.
+
+### Basic Webhook Handler
+
+<CodeGroup>
+```javascript Node.js
+const crypto = require('crypto');
+
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['payrequest-signature'];
+  const payload = req.body;
+  
+  // Verify webhook signature
+  const expectedSignature = crypto
+    .createHmac('sha256', process.env.PAYREQUEST_WEBHOOK_SECRET)
+    .update(payload)
+    .digest('hex');
+  
+  if (signature !== `sha256=${expectedSignature}`) {
+    return res.status(401).send('Invalid signature');
+  }
+  
+  const event = JSON.parse(payload);
+  
+  // Handle different event types
+  switch (event.type) {
+    case 'payment.completed':
+      handlePaymentCompleted(event.data);
+      break;
+    case 'payment.failed':
+      handlePaymentFailed(event.data);
+      break;
+    case 'payment.cancelled':
+      handlePaymentCancelled(event.data);
+      break;
+    default:
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+  
+  res.status(200).send('OK');
+});
+
+function handlePaymentCompleted(payment) {
+  // Update order status
+  // Send confirmation email
+  // Fulfill order
+  console.log(`Payment completed: ${payment.id}`);
+}
+
+function handlePaymentFailed(payment) {
+  // Log failure
+  // Notify customer
+  // Update order status
+  console.log(`Payment failed: ${payment.id}`);
+}
+
+function handlePaymentCancelled(payment) {
+  // Clean up order
+  // Notify customer
+  console.log(`Payment cancelled: ${payment.id}`);
+}
+```
+
+```python Flask
+import hmac
+import hashlib
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('payrequest-signature')
+    payload = request.get_data()
+    
+    # Verify webhook signature
+    expected_signature = hmac.new(
+        os.getenv('PAYREQUEST_WEBHOOK_SECRET').encode(),
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+    
+    if signature != f'sha256={expected_signature}':
+        return 'Invalid signature', 401
+    
+    event = request.get_json()
+    
+    # Handle different event types
+    if event['type'] == 'payment.completed':
+        handle_payment_completed(event['data'])
+    elif event['type'] == 'payment.failed':
+        handle_payment_failed(event['data'])
+    elif event['type'] == 'payment.cancelled':
+        handle_payment_cancelled(event['data'])
+    
+    return 'OK', 200
+
+def handle_payment_completed(payment):
+    # Update order status
+    # Send confirmation email
+    # Fulfill order
+    print(f"Payment completed: {payment['id']}")
+
+def handle_payment_failed(payment):
+    # Log failure
+    # Notify customer
+    # Update order status
+    print(f"Payment failed: {payment['id']}")
+
+def handle_payment_cancelled(payment):
+    # Clean up order
+    # Notify customer
+    print(f"Payment cancelled: {payment['id']}")
+```
+</CodeGroup>
+
+## Testing Your Integration
+
+### Test Environment
+
+1. **Use test API keys** from your dashboard
+2. **Use sandbox URLs**:
+   - API: `https://api.sandbox.payrequest.io/v1`
+   - Checkout: `https://checkout.sandbox.payrequest.io`
+
+### Test Cards
+
+Use these test card numbers:
+
+```
+Successful: 4111 1111 1111 1111
+Declined: 4000 0000 0000 0002
+Insufficient Funds: 4000 0000 0000 9995
+```
+
+### Testing Checklist
+
+<AccordionGroup>
+  <Accordion title="Payment Creation" icon="plus">
+    - [ ] Payment creates successfully
+    - [ ] Correct amount and currency
+    - [ ] Proper error handling
+    - [ ] Metadata includes correctly
+  </Accordion>
+  
+  <Accordion title="Payment Flow" icon="arrow-right">
+    - [ ] Customer can access payment page
+    - [ ] Payment form works correctly
+    - [ ] Success/failure states handled
+    - [ ] Return URLs work properly
+  </Accordion>
+  
+  <Accordion title="Webhooks" icon="webhook">
+    - [ ] Webhook endpoint receives events
+    - [ ] Signature verification works
+    - [ ] All event types handled
+    - [ ] Idempotency implemented
+  </Accordion>
+  
+  <Accordion title="Error Handling" icon="triangle-exclamation">
+    - [ ] API errors handled gracefully
+    - [ ] User-friendly error messages
+    - [ ] Retry logic implemented
+    - [ ] Logging for debugging
+  </Accordion>
+</AccordionGroup>
+
+## Going Live
+
+### Pre-launch Checklist
+
+<Steps>
+  <Step title="Switch to Live Keys">
+    Replace test API keys with live keys from your dashboard
+  </Step>
+  <Step title="Update Endpoints">
+    Change API endpoints from sandbox to production
+  </Step>
+  <Step title="Configure Webhooks">
+    Update webhook URLs to point to production
+  </Step>
+  <Step title="Test in Production">
+    Process a small test payment to verify everything works
+  </Step>
+  <Step title="Monitor">
+    Set up monitoring and alerting for your payment system
+  </Step>
+</Steps>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Security" icon="shield">
+    - Always use HTTPS
+    - Verify webhook signatures
+    - Keep API keys secure
+    - Implement proper error handling
+  </Card>
+  <Card title="User Experience" icon="user">
+    - Clear payment flows
+    - Mobile-friendly design
+    - Progress indicators
+    - Helpful error messages
+  </Card>
+  <Card title="Performance" icon="gauge">
+    - Asynchronous processing
+    - Proper caching
+    - Database optimization
+    - Load testing
+  </Card>
+  <Card title="Monitoring" icon="chart-line">
+    - Log all transactions
+    - Monitor success rates
+    - Track conversion metrics
+    - Set up alerts
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card
+    title="API Documentation"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Complete API reference
+  </Card>
+  <Card
+    title="Support"
+    icon="life-ring"
+    href="mailto:support@payrequest.io"
+  >
+    Get help from our team
+  </Card>
+  <Card
+    title="Community"
+    icon="users"
+    href="https://community.payrequest.io"
+  >
+    Join our developer community
+  </Card>
+  <Card
+    title="Examples"
+    icon="code"
+    href="https://github.com/payrequest/examples"
+  >
+    Code examples and demos
+  </Card>
+</CardGroup>

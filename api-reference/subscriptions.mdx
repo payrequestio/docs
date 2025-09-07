@@ -1,0 +1,706 @@
+---
+title: 'Subscriptions API'
+description: 'Manage recurring payments and subscription billing'
+---
+
+# Subscriptions API
+
+The Subscriptions API allows you to create and manage recurring payment schedules for subscription-based services, memberships, and other recurring billing scenarios.
+
+## Subscription Object
+
+A subscription object represents a recurring billing arrangement between you and a customer.
+
+```json Subscription Object
+{
+  "id": "sub_1234567890",
+  "customer_id": "cust_1234567890",
+  "plan_id": "plan_monthly_premium",
+  "status": "active",
+  "amount": 2999,
+  "currency": "USD",
+  "interval": "month",
+  "interval_count": 1,
+  "trial_period_days": 7,
+  "billing_cycle_anchor": "2024-01-15T10:30:00Z",
+  "current_period_start": "2024-01-15T10:30:00Z",
+  "current_period_end": "2024-02-15T10:30:00Z",
+  "cancel_at_period_end": false,
+  "cancelled_at": null,
+  "ended_at": null,
+  "metadata": {
+    "plan_name": "Premium Plan",
+    "features": "unlimited_access"
+  },
+  "created_at": "2024-01-15T10:30:00Z",
+  "updated_at": "2024-01-15T10:30:00Z"
+}
+```
+
+## Create Subscription
+
+Create a new subscription for a customer.
+
+<CodeGroup>
+```bash cURL
+curl -X POST https://api.payrequest.io/v1/subscriptions \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "customer_id": "cust_1234567890",
+    "amount": 2999,
+    "currency": "USD",
+    "interval": "month",
+    "trial_period_days": 7
+  }'
+```
+
+```javascript JavaScript
+const subscription = await payrequest.subscriptions.create({
+  customer_id: 'cust_1234567890',
+  amount: 2999, // $29.99
+  currency: 'USD',
+  interval: 'month',
+  trial_period_days: 7
+});
+```
+
+```python Python
+subscription = payrequest.subscriptions.create(
+    customer_id='cust_1234567890',
+    amount=2999,  # $29.99
+    currency='USD',
+    interval='month',
+    trial_period_days=7
+)
+```
+
+```php PHP
+$subscription = $payrequest->subscriptions->create([
+    'customer_id' => 'cust_1234567890',
+    'amount' => 2999, // $29.99
+    'currency' => 'USD',
+    'interval' => 'month',
+    'trial_period_days' => 7
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **customer_id** *string* **required**  
+  The customer who will be billed for this subscription
+
+- **amount** *integer* **required**  
+  Amount to charge for each billing cycle (in cents)
+
+- **currency** *string* **required**  
+  Three-letter ISO currency code
+
+- **interval** *string* **required**  
+  Billing frequency: `day`, `week`, `month`, or `year`
+
+- **interval_count** *integer* *optional*  
+  Number of intervals between charges (default: 1)
+
+- **trial_period_days** *integer* *optional*  
+  Number of days for the trial period
+
+- **billing_cycle_anchor** *timestamp* *optional*  
+  Specific date to start billing cycles
+
+- **metadata** *object* *optional*  
+  Custom metadata for the subscription
+
+### Returns
+
+Returns a subscription object if successful. The subscription will start immediately unless a trial period is specified.
+
+## Retrieve Subscription
+
+Retrieve details of an existing subscription.
+
+<CodeGroup>
+```bash cURL
+curl https://api.payrequest.io/v1/subscriptions/sub_1234567890 \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+const subscription = await payrequest.subscriptions.retrieve('sub_1234567890');
+```
+
+```python Python
+subscription = payrequest.subscriptions.retrieve('sub_1234567890')
+```
+
+```php PHP
+$subscription = $payrequest->subscriptions->retrieve('sub_1234567890');
+```
+</CodeGroup>
+
+### Parameters
+
+- **id** *string* **required**  
+  The ID of the subscription to retrieve
+
+### Returns
+
+Returns a subscription object if a valid subscription ID is provided.
+
+## Update Subscription
+
+Update an existing subscription's details.
+
+<CodeGroup>
+```bash cURL
+curl -X PATCH https://api.payrequest.io/v1/subscriptions/sub_1234567890 \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 3499,
+    "metadata": {
+      "plan_name": "Premium Plus Plan"
+    }
+  }'
+```
+
+```javascript JavaScript
+const subscription = await payrequest.subscriptions.update('sub_1234567890', {
+  amount: 3499, // $34.99
+  metadata: {
+    plan_name: 'Premium Plus Plan'
+  }
+});
+```
+
+```python Python
+subscription = payrequest.subscriptions.update('sub_1234567890', {
+    'amount': 3499,  # $34.99
+    'metadata': {
+        'plan_name': 'Premium Plus Plan'
+    }
+})
+```
+
+```php PHP
+$subscription = $payrequest->subscriptions->update('sub_1234567890', [
+    'amount' => 3499, // $34.99
+    'metadata' => [
+        'plan_name' => 'Premium Plus Plan'
+    ]
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **amount** *integer* *optional*  
+  Update the billing amount
+
+- **metadata** *object* *optional*  
+  Update custom metadata
+
+- **cancel_at_period_end** *boolean* *optional*  
+  Whether to cancel the subscription at the end of the current period
+
+### Returns
+
+Returns the updated subscription object.
+
+## Cancel Subscription
+
+Cancel a subscription immediately or at the end of the current billing period.
+
+<CodeGroup>
+```bash cURL
+curl -X DELETE https://api.payrequest.io/v1/subscriptions/sub_1234567890 \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cancel_at_period_end": true
+  }'
+```
+
+```javascript JavaScript
+// Cancel immediately
+await payrequest.subscriptions.cancel('sub_1234567890');
+
+// Cancel at period end
+await payrequest.subscriptions.cancel('sub_1234567890', {
+  cancel_at_period_end: true
+});
+```
+
+```python Python
+# Cancel immediately
+payrequest.subscriptions.cancel('sub_1234567890')
+
+# Cancel at period end
+payrequest.subscriptions.cancel('sub_1234567890', {
+    'cancel_at_period_end': True
+})
+```
+
+```php PHP
+// Cancel immediately
+$payrequest->subscriptions->cancel('sub_1234567890');
+
+// Cancel at period end
+$payrequest->subscriptions->cancel('sub_1234567890', [
+    'cancel_at_period_end' => true
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **cancel_at_period_end** *boolean* *optional*  
+  If true, cancel at the end of the current period instead of immediately
+
+### Returns
+
+Returns the updated subscription object with cancellation details.
+
+## List Subscriptions
+
+List all subscriptions with optional filtering.
+
+<CodeGroup>
+```bash cURL
+curl "https://api.payrequest.io/v1/subscriptions?status=active&limit=10" \
+  -H "Authorization: Bearer your_api_key"
+```
+
+```javascript JavaScript
+const subscriptions = await payrequest.subscriptions.list({
+  status: 'active',
+  limit: 10
+});
+```
+
+```python Python
+subscriptions = payrequest.subscriptions.list(
+    status='active',
+    limit=10
+)
+```
+
+```php PHP
+$subscriptions = $payrequest->subscriptions->all([
+    'status' => 'active',
+    'limit' => 10
+]);
+```
+</CodeGroup>
+
+### Parameters
+
+- **customer_id** *string* *optional*  
+  Filter by customer ID
+
+- **status** *string* *optional*  
+  Filter by subscription status
+
+- **limit** *integer* *optional*  
+  Number of subscriptions to return (1-100)
+
+- **offset** *integer* *optional*  
+  Number of subscriptions to skip
+
+### Returns
+
+Returns a list of subscription objects with pagination information.
+
+## Subscription Statuses
+
+<AccordionGroup>
+  <Accordion title="trialing" icon="clock">
+    **Description**: Subscription is in trial period
+    
+    **Billing**: No charges during trial
+    
+    **Next**: Automatically becomes `active` when trial ends
+  </Accordion>
+  
+  <Accordion title="active" icon="check">
+    **Description**: Subscription is active and billing
+    
+    **Billing**: Customer is charged on each billing cycle
+    
+    **Actions**: Can be cancelled or updated
+  </Accordion>
+  
+  <Accordion title="past_due" icon="exclamation-triangle">
+    **Description**: Payment failed but subscription not cancelled
+    
+    **Billing**: Automatic retry attempts continue
+    
+    **Duration**: Configurable retry period
+  </Accordion>
+  
+  <Accordion title="cancelled" icon="x">
+    **Description**: Subscription has been cancelled
+    
+    **Billing**: No future charges
+    
+    **Access**: Customer retains access until period end
+  </Accordion>
+  
+  <Accordion title="ended" icon="stop">
+    **Description**: Subscription has completely ended
+    
+    **Billing**: No charges, no access
+    
+    **Reactivation**: Must create new subscription
+  </Accordion>
+</AccordionGroup>
+
+## Billing Intervals
+
+<CardGroup cols={2}>
+  <Card title="Standard Intervals" icon="calendar">
+    - **day**: Daily billing
+    - **week**: Weekly billing  
+    - **month**: Monthly billing
+    - **year**: Annual billing
+  </Card>
+  <Card title="Custom Intervals" icon="gear">
+    - **interval_count**: Multiply base interval
+    - **Example**: `interval: "month"`, `interval_count: 3` = quarterly
+  </Card>
+</CardGroup>
+
+## Managing Failed Payments
+
+When a subscription payment fails, PayRequest automatically handles retry logic:
+
+### Retry Schedule
+
+<Steps>
+  <Step title="Immediate Retry">
+    First retry attempt immediately after failure
+  </Step>
+  <Step title="3 Days Later">
+    Second retry attempt if first retry fails
+  </Step>
+  <Step title="5 Days Later">
+    Third retry attempt if second retry fails
+  </Step>
+  <Step title="7 Days Later">
+    Final retry attempt before cancellation
+  </Step>
+</Steps>
+
+### Webhook Events
+
+Monitor subscription payment events:
+
+<CodeGroup>
+```json Successful Payment
+{
+  "type": "subscription.payment_succeeded",
+  "data": {
+    "id": "sub_1234567890",
+    "amount": 2999,
+    "current_period_start": "2024-02-15T10:30:00Z",
+    "current_period_end": "2024-03-15T10:30:00Z"
+  }
+}
+```
+
+```json Failed Payment
+{
+  "type": "subscription.payment_failed",
+  "data": {
+    "id": "sub_1234567890",
+    "amount": 2999,
+    "failure_reason": "insufficient_funds",
+    "retry_count": 1,
+    "next_retry_at": "2024-02-18T10:30:00Z"
+  }
+}
+```
+</CodeGroup>
+
+## Prorated Billing
+
+When upgrading or downgrading subscriptions, PayRequest handles proration automatically:
+
+### Upgrade Example
+
+```javascript
+// Customer upgrades from $19.99 to $29.99 mid-cycle
+const subscription = await payrequest.subscriptions.update('sub_1234567890', {
+  amount: 2999, // New amount
+  prorate: true // Enable proration
+});
+
+// PayRequest calculates prorated charge for remaining period
+// and adjusts next billing cycle
+```
+
+### Proration Calculation
+
+- **Upgrade**: Customer charged difference for remaining period
+- **Downgrade**: Credit applied to next billing cycle
+- **Timing**: Calculated based on exact upgrade/downgrade time
+
+## Trial Periods
+
+### Free Trials
+
+<CodeGroup>
+```javascript Create Trial Subscription
+const subscription = await payrequest.subscriptions.create({
+  customer_id: 'cust_1234567890',
+  amount: 2999,
+  currency: 'USD',
+  interval: 'month',
+  trial_period_days: 14 // 14-day free trial
+});
+```
+
+```python Create Trial Subscription
+subscription = payrequest.subscriptions.create(
+    customer_id='cust_1234567890',
+    amount=2999,
+    currency='USD',
+    interval='month',
+    trial_period_days=14  # 14-day free trial
+)
+```
+</CodeGroup>
+
+### Trial Behavior
+
+- **No Charges**: Customer not charged during trial
+- **Payment Method**: Required but not charged
+- **Conversion**: Automatically converts to paid at trial end
+- **Cancellation**: Can be cancelled during trial with no charge
+
+## Usage-Based Billing
+
+For metered billing scenarios:
+
+<CodeGroup>
+```javascript Record Usage
+// Record usage events during billing period
+await payrequest.subscriptions.recordUsage('sub_1234567890', {
+  quantity: 100,
+  action: 'api_calls',
+  timestamp: new Date().toISOString()
+});
+
+// At billing time, total usage is calculated and charged
+```
+
+```python Record Usage
+# Record usage events during billing period
+payrequest.subscriptions.record_usage('sub_1234567890', {
+    'quantity': 100,
+    'action': 'api_calls',
+    'timestamp': datetime.utcnow().isoformat()
+})
+
+# At billing time, total usage is calculated and charged
+```
+</CodeGroup>
+
+## Best Practices
+
+### Subscription Management
+
+<CardGroup cols={2}>
+  <Card title="Customer Communication" icon="message">
+    - Send trial expiration reminders
+    - Notify of upcoming charges
+    - Explain billing cycles clearly
+    - Provide easy cancellation
+  </Card>
+  <Card title="Failed Payment Handling" icon="credit-card">
+    - Update payment methods proactively
+    - Send dunning emails
+    - Offer retry options
+    - Provide grace periods
+  </Card>
+  <Card title="Pricing Flexibility" icon="dollar-sign">
+    - Support plan upgrades/downgrades
+    - Handle proration fairly
+    - Offer annual discounts
+    - Consider usage-based tiers
+  </Card>
+  <Card title="Retention Strategies" icon="users">
+    - Exit surveys for cancellations
+    - Win-back campaigns
+    - Pause options instead of cancellation
+    - Loyalty programs for long-term customers
+  </Card>
+</CardGroup>
+
+### Implementation Tips
+
+<AccordionGroup>
+  <Accordion title="Webhook Reliability" icon="webhook">
+    Always handle subscription webhooks to maintain accurate billing state:
+    
+    ```javascript
+    app.post('/webhook', (req, res) => {
+      const event = req.body;
+      
+      switch (event.type) {
+        case 'subscription.payment_succeeded':
+          // Extend service access
+          extendAccess(event.data.customer_id);
+          break;
+          
+        case 'subscription.payment_failed':
+          // Notify customer and restrict access if needed
+          handleFailedPayment(event.data);
+          break;
+          
+        case 'subscription.cancelled':
+          // Schedule access removal at period end
+          scheduleAccessRemoval(event.data);
+          break;
+      }
+      
+      res.status(200).send('OK');
+    });
+    ```
+  </Accordion>
+  
+  <Accordion title="Access Control" icon="lock">
+    Implement subscription-based access control in your application:
+    
+    ```javascript
+    async function checkSubscriptionAccess(userId) {
+      const customer = await getCustomerByUserId(userId);
+      
+      if (!customer) return false;
+      
+      const subscriptions = await payrequest.subscriptions.list({
+        customer_id: customer.id,
+        status: 'active'
+      });
+      
+      return subscriptions.data.length > 0;
+    }
+    
+    // Use in middleware
+    app.use('/premium-features', async (req, res, next) => {
+      const hasAccess = await checkSubscriptionAccess(req.user.id);
+      
+      if (!hasAccess) {
+        return res.status(403).json({ error: 'Premium subscription required' });
+      }
+      
+      next();
+    });
+    ```
+  </Accordion>
+  
+  <Accordion title="Subscription Analytics" icon="chart-bar">
+    Track key subscription metrics:
+    
+    - **Monthly Recurring Revenue (MRR)**
+    - **Annual Recurring Revenue (ARR)**
+    - **Churn Rate**
+    - **Customer Lifetime Value (LTV)**
+    - **Trial Conversion Rate**
+    
+    ```javascript
+    // Calculate MRR
+    async function calculateMRR() {
+      const activeSubscriptions = await payrequest.subscriptions.list({
+        status: 'active',
+        limit: 1000
+      });
+      
+      let mrr = 0;
+      
+      for (const sub of activeSubscriptions.data) {
+        const monthlyAmount = sub.interval === 'month' 
+          ? sub.amount 
+          : sub.amount / 12; // Convert annual to monthly
+          
+        mrr += monthlyAmount;
+      }
+      
+      return mrr / 100; // Convert from cents to dollars
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Error Handling
+
+Common subscription errors:
+
+<AccordionGroup>
+  <Accordion title="Invalid Customer" icon="user-x">
+    ```json
+    {
+      "error": {
+        "code": "customer_not_found",
+        "message": "Customer with ID 'cust_invalid' does not exist"
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Payment Method Required" icon="credit-card">
+    ```json
+    {
+      "error": {
+        "code": "payment_method_required",
+        "message": "Customer must have a valid payment method for subscriptions"
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Already Cancelled" icon="x">
+    ```json
+    {
+      "error": {
+        "code": "subscription_already_cancelled",
+        "message": "This subscription has already been cancelled"
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Customers API"
+    icon="users"
+    href="/api-reference/customers"
+  >
+    Manage subscription customers
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/essentials/webhooks"
+  >
+    Handle subscription events
+  </Card>
+  <Card
+    title="Testing"
+    icon="flask"
+    href="/essentials/testing"
+  >
+    Test subscription flows
+  </Card>
+  <Card
+    title="Billing Guide"
+    icon="calculator"
+    href="/guides/subscription-billing"
+  >
+    Complete billing implementation guide
+  </Card>
+</CardGroup>

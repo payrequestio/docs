@@ -1,0 +1,429 @@
+---
+title: 'Payment Methods'
+description: 'Supported payment methods and how to configure them'
+---
+
+# Payment Methods
+
+PayRequest supports a wide range of payment methods to accommodate customers worldwide. Our platform automatically presents the most relevant payment options based on the customer's location, currency, and device.
+
+## Global Payment Methods
+
+### Credit & Debit Cards
+
+The most widely used payment method worldwide:
+
+<CardGroup cols={2}>
+  <Card title="Visa" icon="cc-visa">
+    **Coverage**: Worldwide
+    
+    **Processing**: Instant
+    
+    **Fees**: Standard card rates
+  </Card>
+  <Card title="Mastercard" icon="cc-mastercard">
+    **Coverage**: Worldwide
+    
+    **Processing**: Instant
+    
+    **Fees**: Standard card rates
+  </Card>
+  <Card title="American Express" icon="cc-amex">
+    **Coverage**: Worldwide
+    
+    **Processing**: Instant
+    
+    **Fees**: Premium card rates
+  </Card>
+  <Card title="Discover" icon="cc-discover">
+    **Coverage**: US, Canada
+    
+    **Processing**: Instant
+    
+    **Fees**: Standard card rates
+  </Card>
+</CardGroup>
+
+### Digital Wallets
+
+Modern payment solutions for faster checkout:
+
+<CardGroup cols={3}>
+  <Card title="Apple Pay" icon="apple">
+    **Coverage**: iOS devices worldwide
+    
+    **Benefits**: Biometric authentication, stored card data
+  </Card>
+  <Card title="Google Pay" icon="google">
+    **Coverage**: Android devices worldwide
+    
+    **Benefits**: One-tap payments, loyalty integration
+  </Card>
+  <Card title="PayPal" icon="paypal">
+    **Coverage**: 200+ countries
+    
+    **Benefits**: Account balance, buyer protection
+  </Card>
+</CardGroup>
+
+## Regional Payment Methods
+
+### Europe
+
+<AccordionGroup>
+  <Accordion title="SEPA Direct Debit" icon="building-columns">
+    **Countries**: European Union
+    
+    **Processing Time**: 1-3 business days
+    
+    **Use Case**: Recurring payments, subscriptions
+    
+    **Requirements**: IBAN, mandate setup
+  </Accordion>
+
+  <Accordion title="iDEAL" icon="bank">
+    **Countries**: Netherlands
+    
+    **Processing Time**: Instant
+    
+    **Use Case**: Online banking payments
+    
+    **Market Share**: 60%+ in Netherlands
+  </Accordion>
+
+  <Accordion title="Bancontact" icon="credit-card">
+    **Countries**: Belgium
+    
+    **Processing Time**: Instant
+    
+    **Use Case**: Card and mobile payments
+    
+    **Market Share**: 70%+ in Belgium
+  </Accordion>
+
+  <Accordion title="SOFORT" icon="bolt">
+    **Countries**: Germany, Austria, Belgium, Netherlands
+    
+    **Processing Time**: Instant
+    
+    **Use Case**: Online banking transfers
+  </Accordion>
+</AccordionGroup>
+
+### Asia Pacific
+
+<AccordionGroup>
+  <Accordion title="Alipay" icon="alipay">
+    **Countries**: China, worldwide
+    
+    **Processing Time**: Instant
+    
+    **Use Case**: QR code payments, mobile wallet
+    
+    **Users**: 1B+ active users
+  </Accordion>
+
+  <Accordion title="WeChat Pay" icon="weixin">
+    **Countries**: China, worldwide
+    
+    **Processing Time**: Instant
+    
+    **Use Case**: In-app payments, QR codes
+    
+    **Users**: 800M+ active users
+  </Accordion>
+
+  <Accordion title="FPX" icon="bank">
+    **Countries**: Malaysia
+    
+    **Processing Time**: Instant
+    
+    **Use Case**: Online banking
+    
+    **Coverage**: All major Malaysian banks
+  </Accordion>
+</AccordionGroup>
+
+### North America
+
+<AccordionGroup>
+  <Accordion title="ACH" icon="building-columns">
+    **Countries**: United States
+    
+    **Processing Time**: 1-3 business days
+    
+    **Use Case**: Bank transfers, recurring payments
+    
+    **Fees**: Lower than card payments
+  </Accordion>
+
+  <Accordion title="Interac" icon="credit-card">
+    **Countries**: Canada
+    
+    **Processing Time**: Instant
+    
+    **Use Case**: Online banking, debit payments
+  </Accordion>
+</AccordionGroup>
+
+## Payment Method Configuration
+
+### Automatic Selection
+
+By default, PayRequest automatically shows the most relevant payment methods based on:
+
+- **Customer Location**: Detected from IP address or billing country
+- **Currency**: Payment methods available for the transaction currency
+- **Amount**: Some methods have minimum/maximum limits
+- **Device Type**: Mobile-optimized methods for mobile devices
+
+### Manual Configuration
+
+You can customize which payment methods to show:
+
+<Tabs>
+  <Tab title="Dashboard">
+    1. Go to **Settings > Payment Methods**
+    2. Toggle payment methods on/off
+    3. Set country/currency restrictions
+    4. Configure method-specific settings
+  </Tab>
+
+  <Tab title="API">
+    ```json
+    {
+      "amount": 2500,
+      "currency": "USD",
+      "payment_methods": {
+        "card": true,
+        "apple_pay": true,
+        "google_pay": true,
+        "paypal": false,
+        "bank_transfer": false
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Payment Method Features
+
+### Recurring Payments
+
+Support for subscription and recurring billing:
+
+<CardGroup cols={2}>
+  <Card title="Supported" icon="check">
+    - Credit/Debit Cards
+    - SEPA Direct Debit
+    - ACH
+    - PayPal
+  </Card>
+  <Card title="Not Supported" icon="x">
+    - Apple Pay
+    - Google Pay
+    - Most local bank methods
+    - Cash-based methods
+  </Card>
+</CardGroup>
+
+### Instant vs Delayed Settlement
+
+<Tabs>
+  <Tab title="Instant Settlement">
+    **Methods**: Cards, Digital Wallets, most local methods
+    
+    **Timeline**: Funds available immediately
+    
+    **Use Case**: E-commerce, instant delivery
+  </Tab>
+
+  <Tab title="Delayed Settlement">
+    **Methods**: Bank transfers, ACH, SEPA
+    
+    **Timeline**: 1-5 business days
+    
+    **Use Case**: Large amounts, B2B payments
+  </Tab>
+</Tabs>
+
+## Currency Support
+
+Different payment methods support different currencies:
+
+<AccordionGroup>
+  <Accordion title="Multi-Currency" icon="globe">
+    **Payment Methods**: Cards, PayPal, Apple Pay, Google Pay
+    
+    **Currencies**: 100+ currencies supported
+    
+    **Settlement**: Convert to your preferred currency
+  </Accordion>
+
+  <Accordion title="Local Currency Only" icon="map-pin">
+    **Payment Methods**: Most local/regional methods
+    
+    **Examples**: 
+    - iDEAL (EUR only)
+    - Alipay (CNY, USD, EUR)
+    - ACH (USD only)
+  </Accordion>
+</AccordionGroup>
+
+## Testing Payment Methods
+
+Use these test credentials in sandbox mode:
+
+### Test Cards
+
+<AccordionGroup>
+  <Accordion title="Successful Payments">
+    ```
+    Visa: 4111 1111 1111 1111
+    Mastercard: 5555 5555 5555 4444
+    American Express: 3782 822463 10005
+    ```
+    
+    **Expiry**: Any future date
+    **CVV**: Any 3-4 digits
+  </Accordion>
+
+  <Accordion title="Declined Cards">
+    ```
+    Declined: 4000 0000 0000 0002
+    Insufficient Funds: 4000 0000 0000 9995
+    Expired Card: 4000 0000 0000 0069
+    ```
+  </Accordion>
+
+  <Accordion title="3D Secure">
+    ```
+    Authentication Required: 4000 0000 0000 3220
+    Failed Authentication: 4000 0000 0000 3238
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Test Digital Wallets
+
+<CardGroup cols={2}>
+  <Card title="Apple Pay">
+    Use Safari on iOS device or macOS with Touch ID/Face ID enabled
+  </Card>
+  <Card title="Google Pay">
+    Use Chrome with saved payment methods or Android device
+  </Card>
+</CardGroup>
+
+## Payment Method Analytics
+
+Track payment method performance in your dashboard:
+
+### Conversion Rates
+
+- **By Method**: See which methods convert best
+- **By Country**: Regional payment preferences
+- **By Device**: Mobile vs desktop preferences
+- **By Amount**: Method preference by transaction size
+
+### Success Rates
+
+Monitor payment success rates:
+
+```
+Cards: 95%+ success rate
+Digital Wallets: 98%+ success rate
+Bank Transfers: 99%+ success rate (when initiated)
+Local Methods: Varies by region
+```
+
+## Optimizing Payment Methods
+
+### Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Localization" icon="globe">
+    - Show local payment methods first
+    - Use local currency when possible
+    - Translate payment method names
+    - Display local bank logos
+  </Card>
+  <Card title="Mobile Optimization" icon="mobile">
+    - Prioritize digital wallets on mobile
+    - Enable card scanning with camera
+    - Use biometric authentication
+    - Optimize for thumb navigation
+  </Card>
+</CardGroup>
+
+### A/B Testing
+
+Test different payment method configurations:
+
+1. **Method Selection**: Test showing more vs fewer options
+2. **Order**: Test different payment method ordering
+3. **Styling**: Test visual presentation of methods
+4. **Defaults**: Test pre-selecting preferred methods
+
+## Fees and Pricing
+
+Payment method fees vary by type and region:
+
+<AccordionGroup>
+  <Accordion title="Card Payments" icon="credit-card">
+    **Domestic Cards**: 2.9% + $0.30
+    
+    **International Cards**: 3.4% + $0.30
+    
+    **American Express**: 3.5% + $0.30
+  </Accordion>
+
+  <Accordion title="Digital Wallets" icon="wallet">
+    **Apple Pay**: Same as underlying card
+    
+    **Google Pay**: Same as underlying card
+    
+    **PayPal**: 3.4% + $0.30
+  </Accordion>
+
+  <Accordion title="Bank Transfers" icon="building-columns">
+    **ACH**: 0.8% (max $5)
+    
+    **SEPA**: €0.35 per transaction
+    
+    **Wire Transfers**: $15 flat fee
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Integration Guide"
+    icon="code"
+    href="/essentials/integration-guide"
+  >
+    Learn how to integrate payment methods
+  </Card>
+  <Card
+    title="Testing Guide"
+    icon="flask"
+    href="/essentials/testing"
+  >
+    Test different payment methods
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/essentials/webhooks"
+  >
+    Handle payment method events
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Payment method API documentation
+  </Card>
+</CardGroup>
