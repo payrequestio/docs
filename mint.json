@@ -47,6 +47,7 @@
       "pages": [
         "essentials/payments",
         "essentials/payment-methods",
+        "essentials/checkout-urls",
         "essentials/webhooks",
         "essentials/security"
       ]
