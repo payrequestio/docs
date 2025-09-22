@@ -1,0 +1,88 @@
+---
+title: 'Markdown-syntaxis'
+description: 'Tekst, titels en opmaak in standaard Markdown'
+icon: 'text-size'
+---
+
+## Titels
+
+Gebruik je voor sectiekoppen.
+
+```md
+## Titels
+```
+
+### Subtitels
+
+Gebruik je voor subsecties.
+
+```md
+### Subtitels
+```
+
+<Tip>
+
+Elke **titel** en **subtitel** maakt een anker aan en verschijnt automatisch in de inhoudsopgave rechts.
+
+</Tip>
+
+## Tekstopmaak
+
+We ondersteunen de meeste Markdown-opmaak. Voeg simpelweg `**`, `_` of `~` rond tekst toe om deze te stylen.
+
+| Stijl         | Hoe je het schrijft    | Resultaat          |
+| ------------- | ---------------------- | ------------------ |
+| Vet           | `**vet**`              | **vet**            |
+| Cursief       | `_cursief_`            | _cursief_          |
+| Doorhalen     | `~doorhalen~`          | ~doorhalen~        |
+
+Je kunt deze stijlen combineren. Schrijf bijvoorbeeld `**_vet en cursief_**` voor **_vet en cursief_**.
+
+Gebruik HTML wanneer je superscript of subscript wilt schrijven. Voeg `<sup>` of `<sub>` rond je tekst toe.
+
+| Tekststijl   | Hoe je het schrijft           | Resultaat                 |
+| ------------ | ----------------------------- | ------------------------- |
+| Superscript  | `<sup>superscript</sup>`      | <sup>superscript</sup>    |
+| Subscript    | `<sub>subscript</sub>`        | <sub>subscript</sub>      |
+
+## Koppelingen naar pagina's
+
+Je voegt een link toe door tekst tussen `[]()` te plaatsen. Bijvoorbeeld: `[link naar Google](https://google.com)` voor een [link naar Google](https://google.com).
+
+Links naar pagina's in je documentatie moeten root-relatief zijn. Neem het volledige pad mee. Bijvoorbeeld: `[link naar tekst](/writing-content/text)` verwijst naar de pagina "Text" in de componentensectie.
+
+Relatieve links zoals `[link naar tekst](../text)` laden trager omdat we ze minder goed kunnen optimaliseren.
+
+## Blokcitaten
+
+### Enkelvoudig
+
+Maak een blokcitaat door een `>` voor een alinea te plaatsen.
+
+> Dorothy volgde haar door vele prachtige kamers in haar kasteel.
+
+```md
+> Dorothy volgde haar door vele prachtige kamers in haar kasteel.
+```
+
+### Meerdere regels
+
+> Dorothy volgde haar door vele prachtige kamers in haar kasteel.
+>
+> De heks liet haar de potten en ketels schoonmaken, de vloer vegen en het vuur van hout voorzien.
+
+```md
+> Dorothy volgde haar door vele prachtige kamers in haar kasteel.
+>
+> De heks liet haar de potten en ketels schoonmaken, de vloer vegen en het vuur van hout voorzien.
+```
+
+### LaTeX
+
+Mintlify ondersteunt [LaTeX](https://www.latex-project.org) via de Latex-component.
+
+<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+
+```md
+<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+```
