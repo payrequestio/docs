@@ -65,6 +65,16 @@ Pre-fill your customer's information to save them time:
 Remember to URL-encode special characters like spaces (`%20`) and symbols.
 </Warning>
 
+### Lock Pre-filled Customer Details
+
+If you need to prevent customers from editing the details you've supplied, add the `disabled=true` parameter to the checkout URL. When this flag is present:
+
+- The name, email, address, city, postal code, and country fields become read-only.
+- Shoppers see a blue message: "Customer information is pre-filled and locked - you can proceed to payment with these details."
+- Customers can still complete the checkout using the pre-filled information.
+
+Remove the parameter (or set it to `disabled=false`) when you want customers to be able to update their information again. This behavior matches the `disabled` parameter that's available on product dynamic links, keeping the experience consistent across the platform.
+
 ## Product Parameters
 
 Add specific products to the customer's cart:
@@ -156,6 +166,15 @@ Send customers a direct link after providing a quote:
 ```
 https://yourshop.com/checkout?product=555&quantity=5&customfield_quote_id=Q12345&product_customfield_sales_rep=john&name=Business%20Owner&email=owner@company.com
 ```
+
+### 6. Locked Prefilled Customer Details
+Share a link with pre-filled information that customers cannot change:
+
+```
+https://payrequest.me/shop/hostingwalk/checkout?product=4&name=John%20Doe&email=john@example.com&address=Main%20Street%20123&city=Amsterdam&postal=1234AB&country=NL&disabled=true
+```
+
+This keeps the customer details fixed while still letting them finish the payment flow.
 
 ## Common Use Cases
 
