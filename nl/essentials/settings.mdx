@@ -1,0 +1,258 @@
+---
+title: 'Globale instellingen'
+description: 'Mintlify geeft je volledige controle over de uitstraling van je documentatie via het bestand mint.json'
+icon: 'gear'
+---
+
+Elke Mintlify-site heeft een `mint.json`-bestand nodig met de belangrijkste configuraties. Lees hieronder meer over de [eigenschappen](#eigenschappen).
+
+## Eigenschappen
+
+<ResponseField name="name" type="string" required>
+Naam van je project. Wordt gebruikt als globale titel.
+
+Voorbeeld: `mintlify`
+
+</ResponseField>
+
+<ResponseField name="navigation" type="Navigation[]" required>
+  Een array met groepen en alle pagina's binnen die groep
+  <Expandable title="Navigatie">
+    <ResponseField name="group" type="string">
+    De naam van de groep.
+
+    Voorbeeld: `Instellingen`
+
+    </ResponseField>
+    <ResponseField name="pages" type="string[]">
+    De relatieve paden naar de markdown-bestanden die als pagina dienen.
+
+    Voorbeeld: `["customization", "page"]`
+
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="logo" type="string or object">
+  Pad naar het logo of een object met paden naar het logo voor "light" en "dark" modus
+  <Expandable title="Logo">
+    <ResponseField name="light" type="string">
+      Pad naar het logo in de lichte modus
+    </ResponseField>
+    <ResponseField name="dark" type="string">
+      Pad naar het logo in de donkere modus
+    </ResponseField>
+    <ResponseField name="href" type="string" default="/">
+      Bestemming van de link wanneer je op het logo klikt
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="favicon" type="string">
+  Pad naar het favicon-bestand
+</ResponseField>
+
+<ResponseField name="colors" type="Colors">
+  Hex-kleuren voor je globale thema
+  <Expandable title="Kleuren">
+    <ResponseField name="primary" type="string" required>
+      De primaire kleur. Wordt het vaakst gebruikt voor highlights, sectiekoppen en accenten in de lichte modus
+    </ResponseField>
+    <ResponseField name="light" type="string">
+      De primaire kleur voor de donkere modus. Wordt gebruikt voor highlights, sectiekoppen en accenten in de donkere modus
+    </ResponseField>
+    <ResponseField name="dark" type="string">
+      De primaire kleur voor belangrijke knoppen
+    </ResponseField>
+    <ResponseField name="background" type="object">
+      De achtergrondkleur voor zowel lichte als donkere modus
+      <Expandable title="Object">
+        <ResponseField name="light" type="string" required>
+          Hex-waarde van de achtergrondkleur in de lichte modus
+        </ResponseField>
+        <ResponseField name="dark" type="string" required>
+          Hex-waarde van de achtergrondkleur in de donkere modus
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="topbarLinks" type="TopbarLink[]">
+  Array van `name` en `url` voor de links die je in de topbalk wilt tonen
+  <Expandable title="TopbarLink">
+    <ResponseField name="name" type="string">
+    De naam van de knop.
+
+    Voorbeeld: `Neem contact op`
+    </ResponseField>
+    <ResponseField name="url" type="string">
+    De url die wordt geopend na het klikken. Voorbeeld: `https://mintlify.com/contact`
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="topbarCtaButton" type="Call to Action">
+  <Expandable title="Topbar Call to Action">
+    <ResponseField name="type" type={'"link" or "github"'} default="link">
+    `link` toont een knop. `github` toont repo-informatie op basis van de opgegeven url, inclusief het aantal GitHub-sterren.
+    </ResponseField>
+    <ResponseField name="url" type="string">
+    Als `link`: de bestemming van de knop.
+
+    Als `github`: de link naar de repository waarvan de GitHub-informatie wordt geladen.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+    Tekst in de knop. Alleen verplicht wanneer `type` `link` is.
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="versions" type="string[]">
+  Array met versienamen. Gebruik dit wanneer je verschillende documentatieversies via een keuzemenu in de navigatie wilt tonen.
+</ResponseField>
+
+<ResponseField name="anchors" type="Anchor[]">
+  Een array met anchors inclusief `icon`, `color` en `url`.
+  <Expandable title="Anchor">
+    <ResponseField name="icon" type="string">
+    Het [Font Awesome](https://fontawesome.com/search?s=brands%2Cduotone) icoon dat voor de anchor wordt gebruikt.
+
+    Voorbeeld: `comments`
+    </ResponseField>
+    <ResponseField name="name" type="string">
+    De naam van het anchor-label.
+
+    Voorbeeld: `Community`
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      Het begin van de URL dat bepaalt welke pagina's onder de anchor vallen. Meestal is dit de naam van de map waarin je pagina's staan.
+    </ResponseField>
+    <ResponseField name="color" type="string">
+      De hexkleur van de achtergrond van het anchor-icoon. Dit kan ook een gradient zijn als je een object met de eigenschappen `from` en `to` meegeeft, elk met een hexkleur.
+    </ResponseField>
+    <ResponseField name="version" type="string">
+      Gebruik dit als je een anchor wilt verbergen totdat de juiste documentatieversie is geselecteerd.
+    </ResponseField>
+    <ResponseField name="isDefaultHidden" type="boolean" default="false">
+      Geef `true` door wanneer je de anchor wilt verbergen totdat iemand rechtstreeks naar pagina's binnen die anchor linkt.
+    </ResponseField>
+    <ResponseField name="iconType" default="duotone" type="string">
+      Eén van: "brands", "duotone", "light", "sharp-solid", "solid" of "thin"
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="topAnchor" type="Object">
+  Overschrijf de standaardconfiguratie voor de bovenste anchor.
+  <Expandable title="Object">
+    <ResponseField name="name" default="Documentation" type="string">
+      Naam van de bovenste anchor
+    </ResponseField>
+    <ResponseField name="icon" default="book-open" type="string">
+      Font Awesome-icoon.
+    </ResponseField>
+    <ResponseField name="iconType" default="duotone" type="string">
+      Eén van: "brands", "duotone", "light", "sharp-solid", "solid" of "thin"
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="tabs" type="Tabs[]">
+  Een array met navigatietabs.
+  <Expandable title="Tabs">
+    <ResponseField name="name" type="string">
+      De naam van het tab-label.
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      Het begin van de URL dat bepaalt welke pagina's in de tab vallen. Meestal is dit de naam van de map waarin je pagina's staan.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="api" type="API">
+  Configuratie voor API-instellingen. Lees meer over API-pagina's bij [API Components](/api-playground/demo).
+  <Expandable title="API">
+    <ResponseField name="baseUrl" type="string">
+      De basis-URL voor alle API-endpoints. Als `baseUrl` een array is, kunnen gebruikers tussen meerdere basis-URL-opties wisselen.
+    </ResponseField>
+
+    <ResponseField name="auth" type="Auth">
+      <Expandable title="Auth">
+        <ResponseField name="method" type='"bearer" | "basic" | "key"'>
+          De authenticatiestrategie die in de API-playground wordt gebruikt.
+        </ResponseField>
+        <ResponseField name="name" type="string">
+        De naam van de authenticatieparameter in de API-playground.
+
+        Als de methode `basic` is, gebruik je het formaat `[usernameName]:[passwordName]`
+        </ResponseField>
+        <ResponseField name="inputPrefix" type="string">
+        De standaardwaarde die als prefix dient voor het invoerveld voor authenticatie.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="headers" type="Object[]">
+      Extra headers die standaard worden toegevoegd aan API-verzoeken.
+      <Expandable title="Header">
+        <ResponseField name="key" type="string">
+        Naam van de header
+        </ResponseField>
+        <ResponseField name="value" type="string">
+        Waarde van de header
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="request" type="Object">
+      Standaardinstellingen voor de request-sectie in de API-playground.
+      <Expandable title="Request">
+        <ResponseField name="exampleType" type='"curl" | "javascript" | "python" | "php" | "go" | "ruby" | "java"'>
+          Standaardtaal voor de requestvoorbeelden.
+        </ResponseField>
+        <ResponseField name="examples" type="Object">
+          Object met codevoorbeelden per taal.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="response" type="Object">
+      Standaardinstellingen voor de response-sectie in de API-playground.
+      <Expandable title="Response">
+        <ResponseField name="exampleType" type='"json" | "xml" | "yaml"'>
+          Standaardformaat voor de responsevoorbeelden.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="customizations" type="Object">
+  Overschrijf specifieke onderdelen van de gebruikersinterface.
+  <Expandable title="Customizations">
+    <ResponseField name="background" type="Object">
+      Kleuren en afbeeldingen voor de achtergrond.
+      <Expandable title="Background">
+        <ResponseField name="light" type="string">
+          Achtergrondkleur of afbeelding in de lichte modus.
+        </ResponseField>
+        <ResponseField name="dark" type="string">
+          Achtergrondkleur of afbeelding in de donkere modus.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="search" type="Object">
+      Stel labels en placeholderteksten voor de zoekinterface in.
+      <Expandable title="Search">
+        <ResponseField name="placeholder" type="string">
+          Tekst die in het zoekveld verschijnt.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

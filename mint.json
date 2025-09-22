@@ -42,86 +42,94 @@
     "name": "Dashboard",
     "url": "https://dashboard.payrequest.io"
   },
-
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://payrequest.mintlify.app/"
-    }
-  ],
-  "navigation": [
-    {
-      "group": "Get Started",
-      "pages": [
-        "introduction",
-        "quickstart",
-        "development"
-      ]
-    },
-    {
-      "group": "Core Concepts",
-      "pages": [
-        "essentials/payments",
-        "essentials/payment-methods",
-        "essentials/checkout-urls",
-        "essentials/webhooks",
-        "essentials/security"
-      ]
-    },
-    {
-      "group": "Business Workflows",
-      "pages": [
-        "essentials/invoice-templates",
-        "essentials/customer-management",
-        "essentials/payment-tracking",
-        "essentials/reporting"
-      ]
-    },
-    {
-      "group": "Invoice Management",
-      "pages": [
-        "essentials/creating-invoices",
-        "essentials/sending-invoices",
-        "essentials/tracking-payments"
-      ]
-    },
-    {
-      "group": "Aan de slag (NL)",
-      "pages": [
-        "nl/introduction",
-        "nl/quickstart",
-        "nl/development"
-      ]
-    },
-    {
-      "group": "Belangrijkste concepten (NL)",
-      "pages": [
-        "nl/essentials/payments",
-        "nl/essentials/payment-methods",
-        "nl/essentials/checkout-urls",
-        "nl/essentials/webhooks",
-        "nl/essentials/security"
-      ]
-    },
-    {
-      "group": "Zakelijke workflows (NL)",
-      "pages": [
-        "nl/essentials/invoice-templates",
-        "nl/essentials/customer-management",
-        "nl/essentials/payment-tracking",
-        "nl/essentials/reporting"
-      ]
-    },
-    {
-      "group": "Factuurbeheer (NL)",
-      "pages": [
-        "nl/essentials/creating-invoices",
-        "nl/essentials/sending-invoices",
-        "nl/essentials/tracking-payments"
-      ]
-    }
-  ],
+  "navigation": {
+    "en": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "quickstart",
+          "development"
+        ]
+      },
+      {
+        "group": "Core Concepts",
+        "pages": [
+          "essentials/payments",
+          "essentials/payment-methods",
+          "essentials/checkout-urls",
+          "essentials/webhooks",
+          "essentials/security"
+        ]
+      },
+      {
+        "group": "Business Workflows",
+        "pages": [
+          "essentials/invoice-templates",
+          "essentials/customer-management",
+          "essentials/payment-tracking",
+          "essentials/reporting"
+        ]
+      },
+      {
+        "group": "Invoice Management",
+        "pages": [
+          "essentials/creating-invoices",
+          "essentials/sending-invoices",
+          "essentials/tracking-payments"
+        ]
+      }
+    ],
+    "nl": [
+      {
+        "group": "Aan de slag",
+        "pages": [
+          "nl/introduction",
+          "nl/quickstart",
+          "nl/development"
+        ]
+      },
+      {
+        "group": "Belangrijkste concepten",
+        "pages": [
+          "nl/essentials/payments",
+          "nl/essentials/payment-methods",
+          "nl/essentials/checkout-urls",
+          "nl/essentials/webhooks",
+          "nl/essentials/security",
+          "nl/essentials/authentication"
+        ]
+      },
+      {
+        "group": "Zakelijke workflows",
+        "pages": [
+          "nl/essentials/invoice-templates",
+          "nl/essentials/customer-management",
+          "nl/essentials/payment-tracking",
+          "nl/essentials/reporting"
+        ]
+      },
+      {
+        "group": "Factuurbeheer",
+        "pages": [
+          "nl/essentials/creating-invoices",
+          "nl/essentials/sending-invoices",
+          "nl/essentials/tracking-payments"
+        ]
+      },
+      {
+        "group": "Documentatiebeheer",
+        "pages": [
+          "nl/essentials/navigation",
+          "nl/essentials/settings",
+          "nl/essentials/markdown",
+          "nl/essentials/code",
+          "nl/essentials/images",
+          "nl/essentials/reusable-snippets"
+        ]
+      }
+    ]
+  },
   "footerSocials": {
     "twitter": "https://twitter.com/payrequest_io"
   }
