@@ -15,10 +15,27 @@
       "to": "#3259A5"
     }
   },
+  "i18n": {
+    "defaultLocale": "en",
+    "locales": [
+      {
+        "locale": "en",
+        "name": "English"
+      },
+      {
+        "locale": "nl",
+        "name": "Nederlands"
+      }
+    ]
+  },
   "topbarLinks": [
     {
       "name": "Support",
       "url": "mailto:support@payrequest.io"
+    },
+    {
+      "name": "Nederlands",
+      "url": "/nl/introduction"
     }
   ],
   "topbarCtaButton": {
@@ -65,8 +82,43 @@
       "group": "Invoice Management",
       "pages": [
         "essentials/creating-invoices",
-        "essentials/sending-invoices", 
+        "essentials/sending-invoices",
         "essentials/tracking-payments"
+      ]
+    },
+    {
+      "group": "Aan de slag (NL)",
+      "pages": [
+        "nl/introduction",
+        "nl/quickstart",
+        "nl/development"
+      ]
+    },
+    {
+      "group": "Belangrijkste concepten (NL)",
+      "pages": [
+        "nl/essentials/payments",
+        "nl/essentials/payment-methods",
+        "nl/essentials/checkout-urls",
+        "nl/essentials/webhooks",
+        "nl/essentials/security"
+      ]
+    },
+    {
+      "group": "Zakelijke workflows (NL)",
+      "pages": [
+        "nl/essentials/invoice-templates",
+        "nl/essentials/customer-management",
+        "nl/essentials/payment-tracking",
+        "nl/essentials/reporting"
+      ]
+    },
+    {
+      "group": "Factuurbeheer (NL)",
+      "pages": [
+        "nl/essentials/creating-invoices",
+        "nl/essentials/sending-invoices",
+        "nl/essentials/tracking-payments"
       ]
     }
   ],
