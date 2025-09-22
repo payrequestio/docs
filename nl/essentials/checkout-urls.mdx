@@ -1,0 +1,418 @@
+---
+title: 'Vooraf ingevulde checkout-URL\'s'
+description: 'Stuur klanten directe links naar de checkout met vooraf ingevulde producten en gegevens'
+---
+
+# Vooraf ingevulde checkout-URL's
+
+Stuur klanten directe links om producten te kopen terwijl hun gegevens al zijn ingevuld. Vooraf ingevulde checkout-URL's besparen je klanten tijd en verhogen de conversie doordat alle frictie uit het koopproces verdwijnt.
+
+## Hoe het werkt
+
+In plaats van klanten naar je shop te sturen waar ze producten moeten zoeken en toevoegen aan de winkelwagen, maak je directe checkout-links die:
+
+- Bepaalde producten vooraf aan de winkelwagen toevoegen
+- Naam, e-mail en adresgegevens vooraf invullen
+- Trackinginformatie of speciale vereisten meesturen
+- Klanten direct naar de betaalstap brengen
+
+<CardGroup cols={2}>
+  <Card title="Sneller afrekenen" icon="bolt">
+    Klanten slaan het browsen over en gaan meteen naar betalen
+  </Card>
+  <Card title="Hogere conversie" icon="chart-line">
+    Minder frictie leidt tot meer succesvolle aankopen
+  </Card>
+  <Card title="Betere ervaring" icon="heart">
+    Klanten hoeven bekende gegevens niet opnieuw in te vullen
+  </Card>
+  <Card title="Eenvoudig traceren" icon="tag">
+    Voeg campagnecodes en referral-informatie toe
+  </Card>
+</CardGroup>
+
+## Basisopbouw van de URL
+
+Vooraf ingevulde checkout-URL's volgen dit formaat:
+
+```
+https://jouwshop.com/checkout?parameter=waarde&parameter2=waarde2
+```
+
+Of wanneer je het hoofd PayRequest-domein gebruikt:
+```
+https://payrequest.app/shop/jouwshopnaam/checkout?parameter=waarde&parameter2=waarde2
+```
+
+<Info>
+Vervang `jouwshop.com` door je eigen domein en `jouwshopnaam` door de naam van je shop in PayRequest.
+</Info>
+
+## Klantinformatie-parameters
+
+Vul de klantgegevens vooraf in om tijd te besparen:
+
+| Parameter | Beschrijving | Voorbeeld |
+|-----------|--------------|-----------|
+| `name` | Volledige naam van de klant | `name=Jan%20Jansen` |
+| `email` | E-mailadres van de klant | `email=jan@example.com` |
+| `address` | Straatadres van de klant | `address=Hoofdstraat%20123` |
+| `city` | Woonplaats van de klant | `city=Amsterdam` |
+| `postal` | Postcode | `postal=1234AB` |
+| `country` | Land (2-letterige code) | `country=NL` |
+
+<Warning>
+Vergeet niet speciale tekens zoals spaties (`%20`) en symbolen te URL-encoderen.
+</Warning>
+
+### Vergrendel vooraf ingevulde klantgegevens
+
+Wil je voorkomen dat klanten de ingevulde gegevens aanpassen? Voeg dan de parameter `disabled=true` toe aan de checkout-URL. Wanneer deze vlag actief is:
+
+- Worden naam, e-mail, adres, woonplaats, postcode en land alleen-lezen.
+- Zien klanten een blauwe melding: "Klantgegevens zijn vooraf ingevuld en vergrendeld – je kunt met deze gegevens betalen."
+- Kunnen klanten de checkout alsnog afronden met de vooraf ingevulde informatie.
+
+Verwijder de parameter (of zet op `disabled=false`) als klanten hun gegevens weer mogen wijzigen. Dit gedrag komt overeen met de `disabled`-parameter op dynamische productlinks en zorgt voor een consistente ervaring op het platform.
+
+## Productparameters
+
+Voeg specifieke producten toe aan de winkelwagen van de klant:
+
+| Parameter | Beschrijving | Voorbeeld |
+|-----------|--------------|-----------|
+| `product` | Product-ID dat moet worden toegevoegd | `product=123` |
+| `quantity` | Aantal van het product | `quantity=2` |
+
+Bekijk de productdetails in je PayRequest-dashboard om de product-ID te vinden. De ID staat in de URL of in de productinstellingen.
+
+## Aangepaste velden
+
+Met aangepaste velden verzamel je extra informatie of voeg je trackingdata toe. PayRequest ondersteunt drie formats:
+
+<Tabs>
+  <Tab title="Standaardformaat">
+    Gebruik het voorvoegsel `customfield_` voor zichtbare velden die klanten zien:
+
+    ```
+    customfield_size=Large
+    customfield_color=Red
+    customfield_notes=Speciale%20wensen
+    ```
+
+    Deze velden verschijnen op het checkoutformulier en klanten kunnen ze aanpassen indien nodig.
+  </Tab>
+
+  <Tab title="Productspecifiek">
+    Gebruik het voorvoegsel `product_customfield_` voor tracking en intern gebruik:
+
+    ```
+    product_customfield_productcode=SKU001
+    product_customfield_campaign=summer2024
+    product_customfield_referrer=partner123
+    ```
+
+    Deze velden zijn meestal verborgen voor klanten en bedoeld voor zakelijke analyse.
+  </Tab>
+
+  <Tab title="Kort formaat">
+    Gebruik het voorvoegsel `cf_` als compacte variant:
+
+    ```
+    cf_servers=2
+    cf_domain=example.com
+    cf_priority=high
+    ```
+
+    Handig als je korte parameters wilt gebruiken.
+  </Tab>
+</Tabs>
+
+## Praktische voorbeelden
+
+### 1. Simpele productlink
+Stuur een klant rechtstreeks naar een specifiek product:
+
+```
+https://jouwshop.com/checkout?product=123&quantity=1&name=Sara%20de%20Vries&email=sara@example.com
+```
+
+Deze link voegt product #123 toe aan de winkelwagen en vult naam en e-mail in.
+
+### 2. Volledige klantgegevens
+Neem alle klantinformatie mee voor een razendsnelle checkout:
+
+```
+https://jouwshop.com/checkout?product=456&name=Jan%20Jansen&email=jan@example.com&address=Hoofdstraat%20123&city=Amsterdam&postal=1234AB&country=NL
+```
+
+### 3. Met productopties
+Voeg productvariaties of opties toe:
+
+```
+https://jouwshop.com/checkout?product=789&quantity=2&customfield_size=Large&customfield_color=Blue&name=Klant%20Naam&email=klant@example.com
+```
+
+### 4. Campagnetracking
+Volg waar klanten vandaan komen:
+
+```
+https://jouwshop.com/checkout?product=101&product_customfield_campaign=email_nieuwsbrief&product_customfield_source=mailchimp&name=Nieuwsbrief%20abonnee&email=abonnee@example.com
+```
+
+### 5. Offerte-opvolging
+Stuur klanten na een offerte een directe betaal-link:
+
+```
+https://jouwshop.com/checkout?product=555&quantity=5&customfield_quote_id=Q12345&product_customfield_sales_rep=john&name=Bedrijfseigenaar&email=eigenaar@bedrijf.com
+```
+
+### 6. Vergrendelde klantgegevens
+Deel een link met vooraf ingevulde gegevens die klanten niet kunnen wijzigen:
+
+```
+https://payrequest.me/shop/hostingwalk/checkout?product=4&name=Jan%20Jansen&email=jan@example.com&address=Hoofdstraat%20123&city=Amsterdam&postal=1234AB&country=NL&disabled=true
+```
+
+Hiermee blijven de klantgegevens vaststaan terwijl het betaalproces toch kan worden voltooid.
+
+## Veelvoorkomende scenario's
+
+<AccordionGroup>
+  <Accordion title="E-mailcampagnes" icon="envelope">
+    Voeg checkoutlinks toe aan je e-mailcampagnes:
+
+    ```
+    https://jouwshop.com/checkout?product=123&product_customfield_campaign=feestdagen2024&name={{customer_name}}&email={{customer_email}}
+    ```
+
+    Gebruik de merge tags van je e-mailplatform om elke link te personaliseren.
+  </Accordion>
+
+  <Accordion title="Sales follow-up" icon="handshake">
+    Stuur na een salesgesprek een directe aankooppagina:
+
+    ```
+    https://jouwshop.com/checkout?product=456&customfield_package=premium&product_customfield_sales_rep=sarah&name=Prospect%20Naam
+    ```
+  </Accordion>
+
+  <Accordion title="Upsells via support" icon="headset">
+    Link vanuit supporttickets naar extra diensten:
+
+    ```
+    https://jouwshop.com/checkout?product=789&product_customfield_ticket_id=T456&customfield_priority=urgent
+    ```
+  </Accordion>
+
+  <Accordion title="Partner-/affiliatelinks" icon="users">
+    Houd verkopen vanuit partners bij:
+
+    ```
+    https://jouwshop.com/checkout?product=101&product_customfield_partner=tech_solutions&product_customfield_commission=10percent
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Handleiding URL-encoding
+
+Encodeer altijd speciale tekens in URL-parameters:
+
+<CardGroup cols={2}>
+  <Card title="Veelgebruikte tekens" icon="code">
+    - **Spatie**: `%20` of `+`
+    - **@**: `%40`
+    - **&**: `%26`
+    - **=**: `%3D`
+    - **#**: `%23`
+  </Card>
+  <Card title="Voorbeelden" icon="link">
+    - `Jan Jansen` → `Jan%20Jansen`
+    - `gebruiker@email.com` → `gebruiker%40email.com`
+    - `Speciaal & teken` → `Speciaal%20%26%20teken`
+  </Card>
+</CardGroup>
+
+<Tip>
+De meeste programmeertalen hebben ingebouwde functies voor URL-encoding. Gebruik in JavaScript `encodeURIComponent()`. In PHP gebruik je `urlencode()`.
+</Tip>
+
+## Validatie en foutafhandeling
+
+PayRequest valideert alle URL-parameters voor een soepele checkout-ervaring:
+
+### Wat wordt gevalideerd
+
+<Tabs>
+  <Tab title="Productvalidatie">
+    - Product moet bestaan in je shop
+    - Product moet actief en beschikbaar zijn
+    - Aantal moet een positief getal zijn
+  </Tab>
+
+  <Tab title="Klantdata">
+    - E-mailadressen moeten een geldig formaat hebben
+    - Landcodes moeten geldige 2-letterige codes zijn
+    - Postcodes worden gevalideerd per land
+  </Tab>
+
+  <Tab title="Aangepaste velden">
+    - Velden moeten overeenkomen met je productconfiguratie
+    - Nummer-velden moeten een geldig nummer bevatten
+    - URL-velden moeten geldige URL's zijn
+  </Tab>
+</Tabs>
+
+### Gedrag bij fouten
+
+Als er problemen zijn met de URL-parameters:
+
+- **Ongeldige producten**: Worden genegeerd, checkout gaat door zonder deze items
+- **Ongeldige customfields**: Worden weggefilterd, geldige velden blijven staan
+- **Onjuist opgebouwde URL's**: Vallen netjes terug naar de normale checkout
+
+<Note>
+Alle validatiefouten worden voor jou gelogd, maar klanten zien een nette checkout zonder foutmeldingen.
+</Note>
+
+## Veiligheid en best practices
+
+<Warning>
+**Plaats nooit gevoelige informatie** zoals wachtwoorden, creditcardnummers of privédetails in checkout-URL's. URL's kunnen worden gelogd en gecachet door browsers en servers.
+</Warning>
+
+### Aanbevolen werkwijze
+
+<Steps>
+  <Step title="Gebruik HTTPS">
+    Maak altijd gebruik van beveiligde HTTPS-URL's voor checkout-links
+  </Step>
+  <Step title="Valideer op je backend">
+    Controleer de definitieve bestelling altijd in je eigen systemen
+  </Step>
+  <Step title="Monitor gebruik">
+    Analyseer checkout-URL's om conversies te optimaliseren
+  </Step>
+  <Step title="Houd URL's overzichtelijk">
+    Voeg alleen noodzakelijke parameters toe voor korte, duidelijke links
+  </Step>
+</Steps>
+
+### Beveiligingsfeatures
+
+- **Shopisolatie**: Producten worden alleen geaccepteerd als ze bij jouw shop horen
+- **Veldenvalidering**: Aangepaste velden moeten overeenkomen met de productinstellingen
+- **Audit logging**: Alle URL-parameters worden gelogd voor controle
+- **Sessiebescherming**: Bestaande sessies van klanten blijven behouden
+
+## Test je URL's
+
+<CodeGroup>
+```bash Test-URL
+# Vervang met je eigen domein en product-ID
+https://jouwshop.com/checkout?product=123&name=Test%20Klant&email=test@example.com
+```
+
+```javascript Genereer URL's in JavaScript
+function genereerCheckoutUrl(domein, productId, klantData, customFields = {}) {
+  const params = new URLSearchParams();
+
+  // Product toevoegen
+  params.append('product', productId);
+
+  // Klantgegevens toevoegen
+  if (klantData.name) params.append('name', klantData.name);
+  if (klantData.email) params.append('email', klantData.email);
+  if (klantData.address) params.append('address', klantData.address);
+
+  // Customfields toevoegen
+  Object.entries(customFields).forEach(([key, value]) => {
+    params.append(`customfield_${key}`, value);
+  });
+
+  return `https://${domein}/checkout?${params.toString()}`;
+}
+
+// Voorbeeld
+const url = genereerCheckoutUrl('jouwshop.com', 123, {
+  name: 'Jan Jansen',
+  email: 'jan@example.com'
+}, {
+  size: 'Large',
+  color: 'Blue'
+});
+```
+</CodeGroup>
+
+## Probleemoplossing
+
+<AccordionGroup>
+  <Accordion title="Product wordt niet toegevoegd" icon="shopping-cart">
+    **Mogelijke oorzaken:**
+    - Product-ID bestaat niet
+    - Product is inactief of niet beschikbaar
+    - Product hoort bij een andere shop
+
+    **Oplossing:** Controleer de product-ID in je PayRequest-dashboard
+  </Accordion>
+
+  <Accordion title="Klantgegevens worden niet ingevuld" icon="user">
+    **Mogelijke oorzaken:**
+    - Parameters zijn niet goed ge-URL-encodeerd
+    - Typefouten in parameternamen
+    - Speciale tekens zijn niet gecodeerd
+
+    **Oplossing:** Controleer de spelling en gebruik URL-encoding
+  </Accordion>
+
+  <Accordion title="Customfields verschijnen niet" icon="tags">
+    **Mogelijke oorzaken:**
+    - Customfield bestaat niet voor dit product
+    - Verkeerd voorvoegsel gebruikt
+    - Type van het veld klopt niet
+
+    **Oplossing:** Controleer de productinstellingen voor customfields
+  </Accordion>
+
+  <Accordion title="URL is te lang" icon="link">
+    **Mogelijke oorzaken:**
+    - Te veel parameters
+    - Zeer lange customfield-waarden
+    - Complexe productconfiguraties
+
+    **Oplossing:** Gebruik kortere veldnamen of splits het proces in meerdere stappen
+  </Accordion>
+</AccordionGroup>
+
+## Volgende stappen
+
+<CardGroup cols={2}>
+  <Card
+    title="Betaalmethoden"
+    icon="credit-card"
+    href="/nl/essentials/payment-methods"
+  >
+    Leer meer over betaalopties voor je klanten
+  </Card>
+  <Card
+    title="Klantenbeheer"
+    icon="users"
+    href="/nl/essentials/customer-management"
+  >
+    Organiseer en volg klantinformatie
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/nl/essentials/webhooks"
+  >
+    Ontvang meldingen wanneer klanten afronden
+  </Card>
+  <Card
+    title="Betalingen bijhouden"
+    icon="chart-line"
+    href="/nl/essentials/payment-tracking"
+  >
+    Monitor je verkopen en betaalprestaties
+  </Card>
+</CardGroup>
