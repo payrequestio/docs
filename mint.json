@@ -57,6 +57,7 @@
         "pages": [
           "essentials/payments",
           "essentials/payment-methods",
+          "essentials/setup-fees",
           "essentials/checkout-urls",
           "essentials/webhooks",
           "essentials/security"
