@@ -1,0 +1,85 @@
+---
+title: "Sync Product Changes with Subscriptions"
+description: "Keep subscription custom fields aligned with product updates using the Sync with Product feature."
+---
+
+# Sync Product Changes with Subscriptions
+
+Ensure that existing subscriptions stay aligned with the latest custom field configuration defined on their source product. The **Sync with Product** feature gives you full control over which custom field updates are copied to a subscription, preventing unwanted data loss.
+
+## Overview
+
+Products often evolve after subscriptions have been created. When you add or modify custom fields on a product, the associated subscriptions do **not** update automatically. Syncing lets you selectively apply the new configuration to each subscription so that customers see the fields you expect without unexpected changes.
+
+## Why This Feature Exists
+
+Custom fields capture important customer details such as installation locations, domain names, or license keys. Automatically pushing every change to all subscriptions could overwrite values or remove fields that still contain data. Syncing puts you in charge so you can review differences before applying them.
+
+## How to Use Sync with Product
+
+### 1. Navigate to the Subscription
+Go to **Dashboard → Subscriptions** and open the subscription you want to review.
+
+### 2. Check Sync Status
+On the **Settings** tab, find the **Sync with Product** card. It displays one of two states:
+
+- ✅ **In Sync (green)** – The subscription’s custom fields match the product exactly.
+- ⚠️ **Out of Sync (amber)** – Differences exist between the subscription and the product.
+
+### 3. Review Detected Changes
+When a subscription is out of sync, the card lists the pending changes:
+
+- **New** (green badge) – Fields added to the product that the subscription does not yet have.
+- **Modified** (amber badge) – Fields whose configuration changed (for example, making a field required).
+- **Removed** (red badge) – Fields deleted from the product.
+
+### 4. Open the Sync Dialog
+Select **Sync Fields** to open a dialog that breaks down each change in detail.
+
+### 5. Select Changes to Apply
+Within the dialog:
+
+- New and modified fields are preselected so you can quickly apply them.
+- Removed fields must be explicitly selected to avoid accidental data loss.
+- If a removed field currently holds data, the dialog shows the value that will be deleted.
+
+### 6. Apply Selected Changes
+Choose **Apply Selected Changes** to update the subscription. Only the selected updates are applied, and only to the subscription you are viewing.
+
+## What Gets Synced
+
+- **Field configuration** – Names, labels, and field types.
+- **Field settings** – Required status, visibility in the shop, and default values.
+- **Field order** – The display order of custom fields.
+
+## What Does Not Sync
+
+- **Field values** – Existing customer data remains unchanged unless you remove the field.
+- **Other subscriptions** – Syncing affects only the subscription you selected.
+- **Pricing** – Product price changes never alter existing subscription pricing.
+
+## Best Practices
+
+1. **Review before syncing** – Confirm how each change affects customer data, especially when removing fields.
+2. **Test with one subscription** – Sync a single subscription first to ensure the configuration behaves as expected.
+3. **Communicate requirements** – Let customers know if new required fields appear so they can provide the information.
+4. **Document your custom fields** – Keep internal notes about field purposes for team members who manage subscriptions.
+
+## Common Scenarios
+
+### Adding a New Required Field
+You create a **License Key** field for a software product. Sync the field to existing subscriptions, then notify customers to supply their keys.
+
+### Removing an Obsolete Field
+You plan to remove an old **Fax Number** field. Check whether any subscriptions still contain data, export it if needed, and then sync to remove the field.
+
+### Updating Field Settings
+You switch **Company Name** from optional to required. Sync the configuration so new customers must complete it, while existing data remains untouched until customers update it.
+
+## Troubleshooting
+
+- **Why don’t I see the Sync button?** The subscription may not reference a product, or the product could have been deleted.
+- **Can I undo a sync?** No. Review the pending changes carefully before applying them.
+- **Will syncing affect customer portals?** Yes. Visible fields will appear to customers immediately after syncing.
+- **Do new subscriptions need syncing?** No. New subscriptions inherit the current product configuration automatically.
+

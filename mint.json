@@ -68,7 +68,8 @@
         "essentials/invoice-templates",
         "essentials/customer-management",
         "essentials/payment-tracking",
-        "essentials/reporting"
+        "essentials/reporting",
+        "essentials/sync-product-changes-with-subscriptions"
       ]
     },
     {
