@@ -21,10 +21,6 @@
       {
         "locale": "en",
         "name": "English"
-      },
-      {
-        "locale": "nl",
-        "name": "Nederlands"
       }
     ]
   },
@@ -32,10 +28,6 @@
     {
       "name": "Support",
       "url": "mailto:support@payrequest.io"
-    },
-    {
-      "name": "Nederlands",
-      "url": "/nl/introduction"
     }
   ],
   "topbarCtaButton": {
@@ -44,87 +36,143 @@
   },
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "🚀 Getting Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "getting-started/welcome-to-payrequest",
+        "getting-started/quick-start-guide",
+        "getting-started/initial-setup-checklist",
+        "getting-started/understanding-your-dashboard"
       ]
     },
     {
-      "group": "Core Concepts",
+      "group": "💳 Payment Processing",
       "pages": [
-        "essentials/payments",
-        "essentials/payment-methods",
-        "essentials/setup-fees",
-        "essentials/checkout-urls",
-        "essentials/webhooks",
-        "essentials/security"
+        "payment-processing/payment-methods-overview",
+        "payment-processing/setting-up-payment-providers",
+        "payment-processing/payment-forms",
+        "payment-processing/checkout-links",
+        "payment-processing/qr-code-payments",
+        "payment-processing/bank-sync-ponto",
+        "payment-processing/handling-chargebacks"
       ]
     },
     {
-      "group": "Business Workflows",
+      "group": "📦 Products & Pricing",
       "pages": [
-        "essentials/invoice-templates",
-        "essentials/customer-management",
-        "essentials/payment-tracking",
-        "essentials/reporting",
-        "essentials/sync-product-changes-with-subscriptions"
+        "products-and-pricing/creating-products",
+        "products-and-pricing/custom-fields",
+        "products-and-pricing/setup-fees",
+        "products-and-pricing/trial-periods",
+        "products-and-pricing/quantity-based-pricing",
+        "products-and-pricing/product-sharing"
       ]
     },
     {
-      "group": "Invoice Management",
+      "group": "🔄 Subscriptions",
       "pages": [
-        "essentials/creating-invoices",
-        "essentials/sending-invoices",
-        "essentials/tracking-payments"
+        "subscriptions/creating-subscriptions",
+        "subscriptions/subscription-lifecycle",
+        "subscriptions/managing-mandates",
+        "subscriptions/billing-cycles",
+        "subscriptions/pausing-and-resuming",
+        "subscriptions/sync-product-changes",
+        "subscriptions/failed-payment-handling",
+        "subscriptions/customer-self-service"
       ]
     },
     {
-      "group": "Aan de slag",
+      "group": "📄 Invoices",
       "pages": [
-        "nl/introduction",
-        "nl/quickstart",
-        "nl/development"
+        "invoices/creating-invoices",
+        "invoices/invoice-templates",
+        "invoices/email-templates",
+        "invoices/payment-reminders",
+        "invoices/partial-payments",
+        "invoices/tax-configuration",
+        "invoices/bulk-invoice-actions"
       ]
     },
     {
-      "group": "Belangrijkste concepten",
+      "group": "🛍️ Shop & Checkout",
       "pages": [
-        "nl/essentials/payments",
-        "nl/essentials/payment-methods",
-        "nl/essentials/checkout-urls",
-        "nl/essentials/webhooks",
-        "nl/essentials/security",
-        "nl/essentials/authentication"
+        "shop-and-checkout/shop-setup",
+        "shop-and-checkout/custom-domains",
+        "shop-and-checkout/product-display",
+        "shop-and-checkout/shopping-cart",
+        "shop-and-checkout/checkout-customization",
+        "shop-and-checkout/order-management"
       ]
     },
     {
-      "group": "Zakelijke workflows",
+      "group": "👥 Customer Management",
       "pages": [
-        "nl/essentials/invoice-templates",
-        "nl/essentials/customer-management",
-        "nl/essentials/payment-tracking",
-        "nl/essentials/reporting"
+        "customer-management/customer-profiles",
+        "customer-management/customer-portal",
+        "customer-management/customer-sync",
+        "customer-management/tax-exemptions",
+        "customer-management/private-notes",
+        "customer-management/customer-health"
       ]
     },
     {
-      "group": "Factuurbeheer",
+      "group": "🏷️ Organization & Automation",
       "pages": [
-        "nl/essentials/creating-invoices",
-        "nl/essentials/sending-invoices",
-        "nl/essentials/tracking-payments"
+        "organization-and-automation/tags-system",
+        "organization-and-automation/email-automations",
+        "organization-and-automation/bulk-operations",
+        "organization-and-automation/activity-tracking",
+        "organization-and-automation/webhook-configuration"
       ]
     },
     {
-      "group": "Documentatiebeheer",
+      "group": "📊 Analytics & Reporting",
       "pages": [
-        "nl/essentials/navigation",
-        "nl/essentials/settings",
-        "nl/essentials/markdown",
-        "nl/essentials/code",
-        "nl/essentials/images",
-        "nl/essentials/reusable-snippets"
+        "analytics-and-reporting/insights-dashboard",
+        "analytics-and-reporting/transaction-reports",
+        "analytics-and-reporting/export-functions",
+        "analytics-and-reporting/revenue-tracking",
+        "analytics-and-reporting/customer-analytics"
+      ]
+    },
+    {
+      "group": "🏢 Business Settings",
+      "pages": [
+        "business-settings/business-details",
+        "business-settings/team-management",
+        "business-settings/invoice-settings",
+        "business-settings/email-configuration",
+        "business-settings/api-and-integrations",
+        "business-settings/data-import-export"
+      ]
+    },
+    {
+      "group": "🔒 Security & Compliance",
+      "pages": [
+        "security-and-compliance/two-factor-authentication",
+        "security-and-compliance/api-keys-and-tokens",
+        "security-and-compliance/gdpr-compliance",
+        "security-and-compliance/pci-compliance",
+        "security-and-compliance/audit-logs"
+      ]
+    },
+    {
+      "group": "🔧 Advanced Features",
+      "pages": [
+        "advanced-features/custom-css",
+        "advanced-features/javascript-snippets",
+        "advanced-features/webhook-development",
+        "advanced-features/api-reference",
+        "advanced-features/bulk-data-operations"
+      ]
+    },
+    {
+      "group": "🆘 Troubleshooting",
+      "pages": [
+        "troubleshooting/common-issues",
+        "troubleshooting/payment-failures",
+        "troubleshooting/email-delivery-issues",
+        "troubleshooting/sync-problems",
+        "troubleshooting/performance-tips"
       ]
     }
   ],
