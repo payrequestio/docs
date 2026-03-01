@@ -1,8 +1,180 @@
 ---
-title: Customer Health
-description: 'Email deliverability tracking'
+title: "Email Health & Bounce Suppression"
+description: "Monitor email deliverability per customer and automatically prevent sending to bounced or invalid addresses"
 ---
 
-# Customer Health
+# Email Health & Bounce Suppression
 
-_Work in progress. Content coming soon._
+PayRequest automatically tracks email delivery issues — bounces, spam complaints, and failures — and suppresses future emails to problematic addresses. This protects your sender reputation and prevents wasted delivery attempts.
+
+<Info>
+Email health tracking works automatically via Resend webhooks. No setup is required beyond having your Resend integration connected.
+</Info>
+
+<CardGroup cols={2}>
+  <Card title="Automatic Suppression" icon="shield-check">
+    Emails to bounced or complained addresses are blocked until you clear the suppression
+  </Card>
+  <Card title="Customer Visibility" icon="eye">
+    Bounce warnings appear on customer profiles with full issue history
+  </Card>
+  <Card title="Delivery Confirmation" icon="check-circle">
+    Invoice reminders show delivery status when Resend confirms receipt
+  </Card>
+  <Card title="Self-Healing" icon="arrow-path">
+    Transient failures auto-resolve when a subsequent email delivers successfully
+  </Card>
+</CardGroup>
+
+---
+
+## How It Works
+
+<Steps>
+  <Step title="Email is sent">
+    PayRequest sends an invoice reminder, order confirmation, or other customer email via Resend.
+  </Step>
+  <Step title="Resend reports back">
+    Resend sends a webhook when the email bounces, gets a spam complaint, fails, or is successfully delivered.
+  </Step>
+  <Step title="PayRequest records the event">
+    The bounce or complaint is recorded as an **email issue** linked to the customer's email address. Delivery confirmations update the reminder history.
+  </Step>
+  <Step title="Future emails are suppressed">
+    Any attempt to send email to that address is blocked. The sender (command, UI, or MCP tool) is notified that the email was suppressed.
+  </Step>
+  <Step title="You review and clear">
+    A red warning on the customer profile shows the bounce details. You can update the email address or clear the suppression to resume sending.
+  </Step>
+</Steps>
+
+---
+
+## Email Health Statuses
+
+Each customer has an email health status based on their unresolved email issues:
+
+| Status | Badge Color | Meaning |
+|---|---|---|
+| **Healthy** | Green | No active issues — emails deliver normally |
+| **Bounced** | Red | Email address rejected by the recipient server (e.g., address doesn't exist) |
+| **Complained** | Orange | Recipient marked your email as spam |
+| **Failed** | Yellow | Transient delivery failure (auto-resolves on next successful delivery) |
+
+---
+
+## Customer Profile: Bounce Warning
+
+When a customer has an active bounce or complaint, a prominent red callout appears at the top of their **Details** tab:
+
+- **Bounce type** — Permanent or Transient
+- **Date** — When the bounce occurred
+- **Reason** — The SMTP error message from the recipient's mail server
+- **Clear Suppression** button — Resolves all active issues and re-enables email delivery
+
+### Email Issue History
+
+The **Logs** tab on the customer profile shows a chronological table of all email issues, including:
+
+- Date and time of each event
+- Issue type (Bounced, Complained, Failed)
+- Reason and SMTP message
+- Status — **Active** (red) or **Resolved** (green)
+
+---
+
+## Customer List: Email Issues Filter
+
+The customer list shows email delivery problems at a glance:
+
+- **Email Issues count** in the stats bar (only visible when issues exist)
+- **Email Issues filter** in the status dropdown to show only affected customers
+- **Red "Bounced" badge** on customer cards with active suppression
+
+---
+
+## What Gets Suppressed
+
+When an email is suppressed, every customer-facing email channel is blocked:
+
+| Email Type | Behavior When Suppressed |
+|---|---|
+| Invoice reminders (automatic) | Skipped with "suppressed" status in command output |
+| Invoice reminders (manual/bulk) | Toast warning in the dashboard |
+| Invoice paid confirmations | Silently skipped with log entry |
+| Smart link emails | Smart link still created, email skipped |
+| Debt collection notices | Email skipped, escalation continues normally |
+| Checkout recovery emails | Silently skipped |
+| Deposit authorized emails | Silently skipped |
+| MCP send-invoice-reminder | Returns error message explaining the suppression |
+
+<Tip>
+Business owner emails (like daily summaries) are **never** suppressed — only customer-facing emails are affected.
+</Tip>
+
+---
+
+## Clearing Suppression
+
+There are two ways to clear a suppression and resume email delivery:
+
+### Manual Clear
+
+Click the **Clear Suppression** button on the customer profile's bounce warning callout. This resolves all active email issues for that customer.
+
+### Automatic Clear on Email Change
+
+When you edit a customer and change their email address to a different one, PayRequest automatically:
+
+1. Resolves all active email issues on the old address
+2. Removes any tags that were added by email bounce automations (e.g., the "Invalid Email" tag)
+
+<Warning>
+Only clear a suppression if you're confident the email address is now valid — for example, after the customer confirms a typo fix. Clearing suppression for a permanently invalid address will just result in another bounce.
+</Warning>
+
+---
+
+## Delivery Confirmation
+
+When Resend confirms that an invoice reminder was delivered, PayRequest records a `delivered_at` timestamp on the reminder history. This appears as a green **Email Delivered** event in the invoice timeline, giving you confirmation that the customer received the reminder.
+
+Delivery confirmations also automatically resolve any previous transient **Failed** issues for that email address.
+
+---
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What's the difference between Bounced and Failed?">
+    **Bounced** means the recipient server permanently rejected the email (e.g., the address doesn't exist). This creates a suppression that blocks future emails. **Failed** is a transient issue (e.g., temporary server problem) that auto-resolves when a later email delivers successfully.
+  </Accordion>
+  <Accordion title="Will clearing suppression cause another bounce?">
+    If the underlying problem hasn't been fixed (e.g., the email address is still invalid), yes — the next email will bounce and the suppression will be re-applied. Only clear suppression when you're confident the issue is resolved.
+  </Accordion>
+  <Accordion title="Does suppression affect emails to contact persons (CC)?">
+    No. Suppression only checks the primary recipient (the customer's email). CC recipients on contact persons are not checked against the suppression list.
+  </Accordion>
+  <Accordion title="Can I see which emails were blocked?">
+    Every suppressed email attempt is logged in the application log with the email address, context (which job or command tried to send), and the reason for suppression.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Payment Reminders" icon="bell" href="/invoices/payment-reminders">
+    Configure automatic invoice reminder schedules
+  </Card>
+  <Card title="Email Automations" icon="bolt" href="/organization-and-automation/email-automations">
+    Set up automatic tagging for bounced emails
+  </Card>
+  <Card title="Contact Persons" icon="users" href="/customer-management/contact-persons">
+    Add CC recipients who receive email copies
+  </Card>
+  <Card title="Email Delivery Troubleshooting" icon="wrench" href="/troubleshooting/email-delivery-issues">
+    Diagnose and fix common email delivery problems
+  </Card>
+</CardGroup>

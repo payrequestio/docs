@@ -1,0 +1,1402 @@
+---
+title: "Changelog"
+description: "Track PayRequest platform updates, new features, and improvements"
+---
+
+# Changelog 📝
+
+Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
+
+<Update label="2026-03-01" description="v3.3.0" tags={["Email", "Customer Management", "Automation"]}>
+## Email Bounce Suppression & Delivery Tracking
+
+PayRequest now automatically detects email bounces and spam complaints, suppresses future emails to problematic addresses, and confirms delivery of invoice reminders. No more silently sending emails to dead addresses.
+
+### What's New
+
+- **Automatic email suppression** — Bounced and complained emails are blocked until you clear the suppression or update the email address
+- **Bounce warning on customer profiles** — Red callout with bounce type, SMTP error, and a **Clear Suppression** button
+- **Email Issue History** — Full chronological log of bounces, complaints, and failures in the customer's Logs tab
+- **Customer list filter** — New **Email Issues** filter and red **Bounced** badge on affected customer cards
+- **Delivery confirmation** — Invoice reminders show a green **Email Delivered** event in the timeline when Resend confirms receipt
+- **Auto-resolve transient failures** — Temporary delivery failures clear automatically when the next email delivers
+- **Smart email change** — Updating a customer's email automatically clears suppressions and removes bounce tags
+- **16 email channels protected** — Every customer-facing email (reminders, confirmations, debt collection, smart links, deposits) checks suppression before sending
+- **MCP integration** — The `send-invoice-reminder` tool returns a clear error when the customer email is suppressed
+
+### How It Works
+
+1. Resend reports a bounce or complaint via webhook
+2. PayRequest records the issue and blocks future emails to that address
+3. A red warning appears on the customer profile with full details
+4. Fix the email or click **Clear Suppression** to resume delivery
+
+[Read the full documentation](/customer-management/customer-health)
+</Update>
+
+<Update label="2026-02-28" description="v3.2.0" tags={["Customer Portal", "Contact Persons", "Email"]}>
+## Contact Persons
+
+Customers and business owners can now add **Contact Persons** — additional people from the customer's organization who receive email notification copies (CC). Perfect for bookkeepers who need invoice copies, managers who want payment updates, or technical contacts for subscription changes.
+
+### What's New
+
+- **Contact Persons page** in the customer portal sidebar with add, edit, and delete
+- **Role labels** — General, Billing, Bookkeeping, Technical, Management, or Support
+- **Two notification categories** — Billing emails (invoices, payments, reminders) and Account emails (subscriptions, orders)
+- **Admin management** — Add and manage contact persons from the customer detail page in the dashboard
+- **Automatic CC** — Contact persons are automatically CC'd on matching email types
+- **Up to 10 contacts** per customer with duplicate email prevention
+
+### How It Works
+
+1. Customer navigates to **Contact Persons** in the portal sidebar
+2. Adds a contact person with name, email, role, and notification preferences
+3. Future emails matching their selected categories are automatically CC'd to them
+
+[Read the full documentation](/customer-management/contact-persons)
+</Update>
+
+<Update label="2026-02-28" description="v3.1.0" tags={["Subscriptions", "Suspension", "Email"]}>
+## Subscription Suspension
+
+A new **Suspended** status for subscriptions lets you halt service for non-paying customers while tracking the state in PayRequest and automatically reactivating when they pay.
+
+### What's New
+
+- **Suspend button** on subscription detail page with optional reason field
+- **Orange "Suspended" badge** — distinct from blue "Paused" to differentiate admin-initiated holds from voluntary pauses
+- **Customer email notification** sent automatically when a subscription is suspended
+- **Auto-reactivation** when the overdue invoice is paid via Mollie webhook — no manual follow-up needed
+- **Manual unsuspend** button for admin to reactivate at any time
+- **Suspended tab** in the subscription table with count badge
+- **Insights dashboard** Action Required section now shows suspended subscription count
+- **Customizable email template** under Settings > Email Templates > Subscription Suspended
+- **Full activity log** tracking for suspend, unsuspend, and auto-reactivation events
+
+### How It Works
+
+1. Customer has overdue invoices and isn't paying
+2. Admin clicks **Suspend Subscription** and enters an optional reason
+3. Status changes to Suspended, customer receives email
+4. When customer pays the overdue invoice, subscription auto-reactivates
+
+[Read the full documentation](/subscriptions/suspending-subscriptions)
+</Update>
+
+<Update label="2026-02-20" description="v3.0.0" tags={["Collections", "Payment Plans", "Postal Letters"]}>
+## Debt Collection & Payment Recovery
+
+A complete debt collection system to help you recover unpaid invoices professionally. From friendly reminders to formal notices and physical letters — manage the entire recovery process from your dashboard.
+
+### 📋 Collection Cases
+
+Create and manage collection cases for overdue invoices:
+
+- **Case Management**: Track every collection case with unique case numbers
+- **From Invoices**: Open a case directly from any overdue invoice
+- **External Debts**: Create cases for debts outside your invoicing system (auto-creates invoice)
+- **Customer Portal**: Customers can view their case, see what they owe, and pay directly
+- **Activity Tracking**: Full audit trail of every action, reminder, and payment
+
+### 🔄 4-Stage Escalation Pipeline
+
+Gradually increase urgency with a structured escalation process:
+
+| Stage | Name | What Happens |
+|-------|------|-------------|
+| 1 | Friendly Reminder | Polite notice, assumes oversight |
+| 2 | Formal Notice | Professional letter with payment deadline |
+| 3 | Collection Fees | Fees added to the outstanding balance |
+| 4 | Final Warning | Last chance before further consequences |
+
+- **Automatic Escalation**: Cases progress through stages automatically based on days overdue
+- **Manual Control**: Escalate or send reminders at any time
+- **Per-Case Language**: Set Dutch or English per case for accurate communication
+
+### 💶 Payment Plans (Installments)
+
+Let customers pay in monthly installments when they can't afford the full amount:
+
+- **Flexible Terms**: 2, 3, 6, or 12 monthly installments
+- **Automatic Billing**: Uses PayRequest's subscription system for automatic monthly charges
+- **Progress Tracking**: Visual progress bar showing installments completed
+- **Auto-Close**: Cases automatically close when all installments are paid
+- **Customer Requests**: Customers can request a payment plan from the portal (toggle per case)
+
+### ✉️ Postal Letters via Pingen
+
+Send physical collection letters for formal notices:
+
+- **Professional Layout**: A4 business letters with your company details
+- **Stage-Appropriate Content**: Letter text matches the current collection stage
+- **QR Code Payment**: Each letter includes a QR code for quick mobile payment
+- **Automatic Sending**: Letters sent automatically during escalation (Stage 2+)
+- **Delivery Tracking**: Monitor letter status (pending, sent, delivered)
+
+### 💰 Collection Fees
+
+Add collection fees at later stages to cover recovery costs:
+
+- **Visible Everywhere**: Fees shown on payment pages, portal, and postal letters
+- **Clear Breakdown**: Customers see original amount + fee = total
+- **Included in Plans**: Payment plans cover the total including fees
+
+### 🏪 Customer Experience
+
+Customers see their collection case in the portal with:
+
+- Warning banner explaining the situation
+- Case details and amount breakdown
+- Stage progress indicator
+- Pay Now button for immediate settlement
+- Payment plan request option
+
+[Read the full Debt Collection guide →](/debt-collection/overview)
+
+</Update>
+
+<Update label="2026-01-29" description="v2.9.5" tags={["AI", "MCP", "Integration"]}>
+## MCP Integration: Claude Desktop & ChatGPT Support
+
+Connect your favorite AI assistant to PayRequest and manage your billing with natural language conversations. The Model Context Protocol (MCP) integration is now fully working with both Claude Desktop and ChatGPT.
+
+### 🤖 Supported AI Assistants
+
+- **Claude Desktop**: Anthropic's desktop application with full MCP support
+- **ChatGPT**: OpenAI's ChatGPT with MCP connector support (Plus subscription required)
+
+### 💬 Natural Language Billing
+
+Ask questions in plain English:
+
+- *"What are my invoice statistics?"*
+- *"Show me all overdue invoices"*
+- *"List my recent invoices"*
+- *"Send a payment reminder for invoice #INV-2025-042"*
+
+### 🔧 Available Tools
+
+| Tool | Description |
+|------|-------------|
+| Get Invoice Stats | Real-time overview of total, pending, paid, and overdue invoices |
+| List Invoices | Search and filter invoices by status |
+| Get Overdue Invoices | Find invoices that need attention |
+| Send Invoice Reminder | Automate payment reminder emails |
+
+### 🔐 Secure OAuth Authentication
+
+- Industry-standard OAuth 2.0 with PKCE
+- No API keys to manage or rotate
+- Revoke access anytime from your dashboard
+- All actions logged for audit purposes
+
+### ⚡ Quick Setup
+
+1. Go to **Settings → API** in your PayRequest dashboard
+2. Select the **Claude Desktop** or **ChatGPT** tab
+3. Follow the on-screen instructions
+4. Authenticate with your PayRequest account
+5. Start chatting with your billing data!
+
+[Read the full MCP setup guide →](/mcp/setup)
+
+</Update>
+
+<Update label="2025-12-29" description="v2.9.4" tags={["Payments", "Ponto", "Bank Transfer"]}>
+## Bank Transfer Payment Method
+
+Accept bank transfers with automatic payment matching. Customers pay via bank transfer, and PayRequest automatically marks invoices as paid when the payment arrives.
+
+### 🏦 Zero-Fee Bank Payments
+
+Accept bank transfers without any PayRequest transaction fees:
+
+- **Automatic Matching**: Ponto integration matches incoming payments automatically
+- **Unique References**: Each payment gets a unique reference code (e.g., `PAY-12345`)
+- **Instant Recognition**: Payments matched within minutes of arriving in your bank
+- **Copy Buttons**: Easy one-click copying of IBAN and reference for customers
+
+### 💰 How It Works
+
+1. Customer selects "Bank Transfer" at checkout
+2. Customer sees your IBAN and unique payment reference
+3. Customer transfers the exact amount via their bank
+4. Ponto syncs your bank transactions automatically
+5. PayRequest matches the reference and marks invoice as paid
+
+### 📍 Available Everywhere
+
+Bank Transfer is now available on all payment surfaces:
+
+- **Payment Pages**: Your public payment page (payrequest.me/yourbusiness)
+- **Invoice Payments**: Customer portal invoice payment
+- **Smart Links**: Shareable payment links
+
+### ⚙️ Easy Setup
+
+1. Connect your bank via **Settings → Ponto**
+2. Toggle **Bank Transfer Payment Method** on
+3. Optionally add custom instructions for customers
+4. Start accepting bank transfers!
+
+### 🎯 Perfect For
+
+- **B2B Payments**: Business customers who prefer bank transfers
+- **High-Value Transactions**: Large payments without card limits
+- **Cost-Conscious Customers**: No processing fees passed on
+- **European Markets**: Strong bank transfer culture in NL, BE, DE
+
+[Learn more about Bank Transfer Payments →](/payment-processing/bank-transfer)
+
+</Update>
+
+<Update label="2025-12-17" description="v2.9.3" tags={["Shop", "Sales Pages", "Settings"]}>
+## Vacation Mode
+
+Take a break from your business without missing a beat. The new Vacation Mode lets you temporarily pause all new orders while keeping your shop and sales pages visible.
+
+### 🏖️ Pause Orders Temporarily
+
+Enable Vacation Mode when you need a break:
+- Going on holiday
+- Restocking inventory
+- Seasonal closures
+- Maintenance periods
+
+### ⏰ Automatic End Dates
+
+Set it and forget it:
+- Choose when vacation mode should automatically disable
+- Your shop resumes accepting orders at midnight on the selected date
+- Or leave it empty and manually re-enable when ready
+
+### 💬 Custom Messages
+
+Tell customers what's happening:
+- Write a personalized vacation message
+- Display your return date
+- Keep customers informed and engaged
+
+### 🛡️ What's Protected
+
+Vacation Mode only blocks **new** orders:
+- Existing subscriptions continue billing normally
+- Customers can still pay outstanding invoices
+- Your shop remains browsable
+
+### 📍 Where to Find It
+
+**Shop** → **Shop Settings** tab → **Vacation Mode** card
+
+[Learn more about Vacation Mode →](/shop-and-checkout/vacation-mode)
+
+</Update>
+
+<Update label="2025-12-13" description="v2.9.2" tags={["Products", "Orders", "Email"]}>
+## Paid-Only Order Creation
+
+Reduce email noise and keep your order data clean with the new Order Creation Mode for products.
+
+### 🛒 Order Creation Control
+
+New product setting to control when orders are created during checkout:
+
+**Orders at Checkout (Default)**
+- Current behavior - orders created immediately when checkout starts
+- Emails sent right away (customer registration, order confirmation)
+- Good for standard e-commerce where you want to track all attempts
+
+**Paid-Only Orders (New)**
+- Orders only created after successful payment
+- No emails until payment is confirmed
+- Perfect for high-traffic products with many abandoned checkouts
+
+### 📧 Cleaner Email Flow
+
+With paid-only mode enabled:
+- No "Customer registered" emails for window shoppers
+- No "New order" notifications that get cancelled minutes later
+- No "Order cancelled" emails for abandoned checkouts
+- Customers only receive order confirmation when they actually pay
+
+### 🎯 Where It Works
+
+The order creation mode setting works across all checkout channels:
+- Shop checkout (cart-based purchases)
+- Payment page (product links)
+- Smart links (shareable payment URLs)
+
+### 💡 When to Use
+
+Enable paid-only orders for products that:
+- Generate many abandoned checkouts
+- Are used in marketing campaigns with high traffic
+- Don't require pre-payment order tracking
+- Create too much email noise for your team
+
+**How to Enable:**
+1. Edit your product
+2. Go to Custom Fields step
+3. Find "Order Creation" setting
+4. Select "Paid-only orders"
+
+</Update>
+
+<Update label="2025-12-08" description="v2.9.1" tags={["Products", "Payments", "UX"]}>
+## Smarter Pricing & Better Payment Recovery
+
+Make your pricing more flexible and ensure customers can easily complete their payments, even after interruptions.
+
+### 💰 Price Per Unit for Numeric Fields
+
+Create dynamic pricing based on quantities your customers enter. Perfect for rental days, seats, licenses, or any quantity-based pricing.
+
+**Example Use Cases:**
+- Rental equipment: €16 per day × number of days
+- Event tickets: €25 per person × number of attendees
+- Software licenses: €10 per seat × number of users
+
+**How It Works:**
+1. Add a number field to your product's custom fields
+2. Set a "per unit markup" price (e.g., €16)
+3. Customers enter their quantity and the total updates automatically
+
+**What Customers See:**
+- Clear input field with per-unit price displayed
+- Real-time calculation as they change the quantity
+- Example: "2 × €16.00 = +€32.00"
+
+### 📊 Price Breakdown on Sales Page
+
+Customers now see exactly what they're paying for with a clear, itemized breakdown on your payment page.
+
+**Breakdown Shows:**
+- Base product price
+- Each custom field option with its price impact
+- Setup fees (with your custom name like "Deposit" or "Installation")
+- **Total price** - clearly visible
+
+**Benefits:**
+- Builds trust with transparent pricing
+- Reduces customer questions about charges
+- Professional checkout experience
+
+### 🔄 Custom Fields Retained After Failed Payment
+
+When a customer's payment is interrupted (cancelled, failed, or closed), they no longer lose their selections.
+
+**Before:** Customer fills in rental days, size, options → payment fails → all data lost, start over.
+
+**Now:** Customer returns to payment page → all their custom field selections are still there, ready to complete.
+
+**Works With:**
+- Cancelled payments
+- Failed payments
+- Browser closed during payment
+- Session timeouts
+
+### 🚫 Cancelled Invoice Protection
+
+Cancelled invoices can no longer be paid, preventing confusion and duplicate payments.
+
+**What Happens:**
+- Customer visits a cancelled invoice link
+- Clear message: "This invoice has been cancelled"
+- Invoice items shown with strikethrough (so they know what was ordered)
+- Payment form is completely hidden
+
+**Why This Matters:**
+- Prevents payments on orders you've already cancelled
+- Clear communication with customers
+- No manual refunds needed for cancelled orders
+
+<Tip>
+**Pro Tip:** Use the per-unit markup feature for rental businesses, event tickets, or any service where customers choose quantities. Combined with the price breakdown, customers see exactly what they're paying for.
+</Tip>
+
+</Update>
+
+<Update label="2025-12-04" description="v2.9.0" tags={["Invoices", "Automation", "UX"]}>
+## Get Paid Faster with Automated Reminders & Invoice Read Receipts
+
+Stop chasing payments manually. PayRequest now automatically reminds your customers about unpaid invoices and shows you exactly when they've seen them.
+
+### 🔔 Automated Payment Reminders
+
+Set it and forget it. Your invoices now remind customers automatically so you don't have to.
+
+**What You Get:**
+- Automatic reminder emails sent daily at 9:00 AM
+- Choose when to remind: before due date, after due date, or both
+- Control how often reminders are sent (e.g., once per week)
+- Professional reminder emails with your branding and invoice details
+
+**Easy Setup:**
+1. Open any invoice
+2. Go to the "Payment Reminders" tab
+3. Toggle reminders on
+4. Set your preferences (days before/after, frequency)
+5. Done! Reminders will be sent automatically
+
+**Stay in Control:**
+- Send a reminder manually anytime with one click
+- Send reminders to multiple invoices at once with bulk actions
+- See complete history of all reminders sent
+
+### 👁️ Invoice Read Receipts
+
+Know the moment your customer opens their invoice - just like email read receipts.
+
+**New "Viewed" Indicator:**
+- Sky blue "Viewed" badge appears on invoices your customer has opened
+- See the exact date and time they viewed it
+- Appears in invoice history timeline
+
+**Why This Matters:**
+- **Customer says "I never received it"?** Check if they viewed it
+- **Following up on unpaid invoice?** Know if they've seen it first
+- **Optimize your timing:** Follow up right after they've viewed
+
+### 💡 Get Paid Faster
+
+**Before:** Manually tracking which invoices need reminders, guessing if customers received them, chasing payments one by one.
+
+**Now:** Reminders go out automatically, you see when customers view invoices, and you can focus on your actual business.
+
+<Tip>
+**Pro Tip:** Set reminders to start 3 days before the due date. This gives customers a gentle nudge while there's still time to pay on time.
+</Tip>
+
+</Update>
+
+<Update label="2025-11-16" description="v2.8.1" tags={["Payments", "UX", "Localization"]}>
+## Payment Page Enhancements: Duplicate Prevention & Language Switcher
+
+Prevent accidental double charges and serve international customers better with two important payment page improvements.
+
+### 🛡️ Pending Payment Protection
+
+Customers can no longer accidentally pay twice while SEPA Direct Debit payments are processing.
+
+**How It Works:**
+- When a customer pays via SEPA Direct Debit, payment takes 1-3 business days to complete
+- During this time, the invoice status is "pending" instead of "paid"
+- If customer opens the payment link again, they see a clear warning
+- **Payment form is completely hidden** - prevents duplicate charges
+
+**What Customers See:**
+- ⏰ Yellow warning callout: "Payment Processing"
+- Message: "SEPA Direct Debit is pending. This typically takes 1-3 business days to complete."
+- Full invoice details (items, quantities, total amount)
+- No payment button or form visible
+
+**Benefits:**
+- ✅ Zero duplicate payments - impossible to pay twice
+- ✅ Clear communication - customers understand what's happening
+- ✅ No manual refunds - prevents the problem entirely
+- ✅ Professional experience - shows payment processing expertise
+
+**Technical Details:**
+- Applies to all payment pages: direct links, smart links, invoice links
+- Checks real-time payment status via Mollie transaction data
+- Works with `?invoice=` parameter in URLs
+- Automatic - no configuration needed
+
+### 🌍 Language Switcher Dropdown
+
+All payment pages now include an interactive language switcher for seamless multilingual experiences.
+
+**Features:**
+- **Fixed Top-Right Position**: Always visible, never in the way
+- **Flag Emoji Indicators**: 🇬🇧 English and 🇳🇱 Dutch with country flags
+- **Smart URL Preservation**: Keeps all parameters (invoice numbers, product IDs, etc.)
+- **Instant Switching**: No page reload, immediate language change
+- **Clean Design**: Ghost button style matches payment page aesthetic
+
+**What Customers See:**
+- Current language flag in top-right corner (🇬🇧 or 🇳🇱)
+- Click to reveal dropdown with both language options
+- Select new language → page content updates immediately
+- All buttons, labels, and messages translate automatically
+
+**Use Cases:**
+- International businesses serving Dutch and English customers
+- Customers sharing payment links with others who prefer different languages
+- Invoices sent to companies with international teams
+- Payment pages accessed from global marketing campaigns
+
+**Technical Integration:**
+- Works with `?lang=en` and `?lang=nl` URL parameters
+- Preserves query parameters when switching languages
+- Example: `?invoice=1505&lang=nl` → `?invoice=1505&lang=en`
+- Uses FluxUI dropdown component for consistency
+
+<Tip>
+**Pro Tip**: The language switcher is especially useful when sending payment links via email campaigns. Recipients can choose their preferred language without you having to create separate links.
+</Tip>
+</Update>
+
+<Update label="2025-11-06" description="v2.8.0" tags={["Freelancer", "Communication", "Quotes"]}>
+## Quote Requests for Freelancer Pages
+
+Engage with potential customers before they buy. Enable quote requests on your freelancer page to receive custom project inquiries.
+
+### 💬 Quote Request Button
+Let visitors request custom quotes directly from your freelancer page.
+
+- **One-Click Enable**: Toggle "Enable Request Quote" in Payment Page settings
+- **Beautiful Modal Form**: Professional quote form appears without leaving the page
+- **Clean UX**: No URL changes, smooth AJAX submission with success confirmation
+- **Instant Notifications**: Email sent to you immediately with customer details
+- **Auto-Creates Customers**: New customer profiles created automatically
+
+**Perfect for:**
+- Custom service inquiries
+- Project scope discussions
+- Pricing questions before commitment
+- Building customer relationships
+- Qualifying leads
+
+### 📊 Support Requests Dashboard
+Manage all customer inquiries in one place.
+
+**New Features:**
+- **Support Requests Sidebar Item**: Access from Store Management section
+- **Available on Freelancer Plan**: No upgrade required - all users can receive quotes
+- **Quote Request Type**: Dedicated request type with "Quote" label
+- **Customer Linking**: Automatically finds or creates customer profiles
+- **Email Integration**: Reply-to set to customer email for easy responses
+
+**Request Management:**
+- View all quote requests in dashboard
+- Filter by type (Quote, Support, Refund, etc.)
+- Track request status (Open, In Review, Resolved)
+- Assign to team members
+- Add internal notes
+- Link to created invoices
+
+### 🎨 Professional Customer Experience
+Built-in features for a polished experience.
+
+- **Success Callout**: Green checkmark confirmation when quote sent
+- **Error Handling**: Clear error messages if something goes wrong
+- **Form Validation**: Email format checking, required fields
+- **Loading States**: "Sending..." button during submission
+- **Mobile Optimized**: Works perfectly on all devices
+
+**How It Works:**
+1. Customer clicks "Request Custom Quote" on your freelancer page
+2. Fills form with name, email, and message
+3. Clicks "Send Request" → Shows "Sending..."
+4. Green success callout appears: "Quote request sent!"
+5. You receive email + dashboard notification
+6. Respond to customer and convert to invoice
+
+<Tip>
+**Pro Tip**: Respond within 4 hours for best conversion rates. Quick responses show professionalism and increase your chances of winning the project.
+</Tip>
+</Update>
+
+<Update label="2025-11-02" description="v2.7.0" tags={["Products", "Subscriptions", "Invoices", "AI"]}>
+## AI-Powered Products & Smart Subscription Management
+
+Save time with AI-generated product descriptions, offer profitable add-ons with markup pricing, and collect payments faster with one-click mandate charging.
+
+### 🤖 AI Product Description Writer
+Never stare at a blank screen again. Generate professional product descriptions in seconds.
+
+- **Click the Sparkles Icon**: Located right in your product editor toolbar
+- **Instant Professional Copy**: AI writes 2-3 sentences highlighting your product's benefits
+- **Sales-Focused**: Emphasizes value and what customers get, not just features
+- **Edit & Personalize**: Use as a starting point and customize to match your brand
+- **Always Available**: Works for any product - just enter a product name and click
+
+**Perfect for:**
+- Quickly creating product catalogs
+- Maintaining consistent professional tone
+- Overcoming writer's block
+- Saving hours of copywriting time
+
+### 💰 Flexible Add-On Pricing
+Offer extras and upgrades with automatic price calculations. Perfect for upselling services and options.
+
+**Toggle Add-Ons**
+- Simple on/off switches for extras (SSL certificate, priority support, etc.)
+- Price clearly shown: "+€25.00"
+- Customers see exactly what they're paying for
+
+**Dropdown Options**
+- Different pricing tiers in one product (Basic/Pro/Enterprise)
+- Each option can have its own markup price
+- Great for server resources, storage tiers, feature bundles
+
+**Works Everywhere**
+- Customer shop checkout
+- Subscription creation in dashboard
+- Automatic price calculation: (Base Price + Selected Add-ons) × Quantity
+
+**Smart Custom Pricing**
+- Set a fixed custom price when creating subscriptions
+- Add-ons automatically excluded (custom price is final amount)
+- Clear info message explains no add-ons will be charged
+- Perfect for special deals and negotiated contracts
+
+### ⚡ Instant Mandate Charging
+Get paid faster. Charge existing SEPA mandates with one click instead of waiting for the billing cycle.
+
+**How It Works**
+1. Open any unpaid invoice linked to a subscription with mandate
+2. See the **"⚡ Charge Mandate Now"** button
+3. Click to charge immediately
+4. Payment processes via existing SEPA mandate
+5. Invoice marked as processing
+
+**Safety Features**
+- Only appears for invoices with active mandates
+- Prevents duplicate charges (checks last 5 days)
+- Shows processing status after charging
+- Clear messaging about 1-3 day SEPA processing time
+
+**Perfect For**
+- Charging early renewals
+- Processing failed billing immediately
+- Getting cash flow faster
+- Reducing wait time for scheduled billing
+
+### 🔄 Improved Manual Renewals
+Create invoices for subscriptions anytime, with automatic mandate detection.
+
+**Automatic Payment Method Selection**
+- **Has Mandate**: Charges SEPA mandate automatically
+- **No Mandate**: Sends invoice email with payment link to customer
+
+**Smart Redirect**
+- Takes you to the invoice page (not payment checkout)
+- You see the invoice, customer gets charged or emailed
+- Clear success messages explain what happened
+
+**Perfect For**
+- Billing early renewals
+- Processing extra charges mid-cycle
+- Offering discounts with manual invoicing
+
+### 🎨 Better User Experience
+Small improvements that make your daily work smoother.
+
+**Clearer Payment Status**
+- Processing indicator replaces button after charging
+- Shows "Payment Processing - SEPA Direct Debit pending (1-3 business days)"
+- No confusion about whether charge went through
+
+**Transaction Visibility**
+- Fixed: All invoice transactions now appear correctly in Transactions tab
+- See all payment attempts (pending, paid, canceled, expired)
+- Payment IDs shown in success messages for easy tracking
+
+**Price Summaries**
+- Detailed breakdown: Base Price + Add-ons + Quantity = Total
+- Only shows add-ons when applicable
+- Clear indication when custom pricing is used
+
+### 💡 What This Means For Your Business
+
+**Save Time**
+- AI writes product descriptions in seconds, not hours
+- Automatic price calculations eliminate manual math
+- One-click charging faster than manual bank transfers
+
+**Increase Revenue**
+- Easy to offer add-ons and upgrades
+- Clear pricing encourages upsells
+- Faster payments improve cash flow
+
+**Reduce Errors**
+- Smart custom pricing prevents double-charging
+- Duplicate charge prevention protects your reputation
+- Clear status indicators reduce support questions
+
+**Professional Experience**
+- Consistent product descriptions across catalog
+- Clean, modern interface throughout
+- Customer-friendly checkout with clear pricing
+
+### 🐛 Fixes & Improvements
+- **Transaction Display**: Fixed issue where some invoice transactions weren't appearing in the Transactions tab
+- **Price Calculations**: Subscription summaries now correctly show totals including add-on markup
+- **Status Updates**: Payment processing status now updates immediately after charging mandates
+- **Error Messages**: Clearer explanations when operations can't be completed
+
+</Update>
+
+<Update label="2025-09-30" description="v2.6.0" tags={["Invoices", "Payment Links", "Improvements"]}>
+## Invoice Payment Links & Retry System
+
+Major improvements to how customers pay invoices, making failed or canceled payments easier to retry and giving you more control over payment links.
+
+### 🔗 Invoice Payment Links
+- **Easy Sharing**: Share invoice payment links directly from your dashboard
+- **Invoice Status Badges**: Payment pages show invoice number with color-coded status (Paid, Pending, Overdue)
+- **QR Code Support**: Generate QR codes for mobile payments - perfect for in-person or printed invoices
+- **Permanent Links**: Payment links never expire and work until the invoice is paid
+
+### 🔄 Payment Retry System
+- **Smart Retry**: Failed or canceled payments can be easily retried using the same invoice
+- **Auto-Fill Everything**: Retry links remember all customer details - no need to re-enter information
+- **No Duplicate Invoices**: System reuses the same invoice instead of creating duplicates
+- **Clear Status Display**: Customers see if an invoice is already paid before attempting payment
+
+### 💳 Payment Page Enhancements
+- **More Pre-Fill Options**: Share links with customer info, amounts, payment methods, and addresses pre-filled
+- **Product Links**: Link directly to specific products with prices automatically filled in
+- **Custom Fields Support**: Collect additional information like domain names or custom requirements
+- **Mobile Friendly**: All payment pages work perfectly on phones and tablets
+
+### 🎯 Customer Experience Improvements
+- **Paid Invoice Display**: Customers see a clear success message with payment details for already-paid invoices
+- **Item Breakdown**: Complete list of purchased items with quantities and prices
+- **Payment Protection**: Can't accidentally pay the same invoice twice
+- **Faster Checkout**: Pre-filled information speeds up the payment process
+
+### 📚 New Documentation
+- **Invoice Payment Links Guide**: Learn how to share payment links effectively
+- **Payment Retry Instructions**: Help customers retry failed payments
+- **Payment Page Parameters**: Complete guide to pre-filling payment information
+- **QR Code Usage**: How to use QR codes for quick mobile payments
+
+### 🐛 Reliability Improvements
+- **Order Status Updates**: Orders now correctly show as "completed" after successful payment
+- **Faster Processing**: Improved webhook handling for quicker payment confirmations
+- **Subscription Activation**: Subscriptions activate immediately after payment instead of staying "pending"
+- **Better Error Recovery**: Automatic retry of failed payment notifications
+
+### 💡 What This Means For You
+- **Less Support Work**: Customers can retry failed payments themselves
+- **Professional Experience**: Consistent, branded payment flows everywhere
+- **Better Tracking**: Clear payment status throughout your dashboard
+- **More Flexibility**: Multiple ways to share payment links (email, SMS, QR codes)
+- **Happier Customers**: Smooth payment experience reduces abandonment
+
+### 🎨 Quality of Life Updates
+- **Cleaner URLs**: Simplified payment link format for better sharing
+- **Unified System**: All invoice payments now use the same reliable payment page
+- **Automatic Updates**: Payment status syncs across invoices, orders, and subscriptions
+- **Better Navigation**: Easy access to payment links from invoice details and lists
+
+</Update>
+
+<Update label="2025-09-29" description="v2.5.2" tags={["Bug Fixes", "Payments", "iFrame Support"]}>
+## Iframe Payment Integration Fix
+
+Enhanced checkout process to work seamlessly when embedded in iframes, resolving iDEAL payment issues.
+
+### 🎯 Iframe Payment Support
+- **Embedded Checkout**: PayRequest checkout now works perfectly when embedded in third-party websites
+- **iDEAL Integration**: Fixed payment flow for iDEAL and other payment methods within iframes
+- **Parent Window Redirect**: Smart detection automatically redirects to payment pages in the parent window
+- **Universal Compatibility**: Works with all payment providers that have frame restrictions
+
+### 💡 User Benefits
+- **Seamless Integration**: Businesses can embed PayRequest checkout forms anywhere
+- **No Payment Interruptions**: Customers complete payments without technical errors
+- **Better User Experience**: Smooth transition from embedded forms to secure payment pages
+- **Wide Compatibility**: Works across different websites and integration methods
+</Update>
+
+<Update label="2025-09-29" description="v2.5.1" tags={["Bug Fixes", "Payment Reminders", "Reliability"]}>
+## Payment Reminder Race Condition Fix
+
+Critical bugfix preventing payment reminders from being sent for already paid invoices.
+
+### 🐛 Race Condition Fix
+- **Database Synchronization**: Added fresh database checks to prevent stale component state
+- **Real-Time Validation**: Verify invoice status at the moment of reminder sending
+- **User Feedback**: Clear error messages when attempting to send reminders for paid invoices
+- **Webhook Reliability**: Prevents race conditions between webhook processing and user actions
+
+### 🔧 Technical Details
+- **Problem**: Users could send reminders for invoices that were paid during their session
+- **Root Cause**: Livewire component state not updated when webhooks processed payments
+- **Solution**: Double-check invoice status with fresh database query before sending reminders
+- **Impact**: Eliminates customer confusion from receiving reminders for already paid invoices
+</Update>
+
+<Update label="2025-09-29" description="v2.5.0" tags={["Products", "Categories", "User Experience"]}>
+## Product Duplication & Category Display Types
+
+New powerful features for managing your product catalog with enhanced organization and efficiency.
+
+### 🔄 Product Duplication System
+- **One-Click Duplication**: Copy any product with customizable name and price
+- **Modal Interface**: Clean popup for quick edits during duplication
+- **Complete Copy**: All settings, descriptions, and configurations preserved
+- **Time-Saving**: Perfect for creating product variations and seasonal items
+
+### 📋 Category Display Types
+- **Cards Layout**: Visual grid display perfect for products with images
+- **List Layout**: Horizontal layout ideal for services and detailed descriptions
+- **Price Table Layout**: Professional comparison tables for plans and tiers
+- **Flexible Organization**: Each category can use a different display type
+
+### 🎯 Enhanced Shop Experience
+- **Category-Specific Headers**: Categories show their name and description instead of generic text
+- **Clean Navigation**: Removed generic welcome text for focused product browsing
+- **Professional Appearance**: Better visual hierarchy and customer experience
+
+### 🛠️ Technical Improvements
+- **PostgreSQL Compatibility**: Fixed boolean field handling for reliable product operations
+- **Better Performance**: Optimized database queries and field management
+- **Translation Support**: Full Dutch language support for all new features
+</Update>
+
+<Update label="2025-09-26" description="v2.4.0" tags={["Documentation", "User Experience"]}>
+## Complete Documentation Redesign
+
+Brand new comprehensive documentation to help you get the most out of PayRequest.
+
+### 📚 New Help Resources
+- **Getting Started Guide**: Interactive setup checklist for new users
+- **Payment Methods**: Complete guide to connecting Mollie, Stripe, and other providers
+- **Custom Domains**: Professional branded storefronts for your business
+- **Customer Portal**: Self-service tools for your customers
+
+### 🎨 Enhanced Experience
+- **Interactive Components**: Expandable sections and tabbed content
+- **Visual Examples**: Real-world screenshots and use cases
+- **Mobile Optimized**: Perfect experience on all devices
+- **Fast Search**: Instantly find what you need
+</Update>
+
+<Update label="2025-09-26" description="v2.3.8" tags={["Cart", "Products"]}>
+## Improved Shopping Cart
+
+Enhanced cart functionality with better quantity management and custom field support.
+
+### 🛒 Cart Improvements
+- **Quantity Management**: Easier product quantity adjustments
+- **Custom Fields**: Support for product-specific customer information
+- **Better Validation**: Improved error handling and user feedback
+- **Session Persistence**: Cart contents saved across browser sessions
+
+### 🔧 Technical Fixes
+- **Mandate Sync**: Automatic synchronization for subscription orders
+- **Webhook Reliability**: Fixed 404 errors on custom domains
+- **API Access**: Resolved Mollie API mandate access issues
+</Update>
+
+<Update label="2025-09-25" description="v2.3.7" tags={["Interface", "History"]}>
+## Enhanced Activity Tracking
+
+Improved history views with better organization and visual design.
+
+### 📊 Better Organization
+- **Segmented Tabs**: Replace dropdowns with visual tab navigation
+- **Timeline Sorting**: Most recent activities shown first
+- **Activity Logging**: Comprehensive tracking of invoice and subscription changes
+- **Visual Callouts**: Important events highlighted with colored indicators
+
+### 🎯 User Experience
+- **Cleaner Interface**: Modern tab-based navigation
+- **Better Context**: Clear visual hierarchy for different event types
+- **Faster Navigation**: Quick access to relevant information
+</Update>
+
+<Update label="2025-09-24" description="v2.3.5" tags={["Platform", "Reliability"]}>
+## Enhanced Platform Reliability
+
+Improved platform stability and automatic issue resolution for better uptime.
+
+### 🛠️ Platform Improvements
+- **Automatic Monitoring**: Continuous health checks every 15 minutes
+- **Self-Healing**: Automatic resolution of common issues
+- **24/7 Reliability**: Proactive maintenance prevents downtime
+- **Better Performance**: Faster loading and smoother experience
+
+### 📊 What This Means for You
+- **Less Downtime**: Issues fixed before you notice them
+- **Consistent Service**: Reliable access to your billing dashboard
+- **Peace of Mind**: Your billing operations run smoothly around the clock
+</Update>
+
+<Update label="2025-09-24" description="v2.3.5" tags={["Maintenance", "Setup Fees"]}>
+## Automated Maintenance & Custom Setup Fees
+
+Platform reliability improvements and enhanced setup fee customization.
+
+### 🛠️ Automated Maintenance
+- **Self-Healing System**: Automatic issue detection and resolution
+- **24/7 Monitoring**: Continuous health checks prevent downtime
+- **Proactive Fixes**: Problems solved before they affect your business
+- **Better Uptime**: More reliable access to your billing dashboard
+
+### 💰 Custom Setup Fee Names
+- **Personalized Terms**: Use "Borg", "Installation Fee", or any custom name
+- **Clear Descriptions**: Explain what setup fees cover to customers
+- **Multi-Language**: Dutch, English, and other language support
+- **Business Specific**: Terms that match your industry and customer expectations
+</Update>
+
+<Update label="2025-09-23" description="v2.3.0" tags={["Payments", "Products", "Localization"]}>
+## Enhanced Payment Processing & Product Sharing
+
+Major improvements to payment handling and new product sharing capabilities.
+
+### 💳 iDEAL Payment Improvements
+- **Instant Activation**: Subscriptions start immediately after iDEAL payments
+- **Better Reliability**: Enhanced payment processing for Dutch customers
+- **Faster Setup**: Quicker mandate creation and subscription activation
+- **Reduced Support**: Fewer customer questions about payment status
+
+### 🔗 Product Sharing & QR Codes
+- **Professional Links**: Share products with your custom domain
+- **QR Code Generation**: Perfect for in-person sales and marketing materials
+- **Easy Sharing**: One-click link copying for emails and social media
+- **Mobile Optimized**: Works seamlessly on phones and tablets
+
+### 🌍 Dutch Language Support
+- **Complete Translation**: Full Dutch interface for Dutch customers
+- **Localized Content**: Documentation and help content in Dutch
+- **Cultural Adaptation**: Payment terms and business language that fits the Dutch market
+</Update>
+
+<Update label="2025-09-22" description="v2.2.5" tags={["Orders", "Checkout", "Payments"]}>
+## Order Management & Checkout Improvements
+
+Enhanced order handling with better deletion options and checkout flexibility.
+
+### 🛍️ Order Management
+- **Order Deletion**: Delete orders with related items for cleaner records
+- **Status Filtering**: Better organization with status-based filtering
+- **Checkout Parameters**: Support for disabled checkout fields
+- **Address Handling**: Improved URL parameter processing for customer addresses
+
+### 💳 Payment Processing
+- **Subscription Webhooks**: Instant subscription activation for one-time payments
+- **Amount Display**: Fixed monetary formatting issues across the platform
+- **Sync Improvements**: Better Mollie integration and balance visibility
+</Update>
+
+<Update label="2025-09-21" description="v2.2.0" tags={["Subscriptions", "Database"]}>
+## Subscription System Overhaul
+
+Major improvements to subscription management and database performance.
+
+### 🔄 Subscription Enhancements
+- **Better Performance**: Faster subscription processing and management
+- **PostgreSQL Fixes**: Resolved database compatibility issues
+- **Customer Management**: Enhanced tools for managing customer subscriptions
+- **Improved Reliability**: More stable subscription billing and processing
+
+### 📊 Platform Improvements
+- **Database Optimization**: Significant performance improvements
+- **Error Handling**: Better error messages and user feedback
+- **Data Integrity**: Enhanced data validation and consistency
+</Update>
+
+<Update label="2025-09-20" description="v2.1.8" tags={["Analytics", "Banking"]}>
+## Enhanced Analytics & Banking Integration
+
+New insights dashboard features and improved bank connectivity.
+
+### 📊 Analytics Improvements
+- **Bank Balance Cards**: Real-time account balance display from Ponto integration
+- **Subscription Renewals**: Upcoming renewal tracking and management
+- **Better Insights**: Enhanced dashboard with actionable business metrics
+- **Performance Tracking**: Improved monitoring of key business indicators
+
+### 🏦 Banking Features
+- **Ponto Integration**: Enhanced bank account connectivity
+- **Balance Monitoring**: Real-time account balance tracking
+- **OAuth Improvements**: Better authentication flow for bank connections
+- **Sync Reliability**: More stable bank transaction synchronization
+</Update>
+
+<Update label="2025-09-17" description="v2.1.5" tags={["Checkout", "Design", "URLs"]}>
+## Modern Design & Checkout Enhancements
+
+Complete design refresh with improved checkout functionality.
+
+### 🎨 Design Improvements
+- **Modern Cards**: Contemporary card styling throughout the platform
+- **Dark Theme**: Elegant dark mode options for better user experience
+- **Professional Layout**: Cleaner, more professional interface design
+- **Mobile Responsive**: Optimized experience across all devices
+
+### 🛒 Checkout Enhancements
+- **Pre-filled URLs**: Support for pre-populated checkout forms
+- **Custom Fields**: Enhanced custom field handling in checkout process
+- **PayRequest.me Domain**: Cleaner, more professional payment URLs
+- **Better Validation**: Improved form validation and error handling
+</Update>
+
+<Update label="2025-09-13" description="v2.1.0" tags={["Customers", "Email", "Tags"]}>
+## Customer Management & Email Automation
+
+Advanced customer relationship tools with automated email workflows.
+
+### 👥 Customer Management
+- **Customer Tags**: Organize customers with customizable tags and filtering
+- **Modern Card Design**: Beautiful customer cards with improved information display
+- **Tag Filtering**: Quick customer searches using tag-based filters
+- **Health Tracking**: Monitor customer email health and engagement
+
+### 📧 Email Automation
+- **Smart Workflows**: Automated email responses based on customer behavior
+- **Health Monitoring**: Track email bounces, complaints, and delivery issues
+- **Customer Segmentation**: Target specific customer groups with relevant messaging
+- **Automation Rules**: Set up custom triggers for email campaigns
+</Update>
+
+<Update label="2025-09-11" description="v2.0.8" tags={["Invoices", "Refunds"]}>
+## Invoice Refunds & Improvements
+
+Complete refund system with better invoice management tools.
+
+### 💰 Refund System
+- **Full Refund Support**: Process complete or partial refunds easily
+- **Duplicate Prevention**: Automatic protection against accidental double refunds
+- **Visual Indicators**: Clear refund status display for invoices
+- **Business & Customer Views**: Comprehensive refund information for all users
+
+### 📄 Invoice Enhancements
+- **Improved Sidebar**: Better invoice detail navigation and information display
+- **Enhanced UX**: Cleaner interface with better user experience
+- **Translation Updates**: Improved Dutch language support throughout
+- **Amount Display**: Fixed critical monetary formatting issues
+</Update>
+
+<Update label="2025-09-09" description="v2.0.5" tags={["Team", "Products"]}>
+## Team Management & Product Categories
+
+Enhanced collaboration tools and better product organization.
+
+### 👥 Team Management
+- **Complete Team System**: Invite and manage team members with role-based access
+- **Invitation Cleanup**: Automatic cleanup of expired team invitations
+- **Better Permissions**: Granular control over team member access levels
+- **Improved Workflow**: Streamlined team collaboration features
+
+### 📦 Product Categories
+- **Category System**: Organize products into logical categories
+- **Better Navigation**: Easier product discovery and management
+- **Pricing Fixes**: Resolved critical Mollie migration pricing issues
+- **Enhanced Organization**: Cleaner product management interface
+</Update>
+
+<Update label="2025-09-06" description="v2.0.0" tags={["Platform", "Design", "Reliability"]}>
+## PayRequest 2.0 Platform Launch
+
+Major platform redesign with modern technology and enhanced reliability.
+
+### 🚀 Modern Platform
+- **New Technology Stack**: Updated to latest Laravel, Livewire, and FluxUI
+- **Modern Interface**: Complete redesign with contemporary card-based layouts
+- **Logo System**: Dynamic logo switching and improved branding
+- **Better Performance**: Faster loading times and smoother interactions
+
+### 🔧 Reliability Improvements
+- **Webhook System**: Comprehensive webhook reliability and failure recovery
+- **Billing Improvements**: Enhanced subscription billing and payment processing
+- **CSV Export**: Complete export functionality with proper monetary formatting
+- **Security Enhancements**: Improved security across all platform features
+</Update>
+
+<Update label="2025-09-04" description="v2.4.0" tags={["Export", "Security", "Subscriptions"]}>
+## Enhanced Data Management & Security
+
+Major improvements to data export capabilities and customer management security.
+
+### 📊 Comprehensive CSV Export
+- **Monetary Value Fixes**: Accurate financial data in all exports
+- **Custom Field Support**: Export custom field data for detailed analysis
+- **Multi-format Options**: Choose the data format that works for your workflow
+- **Bulk Operations**: Export large datasets efficiently
+
+### 🔒 Enhanced Security
+- **Customer-Specific Access**: Improved mandate sync with proper user isolation
+- **Bulk Action Security**: Fixed security issues in bulk operations
+- **Data Privacy**: Better protection of customer financial information
+- **Audit Trail**: Complete tracking of all data access and modifications
+</Update>
+
+<Update label="2025-09-02" description="v2.3.8" tags={["Tags", "Subscriptions", "Analytics"]}>
+## Advanced Organization & Subscription Analytics
+
+Powerful new tools for organizing customers and tracking subscription performance.
+
+### 🏷️ Enhanced Tag Management
+- **Advanced Search**: Find tagged customers and subscriptions instantly
+- **Smart Pagination**: Navigate large tag lists efficiently
+- **CSV Export**: Export tagged data for external analysis
+- **Improved Layout**: Cleaner interface for better productivity
+
+### 📊 Subscription Insights
+- **Duration Tracking**: Visual progress indicators for subscription lifecycles
+- **Internal Notes**: Add private notes to subscription records
+- **Performance Analytics**: Better understanding of subscription health
+- **Timeline Views**: Clear history of subscription changes
+</Update>
+
+<Update label="2025-08-30" description="v2.3.7" tags={["Performance", "Trials", "Notifications"]}>
+## Trial System & Performance Optimization
+
+Complete trial functionality and major performance improvements for better user experience.
+
+### 🎁 Free Trial System
+- **Product Trials**: Offer free trials on any subscription product
+- **Automatic Conversion**: Seamless transition from trial to paid subscription
+- **Customer Communication**: Clear trial status and billing information
+- **Business Control**: Configure trial length and terms per product
+
+### ⚡ Performance Improvements
+- **99.9% Faster Sync**: Eliminated performance bottlenecks in payment processing
+- **Real-time Notifications**: Instant business notifications for important events
+- **Reduced Database Load**: Optimized queries prevent system slowdowns
+- **Better Monitoring**: Sentry integration for proactive issue resolution
+</Update>
+
+<Update label="2025-08-28" description="v2.3.5" tags={["Custom Domains", "Payments", "Cart"]}>
+## Custom Domain Excellence & Payment Enhancements
+
+Professional branded storefronts with advanced payment capabilities.
+
+### 🌐 Custom Domain Perfection
+- **Seamless Integration**: Your domain works flawlessly with all PayRequest features
+- **Cart Functionality**: Shopping cart works perfectly on custom domains
+- **Asset Loading**: Optimized performance on your branded storefront
+- **Route Management**: Smart routing prevents conflicts and errors
+
+### 💳 Advanced Payment Options
+- **Saved Payment Methods**: Customers can reuse trusted payment methods
+- **SEPA Direct Debit**: Streamlined European bank payments
+- **Payment Button States**: Clear feedback during payment processing
+- **Mandate Management**: Automatic handling of payment authorizations
+</Update>
+
+<Update label="2025-08-27" description="v2.3.0" tags={["Payments", "Localization", "Security"]}>
+## Payment Processing Excellence & Multi-Language Support
+
+Major improvements to payment reliability and complete Dutch language support.
+
+### 💳 Enhanced Payment Processing
+- **Custom Domain CSRF**: Bulletproof security for custom domain payments
+- **Livewire Integration**: Seamless real-time payment processing
+- **Subscription Management**: Fixed mandate issues for reliable recurring billing
+- **Payment History**: Complete transaction tracking and customer payment portals
+
+### 🌍 Complete Localization
+- **89.6% Dutch Coverage**: Nearly complete Dutch language interface
+- **Payment Translations**: Clear payment terms in customer's language
+- **Cultural Adaptation**: Payment flows optimized for Dutch market
+- **Multi-Language Ready**: Foundation for additional language support
+</Update>
+
+<Update label="2025-08-25" description="v2.2.5" tags={["Email", "Integration", "Product Management"]}>
+## Email System Overhaul & Enhanced Integrations
+
+Professional email communications and improved third-party integrations.
+
+### 📧 Advanced Email System
+- **Email Template Management**: Custom templates for all communications
+- **Template Variables**: Dynamic content personalization
+- **Delivery Tracking**: Monitor email delivery success and failures
+- **Professional Design**: Branded email templates that match your business
+
+### 🔗 Banking Integration
+- **Ponto Enhancement**: Improved bank account synchronization
+- **Transaction Matching**: Automatic reconciliation of bank transactions
+- **Real-time Updates**: Faster sync with your business bank accounts
+- **Error Recovery**: Robust handling of API connection issues
+
+### 🖼️ Visual Improvements
+- **Product Images**: Upload and manage product photos
+- **Logo Management**: Easy logo upload and customization
+- **Dark Mode**: Enhanced dark mode support throughout the platform
+- **UI Polish**: Improved dropdowns, cards, and visual elements
+</Update>
+
+<Update label="2025-08-23" description="v2.2.0" tags={["Custom Fields", "Activity Tracking", "Email Templates"]}>
+## Advanced Customization & Activity Monitoring
+
+Powerful tools for customizing products and tracking customer interactions.
+
+### 🎛️ Advanced Custom Fields
+- **Select Fields**: Dropdown options with pricing markup
+- **Toggle Fields**: Boolean options for add-on services
+- **Required Validation**: Ensure important information is collected
+- **Cart Integration**: Custom field data flows seamlessly through checkout
+- **Quantity Selection**: Flexible quantity management per product
+
+### 📊 Complete Activity Tracking
+- **Customer Logs**: Track all customer interactions and changes
+- **Email History**: Monitor invoice and payment email delivery
+- **Audit Trail**: Complete history of all system activities
+- **Performance Insights**: Understand customer behavior patterns
+
+### 📧 Professional Email Templates
+- **Custom Templates**: Design emails that match your brand
+- **Template Variables**: Personalize emails with customer and business data
+- **Resend Functionality**: Easy re-sending of important communications
+- **Queue Management**: Reliable email delivery with retry capabilities
+</Update>
+
+<Update label="2025-08-21" description="v2.1.8" tags={["Integration", "OAuth", "Debugging"]}>
+## Enhanced Mollie Integration & Developer Tools
+
+Major improvements to payment provider connections and debugging capabilities.
+
+### 🔗 Mollie OAuth Enhancement
+- **Bi-directional Sync**: Automatic customer synchronization between PayRequest and Mollie
+- **Token Management**: Automatic token refresh prevents connection interruptions
+- **Proxy Support**: Enhanced API reliability for all Mollie operations
+- **Debug Tools**: Comprehensive scripts for troubleshooting integration issues
+
+### 🔧 Developer Experience
+- **PostgreSQL Optimization**: Fixed boolean field handling for better database performance
+- **Sequence Management**: Automatic fix for database sequence issues
+- **Error Logging**: Enhanced logging for faster issue resolution
+- **Configuration Scripts**: Automated setup tools for production deployment
+</Update>
+
+<Update label="2025-08-19" description="v2.1.5" tags={["Onboarding", "Authentication", "Invoice Management"]}>
+## Streamlined Onboarding & Invoice Automation
+
+Simplified user experience with powerful automation features.
+
+### 🚀 Magic Link Authentication
+- **Passwordless Login**: Secure email-based authentication
+- **Onboarding Flow**: Guided setup for new users
+- **Reduced Friction**: Faster access to your billing dashboard
+- **Security First**: Enhanced security without password complexity
+
+### 📄 Invoice Automation
+- **Smart Numbering**: Configurable invoice numbering systems
+- **Transaction Integration**: Seamless connection between payments and invoices
+- **Status Tracking**: Real-time invoice status updates
+- **FluxUI Modernization**: Updated interface with modern table components
+</Update>
+
+<Update label="2025-08-15" description="v2.1.0" tags={["Performance", "Reliability", "Automation"]}>
+## Performance & Reliability Enhancements
+
+Major infrastructure improvements for better platform stability.
+
+### ⚡ Performance Optimization
+- **Queue Management**: Laravel Horizon integration for reliable job processing
+- **Token Automation**: Automatic refresh of payment provider connections
+- **Timezone Handling**: UTC-based token management for global reliability
+- **Database Efficiency**: Optimized queries and proper boolean handling
+
+### 🔄 Enhanced Automation
+- **Chargeback Monitoring**: Automatic detection and processing of chargebacks
+- **Sync Reliability**: Improved synchronization with payment providers
+- **Error Recovery**: Better handling of API failures and timeouts
+- **Deployment Scripts**: Streamlined production deployment process
+</Update>
+
+<Update label="2025-08-13" description="v2.0.8" tags={["Localization", "Multi-Language"]}>
+## Complete Multi-Language Foundation
+
+Comprehensive internationalization system for global businesses.
+
+### 🌍 Translation System
+- **Laravel i18n Integration**: Professional translation management system
+- **Dutch Language Support**: Complete Dutch interface for local businesses
+- **Translation Tracking**: Automated scanning and coverage reporting
+- **Dynamic Content**: Multi-language support for all user-facing content
+
+### 🎯 Localized Experience
+- **Shop Localization**: Customer-facing content in local languages
+- **Invoice Translation**: Localized invoice templates and terminology
+- **UI Components**: Translated interface elements throughout the platform
+- **Cultural Adaptation**: Payment terms adapted for different markets
+</Update>
+
+<Update label="2025-08-11" description="v2.0.5" tags={["Payment Pages", "Professional URLs"]}>
+## Professional Payment Pages & Custom URLs
+
+Enhanced payment collection with branded, professional appearance.
+
+### 💰 Payment Page System
+- **Custom Handles**: Professional URLs like payrequest.me/yourhandle
+- **Flexible Amounts**: Support for custom and fixed payment amounts
+- **Business Branding**: Professional appearance with your business identity
+- **Mobile Optimized**: Perfect experience across all devices
+
+### 🎨 Enhanced Interface
+- **Modern Design**: Contemporary card styling and visual improvements
+- **Dashboard Optimization**: Faster loading with optimized queries
+- **Icon Standardization**: Consistent visual language throughout
+- **Empty State Improvements**: Better guidance when starting with the platform
+</Update>
+
+<Update label="2025-04-03" description="v1.5.0" tags={["Banking", "Wise Integration"]}>
+## Banking Integration & Wise Support
+
+Expanded banking capabilities with new financial institution support.
+
+### 🏦 Wise Integration
+- **Profile Management**: Connect and manage Wise business accounts
+- **Transaction Sync**: Automatic synchronization of Wise transactions
+- **Multi-Currency**: Enhanced support for international transactions
+- **Balance Monitoring**: Real-time account balance tracking
+
+### 🌐 Enhanced Localization
+- **Language Expansion**: Additional translation coverage for English and Dutch
+- **Settings Localization**: Multi-language support for all settings pages
+- **Helper Functions**: Enhanced internationalization tools for developers
+</Update>
+
+<Update label="2025-03-22" description="v1.4.0" tags={["Mandate Management", "Transaction Details"]}>
+## Advanced Mandate & Transaction Management
+
+Comprehensive tools for managing payment mandates and transaction details.
+
+### 📋 Mollie Mandate System
+- **Complete Management**: Full lifecycle management of SEPA Direct Debit mandates
+- **Enhanced Logging**: Detailed logging and pagination for mandate operations
+- **Customer Linking**: Automatic linking of mandates to customer records
+- **Status Tracking**: Real-time mandate status monitoring
+
+### 📊 Transaction Insights
+- **Detail Views**: Comprehensive transaction information with formatted metadata
+- **Responsive Design**: Mobile-optimized transaction displays
+- **Enhanced Formatting**: Improved layout and visual presentation
+- **JSON Formatting**: Professional display of complex transaction data
+</Update>
+
+<Update label="2025-03-20" description="v1.3.0" tags={["Customer Management", "Navigation"]}>
+## Customer Management & Navigation Improvements
+
+Streamlined customer management with improved navigation and search.
+
+### 👥 Customer Experience
+- **Detailed Views**: Comprehensive customer detail pages with subscription information
+- **Smart Navigation**: Direct links between related records (customers, subscriptions, payments)
+- **Search Integration**: Enhanced Algolia search with customer and subscription indexing
+- **Simplified Interface**: Cleaner navigation with better user experience
+
+### 🔗 Relationship Management
+- **Connected Data**: Seamless navigation between customers, subscriptions, and payments
+- **Context Awareness**: Smart buttons and links based on available data
+- **Improved Organization**: Better grouping and presentation of related information
+</Update>
+
+
+---
+
+## 🔮 Coming Soon
+
+We're constantly working on new features and improvements. Here's what's on our roadmap:
+
+### Q2 2026
+- **Multi-Currency**: Full support for international currencies
+- **Advanced Reporting**: Custom dashboard builder and data visualization
+- **AI-Powered Insights**: Machine learning for churn prediction and revenue optimization
+- **Stripe Payment Provider**: Full Stripe integration alongside Mollie
+
+---
+
+<Tip>
+**Stay Updated**: Follow our [GitHub repository](https://github.com/payrequestio/payrequest.me) for the latest updates and contribute to the PayRequest community.
+</Tip>

@@ -1,8 +1,86 @@
 ---
-title: Email Delivery Issues
-description: 'Bounce and spam prevention'
+title: "Email Delivery Issues"
+description: "Diagnose and fix email bounces, spam complaints, and delivery failures in PayRequest"
 ---
 
 # Email Delivery Issues
 
-_Work in progress. Content coming soon._
+When emails fail to reach your customers, PayRequest's bounce suppression system kicks in to protect your sender reputation. This guide helps you understand why emails bounce and how to resolve delivery problems.
+
+<Info>
+PayRequest uses [Resend](https://resend.com) for email delivery and automatically tracks bounces, complaints, and failures via webhooks.
+</Info>
+
+---
+
+## Common Bounce Reasons
+
+| Error Message | Meaning | Fix |
+|---|---|---|
+| `550 5.1.1 ... does not exist` | Email address doesn't exist | Ask the customer for their correct email and update it |
+| `550 5.2.1 ... mailbox full` | Recipient's mailbox is full | Wait and retry later, or contact the customer via other channels |
+| `421 ... temporarily unavailable` | Server is temporarily down | Usually auto-resolves — the **Failed** status will clear on next successful delivery |
+| `User marked as spam` | Customer clicked "Report Spam" | Contact the customer directly to resolve; they may need to whitelist your address |
+
+---
+
+## How to Fix a Bounced Customer
+
+<Steps>
+  <Step title="Go to the customer profile">
+    Navigate to **Customers** and click the affected customer. A red **Email Delivery Blocked** warning appears at the top.
+  </Step>
+  <Step title="Check the bounce details">
+    The warning shows the bounce type, date, and SMTP error message. Use this to determine whether the email is permanently invalid or temporarily unreachable.
+  </Step>
+  <Step title="Fix the email address">
+    If the address is wrong, click **Edit Customer** and enter the correct email. This automatically clears the suppression and removes any "Invalid Email" tags.
+  </Step>
+  <Step title="Or clear the suppression manually">
+    If the email address is correct (e.g., a temporary issue was resolved), click **Clear Suppression** to resume sending.
+  </Step>
+</Steps>
+
+---
+
+## Finding Affected Customers
+
+Use the **Email Issues** filter on the customer list to quickly find all customers with active bounce or complaint issues:
+
+1. Go to the **Customers** page
+2. Open the **Status** filter dropdown
+3. Select **Email Issues** (only appears when issues exist)
+4. Customers with active suppression show a red **Bounced** badge
+
+---
+
+## Preventing Bounces
+
+<Tip>
+Set up the **Email Bounce → Add Invalid Email Tag** automation in your automations settings. This automatically tags customers when their email bounces, making them easy to find and fix in bulk.
+</Tip>
+
+- **Validate emails at entry** — Use proper email validation on your shop checkout and customer forms
+- **Monitor the Email Issues filter** regularly to catch and fix bounce issues early
+- **Keep contact info updated** — Ask customers to confirm their email when they log into the portal
+
+---
+
+## Delivery Confirmation
+
+PayRequest tracks when Resend confirms delivery of invoice reminders. Look for the green **Email Delivered** event in the invoice timeline to verify a reminder reached the customer.
+
+If a reminder shows as sent but never shows a delivery confirmation, the email may have been silently dropped by the recipient's mail server (e.g., caught by a spam filter without generating a bounce).
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Email Health & Suppression" icon="shield-check" href="/customer-management/customer-health">
+    Full guide to the bounce suppression system
+  </Card>
+  <Card title="Payment Reminders" icon="bell" href="/invoices/payment-reminders">
+    Configure automatic reminder schedules
+  </Card>
+</CardGroup>

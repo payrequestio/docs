@@ -1,8 +1,485 @@
 ---
-title: Customer Profiles
-description: 'Manage customer information'
+title: Customer Profile
+description: 'Complete guide to viewing and managing individual customer profiles in PayRequest'
 ---
 
-# Customer Profiles
+# Customer Profile
 
-_Work in progress. Content coming soon._
+The customer profile page provides a comprehensive view of all information and activity related to a single customer. Access it by clicking on any customer from your customer list.
+
+## Page Layout
+
+The customer profile is divided into two main sections:
+
+- **Left Sidebar**: Quick overview, actions, and contact information
+- **Main Content Area**: Tabbed interface with detailed information
+
+---
+
+## Header Section
+
+At the top of the page, you'll see:
+
+<img
+  src="/images/customer-profile-header.png"
+  alt="Customer Profile Header"
+  style={{ borderRadius: '0.5rem' }}
+/>
+
+- **Customer Avatar**: Displays the company logo (for business customers with a website) or generated initials
+- **Customer Name**: Company name for business customers, full name for individuals
+- **Status Badge**: Shows Active, Archived, or Suspended status
+- **Email Address**: Primary contact email
+- **Tags**: Up to 3 tags displayed with a "+X more" indicator if there are additional tags
+- **Archive Information**: If archived, shows the reason and date
+
+---
+
+## Left Sidebar
+
+### Customer Overview Card
+
+The top card displays:
+
+- **Avatar & Name**: Large avatar with customer name and email
+- **Tags Section**: All assigned tags with quick add (+) button
+  - Hover over a tag to reveal the remove (×) button
+- **Quick Stats**: Three-column grid showing:
+  - Total Invoices count
+  - Total Orders count
+  - Total Subscriptions count
+
+### Customer Details Accordion
+
+Expandable section showing:
+
+| Field | Description |
+|-------|-------------|
+| Member Since | Month and year the customer was created |
+| Customer Type | VIP (>€1000 revenue), Regular (≥3 orders), or New |
+| Unpaid Invoices | Count of outstanding invoices (if any) |
+| Total Revenue | Lifetime revenue from paid invoices |
+| Last Login | Date, time, and location of last portal login |
+
+### Quick Actions Card
+
+Action buttons for common tasks:
+
+<AccordionGroup>
+  <Accordion title="Primary Actions">
+    - **Create Invoice**: Opens invoice creation with customer pre-selected
+    - **Create Subscription**: Opens subscription creation modal
+    - **Create Order**: Opens order creation with customer pre-selected
+    - **Add Note**: Opens the note creation modal
+    - **Manage Tags**: Opens tag management modal
+  </Accordion>
+
+  <Accordion title="Communication Actions">
+    - **Create Support Ticket**: Initiates a support conversation
+  </Accordion>
+
+  <Accordion title="Management Actions">
+    - **Login as Customer**: Access the customer portal as this customer
+    - **Archive Customer**: Move to archived status (for active customers)
+    - **Reactivate Customer**: Restore from archived status
+  </Accordion>
+</AccordionGroup>
+
+### Contact Info Card with Map
+
+When a country is set, displays:
+
+- **Interactive Map**: Mapbox map centered on the customer's country with flag overlay
+- **Phone Number**: Clickable to initiate a call
+- **Full Address**: Street, postal code, city, and country
+- **Website**: Clickable link to company website (if set)
+
+<Note>
+The map shows the country location. For privacy reasons, it does not pinpoint the exact address.
+</Note>
+
+### SEPA Mandate Card
+
+If the customer has an active SEPA Direct Debit mandate via Mollie, a credit card-style display shows:
+
+- Payment method type (SEPA Direct Debit)
+- Mandate status (Valid/Invalid)
+- Account holder name
+- IBAN (formatted with spaces)
+- BIC code
+- Signature date
+- Mandate reference ID
+
+---
+
+## Main Content Tabs
+
+### Customer/Business Tab
+
+For **Individual Customers**, shows the "Klant" (Customer) tab with:
+
+<CardGroup cols={2}>
+  <Card title="Personal Information" icon="user">
+    - Full name
+    - Email address with [health status badge](/customer-management/customer-health) (Healthy/Bounced/Complained/Failed)
+    - Phone number
+  </Card>
+
+  <Card title="Address" icon="map-pin">
+    - Street address
+    - City and postal code
+    - Country
+  </Card>
+
+  <Card title="Preferences" icon="cog">
+    - Preferred language (EN/NL/ES)
+    - Default payment method
+  </Card>
+
+  <Card title="Customer Notes" icon="pencil-square">
+    - Private notes visible only to your team
+    - Add, edit, and delete notes
+    - Shows author and timestamps
+  </Card>
+</CardGroup>
+
+For **Business Customers**, shows the "Business" tab with additional fields:
+
+<CardGroup cols={2}>
+  <Card title="KVK Sync" icon="arrow-path">
+    For Dutch businesses with a KVK number:
+    - KVK registration number
+    - Last sync timestamp
+    - Re-sync button to update from KVK.nl
+  </Card>
+
+  <Card title="Business Information" icon="building-office">
+    - Company name
+    - VAT number
+    - Legal form (B.V., N.V., etc.)
+    - Industry code and description
+    - Established date
+    - Trade names
+  </Card>
+
+  <Card title="Tax & Location Settings" icon="document-text">
+    - Country with flag
+    - VAT number with validation status
+    - Validate VAT button (checks via VIES)
+    - Tax exempt status
+  </Card>
+</CardGroup>
+
+### Orders Tab
+
+View and filter all orders placed by this customer:
+
+**Status Filters** (pill tabs):
+- All, Pending, Processing, Completed, Cancelled, Refunded, Failed
+
+**Order Table Columns**:
+| Column | Description |
+|--------|-------------|
+| Order # | Order number or ID |
+| Date | Creation date |
+| Status | Order status with colored badge |
+| Payment | Payment status (Paid/Pending/Failed/Refunded) |
+| Total | Order total amount |
+| Actions | View button to open order details |
+
+All columns are sortable by clicking the header.
+
+### Invoices Tab
+
+Complete invoice management for the customer:
+
+**Invoice Summary Callout**:
+- Total invoice count with paid/unpaid breakdown
+- Total amount and unpaid amount
+- Send Payment Reminder button (when unpaid invoices exist)
+
+**Status Filters** (pill tabs):
+- All, Draft, Concept, Open, Pending, Unpaid, Paid, Cancelled, Chargeback
+
+**Invoice Table Columns**:
+| Column | Description |
+|--------|-------------|
+| Invoice # | Invoice number |
+| Date | Creation date |
+| Due Date | Payment due date |
+| Amount | Invoice amount |
+| Status | Status with colored badge |
+| Actions | View and Edit buttons |
+
+**Quick Actions**:
+- Create Invoice button in the header
+- Create First Invoice prompt for new customers
+
+### Subscriptions Tab
+
+Manage recurring billing for the customer:
+
+**Subscription Summary Callout**:
+- Total subscription count with active/paused/canceled breakdown
+- Monthly Recurring Revenue (MRR) from active subscriptions
+
+**Status Filters** (pill tabs):
+- All, Active, Paused, Pending, Canceled, Failed, Completed
+
+**Subscription Table Columns**:
+| Column | Description |
+|--------|-------------|
+| Product | Product name with subscription name |
+| Status | Status with colored badge |
+| Amount | Recurring amount and interval |
+| Next Billing | Next billing date |
+| Actions | View button |
+
+**Quick Actions**:
+- Create Subscription button in the header
+
+### Smart Links Tab
+
+View all Smart Links created for this customer:
+
+- Link name and type (Product/Amount)
+- Status (Active/Inactive)
+- Views and payments statistics
+- Revenue generated
+- Quick actions to view/edit
+
+### Transactions Tab
+
+Complete payment history:
+
+- All transactions related to invoices, orders, and subscriptions
+- Mollie payment IDs and status
+- Amount and currency
+- Payment method used
+- Created timestamp
+
+### Activity Log Tab
+
+Chronological activity feed showing:
+
+- Invoice creation, sending, and payment events
+- Order placements and status changes
+- Subscription lifecycle events (created, paused, resumed, canceled)
+- Customer data changes
+- Note additions
+
+Each entry shows:
+- Activity type and description
+- Timestamp (relative, e.g., "2 hours ago")
+- User who performed the action (when applicable)
+
+---
+
+## Editing Customer Information
+
+Click the **Edit Customer** button (pencil icon) to open the edit modal.
+
+### Individual Customer Fields
+
+- Customer type (Individual/Business)
+- Full name
+- Email address
+- Phone number
+- Street address (with Google Maps autocomplete)
+- City
+- Postal code
+- Language preference (English, Dutch, Spanish)
+- Payment method preference
+- Country
+- Tax exempt toggle
+
+### Business Customer Fields
+
+All individual fields plus:
+
+- Company name
+- VAT number
+- Company registration number (with country selector)
+- Legal form
+- Industry code
+- Industry description
+- Established date
+- Website URL
+
+### Avatar Selection (Business Customers)
+
+When a website URL is entered for a business customer:
+
+1. An "Customer Avatar" section appears
+2. Shows a preview of the company logo from the website
+3. Click to select the logo as the customer avatar
+4. The avatar appears on the customer profile page
+5. Click "Remove" to clear the avatar
+
+<Tip>
+The avatar uses unavatar.io to fetch the website's favicon/logo automatically. No manual upload required!
+</Tip>
+
+---
+
+## Tag Management
+
+### Adding Tags
+
+1. Click the **+** button next to "Tags" or the **Manage Tags** quick action
+2. Search existing tags or create new ones
+3. Select multiple tags to assign
+4. Click Save to apply
+
+### Removing Tags
+
+- Hover over any tag to reveal the **×** button
+- Click to instantly remove the tag
+- Or use the Manage Tags modal to remove multiple at once
+
+### Creating New Tags
+
+1. In the tag management modal, type a new tag name
+2. If no match is found, click "Create new tag"
+3. Choose a color for the tag
+4. The tag is created and automatically assigned
+
+---
+
+## Customer Notes
+
+Private notes visible only to your team members.
+
+### Adding a Note
+
+1. Click **Add Note** from Quick Actions or the Notes section
+2. Enter a title (required)
+3. Enter the note content (supports multi-line text)
+4. Click Save
+
+### Editing a Note
+
+1. Click the pencil icon on any note
+2. Modify the title or content
+3. Click Save
+
+### Deleting a Note
+
+1. Click the trash icon on any note
+2. Confirm deletion in the modal
+
+Notes display:
+- Title and content
+- Creation timestamp ("2 days ago")
+- Update timestamp (if edited)
+- Author name
+
+---
+
+## KVK Integration (Dutch Businesses)
+
+For customers with a Dutch company (country = NL) and KVK number:
+
+### Automatic Data Sync
+
+When a KVK number is entered:
+- Company name, address, and details are fetched from KVK.nl
+- Legal form, industry information, and trade names are populated
+
+### Manual Re-sync
+
+1. Navigate to the Business tab
+2. Check the "Last Synced" timestamp
+3. If outdated (>1 year), click **Re-sync with KVK**
+4. Customer data is updated from the KVK registry
+
+<Warning>
+KVK sync is only available for Netherlands-based businesses with valid KVK numbers.
+</Warning>
+
+---
+
+## VAT Validation
+
+Validate European VAT numbers via the VIES system:
+
+1. Ensure the customer has a VAT number entered
+2. Click **Validate VAT** button
+3. Results show:
+   - Valid/Invalid status badge
+   - Company name from VIES
+   - Registered address from VIES
+   - Validation timestamp
+
+<Note>
+If the VAT number is valid, the customer is automatically marked as tax exempt.
+</Note>
+
+---
+
+## Archiving Customers
+
+### Archive a Customer
+
+1. Click **Archive Customer** from Quick Actions
+2. Select an archive reason:
+   - No longer needed
+   - Duplicate entry
+   - Customer request
+   - Payment issues
+   - Other
+3. Add an optional note
+4. Confirm archival
+
+### Effects of Archiving
+
+- Customer is hidden from default customer list
+- Status badge shows "Archived"
+- Archive reason and date displayed in header
+- Existing invoices, orders, and subscriptions remain accessible
+- Customer cannot log into the portal
+
+### Reactivate a Customer
+
+1. Navigate to the archived customer's profile
+2. Click **Reactivate Customer**
+3. Confirm reactivation
+4. Customer returns to Active status
+
+---
+
+## Login as Customer
+
+Test the customer portal experience:
+
+1. Click **Login as Customer** from Quick Actions
+2. A new tab opens with the customer portal
+3. You're logged in as the customer
+4. View their invoices, subscriptions, and orders
+5. Test payment flows and portal features
+
+<Warning>
+This creates an actual session as the customer. Be careful not to modify their data unintentionally.
+</Warning>
+
+---
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Private Notes" icon="pencil-square" href="/customer-management/private-notes">
+    Learn more about customer notes and best practices
+  </Card>
+
+  <Card title="Tax Exemptions" icon="document-text" href="/customer-management/tax-exemptions">
+    Managing tax-exempt customers
+  </Card>
+
+  <Card title="Customer Portal" icon="user-circle" href="/customer-management/customer-portal">
+    What your customers see in their portal
+  </Card>
+
+  <Card title="Tags System" icon="tag" href="/organization-and-automation/tags-system">
+    Organizing customers with tags
+  </Card>
+</CardGroup>

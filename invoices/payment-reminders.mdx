@@ -1,8 +1,84 @@
 ---
-title: Payment Reminders
-description: 'Automated follow-up sequences'
+title: "Payment Reminders"
+description: "Automated follow-up sequences to get invoices paid on time"
 ---
 
 # Payment Reminders
 
-_Work in progress. Content coming soon._
+PayRequest can automatically remind your customers about unpaid invoices, so you don't have to chase payments manually.
+
+## How Reminders Work
+
+When you enable payment reminders on an invoice, PayRequest sends automatic email reminders based on your schedule.
+
+### Setting Up Reminders
+
+1. Open any invoice
+2. Go to the **Payment Reminders** tab
+3. Toggle reminders **on**
+4. Configure your preferences:
+
+| Setting | Description |
+|---------|-------------|
+| **Days before due date** | Send a reminder X days before the invoice is due |
+| **Days after due date** | Send a reminder X days after the due date |
+| **Frequency** | How often to send reminders (e.g., every 7 days) |
+
+### Automatic Schedule
+
+Reminders are processed daily at **9:00 AM**. The system checks all invoices with reminders enabled and sends emails according to your schedule.
+
+### Manual Reminders
+
+You can also send reminders manually at any time:
+
+- **Single invoice**: Click **Send Reminder** on the invoice detail page
+- **Bulk action**: Select multiple invoices and use the **Send Reminder** bulk action
+
+## Reminder Email
+
+Each reminder includes:
+
+- Your business branding
+- Invoice number and amount
+- Due date (and how many days overdue)
+- Direct payment link
+- Your custom message (if configured)
+
+## Tracking Reminders
+
+The Payment Reminders tab on each invoice shows a complete history:
+
+- Date and time each reminder was sent
+- Whether it was automatic or manual
+- Delivery status
+
+## When Reminders Aren't Enough
+
+If regular payment reminders don't result in payment, you can escalate to formal debt collection:
+
+1. Invoice reminders go unanswered for 14+ days
+2. Open a **Debt Collection** case from the invoice
+3. The collection pipeline takes over with escalating communication
+
+<CardGroup cols={2}>
+  <Card title="Debt Collection" icon="scale-balanced" href="/debt-collection/overview">
+    Escalate unpaid invoices to formal collection
+  </Card>
+
+  <Card title="Invoice Payment Links" icon="link" href="/invoices/invoice-payment-links">
+    Share payment links with customers
+  </Card>
+
+  <Card title="Bulk Invoice Actions" icon="layer-group" href="/invoices/bulk-invoice-actions">
+    Send reminders to multiple invoices at once
+  </Card>
+
+  <Card title="Email Templates" icon="envelope" href="/invoices/email-templates">
+    Customize your reminder email templates
+  </Card>
+
+  <Card title="Email Health & Suppression" icon="shield-check" href="/customer-management/customer-health">
+    Bounced emails are automatically suppressed with delivery confirmation
+  </Card>
+</CardGroup>

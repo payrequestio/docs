@@ -1,8 +1,82 @@
 ---
-title: Email Automations
-description: 'Trigger actions on email events'
+title: "Email Automations"
+description: "Automatically tag customers and take action when emails bounce, get spam complaints, or fail to deliver"
 ---
 
 # Email Automations
 
-_Work in progress. Content coming soon._
+Email automations let you trigger actions when email delivery events occur. The most common use case is automatically tagging customers with an "Invalid Email" tag when their email bounces, making it easy to find and fix problematic addresses.
+
+<Info>
+Email automations work together with the [Email Health & Bounce Suppression](/customer-management/customer-health) system, which automatically blocks emails to bounced addresses.
+</Info>
+
+---
+
+## Default Automation: Bounce Tagging
+
+PayRequest comes with a pre-built automation template:
+
+**Email Bounce → Add Invalid Email Tag**
+
+This automation:
+1. Triggers when a customer's email bounces
+2. Creates an "Invalid Email" tag (red) if it doesn't exist
+3. Attaches the tag to the affected customer
+
+### Setting It Up
+
+<Steps>
+  <Step title="Go to Automations">
+    Navigate to **Automations** from the sidebar.
+  </Step>
+  <Step title="Create the default automation">
+    Click **Create Automation** — the bounce tagging template is pre-filled.
+  </Step>
+  <Step title="Customize (optional)">
+    Change the tag name or color if you prefer a different label.
+  </Step>
+  <Step title="Save">
+    The automation activates immediately and processes all future bounces.
+  </Step>
+</Steps>
+
+---
+
+## Available Triggers
+
+| Trigger | When It Fires |
+|---|---|
+| **Email Bounced** | Recipient server rejects the email (permanent or transient) |
+| **Email Complained** | Recipient marks the email as spam |
+| **Email Failed** | Email fails to send for any other reason |
+
+## Available Actions
+
+| Action | What It Does |
+|---|---|
+| **Add Tag** | Attaches a tag to the customer |
+| **Remove Tag** | Removes a tag from the customer |
+
+---
+
+## Automatic Tag Cleanup
+
+When you update a customer's email address to a different one, PayRequest automatically removes any tags that were added by email bounce automations. This means fixing an email address also cleans up the "Invalid Email" tag without manual work.
+
+<Tip>
+Combine bounce tagging with the **Email Issues** filter on the customer list to quickly review and fix all affected customers at once.
+</Tip>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Email Health & Suppression" icon="shield-check" href="/customer-management/customer-health">
+    How bounce suppression protects your sender reputation
+  </Card>
+  <Card title="Tags System" icon="tag" href="/organization-and-automation/tags-system">
+    Learn more about organizing with tags
+  </Card>
+</CardGroup>
