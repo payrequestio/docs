@@ -1,0 +1,156 @@
+---
+title: "Debt Collection"
+description: "Recover unpaid invoices with automated collection workflows, escalation stages, and payment plans"
+---
+
+# Debt Collection
+
+Stop chasing unpaid invoices manually. PayRequest's Debt Collection feature gives you a professional, structured approach to recovering overdue payments — from friendly reminders all the way to formal notices and postal letters.
+
+<Info>
+Debt Collection works alongside your existing invoicing system. When an invoice goes unpaid past its due date, you can open a collection case to start the recovery process.
+</Info>
+
+## Key Features
+
+- **5-Stage Escalation Pipeline** — Start with a soft pre-collection reminder, then progress through four formal stages
+- **Pre-Incasso (Stage 0)** — Free, informal reminder before starting formal collection
+- **Automated Escalation** — Cases automatically progress through stages based on your schedule
+- **Pause & Resume** — Temporarily suspend a case while negotiating, then pick up where you left off
+- **Partial Payments** — Register payments received via bank transfer, cash, or other channels
+- **Waive Balance (Kwijtschelding)** — Write off the remaining balance when you've agreed on a settlement
+- **Collection Fees** — Add collection fees at later stages to cover recovery costs
+- **Payment Plans** — Let customers pay in installments when they can't pay the full amount at once
+- **Postal Letters** — Send physical collection letters via Pingen for formal notices
+- **Customer Portal** — Customers can view their case, pay directly, or request a payment plan
+- **External Debts** — Create collection cases for debts not tied to existing invoices
+- **Activity Timeline** — Unified audit trail of every action, email, letter, payment, and status change
+
+## When to Use Debt Collection
+
+Debt Collection is designed for invoices that remain unpaid after your regular payment reminders haven't worked.
+
+**Typical workflow:**
+1. Invoice is sent to customer
+2. Payment reminders are sent automatically (3 days before, 7 days after due date)
+3. Customer still hasn't paid after 14+ days
+4. **Open a collection case** to start formal recovery
+
+<Tip>
+Don't start collection too early. Give customers at least 14 days past the due date before opening a case. Most late payments are resolved with regular reminders.
+</Tip>
+
+## How It Works
+
+### 1. Create a Case
+
+Open a collection case from an overdue invoice or create one for an external debt. The case tracks everything: the original amount, any collection fees, payment attempts, and communication history.
+
+### 2. Escalate Through Stages
+
+Each case can progress through up to five stages, each with increasingly urgent communication:
+
+| Stage | Name | Tone |
+|-------|------|------|
+| 0 | Pre-Collection (optional) | Gentle, informal reminder |
+| 1 | Friendly Reminder | Polite, assumes oversight |
+| 2 | Formal Notice | Professional, sets deadline |
+| 3 | Collection Fees | Firm, fees added to balance |
+| 4 | Final Warning | Urgent, last chance before further action |
+
+### 3. Communicate with Customers
+
+At each stage, you can send email reminders or physical postal letters. Customers also see their case in the Customer Portal where they can pay directly or request a payment plan.
+
+### 4. Track Payments
+
+Register partial payments received via bank transfer or cash. The amount breakdown updates in real-time, and when the full balance is covered, the case closes automatically. You can also waive the remaining balance for settlements.
+
+### 5. Resolve the Case
+
+Cases are resolved when the customer pays the full amount (including any collection fees), when you waive the remaining balance, or when all payment plan installments are completed.
+
+## Dashboard Overview
+
+Your Debt Collection dashboard shows all active cases at a glance:
+
+- **Case number** and linked invoice
+- **Customer name** and contact details
+- **Current stage** with visual progress indicator
+- **Total amount due** (original + collection fees) and remaining balance
+- **Days overdue** count
+- **Quick actions** — send reminder, escalate, pause, view details
+
+## What Customers See
+
+When you open a collection case, your customer can view it in the Customer Portal:
+
+- A clear warning banner explaining the situation
+- Case details (case number, invoice, due date, days overdue)
+- Amount breakdown (original amount + any collection fees)
+- Stage progress indicator
+- **Pay Now** button to settle immediately
+- Option to **request a payment plan** (if you've enabled this)
+
+<Warning>
+Collection cases are visible to customers in their portal. Make sure you're ready to proceed before creating a case.
+</Warning>
+
+## Getting Started
+
+<CardGroup cols={2}>
+  <Card title="Creating Cases" icon="plus" href="/debt-collection/creating-cases">
+    Learn how to create collection cases from invoices or external debts
+  </Card>
+
+  <Card title="Escalation Pipeline" icon="arrow-up-right" href="/debt-collection/escalation-pipeline">
+    Understand the 4-stage escalation process and automation
+  </Card>
+
+  <Card title="Payment Plans" icon="calendar" href="/debt-collection/payment-plans">
+    Set up installment plans for customers who can't pay at once
+  </Card>
+
+  <Card title="Managing Cases" icon="sliders" href="/debt-collection/managing-cases">
+    Pause, resume, register payments, and waive balances
+  </Card>
+
+  <Card title="Postal Letters" icon="envelope" href="/debt-collection/postal-letters">
+    Send physical collection letters via Pingen
+  </Card>
+</CardGroup>
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Can I use Debt Collection without Pingen (postal letters)?">
+    Yes. Postal letters are optional. You can run the full collection pipeline using only email communication and the customer portal.
+  </Accordion>
+
+  <Accordion title="Does the customer get notified when I create a case?">
+    Creating a case does not automatically notify the customer. You choose when to send the first reminder — either by email or postal letter.
+  </Accordion>
+
+  <Accordion title="Can I add collection fees?">
+    Yes. At Stage 3 (Collection Fees) and Stage 4 (Final Warning), you can add a fee to the outstanding balance. The fee is shown separately in the customer portal and on payment pages.
+  </Accordion>
+
+  <Accordion title="What happens when the customer pays?">
+    When the linked invoice is paid (including any collection fees), the case is automatically marked as paid and closed. You can also register manual payments for bank transfers or cash received outside PayRequest.
+  </Accordion>
+
+  <Accordion title="Can I close a case without full payment?">
+    Yes. You can close a case manually, waive the remaining balance (kwijtschelding), or cancel the case from the detail page.
+  </Accordion>
+
+  <Accordion title="Can I pause a case?">
+    Yes. Pausing suspends automated escalation while keeping the payment link active. This is useful when negotiating with the customer. Resume the case at any time to continue the collection process.
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+- [Payment Reminders](/invoices/payment-reminders) — Automated invoice reminders (before collection)
+- [Failed Payment Handling](/subscriptions/failed-payment-handling) — Automatic retry for failed subscription payments
+- [Handling Chargebacks](/payment-processing/handling-chargebacks) — Managing SEPA chargebacks
+- [Customer Portal](/customer-management/customer-portal) — What your customers see

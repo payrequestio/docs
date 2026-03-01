@@ -39,9 +39,27 @@
       "group": "🚀 Getting Started",
       "pages": [
         "getting-started/welcome-to-payrequest",
+        "getting-started/onboarding",
         "getting-started/quick-start-guide",
         "getting-started/initial-setup-checklist",
         "getting-started/understanding-your-dashboard"
+      ]
+    },
+    {
+      "group": "🔌 API Reference",
+      "pages": [
+        "api/overview",
+        "api/authentication",
+        "api/invoices",
+        "api/errors"
+      ]
+    },
+    {
+      "group": "🤖 MCP Integration",
+      "pages": [
+        "mcp/overview",
+        "mcp/setup",
+        "mcp/tools"
       ]
     },
     {
@@ -49,10 +67,15 @@
       "pages": [
         "payment-processing/payment-methods-overview",
         "payment-processing/setting-up-payment-providers",
+        "payment-processing/saved-payment-methods",
         "payment-processing/payment-forms",
+        "payment-processing/payment-page-dynamic-links",
+        "payment-processing/smart-links",
+        "payment-processing/security-deposits",
         "payment-processing/checkout-links",
         "payment-processing/qr-code-payments",
         "payment-processing/bank-sync-ponto",
+        "payment-processing/bank-transfer",
         "payment-processing/handling-chargebacks"
       ]
     },
@@ -60,10 +83,12 @@
       "group": "📦 Products & Pricing",
       "pages": [
         "products-and-pricing/creating-products",
+        "products/duplicate-products",
         "products-and-pricing/custom-fields",
         "products-and-pricing/setup-fees",
         "products-and-pricing/trial-periods",
         "products-and-pricing/quantity-based-pricing",
+        "products-and-pricing/booking-calendar",
         "products-and-pricing/product-sharing"
       ]
     },
@@ -72,21 +97,38 @@
       "pages": [
         "subscriptions/creating-subscriptions",
         "subscriptions/subscription-lifecycle",
+        "subscriptions/payment-methods",
         "subscriptions/managing-mandates",
         "subscriptions/billing-cycles",
         "subscriptions/pausing-and-resuming",
+        "subscriptions/suspending-subscriptions",
         "subscriptions/sync-product-changes",
         "subscriptions/failed-payment-handling",
         "subscriptions/customer-self-service"
       ]
     },
     {
+      "group": "📋 Debt Collection",
+      "pages": [
+        "debt-collection/overview",
+        "debt-collection/creating-cases",
+        "debt-collection/escalation-pipeline",
+        "debt-collection/managing-cases",
+        "debt-collection/payment-plans",
+        "debt-collection/postal-letters"
+      ]
+    },
+    {
       "group": "📄 Invoices",
       "pages": [
         "invoices/creating-invoices",
+        "invoices/duplicate-invoices",
         "invoices/invoice-templates",
         "invoices/email-templates",
+        "invoices/invoice-payment-links",
         "invoices/payment-reminders",
+        "invoices/invoice-payment-retry",
+        "invoices/refund-requests",
         "invoices/partial-payments",
         "invoices/tax-configuration",
         "invoices/bulk-invoice-actions"
@@ -96,10 +138,16 @@
       "group": "🛍️ Shop & Checkout",
       "pages": [
         "shop-and-checkout/shop-setup",
+        "shop-and-checkout/sales-page-styling",
         "shop-and-checkout/custom-domains",
+        "shop-and-checkout/vacation-mode",
+        "shop-and-checkout/spam-protection",
+        "shop-and-checkout/search-command-palette",
         "shop-and-checkout/product-display",
+        "categories/display-types",
         "shop-and-checkout/shopping-cart",
         "shop-and-checkout/checkout-customization",
+        "shop-and-checkout/checkout-recovery",
         "shop-and-checkout/order-management"
       ]
     },
@@ -107,7 +155,13 @@
       "group": "👥 Customer Management",
       "pages": [
         "customer-management/customer-profiles",
+        "customer-management/support-requests",
+        "customer-management/quote-requests",
+        "customer-management/last-login-tracking",
         "customer-management/customer-portal",
+        "customer-management/contact-persons",
+        "customer-management/customer-portal-settings",
+        "customer-management/portal-notifications",
         "customer-management/customer-sync",
         "customer-management/tax-exemptions",
         "customer-management/private-notes",
@@ -128,6 +182,9 @@
       "group": "📊 Analytics & Reporting",
       "pages": [
         "analytics-and-reporting/insights-dashboard",
+        "analytics-and-reporting/daily-business-summary",
+        "analytics-and-reporting/monthly-subscription-report",
+        "analytics-and-reporting/expense-tracker",
         "analytics-and-reporting/transaction-reports",
         "analytics-and-reporting/export-functions",
         "analytics-and-reporting/revenue-tracking",
@@ -138,18 +195,24 @@
       "group": "🏢 Business Settings",
       "pages": [
         "business-settings/business-details",
+        "business-settings/tax-vat-guide",
+        "business-settings/app-store",
         "business-settings/team-management",
         "business-settings/invoice-settings",
         "business-settings/email-configuration",
-        "business-settings/api-and-integrations",
         "business-settings/data-import-export"
+      ]
+    },
+    {
+      "group": "🔗 Integrations",
+      "pages": [
+        "integrations/cloudflare"
       ]
     },
     {
       "group": "🔒 Security & Compliance",
       "pages": [
         "security-and-compliance/two-factor-authentication",
-        "security-and-compliance/api-keys-and-tokens",
         "security-and-compliance/gdpr-compliance",
         "security-and-compliance/pci-compliance",
         "security-and-compliance/audit-logs"
@@ -161,8 +224,13 @@
         "advanced-features/custom-css",
         "advanced-features/javascript-snippets",
         "advanced-features/webhook-development",
-        "advanced-features/api-reference",
         "advanced-features/bulk-data-operations"
+      ]
+    },
+    {
+      "group": "📝 Updates & Changes",
+      "pages": [
+        "changelog"
       ]
     },
     {

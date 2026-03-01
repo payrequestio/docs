@@ -1,0 +1,206 @@
+---
+title: "Postal Letters"
+description: "Send physical collection letters to customers via Pingen postal service"
+---
+
+# Postal Letters
+
+For formal collection notices, a physical letter carries more weight than an email. PayRequest integrates with [Pingen](https://www.pingen.com) to send professional postal letters directly from your dashboard — printed, enveloped, and mailed automatically.
+
+<Info>
+Postal letters are optional. You can use the full debt collection pipeline with email-only communication. Pingen integration adds the ability to send physical letters when needed.
+</Info>
+
+## Why Send Postal Letters?
+
+- **Higher impact** — Physical letters are taken more seriously than emails
+- **Proof of delivery** — Track when letters are delivered
+- **Legal standing** — Physical notices may carry more legal weight in some jurisdictions
+- **Unreachable customers** — Reach customers who don't respond to emails
+- **Professional appearance** — Formal business letterhead with your company details
+
+## Setting Up Pingen
+
+Before you can send postal letters, you need to connect your Pingen account.
+
+<Steps>
+
+### Create a Pingen Account
+
+Sign up at [pingen.com](https://www.pingen.com) and create an organisation.
+
+### Get Your API Credentials
+
+In your Pingen dashboard:
+1. Go to **Settings** → **API**
+2. Note your **Client ID** and **Client Secret**
+3. Note your **Organisation ID** from the account settings
+
+### Configure PayRequest
+
+Contact PayRequest support or add the Pingen credentials in your environment configuration. You'll need:
+
+| Setting | Description |
+|---------|-------------|
+| **Client ID** | Your Pingen API client ID |
+| **Client Secret** | Your Pingen API client secret |
+| **Organisation ID** | Your Pingen organisation ID |
+
+### Top Up Your Pingen Balance
+
+Pingen charges per letter sent (typically EUR 1-2 per letter within the Netherlands). Make sure your Pingen account has sufficient balance.
+
+</Steps>
+
+## Sending a Postal Letter
+
+Once Pingen is configured, you can send letters from any collection case.
+
+<Steps>
+
+### Open the Collection Case
+
+Navigate to **Debt Collection** and click on the case.
+
+### Click "Send Postal Letter"
+
+Find the **Send Postal Letter** button in the case header (next to "Send Reminder").
+
+### Review and Confirm
+
+The system generates a professional A4 letter including:
+- Your business details (company name, address, VAT number, IBAN)
+- Customer's name and address
+- Stage-appropriate content matching the current collection stage
+- Amount breakdown (original amount + collection fees = total)
+- Payment link and case reference number
+- QR code for quick mobile payment
+
+### Letter Is Sent
+
+PayRequest uploads the letter to Pingen, which handles printing, enveloping, and mailing. The letter is typically delivered within 1-3 business days (within the Netherlands).
+
+</Steps>
+
+## Letter Content
+
+Each letter is automatically tailored to the current collection stage:
+
+### Stage 1: Friendly Reminder
+- Polite tone, assumes the customer may have overlooked the invoice
+- Mentions the invoice number and original due date
+- Requests payment at the customer's earliest convenience
+
+### Stage 2: Formal Notice
+- More formal tone with a clear payment deadline
+- States that this is a formal notice
+- Requests payment within 7 days
+
+### Stage 3: Collection Fees Added
+- Direct tone informing the customer that collection fees have been applied
+- Shows the breakdown: original amount + collection fee
+- Requests immediate payment of the total amount
+
+### Stage 4: Final Warning
+- Urgent tone making clear this is the last notice
+- Warns of potential further consequences
+- Demands immediate payment
+
+## Letter Format
+
+Every letter follows a professional Dutch business letter format:
+
+- **A4 paper** with proper margins
+- **Sender block** — Your company name, address, VAT number, and IBAN
+- **Recipient address** — Positioned for standard window envelopes
+- **Date and reference** — Case number and current date
+- **Body** — Stage-appropriate content in the case's configured language
+- **Amount table** — Clear breakdown of what's owed
+- **QR code** — Scannable payment link for quick mobile payment
+- **Signature** — "With kind regards" followed by your company name
+
+<Tip>
+The letter language follows the language you've set for each individual case. Set this in the Case Settings on the case detail page.
+</Tip>
+
+## Tracking Letters
+
+After sending a letter, you can track its status:
+
+- **Pending** — Letter is being processed by Pingen
+- **Sent** — Letter has been printed and mailed
+- **Delivered** — Letter has been delivered (when tracking is available)
+
+Letter history is shown in the case's overview section, including:
+- Date sent
+- Current status
+- Delivery confirmation (when available)
+
+## Automatic Postal Letters
+
+When Pingen is configured, the automatic escalation process can send postal letters automatically:
+
+| Stage | Email | Postal Letter |
+|-------|-------|--------------|
+| Stage 1 (Friendly Reminder) | Sent automatically | Not sent (email only) |
+| Stage 2 (Formal Notice) | Sent automatically | **Sent automatically** |
+| Stage 3 (Collection Fees) | Sent automatically | **Sent automatically** |
+| Stage 4 (Final Warning) | Sent automatically | **Sent automatically** |
+
+<Note>
+Automatic postal letters only happen during automated escalation. If you manually escalate a case, you choose whether to send a letter.
+</Note>
+
+## Costs
+
+Pingen charges per letter. Typical costs (Netherlands):
+
+- **Standard letter** — approximately EUR 1.00 - 2.00
+- **Registered letter** — higher cost, includes delivery confirmation
+- **International** — varies by destination country
+
+Costs are charged to your Pingen account, not through PayRequest. Check [pingen.com](https://www.pingen.com/pricing) for current pricing.
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Do I need Pingen to use Debt Collection?">
+    No. Pingen is optional. You can use the full collection pipeline with email-only communication.
+  </Accordion>
+
+  <Accordion title="Can I preview the letter before sending?">
+    The letter is generated as a PDF using your business details and the case information. You can download a preview from the case detail page before confirming the send.
+  </Accordion>
+
+  <Accordion title="What if the customer's address is wrong?">
+    Make sure your customer records have accurate addresses before sending postal letters. Letters sent to incorrect addresses will still be charged by Pingen.
+  </Accordion>
+
+  <Accordion title="Can I send letters internationally?">
+    Yes. Pingen supports international mail. The cost varies by destination country.
+  </Accordion>
+
+  <Accordion title="How long does delivery take?">
+    Within the Netherlands, letters are typically delivered within 1-3 business days. International delivery may take longer depending on the destination.
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Escalation Pipeline" icon="arrow-up-right" href="/debt-collection/escalation-pipeline">
+    How automatic escalation triggers postal letters
+  </Card>
+
+  <Card title="Creating Cases" icon="plus" href="/debt-collection/creating-cases">
+    How to create collection cases
+  </Card>
+
+  <Card title="Debt Collection Overview" icon="scale-balanced" href="/debt-collection/overview">
+    Back to the overview
+  </Card>
+
+  <Card title="Business Details" icon="building" href="/business-settings/business-details">
+    Make sure your company details are up to date for letters
+  </Card>
+</CardGroup>

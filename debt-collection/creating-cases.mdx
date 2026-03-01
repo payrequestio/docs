@@ -1,0 +1,126 @@
+---
+title: "Creating Collection Cases"
+description: "How to create debt collection cases from overdue invoices or external debts"
+---
+
+# Creating Collection Cases
+
+You can create collection cases in two ways: from an existing overdue invoice, or as an external debt for amounts not tied to an invoice in PayRequest.
+
+## Creating a Case from an Invoice
+
+This is the most common way to start a collection. When an invoice is overdue and regular payment reminders haven't worked, you can escalate it to a formal collection case.
+
+<Steps>
+
+### Navigate to Debt Collection
+
+Go to **Debt Collection** in your dashboard sidebar, then click **Create Case**.
+
+### Select "From Invoice"
+
+The default tab lets you create a case from an existing invoice.
+
+### Choose the Invoice
+
+Use the dropdown to select the overdue invoice. Only unpaid invoices are shown. You'll see the invoice number, customer name, and amount.
+
+### Add Internal Notes (Optional)
+
+Add any context about the case — previous communication attempts, customer responses, or special circumstances. These notes are only visible to you, never to the customer.
+
+### Enable Pre-Incasso (Optional)
+
+Toggle **Pre-Incasso** on if you want to start with a soft, informal reminder (Stage 0) before beginning formal collection. This gives the customer one more chance to pay without the pressure of formal notices.
+
+### Create the Case
+
+Click **Create Case**. The system will:
+- Create a new collection case with a unique case number (e.g., `DC-2026-001`)
+- Link it to the invoice and customer
+- Set the stage to **Stage 0: Pre-Collection** (if pre-incasso is enabled) or **Stage 1: Friendly Reminder**
+- Record the original invoice amount as the case amount
+
+</Steps>
+
+<Note>
+Each invoice can only have one active collection case. If you try to create a case for an invoice that already has one, you'll see a warning.
+</Note>
+
+## Creating a Case for an External Debt
+
+Sometimes you need to collect on debts that aren't tracked as invoices in PayRequest — for example, an outstanding balance from another system, a verbal agreement, or a service provided outside your normal invoicing flow.
+
+<Steps>
+
+### Navigate to Debt Collection
+
+Go to **Debt Collection** in your dashboard sidebar, then click **Create Case**.
+
+### Select "External Debt"
+
+Switch to the **External Debt** tab.
+
+### Fill in the Details
+
+| Field | Description |
+|-------|-------------|
+| **Customer** | Select an existing customer from the dropdown |
+| **Description** | What the debt is for (becomes the invoice line item) |
+| **Amount** | The total amount owed |
+| **Due Date** | The original due date (must be in the past) |
+| **Currency** | EUR by default |
+| **Notes** | Optional internal notes about the case |
+
+### Enable Pre-Incasso (Optional)
+
+Toggle **Pre-Incasso** on to start with a gentle reminder before formal collection.
+
+### Create the Case
+
+Click **Create Case**. The system will:
+- Automatically create an invoice with the amount and description
+- Create a collection case linked to this new invoice
+- Set the stage to **Stage 0: Pre-Collection** (if pre-incasso) or **Stage 1: Friendly Reminder**
+
+</Steps>
+
+<Tip>
+The automatically created invoice works just like any other invoice in PayRequest. Customers can pay it through the payment page, customer portal, or via a payment link you share.
+</Tip>
+
+## After Creating a Case
+
+Once a case is created, you can:
+
+- **Send a reminder email** — Notify the customer about the outstanding amount
+- **Send a postal letter** — Mail a physical collection letter via Pingen
+- **Pause the case** — Temporarily suspend escalation while negotiating
+- **Register payments** — Record bank transfers, cash, or other payments received
+- **View the case** — See all details, payment history, and activity timeline
+- **Configure settings** — Set the language, enable payment plan requests, and manage case-specific options
+
+### Case Settings
+
+On the case detail page, you'll find a **Case Settings** card where you can configure:
+
+- **Language** — Set the language for all communication with this customer (Dutch or English)
+- **Allow installment requests** — Let the customer request a payment plan from the portal
+
+## What Happens Next
+
+After creating the case, your next step depends on your recovery strategy:
+
+1. **Immediate action**: Send a reminder email right away to notify the customer
+2. **Wait for automation**: Let the automated escalation handle it based on your schedule
+3. **Personal approach**: Contact the customer directly, then use the case to track the outcome
+
+<CardGroup cols={2}>
+  <Card title="Escalation Pipeline" icon="arrow-up-right" href="/debt-collection/escalation-pipeline">
+    Learn about the 4 stages and automated progression
+  </Card>
+
+  <Card title="Payment Plans" icon="calendar" href="/debt-collection/payment-plans">
+    Set up installment plans for customers
+  </Card>
+</CardGroup>

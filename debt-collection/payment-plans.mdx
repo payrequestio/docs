@@ -1,0 +1,217 @@
+---
+title: "Payment Plans"
+description: "Let customers pay outstanding debts in monthly installments with structured payment plans"
+---
+
+# Payment Plans
+
+Sometimes customers want to pay but can't afford the full amount at once. Payment plans let you split the outstanding debt into monthly installments, making it easier for customers to settle their balance while ensuring you get paid.
+
+<Info>
+Payment plans use PayRequest's built-in subscription system. Each installment is billed automatically — no manual follow-up needed.
+</Info>
+
+## How Payment Plans Work
+
+1. A collection case exists with an outstanding amount
+2. You create a payment plan (or the customer requests one)
+3. The total amount is divided into equal monthly installments
+4. PayRequest creates a subscription that bills the customer each month
+5. When all installments are paid, the collection case is automatically closed
+
+## Creating a Payment Plan
+
+### From the Dashboard
+
+<Steps>
+
+### Open the Collection Case
+
+Navigate to **Debt Collection** and click on the case you want to set up a plan for.
+
+### Find the Payment Plan Section
+
+In the case detail view, scroll to the **Payment Plan** section.
+
+### Choose the Number of Installments
+
+Select how many monthly installments the customer should pay. Available options:
+
+| Installments | Example (EUR 600 debt) |
+|-------------|----------------------|
+| **2 months** | EUR 300.00/month |
+| **3 months** | EUR 200.00/month |
+| **6 months** | EUR 100.00/month |
+| **12 months** | EUR 50.00/month |
+
+The monthly amount is calculated automatically based on the total amount due (including any collection fees).
+
+### Create the Plan
+
+Click **Create Plan**. PayRequest will:
+- Create a monthly subscription for the installment amount
+- Link it to the collection case
+- Set the status to **Pending Mandate** (waiting for the customer to authorize payments)
+
+</Steps>
+
+<Note>
+The customer needs to set up a payment mandate (SEPA Direct Debit authorization) before installments can begin. They'll receive instructions to do this.
+</Note>
+
+### Customer-Initiated Requests
+
+You can also let customers request a payment plan themselves from the Customer Portal.
+
+#### Enabling Customer Requests
+
+1. Open the collection case detail page
+2. Go to **Case Settings**
+3. Toggle **Allow installment requests** on
+
+When enabled, the customer sees a **Request Installments** button on their collection case page.
+
+#### What Customers See
+
+Customers can:
+1. Click **Request Installments**
+2. Choose their preferred number of installments (2, 3, 6, or 12)
+3. See the monthly payment amount for each option
+4. Review a summary (total amount, monthly payment, duration)
+5. Submit the request
+
+<Tip>
+Customer requests don't create the plan automatically. You receive a notification and can review the request before setting up the actual plan. This gives you full control over the terms.
+</Tip>
+
+#### Reviewing Customer Requests
+
+When a customer submits a payment plan request:
+- A note is added to the case's internal notes with the requested terms
+- An activity log entry is created
+- You can then create the plan from the dashboard (or contact the customer to discuss)
+
+## Tracking Payment Progress
+
+Once a payment plan is active, you can track its progress:
+
+### Dashboard View
+
+On the case detail page, the Payment Plan section shows:
+
+- **Progress bar** — Visual indicator of completion (e.g., 2 of 6 installments paid)
+- **Amount per installment** — How much is charged each month
+- **Interval** — Monthly billing cycle
+- **Next payment date** — When the next installment will be charged
+- **Subscription status** — Active, Pending Mandate, or Completed
+
+### Customer Portal View
+
+Customers see the same information in their portal:
+
+- Progress bar with installment count
+- Monthly payment amount
+- Next payment date
+- Overall plan status
+
+## Payment Plan Lifecycle
+
+```
+Plan Created → Pending Mandate → Active → Completed → Case Closed
+```
+
+| Status | What It Means |
+|--------|---------------|
+| **Pending Mandate** | Waiting for customer to authorize SEPA payments |
+| **Active** | Installments are being charged automatically |
+| **Completed** | All installments paid — case automatically closed |
+| **Cancelled** | Plan was cancelled before completion |
+
+## Automatic Case Closure
+
+When the final installment is paid:
+
+1. The subscription is marked as **Completed**
+2. The collection case is automatically marked as **Paid**
+3. No manual action needed — everything happens automatically
+
+<Note>
+This only works when the payment plan covers the full outstanding amount. If there's a remaining balance (due to rounding), you may need to manually close the case.
+</Note>
+
+## Cancelling a Payment Plan
+
+If you need to cancel an active payment plan:
+
+1. Open the collection case
+2. Find the Payment Plan section
+3. Click **Cancel Plan**
+
+This cancels the subscription but keeps the collection case open. You can then:
+- Create a new plan with different terms
+- Continue with regular collection stages
+- Negotiate a different arrangement with the customer
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Offer payment plans proactively">
+    Don't wait for the customer to ask. At Stage 2 or 3, consider proactively suggesting a payment plan. This shows flexibility and often leads to faster recovery.
+  </Accordion>
+
+  <Accordion title="Keep installments manageable">
+    Choose a number of installments that balances your cash flow needs with the customer's ability to pay. A plan the customer can't afford will just lead to more failed payments.
+  </Accordion>
+
+  <Accordion title="Enable customer requests for large debts">
+    For larger amounts, enabling the "Allow installment requests" toggle lets customers take the initiative. This reduces back-and-forth communication.
+  </Accordion>
+
+  <Accordion title="Monitor payment plan progress weekly">
+    Check the status of active payment plans regularly. If an installment fails, you'll want to follow up quickly before the customer falls further behind.
+  </Accordion>
+</AccordionGroup>
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Can I change the number of installments after creating a plan?">
+    Not directly. Cancel the current plan and create a new one with different terms.
+  </Accordion>
+
+  <Accordion title="What happens if an installment payment fails?">
+    The standard subscription retry logic applies. PayRequest will automatically retry the payment after 3 days, then again after 10 days.
+  </Accordion>
+
+  <Accordion title="Do collection fees get included in the payment plan?">
+    Yes. The payment plan covers the total amount due, which includes the original invoice amount plus any collection fees.
+  </Accordion>
+
+  <Accordion title="Can I create a payment plan for an external debt?">
+    Yes. External debts work exactly the same as invoice-based cases. An invoice is automatically created for the external debt, and the payment plan is linked to that invoice.
+  </Accordion>
+
+  <Accordion title="What if the customer wants to pay off the remaining balance early?">
+    The customer can always pay the full remaining amount through the payment page or customer portal. The case will close automatically when the invoice is fully paid.
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Escalation Pipeline" icon="arrow-up-right" href="/debt-collection/escalation-pipeline">
+    Understand the 4 stages of collection
+  </Card>
+
+  <Card title="Customer Portal" icon="users" href="/customer-management/customer-portal">
+    What customers see in their self-service portal
+  </Card>
+
+  <Card title="Managing Mandates" icon="credit-card" href="/subscriptions/managing-mandates">
+    How SEPA mandates work for recurring payments
+  </Card>
+
+  <Card title="Failed Payment Handling" icon="rotate" href="/subscriptions/failed-payment-handling">
+    How failed installment payments are retried
+  </Card>
+</CardGroup>

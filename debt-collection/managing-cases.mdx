@@ -1,0 +1,269 @@
+---
+title: "Managing Cases"
+description: "Pause and resume collection cases, register manual payments, and waive remaining balances"
+---
+
+# Managing Cases
+
+Once a collection case is open, you have full control over how it progresses. Pause cases when a customer is negotiating, register payments received outside PayRequest, or waive remaining balances when you've agreed on a settlement.
+
+<Info>
+These features work for both invoice-based cases and external debt cases. You can manage any active or paused case from the case detail page.
+</Info>
+
+## Key Capabilities
+
+<CardGroup cols={2}>
+  <Card title="Pause & Resume" icon="pause">
+    Temporarily suspend automated escalation while you negotiate with the customer
+  </Card>
+
+  <Card title="Partial Payments" icon="coins">
+    Register payments received via bank transfer, cash, or other channels
+  </Card>
+
+  <Card title="Waive Balance" icon="hand">
+    Write off the remaining balance when you've agreed on a settlement (kwijtschelding)
+  </Card>
+
+  <Card title="Activity Timeline" icon="clock">
+    Every action is logged in a unified timeline — emails, letters, payments, stage changes
+  </Card>
+</CardGroup>
+
+## Pause & Resume
+
+Sometimes you need to put a case on hold — for example, while negotiating a payment arrangement, waiting for a customer response, or during a dispute review.
+
+### Pausing a Case
+
+<Steps>
+
+### Open the Case
+
+Navigate to **Debt Collection** and click on the case you want to pause.
+
+### Click Pause
+
+In the **Actions** card on the right sidebar, click **Pause**. Confirm the action.
+
+### Case is Paused
+
+The case status changes to **Paused** (purple badge). A purple banner appears at the top of the case.
+
+</Steps>
+
+**What happens when a case is paused:**
+
+- Automated escalation is suspended — the case won't progress to the next stage
+- Daily processing skips the case entirely
+- The customer portal shows a "Case On Hold" message
+- You can still send reminders, register payments, and add notes
+- The payment link remains active — the customer can still pay at any time
+
+### Resuming a Case
+
+Click **Resume** on the purple banner (or from the paused case list). The case returns to **Active** status and:
+
+- Days overdue are recalculated based on the current date
+- If enough time has passed, the case may automatically escalate to the next stage
+- Automated processing resumes from the next daily run
+
+<Tip>
+Use pause strategically. If a customer promises to pay within a week, pause the case to show good faith. If they don't follow through, resume and escalate.
+</Tip>
+
+### Filtering Paused Cases
+
+On the Debt Collection overview, use the **Status** filter and select **Paused** to see all cases currently on hold.
+
+## Registering Payments
+
+When a customer pays outside of PayRequest — via direct bank transfer, cash, or another channel — you can register the payment manually to keep the case up to date.
+
+### Register a Payment
+
+<Steps>
+
+### Open the Case
+
+Navigate to the collection case detail page.
+
+### Find the Register Payment Section
+
+Below the amount breakdown, you'll see the **Register Payment** form (only visible for active or paused cases with a remaining balance).
+
+### Fill in the Details
+
+| Field | Description |
+|-------|-------------|
+| **Amount** | How much was paid (cannot exceed remaining balance) |
+| **Date** | When the payment was received |
+| **Method** | Bank Transfer, Cash, or Other |
+| **Note** | Optional note about the payment (e.g., reference number) |
+
+### Click Register Payment
+
+The payment is recorded and the amount breakdown updates immediately.
+
+</Steps>
+
+### Amount Breakdown
+
+When partial payments are registered, the case detail page shows a clear breakdown:
+
+| Line | Example |
+|------|---------|
+| Original Amount | EUR 1,000.00 |
+| Collection Fee | EUR 40.00 |
+| **Total Due** | **EUR 1,040.00** |
+| Amount Paid | - EUR 500.00 |
+| **Remaining** | **EUR 540.00** |
+
+This breakdown is also visible to the customer in the portal and on payment pages.
+
+### Automatic Case Closure
+
+When the total amount paid reaches or exceeds the total due, the case is **automatically marked as paid**. No manual action needed.
+
+### Payment History
+
+All registered payments appear in the **Payment History** table on the case detail page, showing the date, amount, method, and any notes for each payment.
+
+## Waiving the Remaining Balance
+
+Sometimes you agree to accept less than the full amount — a settlement, goodwill gesture, or recognition that the full debt won't be recovered. In Dutch collection practice, this is called **kwijtschelding** (remission).
+
+<Steps>
+
+### Register Partial Payment(s) First
+
+Register any actual payments you've received. The remaining balance will be calculated automatically.
+
+### Click Waive Remaining
+
+Below the Register Payment button, click **Waive Remaining**. You'll see a confirmation dialog showing the exact amount that will be waived.
+
+### Confirm the Waiver
+
+The remaining balance is recorded as a "remission" entry in the payment history, and the case is marked as **Paid**.
+
+</Steps>
+
+<Warning>
+Waiving a balance is permanent. The case will be closed as paid and cannot be reopened. Make sure you've received all expected payments before waiving.
+</Warning>
+
+The waived amount appears in the payment history with a purple **waived** label, so you always have a clear record of what was actually paid versus what was written off.
+
+## Pre-Collection Stage (Pre-Incasso)
+
+Before starting formal debt collection, you can send a free, informal reminder — the **Pre-Collection** stage. This is a soft first step that often resolves the payment without any formal collection process.
+
+### How It Works
+
+When creating a new collection case, toggle **Pre-Incasso** on. The case starts at **Stage 0: Pre-Collection** instead of Stage 1.
+
+**Stage 0 characteristics:**
+
+- Softer, more friendly communication tone
+- No collection fees added
+- Gray/neutral color in the portal (less alarming for customers)
+- Emails and letters use gentle reminder language
+- After 14 days without payment, the case automatically escalates to Stage 1
+
+<Tip>
+Pre-incasso is ideal when you want to give customers one final chance before starting formal collection. It's free, non-threatening, and often resolves the issue without needing the full pipeline.
+</Tip>
+
+### Stage Overview (Including Pre-Collection)
+
+| Stage | Name | Tone | Fees |
+|-------|------|------|------|
+| 0 | Pre-Collection | Gentle, assumes oversight | None |
+| 1 | Friendly Reminder | Polite, clear request | None |
+| 2 | Formal Notice | Professional, sets deadline | None |
+| 3 | Collection Fees | Firm, fees applied | Yes |
+| 4 | Final Warning | Urgent, final chance | Yes |
+
+## Activity Timeline
+
+Every action on a case is recorded in a unified timeline on the right sidebar of the case detail page. The timeline combines:
+
+- **Stage changes** — When the case moves to a new stage (with colored badges)
+- **Emails sent** — Each reminder email, with timestamp
+- **Letters sent** — Postal letters uploaded to Pingen
+- **Payments registered** — Manual payment registrations
+- **Balance waived** — Remission entries
+- **Case created, paused, resumed, cancelled, closed** — All status changes
+- **Notes added** — Internal notes you add to the case
+
+Events are sorted newest-first, with color-coded dots for quick scanning.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use pre-incasso for first-time late payers">
+    If a customer has a good payment history and is late for the first time, start with pre-incasso. A gentle nudge is usually enough.
+  </Accordion>
+
+  <Accordion title="Pause before escalating to Stage 3">
+    Before adding collection fees, pause the case and reach out to the customer directly. Many disputes and arrangements happen at this stage.
+  </Accordion>
+
+  <Accordion title="Register all payments, even small ones">
+    Tracking every payment builds a clear record. If you ever need to involve a legal advisor, a complete payment history is invaluable.
+  </Accordion>
+
+  <Accordion title="Use notes to document agreements">
+    When you agree to a payment arrangement or partial settlement, document it in the case notes. This protects both you and the customer.
+  </Accordion>
+
+  <Accordion title="Consider remission for uncollectable amounts">
+    If recovery costs would exceed the remaining balance, it's often more practical to waive the amount and close the case. Focus your energy on cases with better recovery potential.
+  </Accordion>
+</AccordionGroup>
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Can I register a payment on a paused case?">
+    Yes. You can register payments on both active and paused cases. If the registered amount covers the full balance, the case is automatically marked as paid regardless of its current status.
+  </Accordion>
+
+  <Accordion title="What happens to the payment plan when I pause a case?">
+    The payment plan continues independently — pausing the case only stops automated escalation. If you need to pause the plan too, cancel it separately.
+  </Accordion>
+
+  <Accordion title="Can customers still pay when a case is paused?">
+    Yes. The payment link remains active and the **Pay Now** button is visible in the customer portal. Pausing only affects automated processing, not the customer's ability to pay.
+  </Accordion>
+
+  <Accordion title="Is the waived amount shown to the customer?">
+    The customer sees the case as paid. The internal payment history (visible only to you) shows the breakdown of actual payments versus waived amounts.
+  </Accordion>
+
+  <Accordion title="Can I skip pre-incasso and start at Stage 1?">
+    Yes. Pre-incasso is optional. When creating a case, simply leave the **Pre-Incasso** toggle off. The case will start at Stage 1 (Friendly Reminder) as before.
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Creating Cases" icon="plus" href="/debt-collection/creating-cases">
+    How to open a new collection case with or without pre-incasso
+  </Card>
+
+  <Card title="Escalation Pipeline" icon="arrow-up-right" href="/debt-collection/escalation-pipeline">
+    Understand the full 5-stage escalation process
+  </Card>
+
+  <Card title="Payment Plans" icon="calendar" href="/debt-collection/payment-plans">
+    Set up installment plans for structured repayment
+  </Card>
+
+  <Card title="Debt Collection Overview" icon="scale-balanced" href="/debt-collection/overview">
+    Back to the overview
+  </Card>
+</CardGroup>

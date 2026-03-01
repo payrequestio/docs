@@ -1,0 +1,209 @@
+---
+title: "Escalation Pipeline"
+description: "How the 5-stage collection pipeline works and how cases are escalated automatically"
+---
+
+# Escalation Pipeline
+
+Every collection case follows up to 5 stages. Each stage increases the urgency of communication and can add collection fees to the outstanding balance. You can escalate cases manually or let PayRequest handle it automatically.
+
+## The Stages
+
+### Stage 0: Pre-Collection (Optional)
+
+A soft, informal reminder before formal collection begins. Enable this by toggling **Pre-Incasso** when creating the case.
+
+**Tone:** Gentle and friendly
+**Message:** "We would like to kindly remind you that the following invoice is still open."
+
+- No collection fees
+- Ideal for first-time late payers
+- After 14 days, automatically escalates to Stage 1
+- Gray/neutral presentation in the customer portal
+
+<Tip>
+Pre-incasso is free and non-threatening. Use it to give customers one final chance before starting formal collection.
+</Tip>
+
+### Stage 1: Friendly Reminder
+
+The first contact assumes the customer simply forgot or overlooked the invoice.
+
+**Tone:** Polite and helpful
+**Message:** "You have an outstanding invoice that requires your attention. Please arrange payment to avoid further action."
+
+- No collection fees added
+- Email reminder sent
+- Customer sees a gentle warning in the portal
+
+### Stage 2: Formal Notice
+
+A more formal communication setting a clear deadline for payment.
+
+**Tone:** Professional and firm
+**Message:** "This is a formal notice regarding your outstanding payment. Please settle this amount within 7 days."
+
+- No collection fees added (optional at your discretion)
+- Postal letter recommended at this stage
+- Customer portal shows formal notice banner
+
+### Stage 3: Collection Fees
+
+At this stage, collection fees can be added to cover your recovery costs.
+
+**Tone:** Firm and direct
+**Message:** "Collection fees have been added to your outstanding balance. Please pay the total amount immediately."
+
+- **Collection fees added** to the balance
+- The customer sees the original amount + collection fee in the portal
+- Payment pages show the total including fees
+- Postal letter sent automatically (if Pingen is configured)
+
+### Stage 4: Final Warning
+
+The last stage before further consequences (legal action, external collection agency, etc.).
+
+**Tone:** Urgent
+**Message:** "This is your final warning. Immediate payment is required to avoid further consequences."
+
+- Maximum urgency in all communication
+- Customer portal shows a red warning banner
+- All payment links reflect the full amount including fees
+
+## Visual Progress
+
+Customers see a progress bar in the Customer Portal showing how far along the collection process they are:
+
+| Stage | Color | Label |
+|-------|-------|-------|
+| 0 | Gray | Pre-Collection |
+| 1 | Blue | Reminder |
+| 2 | Amber | Formal Notice |
+| 3 | Orange | Collection Fees |
+| 4 | Red | Final Warning |
+
+This helps customers understand the seriousness of the situation and motivates earlier payment.
+
+## Adding Collection Fees
+
+You can add a collection fee at any stage, though it's most common at Stage 3.
+
+1. Open the case detail page
+2. Find the **Amount Breakdown** section
+3. Enter the collection fee amount
+4. Click **Update Fee**
+
+The fee is immediately reflected:
+- In the case total
+- On the customer portal
+- On the payment page
+- In postal letters and email reminders
+
+<Tip>
+In the Netherlands, collection fee guidelines (WIK/BIK) suggest fees proportional to the original amount. For example, up to 15% on the first EUR 2,500. Check your local regulations.
+</Tip>
+
+## Manual Escalation
+
+To manually move a case to the next stage:
+
+1. Open the case detail page
+2. Click the **Escalate** button in the case header
+3. The case moves to the next stage immediately
+4. You can then send a reminder with the new stage's messaging
+
+<Warning>
+Escalation cannot be reversed. Once a case moves to the next stage, it stays there. Make sure you're ready before escalating.
+</Warning>
+
+## Automatic Escalation
+
+PayRequest can automatically escalate cases based on how many days they've been overdue. This runs daily and processes all active cases.
+
+**Default schedule:**
+
+| Days Overdue | Action |
+|-------------|--------|
+| 14+ days | Stage 0 → Stage 1 (Friendly Reminder) |
+| 14+ days | Stage 1 → Stage 2 (Formal Notice) |
+| 28+ days | Stage 2 → Stage 3 (Collection Fees) |
+| 42+ days | Stage 3 → Stage 4 (Final Warning) |
+
+When a case is automatically escalated:
+- The stage is updated
+- A reminder email is sent to the customer
+- A postal letter is sent (if Pingen is configured, at Stage 2+)
+- The escalation is logged in the activity timeline
+
+<Note>
+Automatic escalation only runs for **active** cases. Paused cases, cases with payment plans, paid cases, and closed cases are all skipped. When you resume a paused case, it catches up automatically if enough time has passed.
+</Note>
+
+## Sending Reminders
+
+At any stage, you can send a reminder to the customer:
+
+### Email Reminders
+
+Click **Send Reminder** on the case detail page to send an email. The email content automatically matches the current stage — no need to write the message yourself.
+
+### Postal Letters
+
+Click **Send Postal Letter** to mail a physical letter via Pingen. The letter includes your business details, the customer's address, the amount breakdown, and a QR code for quick payment. See [Postal Letters](/debt-collection/postal-letters) for details.
+
+## Resolving Cases
+
+A case can be resolved in several ways:
+
+| Resolution | How It Happens |
+|-----------|----------------|
+| **Paid** | Customer pays the full amount (auto-detected via payment webhook) |
+| **Manual Payments** | You register partial payments until the balance is covered |
+| **Remission** | You register partial payment(s) then waive the remaining balance |
+| **Payment Plan Completed** | All installments paid (auto-closed) |
+| **Manually Closed** | You close the case from the dashboard |
+| **Cancelled** | You cancel the case with a reason |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Give customers enough time between stages">
+    Don't escalate too quickly. Allow at least 14 days between stages so customers have a realistic chance to arrange payment.
+  </Accordion>
+
+  <Accordion title="Send a reminder at each new stage">
+    Customers need to know their case has been escalated. Always send a reminder (email or postal) when moving to a new stage.
+  </Accordion>
+
+  <Accordion title="Use postal letters for Stage 2+">
+    Physical letters carry more weight than emails. Starting postal communication at Stage 2 (Formal Notice) shows you're serious about recovery.
+  </Accordion>
+
+  <Accordion title="Consider payment plans before Stage 4">
+    Before reaching the Final Warning, consider offering a payment plan. Collecting in installments is usually better than not collecting at all.
+  </Accordion>
+
+  <Accordion title="Keep internal notes updated">
+    Document any phone calls, customer responses, or agreements in the case's internal notes. This creates a clear record if you need to involve a legal advisor later.
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Creating Cases" icon="plus" href="/debt-collection/creating-cases">
+    How to open a new collection case
+  </Card>
+
+  <Card title="Payment Plans" icon="calendar" href="/debt-collection/payment-plans">
+    Set up installment plans for customers
+  </Card>
+
+  <Card title="Postal Letters" icon="envelope" href="/debt-collection/postal-letters">
+    Send physical letters via Pingen
+  </Card>
+
+  <Card title="Debt Collection Overview" icon="scale-balanced" href="/debt-collection/overview">
+    Back to the overview
+  </Card>
+</CardGroup>
