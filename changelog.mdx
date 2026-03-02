@@ -7,6 +7,33 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-03-02" description="v3.5.0" tags={["Invoices", "Subscriptions", "Cost Savings"]}>
+## Consolidated Invoicing
+
+Customers with multiple subscriptions can now receive a single combined invoice instead of separate invoices for each subscription. This reduces email noise and saves on transaction costs (up to €0.29 per consolidated charge with Mollie SEPA Direct Debit).
+
+### What's New
+
+- **Global toggle** — Enable consolidated invoicing in **Settings** > **Consolidated Invoicing** with configurable frequency (monthly, bi-weekly, weekly) and anchor day slider
+- **Per-customer opt-in** — Enable consolidation individually per customer with optional frequency and anchor day overrides
+- **Automatic bundling** — Subscription charges are collected as pending items, then bundled into a single invoice on the anchor day
+- **Consolidated badge** — Invoices created by consolidation show an indigo **Consolidated** badge and can be filtered in the invoice list
+- **Grouped line items** — Consolidated invoice detail view groups charges by subscription
+- **Smart cancellation** — Pending items are automatically voided when a subscription is canceled
+- **Multi-currency support** — Customers with subscriptions in different currencies receive separate consolidated invoices per currency
+- **Dry-run mode** — Preview consolidated invoices before generating with `--dry-run`
+
+### How It Works
+
+1. Enable **Consolidated Invoicing** in Settings and choose frequency + anchor day
+2. Opt in customers via the **Invoice Consolidation** section in the customer edit form
+3. Subscription billing creates pending items instead of individual invoices
+4. On the anchor day, all pending items are bundled into one invoice per customer
+5. Payment is collected automatically (mandate) or an invoice email is sent (bank transfer)
+
+[Read the full documentation](/invoices/consolidated-invoicing)
+</Update>
+
 <Update label="2026-03-02" description="v3.4.0" tags={["Debt Collection", "Payments", "Automation"]}>
 ## Pause/Resume, Partial Payments & Pre-Incasso
 

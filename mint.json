@@ -131,6 +131,7 @@
         "invoices/refund-requests",
         "invoices/partial-payments",
         "invoices/tax-configuration",
+        "invoices/consolidated-invoicing",
         "invoices/bulk-invoice-actions"
       ]
     },

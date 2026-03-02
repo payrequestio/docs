@@ -1,0 +1,134 @@
+---
+title: "Consolidated Invoicing"
+description: "Combine multiple subscription charges into a single invoice per customer to reduce emails and transaction costs"
+icon: "layer-group"
+---
+
+# Consolidated Invoicing
+
+When customers have multiple subscriptions, they normally receive a separate invoice for each one. Consolidated invoicing bundles all subscription charges into a single periodic invoice per customer — reducing email noise and saving on transaction costs.
+
+<Info>
+Consolidated invoicing requires a two-step setup: enable it globally in **Settings**, then opt in individual customers. Only subscription charges are consolidated — manual invoices and shop orders are not affected.
+</Info>
+
+<CardGroup cols={2}>
+  <Card title="Fewer Emails" icon="envelope">
+    Customers receive one invoice instead of many, reducing inbox clutter and improving the payment experience.
+  </Card>
+  <Card title="Lower Costs" icon="piggy-bank">
+    Each Mollie SEPA Direct Debit transaction costs ~€0.29. Consolidating 5 subscriptions into 1 invoice saves €1.16 per billing cycle.
+  </Card>
+  <Card title="Flexible Scheduling" icon="calendar">
+    Choose monthly, bi-weekly, or weekly consolidation with a configurable anchor day.
+  </Card>
+  <Card title="Per-Customer Control" icon="user-cog">
+    Enable consolidation globally, then opt in specific customers. Each customer can have their own frequency override.
+  </Card>
+</CardGroup>
+
+## How It Works
+
+<Steps>
+  <Step title="Enable in Settings">
+    Go to **Settings** > **Consolidated Invoicing** and toggle the feature on. Choose a default frequency (monthly, bi-weekly, or weekly) and set the anchor day using the slider.
+  </Step>
+  <Step title="Opt In Customers">
+    Edit a customer and scroll to the **Invoice Consolidation** section. Toggle **Enable Consolidated Invoicing** for that customer. Optionally set a custom frequency or anchor day override.
+  </Step>
+  <Step title="Charges Are Collected">
+    When a subscription billing cycle triggers, instead of creating an invoice immediately, the charge is stored as a **pending item**. The subscription's next billing date still advances normally.
+  </Step>
+  <Step title="Consolidated Invoice Generated">
+    On the anchor day, all pending items for the customer are bundled into a single consolidated invoice. For customers with a Mollie mandate, a single payment is created automatically. For bank transfer customers, a single invoice email is sent.
+  </Step>
+</Steps>
+
+## Setting Up
+
+### Global Settings
+
+Navigate to **Settings** > **Consolidated Invoicing** to configure the defaults.
+
+| Setting | Description |
+|---------|-------------|
+| **Enable Consolidated Invoicing** | Master toggle for the entire feature |
+| **Default Frequency** | How often consolidated invoices are generated: Monthly, Bi-weekly, or Weekly |
+| **Anchor Day** | Day of the month (1-28) when invoices are generated. For weekly frequency, this becomes day of the week |
+
+The settings page also shows how many customers are opted in and how many pending items are waiting.
+
+<Tip>
+Use anchor day **28** if you want end-of-month invoicing. This avoids issues with months that have fewer than 31 days.
+</Tip>
+
+### Per-Customer Settings
+
+Edit any customer and look for the **Invoice Consolidation** section (only visible when the global feature is enabled).
+
+| Setting | Description |
+|---------|-------------|
+| **Enable Consolidated Invoicing** | Opt this customer in to receive consolidated invoices |
+| **Frequency Override** | Override the business default frequency for this customer. Leave empty to use the default |
+| **Anchor Day Override** | Override the anchor day. Slide to **0** to use the business default |
+
+## Consolidated Invoices
+
+Consolidated invoices appear in your invoice list with an **indigo "Consolidated" badge**. You can filter the invoice list by the **Consolidated** tab to see only these invoices.
+
+### What's on the Invoice
+
+Each consolidated invoice includes:
+
+- A line item for each subscription charge in the period
+- The billing period (e.g., "Mar 2026") shown in the invoice notes
+- Subscription name and amount per line item
+- Total amount combining all charges
+
+### Invoice Detail View
+
+When viewing a consolidated invoice, line items are grouped by subscription with a header showing the subscription name.
+
+## Cancellation Handling
+
+If a subscription is canceled while it has pending (not yet invoiced) items, those pending items are automatically **voided** — they won't appear on the next consolidated invoice.
+
+## Scheduling
+
+The consolidation system runs on two schedules:
+
+| Command | Schedule | Purpose |
+|---------|----------|---------|
+| `subscriptions:process-billing` | Daily at 05:00 | Creates pending items instead of individual invoices for opted-in customers |
+| `invoices:generate-consolidated` | Daily at 06:30 | Bundles pending items into consolidated invoices on anchor days |
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What happens if a customer only has one subscription?">
+    The consolidation still works — they'll receive a single invoice with one line item. This is useful for consistency if you plan to add more subscriptions later.
+  </Accordion>
+  <Accordion title="Can I consolidate manual invoices or shop orders?">
+    No. Only subscription charges are consolidated. Manual invoices and shop orders are created and sent independently.
+  </Accordion>
+  <Accordion title="What if a customer has subscriptions in different currencies?">
+    Separate consolidated invoices are generated per currency. For example, a customer with EUR and USD subscriptions would receive two consolidated invoices.
+  </Accordion>
+  <Accordion title="Does the customer see that it's a consolidated invoice?">
+    Yes. The invoice notes indicate it's a consolidated invoice and show the billing period. Each line item shows the subscription it belongs to.
+  </Accordion>
+  <Accordion title="Can I run consolidation manually?">
+    Yes. Use the command `php artisan invoices:generate-consolidated --customer=ID` to generate a consolidated invoice for a specific customer, or use `--dry-run` to preview without creating invoices.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Billing Cycles" icon="calendar" href="/subscriptions/billing-cycles">
+    Learn about subscription billing intervals and timing
+  </Card>
+  <Card title="Payment Reminders" icon="bell" href="/invoices/payment-reminders">
+    Set up automatic reminders for unpaid invoices
+  </Card>
+</CardGroup>
