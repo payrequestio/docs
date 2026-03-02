@@ -1,0 +1,190 @@
+---
+title: "Duplicate Invoices"
+description: "Learn how to quickly create copies of existing invoices to save time when billing for similar services or recurring work"
+---
+
+# Duplicate Invoices
+
+The invoice duplication feature allows you to quickly create copies of existing invoices, saving you time when you need to bill for similar services or create recurring invoices with the same line items.
+
+## Why Use Invoice Duplication?
+
+Invoice duplication is perfect when you need to:
+- Bill a customer for the same services again
+- Create similar invoices for different customers
+- Set up recurring billing without subscription automation
+- Re-issue an invoice that was cancelled or voided
+- Create template-style invoices for common billing scenarios
+
+## How to Duplicate an Invoice
+
+### Step 1: Navigate to the Invoice
+
+1. Go to your dashboard
+2. Click on **Invoices** in the sidebar
+3. Find the invoice you want to duplicate
+4. Click on the invoice to open its detail page
+
+### Step 2: Duplicate the Invoice
+
+1. On the invoice detail page, look for the **Duplicate** button in the action menu
+2. Click the **Duplicate** button
+3. The system will automatically create a new invoice
+
+### Step 3: Review Your New Invoice
+
+After duplication, you'll be automatically redirected to the new invoice where you can:
+- Review all copied details
+- Make any necessary adjustments
+- Send it to your customer when ready
+
+## What Gets Copied?
+
+When you duplicate an invoice, the following information is copied:
+
+### Customer Information
+- Customer name and contact details
+- Billing address
+- Any customer-specific settings
+
+### Invoice Items
+- All line items (products and custom items)
+- Quantities and unit prices
+- Descriptions and notes
+- Tax rates and calculations
+
+### Invoice Settings
+- Currency
+- Tax configuration
+- Notes and terms
+
+## What Gets Changed Automatically?
+
+To ensure your duplicated invoice is ready to use, these fields are automatically updated:
+
+| Field | Original Value | New Value |
+|-------|---------------|-----------|
+| Invoice Number | Original number | New sequential number |
+| Status | Any status | **Concept** |
+| Invoice Date | Original date | **Today's date** |
+| Due Date | Original due date | **30 days from today** |
+| Payment ID | Linked payment | **Cleared** |
+
+<Note>
+The new invoice always starts as a **Concept** so you can review and edit it before sending to your customer.
+</Note>
+
+## Common Use Cases
+
+### Monthly Retainer Billing
+
+For clients on a monthly retainer:
+1. Create the first month's invoice with all services
+2. Each month, open the previous invoice and duplicate it
+3. Adjust the date range or description if needed
+4. Send to your client
+
+### Similar Services for Different Clients
+
+When you provide the same service package to multiple clients:
+1. Create a detailed invoice for one client
+2. Duplicate it
+3. Change the customer to the new client
+4. Adjust pricing if needed
+
+### Correcting Invoices
+
+If you need to re-issue an invoice:
+1. Open the original invoice
+2. Duplicate it
+3. Make the necessary corrections
+4. Cancel or void the original if appropriate
+
+### Creating Invoice Templates
+
+Build a library of "template" invoices:
+1. Create invoices for your common service packages
+2. Keep them as concepts
+3. Duplicate when needed for actual billing
+4. Customize for each customer
+
+## Step-by-Step Workflow
+
+### For Recurring Monthly Billing
+
+```
+Original Invoice (#2024-001)
+├── Service: Monthly Retainer
+├── Amount: €500.00
+├── Customer: Acme Corp
+└── Status: Paid
+
+↓ Click "Duplicate"
+
+New Invoice (#2024-002)
+├── Service: Monthly Retainer
+├── Amount: €500.00
+├── Customer: Acme Corp
+├── Date: Today
+├── Due Date: 30 days from now
+└── Status: Concept ← Ready to edit and send!
+```
+
+## Tips for Effective Invoice Duplication
+
+### Before Duplicating
+
+- Ensure the original invoice has accurate line items
+- Verify tax rates are correct
+- Check that product references are up to date
+
+### After Duplicating
+
+1. **Update the description** if it contains date references
+2. **Verify the customer** is correct (especially when duplicating for a different client)
+3. **Check the amounts** - prices may have changed
+4. **Review the due date** - 30 days may not suit all clients
+5. **Add any new items** that should be included
+
+### Organization Tips
+
+- Use clear invoice numbers for easy tracking
+- Add internal notes to track duplicated invoices
+- Consider using tags to group related invoices
+
+## Frequently Asked Questions
+
+**Q: Does duplicating an invoice affect the original?**
+
+A: No, the original invoice remains completely unchanged. Duplication creates an entirely new, independent invoice.
+
+**Q: Can I duplicate a paid invoice?**
+
+A: Yes! You can duplicate invoices regardless of their status (concept, sent, paid, overdue, etc.). The new invoice will always start as a concept.
+
+**Q: What happens to the invoice number?**
+
+A: A new invoice number is automatically generated following your invoice numbering sequence. This ensures all your invoices have unique numbers.
+
+**Q: Can I duplicate an invoice to a different customer?**
+
+A: The duplicate is created for the same customer, but you can change the customer after duplication by editing the new invoice.
+
+**Q: Are attachments duplicated?**
+
+A: Attachments are not duplicated to avoid unnecessary file duplication. You can add attachments to the new invoice manually if needed.
+
+**Q: Is there a limit to how many times I can duplicate an invoice?**
+
+A: No, you can duplicate invoices as many times as needed.
+
+**Q: Can I undo a duplication?**
+
+A: You can delete the duplicated invoice if you don't need it. The original invoice is never affected.
+
+## Related Features
+
+- [Creating Invoices](/invoices/creating-invoices) - Learn how to create invoices from scratch
+- [Invoice Templates](/invoices/invoice-templates) - Set up reusable invoice templates
+- [Bulk Invoice Actions](/invoices/bulk-invoice-actions) - Manage multiple invoices at once
+- [Payment Reminders](/invoices/payment-reminders) - Automate payment follow-ups

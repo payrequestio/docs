@@ -1,8 +1,545 @@
 ---
-title: Payment Methods Overview
-description: 'Mollie, Stripe, bank transfers'
+title: "Payment Methods Overview"
+description: "Comprehensive guide to all payment methods available in PayRequest, including European and international options"
 ---
 
-# Payment Methods Overview
+# Payment Methods Overview 💳
 
-_Work in progress. Content coming soon._
+PayRequest supports a comprehensive range of payment methods to accommodate customers worldwide. From European-focused solutions like iDEAL and SEPA Direct Debit to international options like credit cards and digital wallets, we've got you covered.
+
+<Info>
+**Multi-Provider Support**: PayRequest integrates with multiple payment providers, giving you flexibility and redundancy for your payment processing needs.
+</Info>
+
+## 🌍 Payment Method Categories
+
+PayRequest organizes payment methods into logical categories to help you choose the best options for your customers:
+
+<CardGroup cols={2}>
+  <Card title="🇪🇺 European Methods" icon="landmark">
+    **Regional Specialists**
+    - iDEAL (Netherlands)
+    - Bancontact (Belgium)
+    - SEPA Direct Debit (EU-wide)
+    - Sofort (Germany)
+    - Giropay (Germany)
+  </Card>
+
+  <Card title="🌎 International Methods" icon="globe">
+    **Global Solutions**
+    - Credit/Debit Cards (Visa, Mastercard, Amex)
+    - PayPal
+    - Apple Pay
+    - Google Pay
+    - Bank Transfers
+  </Card>
+</CardGroup>
+
+## 💳 Credit and Debit Cards
+
+The most universally accepted payment method, perfect for international customers.
+
+### Supported Card Types
+
+<Tabs>
+  <Tab title="Major Card Networks">
+    **Visa**
+    - Global acceptance
+    - Debit and credit variants
+    - 3D Secure authentication
+    - Instant payment processing
+
+    **Mastercard**
+    - Worldwide recognition
+    - SecureCode protection
+    - Corporate card support
+    - Real-time fraud detection
+
+    **American Express**
+    - Premium card network
+    - Enhanced security features
+    - Corporate travel cards
+    - Higher interchange fees
+  </Tab>
+
+  <Tab title="Regional Cards">
+    **Maestro**
+    - European debit card standard
+    - PIN-based authentication
+    - Lower processing fees
+    - Bank account direct debit
+
+    **V PAY**
+    - Visa's European debit solution
+    - Chip and PIN security
+    - EMV compliance
+    - Cost-effective for merchants
+  </Tab>
+</Tabs>
+
+### Card Processing Features
+
+<CardGroup cols={3}>
+  <Card title="Security" icon="shield">
+    - 3D Secure authentication
+    - PCI DSS compliance
+    - Fraud detection algorithms
+    - Tokenization support
+  </Card>
+
+  <Card title="User Experience" icon="user">
+    - One-click checkout
+    - Saved payment methods
+    - Mobile-optimized flow
+    - Guest checkout options
+  </Card>
+
+  <Card title="Business Tools" icon="chart-line">
+    - Real-time processing
+    - Automatic retries
+    - Chargeback protection
+    - Detailed reporting
+  </Card>
+</CardGroup>
+
+## 🏦 European Bank Payment Methods
+
+Optimized for European customers with local banking preferences and lower processing costs.
+
+### iDEAL (Netherlands)
+
+<AccordionGroup>
+  <Accordion title="🇳🇱 iDEAL - Netherlands' Leading Payment Method">
+    **Market Dominance**: Used by 60%+ of Dutch online shoppers
+    **Bank Coverage**: All major Dutch banks supported
+    **Security**: Bank-level authentication and authorization
+    **Customer Experience**: Direct bank-to-bank transfer with instant confirmation
+
+    **How it Works:**
+    1. Customer selects iDEAL at checkout
+    2. Chooses their bank from a list
+    3. Redirected to secure bank environment
+    4. Authenticates using bank credentials
+    5. Confirms payment amount and details
+    6. Returns to merchant with payment confirmation
+
+    **Business Benefits:**
+    - Lower transaction fees than cards
+    - Guaranteed payment (no chargebacks)
+    - Instant payment confirmation
+    - High customer trust and adoption
+    - No setup fees or monthly costs
+  </Accordion>
+
+  <Accordion title="💰 iDEAL Pricing and Costs">
+    **Transaction Fees**: Typically €0.29 per transaction
+    **No Percentage Fee**: Fixed cost regardless of amount
+    **No Setup Costs**: Free to activate through PayRequest
+    **Volume Discounts**: Available for high-transaction merchants
+
+    **Cost Comparison Example:**
+    - €100 payment via iDEAL: €0.29 fee (0.29%)
+    - €100 payment via credit card: €2.50+ fee (2.5%+)
+    - €1000 payment via iDEAL: €0.29 fee (0.029%)
+  </Accordion>
+</AccordionGroup>
+
+### Bancontact (Belgium)
+
+<AccordionGroup>
+  <Accordion title="🇧🇪 Bancontact - Belgium's National Payment Scheme">
+    **Market Share**: 70%+ of Belgian online payments
+    **Bank Integration**: All Belgian banks participate
+    **Mobile App**: Bancontact by Payconiq for mobile payments
+    **QR Code Support**: In-store and online QR payments
+
+    **Customer Flow:**
+    1. Select Bancontact at checkout
+    2. Enter card number or use mobile app
+    3. Authenticate with card reader or mobile PIN
+    4. Confirm payment in banking environment
+    5. Instant payment confirmation
+
+    **Advantages:**
+    - Trusted by Belgian consumers
+    - Lower costs than international cards
+    - Instant payment processing
+    - Mobile-first innovation
+    - Fraud protection through bank security
+  </Accordion>
+</AccordionGroup>
+
+### SEPA Direct Debit
+
+<AccordionGroup>
+  <Accordion title="🏦 SEPA Direct Debit - European Recurring Payments">
+    **Coverage**: All 36 SEPA countries (EU + EEA + others)
+    **Use Cases**: Perfect for subscriptions and recurring billing
+    **Mandate System**: Customer authorization for automatic payments
+    **Settlement**: T+1 settlement (next business day)
+
+    **SEPA Direct Debit Process:**
+    1. Customer provides mandate authorization
+    2. Merchant collects signed mandate
+    3. First payment processed with advance notice
+    4. Subsequent payments automatically debited
+    5. Customer retains refund rights (8 weeks)
+
+    **Business Benefits:**
+    - Lowest cost payment method in Europe
+    - Automatic recurring billing
+    - High success rates
+    - Predictable cash flow
+    - Reduced payment friction for customers
+
+    **Requirements:**
+    - Valid SEPA mandate from customer
+    - 14-day advance notice for first payment
+    - 5-day notice for subsequent payments
+    - Creditor identifier (provided by PayRequest)
+  </Accordion>
+
+  <Accordion title="📋 SEPA Mandate Management">
+    **Digital Mandates**: Electronic signature collection
+    **Mandate Storage**: Secure, compliant mandate archiving
+    **Customer Communication**: Automated mandate notifications
+    **Compliance**: Full SEPA regulation adherence
+
+    **Mandate Types:**
+    - **One-off**: Single payment authorization
+    - **Recurring**: Multiple payment authorization
+    - **Business-to-Business**: B2B specific mandates with shorter refund periods
+
+    **PayRequest Automation:**
+    - Automatic mandate creation during checkout
+    - Digital signature collection
+    - Mandate status tracking and management
+    - Automatic pre-notification emails
+    - Failed payment retry logic
+  </Accordion>
+</AccordionGroup>
+
+## 🌐 International Payment Methods
+
+Reach customers worldwide with globally recognized payment solutions.
+
+### Digital Wallets
+
+<CardGroup cols={2}>
+  <Card title="PayPal" icon="paypal">
+    **Global Reach**: 400+ million active users
+    **Buyer Protection**: Built-in fraud protection
+    **Express Checkout**: Skip form filling
+    **Currency Support**: 25+ currencies
+    **Mobile Optimized**: App and mobile web
+  </Card>
+
+  <Card title="Apple Pay" icon="apple">
+    **iOS Integration**: Native iPhone/iPad payments
+    **Touch/Face ID**: Biometric authentication
+    **Privacy Focused**: No card details shared
+    **Instant Payments**: One-touch checkout
+    **In-App Support**: Mobile app integration
+  </Card>
+</CardGroup>
+
+<CardGroup cols={2}>
+  <Card title="Google Pay" icon="google">
+    **Android Native**: Built into Android devices
+    **Chrome Integration**: Browser-based payments
+    **Contactless**: NFC payment support
+    **Security**: Tokenized transactions
+    **Global Availability**: 40+ countries
+  </Card>
+
+  <Card title="Microsoft Pay" icon="microsoft">
+    **Windows Integration**: Native Windows 10/11
+    **Edge Browser**: Seamless web payments
+    **Xbox Support**: Gaming platform integration
+    **Enterprise Focus**: B2B payment solutions
+    **Security**: Enterprise-grade protection
+  </Card>
+</CardGroup>
+
+### Bank Transfers
+
+<AccordionGroup>
+  <Accordion title="🏛️ Automatic Bank Transfer Matching">
+    **Zero Fee Payments**: Accept bank transfers with no PayRequest transaction fees
+    **Automatic Matching**: Ponto integration matches incoming payments automatically
+    **Unique References**: Each payment gets a unique reference code (PAY-12345)
+    **Instant Recognition**: Payments matched within minutes of arriving in your bank
+
+    **How It Works:**
+    1. Customer selects Bank Transfer at checkout
+    2. Customer sees your IBAN and unique reference code
+    3. Customer transfers exact amount via their bank
+    4. Ponto syncs your bank transactions automatically
+    5. PayRequest matches the reference and marks invoice as paid
+
+    **Requirements:**
+    - Ponto bank connection (Settings → Ponto)
+    - Business bank account with Ponto-supported bank
+    - Bank Transfer payment method enabled
+
+    **Use Cases:**
+    - High-value B2B transactions
+    - Cost-conscious customers (0% fees)
+    - Customers preferring bank-direct payments
+    - Markets with strong bank transfer culture (Netherlands, Belgium, Germany)
+
+    **PayRequest Features:**
+    - Automatic bank details display with copy buttons
+    - Unique payment reference generation
+    - Automatic payment matching via Ponto
+    - Real-time bank transaction syncing
+    - No manual reconciliation needed
+
+    [Learn more about Bank Transfer Payments →](/payment-processing/bank-transfer)
+  </Accordion>
+
+  <Accordion title="🌐 International Bank Transfers">
+    **SWIFT Network**: International bank transfers for global payments
+    **Manual Process**: Customer-initiated transfers without automatic matching
+    **Settlement Time**: 3-5 business days for international transfers
+
+    **Use Cases:**
+    - International customers outside SEPA zone
+    - High-value cross-border transactions
+    - Customers without access to other payment methods
+  </Accordion>
+</AccordionGroup>
+
+## 🚀 Emerging Payment Methods
+
+Stay ahead with next-generation payment technologies.
+
+### Buy Now, Pay Later (BNPL)
+
+<CardGroup cols={2}>
+  <Card title="Klarna" icon="credit-card">
+    **Pay Later**: 30-day payment terms
+    **Installments**: Split payments over time
+    **No Interest**: 0% financing options
+    **Consumer Protection**: Purchase guarantees
+    **Mobile App**: Customer account management
+  </Card>
+
+  <Card title="Afterpay" icon="calendar">
+    **4 Installments**: Split into equal payments
+    **No Interest**: Fee-free for on-time payments
+    **Instant Approval**: Real-time credit decisions
+    **Consumer Friendly**: Transparent fee structure
+    **Merchant Protection**: Payment guarantee
+  </Card>
+</CardGroup>
+
+### Cryptocurrency (Future Support)
+
+<Info>
+**Coming Soon**: PayRequest is evaluating cryptocurrency payment support including Bitcoin, Ethereum, and stablecoins for forward-thinking merchants.
+</Info>
+
+## 📊 Payment Method Comparison
+
+Choose the right payment methods for your business model:
+
+<Tabs>
+  <Tab title="Cost Comparison">
+    | Payment Method | Transaction Fee | Percentage Fee | Best For |
+    |----------------|----------------|----------------|----------|
+    | iDEAL | €0.29 | 0% | Dutch customers, any amount |
+    | Bancontact | €0.35 | 0% | Belgian customers |
+    | SEPA Direct Debit | €0.15 | 0% | Recurring payments, EU |
+    | Credit Cards | €0.25 | 2.9% | International customers |
+    | PayPal | €0.35 | 2.9% | Global reach, buyer protection |
+    | Bank Transfer | €0.00 | 0% | High-value, B2B payments |
+  </Tab>
+
+  <Tab title="Geographic Reach">
+    **European Focus:**
+    - iDEAL: Netherlands (essential)
+    - Bancontact: Belgium (essential)
+    - SEPA: All EU countries
+    - Sofort: Germany, Austria, Switzerland
+
+    **Global Coverage:**
+    - Credit Cards: Worldwide
+    - PayPal: 200+ countries
+    - Apple Pay: 70+ countries
+    - Google Pay: 40+ countries
+
+    **Emerging Markets:**
+    - Local payment methods vary by country
+    - Research local preferences
+    - Consider regulatory requirements
+  </Tab>
+
+  <Tab title="Settlement Times">
+    **Instant Settlement:**
+    - Credit cards (authorization)
+    - Digital wallets
+    - Real-time bank transfers
+
+    **Next Day Settlement:**
+    - iDEAL, Bancontact
+    - SEPA Direct Debit
+    - Most local payment methods
+
+    **Delayed Settlement:**
+    - International bank transfers (3-5 days)
+    - Some BNPL providers (30+ days)
+    - Cryptocurrency (varies)
+  </Tab>
+</Tabs>
+
+## 🎯 Choosing the Right Payment Methods
+
+### For European Businesses
+
+<Steps>
+  <Step title="Start with Local Methods">
+    Enable iDEAL for Netherlands, Bancontact for Belgium, and SEPA for EU-wide coverage
+  </Step>
+
+  <Step title="Add International Cards">
+    Support Visa and Mastercard for international customers and tourists
+  </Step>
+
+  <Step title="Consider Digital Wallets">
+    Add PayPal and Apple Pay for mobile-first customers
+  </Step>
+
+  <Step title="Enable SEPA for Subscriptions">
+    Set up SEPA Direct Debit for recurring billing and subscription models
+  </Step>
+</Steps>
+
+### For Global Businesses
+
+<Steps>
+  <Step title="Universal Card Support">
+    Enable all major card networks (Visa, Mastercard, Amex)
+  </Step>
+
+  <Step title="Digital Wallet Integration">
+    Support PayPal, Apple Pay, and Google Pay for broader reach
+  </Step>
+
+  <Step title="Regional Specialists">
+    Research and add local payment methods for your target markets
+  </Step>
+
+  <Step title="Alternative Methods">
+    Consider BNPL and bank transfers for specific customer segments
+  </Step>
+</Steps>
+
+## 🔧 Payment Method Configuration
+
+Configure payment methods through your PayRequest dashboard:
+
+<AccordionGroup>
+  <Accordion title="⚙️ Setup Process">
+    **Navigation**: Settings → Payment Providers → [Select Provider]
+
+    **Configuration Steps:**
+    1. Connect your payment provider account
+    2. Enable desired payment methods
+    3. Configure method-specific settings
+    4. Test payment flows
+    5. Monitor performance and adjust
+
+    **Testing Requirements:**
+    - Process test transactions
+    - Verify webhook delivery
+    - Test mobile payment flows
+    - Validate error handling
+    - Confirm settlement processes
+  </Accordion>
+
+  <Accordion title="📈 Performance Monitoring">
+    **Key Metrics:**
+    - Payment success rates by method
+    - Average transaction values
+    - Customer preference trends
+    - Geographic usage patterns
+    - Cost analysis and optimization
+
+    **PayRequest Analytics:**
+    - Real-time payment method performance
+    - Customer payment preference insights
+    - Revenue attribution by payment type
+    - Failed payment analysis
+    - Conversion rate optimization data
+  </Accordion>
+</AccordionGroup>
+
+## 🚨 Security and Compliance
+
+All payment methods in PayRequest maintain the highest security standards:
+
+<CardGroup cols={3}>
+  <Card title="PCI Compliance" icon="shield-check">
+    - PCI DSS Level 1 certification
+    - Secure card data handling
+    - Tokenization for stored data
+    - Regular security audits
+  </Card>
+
+  <Card title="Fraud Protection" icon="eye">
+    - Real-time fraud detection
+    - Machine learning algorithms
+    - Risk scoring systems
+    - Merchant protection programs
+  </Card>
+
+  <Card title="Data Protection" icon="lock">
+    - GDPR compliance
+    - Data encryption in transit
+    - Secure data storage
+    - Privacy by design
+  </Card>
+</CardGroup>
+
+## 📞 Need Help with Payment Methods?
+
+<CardGroup cols={3}>
+  <Card title="Setup Assistance" icon="tools">
+    Get help configuring payment methods for your specific business needs
+  </Card>
+
+  <Card title="Provider Support" icon="headphones">
+    Direct support for payment provider integration and troubleshooting
+  </Card>
+
+  <Card title="Optimization Consulting" icon="chart-up">
+    Analyze and optimize your payment method mix for better conversion
+  </Card>
+</CardGroup>
+
+## 🎓 Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Set Up Payment Providers" icon="link" href="/payment-processing/setting-up-payment-providers">
+    Connect Mollie, Stripe, or other providers to start accepting payments
+  </Card>
+
+  <Card title="Create Payment Forms" icon="file-text" href="/payment-processing/payment-forms">
+    Build custom payment forms for specific use cases and campaigns
+  </Card>
+
+  <Card title="QR Code Payments" icon="qr-code" href="/payment-processing/qr-code-payments">
+    Enable contactless payments with QR codes for in-person transactions
+  </Card>
+
+  <Card title="Handle Chargebacks" icon="shield" href="/payment-processing/handling-chargebacks">
+    Learn to manage and prevent payment disputes effectively
+  </Card>
+</CardGroup>
+
+---
+
+<Tip>
+**Pro Tip**: Start with 2-3 payment methods that match your customer base, then gradually add more based on customer requests and geographic expansion. Monitor performance metrics to optimize your payment method mix for maximum conversion and minimum costs.
+</Tip>

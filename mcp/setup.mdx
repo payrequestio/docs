@@ -1,0 +1,239 @@
+---
+title: 'MCP Setup'
+description: 'Connect Claude Desktop or ChatGPT to PayRequest using the Model Context Protocol'
+icon: 'wrench'
+---
+
+# Setting Up MCP
+
+This guide walks you through connecting AI assistants to PayRequest using the Model Context Protocol (MCP) with OAuth authentication.
+
+## Supported AI Assistants
+
+<CardGroup cols={2}>
+  <Card title="Claude Desktop" icon="message-bot">
+    Anthropic's desktop application with full MCP support
+  </Card>
+  <Card title="ChatGPT" icon="comments">
+    OpenAI's ChatGPT with MCP connector support
+  </Card>
+</CardGroup>
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- A PayRequest account with active billing data
+- Claude Desktop app or ChatGPT Plus subscription
+- Your PayRequest dashboard accessible
+
+---
+
+## Claude Desktop Setup
+
+<Steps>
+  <Step title="Open Claude Desktop Settings">
+    In Claude Desktop, go to **Settings** → **MCP Servers** → **Add Server**.
+  </Step>
+  <Step title="Enter Server Details">
+    Configure the MCP server with these settings:
+
+    | Setting | Value |
+    |---------|-------|
+    | Server URL | `https://payrequest.app/mcp/billing` |
+    | Name | PayRequest Billing |
+
+  </Step>
+  <Step title="Authenticate with PayRequest">
+    Claude Desktop will open a browser window to authenticate with PayRequest. Log in with your PayRequest account and authorize the connection.
+  </Step>
+  <Step title="Grant Permissions">
+    Review the requested permissions and click **Authorize** to allow Claude Desktop to access your billing data.
+  </Step>
+  <Step title="Verify Connection">
+    Back in Claude Desktop, you should see "PayRequest" listed under your connected MCP servers. Try asking:
+
+    > "What are my invoice statistics?"
+  </Step>
+</Steps>
+
+### Claude Desktop Configuration File
+
+For advanced users, you can also configure Claude Desktop via the config file:
+
+<Tabs>
+  <Tab title="macOS">
+    Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "payrequest-billing": {
+          "url": "https://payrequest.app/mcp/billing"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Windows">
+    Edit `%APPDATA%\Claude\claude_desktop_config.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "payrequest-billing": {
+          "url": "https://payrequest.app/mcp/billing"
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+---
+
+## ChatGPT Setup
+
+<Steps>
+  <Step title="Open ChatGPT">
+    Go to [chat.openai.com](https://chat.openai.com) and ensure you have a ChatGPT Plus subscription.
+  </Step>
+  <Step title="Access MCP Connectors">
+    In ChatGPT, go to **Settings** → **Connected Apps** or look for the MCP connector option.
+  </Step>
+  <Step title="Add PayRequest Server">
+    Add a new MCP server with:
+
+    | Setting | Value |
+    |---------|-------|
+    | Server URL | `https://payrequest.app/mcp/billing` |
+    | Name | PayRequest Billing |
+
+  </Step>
+  <Step title="Authenticate">
+    ChatGPT will redirect you to PayRequest to log in and authorize the connection.
+  </Step>
+  <Step title="Start Using">
+    Once connected, you can ask ChatGPT about your billing data:
+
+    > "Show me my overdue invoices"
+  </Step>
+</Steps>
+
+---
+
+## Finding Your Setup Instructions
+
+The easiest way to set up MCP is from your PayRequest dashboard:
+
+1. Go to **Settings** → **API** in PayRequest
+2. Select the **Claude Desktop** or **ChatGPT** tab
+3. Follow the on-screen instructions with pre-configured values
+
+---
+
+## Test the Connection
+
+After setup, verify everything works by asking your AI assistant:
+
+> "What are my invoice statistics?"
+
+You should receive a response like:
+
+```
+Invoice Statistics:
+- Total invoices: 150
+- Pending: 23 (€15,750.00 outstanding)
+- Paid: 120
+- Overdue: 7 (€4,200.00)
+```
+
+## Available Commands
+
+Once connected, you can ask questions like:
+
+- "What are my invoice statistics?"
+- "Show me all overdue invoices"
+- "List my recent invoices"
+- "Send a payment reminder for invoice #INV-2025-042"
+
+---
+
+## OAuth Endpoints (Technical Reference)
+
+For developers building custom MCP clients:
+
+| Endpoint | URL |
+|----------|-----|
+| MCP Server | `https://payrequest.app/mcp/billing` |
+| OAuth Discovery | `https://payrequest.app/.well-known/oauth-authorization-server` |
+| Authorization | `https://payrequest.app/oauth/authorize` |
+| Token Endpoint | `https://payrequest.app/oauth/token` |
+
+### OAuth Flow
+
+PayRequest MCP uses OAuth 2.0 with PKCE for secure authentication:
+
+1. Client initiates authorization request with `code_challenge`
+2. User authenticates with PayRequest
+3. Authorization code returned to client
+4. Client exchanges code for access token using `code_verifier`
+5. Access token used for MCP requests
+
+---
+
+## Troubleshooting
+
+### "Permission denied" or "Authentication failed"
+
+- Ensure you're logged into the correct PayRequest account
+- Try disconnecting and reconnecting the MCP server
+- Clear your browser cookies and try again
+
+### "Invalid client" error
+
+- Make sure you're using the correct server URL: `https://payrequest.app/mcp/billing`
+- Contact support if the issue persists
+
+### Connection timeout
+
+- Verify you can access `https://payrequest.app` in your browser
+- Check your firewall or VPN settings
+- Try from a different network
+
+### No data returned
+
+- Ensure you have invoices in your PayRequest account
+- Verify you authorized the correct PayRequest account
+
+---
+
+## Security
+
+<AccordionGroup>
+  <Accordion title="OAuth 2.0 with PKCE">
+    PayRequest uses industry-standard OAuth 2.0 with PKCE (Proof Key for Code Exchange) for secure authentication without exposing secrets.
+  </Accordion>
+  <Accordion title="Scoped Access">
+    MCP connections only have access to billing data (invoices, statistics). They cannot access payment provider credentials or modify account settings.
+  </Accordion>
+  <Accordion title="Revoke Access">
+    You can disconnect MCP clients at any time from Settings → API in your PayRequest dashboard.
+  </Accordion>
+  <Accordion title="Activity Logging">
+    All MCP actions are logged in your Activity Log for audit purposes.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Tools Reference" icon="screwdriver-wrench" href="/mcp/tools">
+    Learn about all available MCP tools and their parameters
+  </Card>
+  <Card title="API Documentation" icon="code" href="/api/overview">
+    Explore the full PayRequest API for custom integrations
+  </Card>
+</CardGroup>

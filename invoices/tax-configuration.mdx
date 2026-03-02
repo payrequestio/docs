@@ -1,8 +1,464 @@
 ---
-title: Tax Configuration
-description: 'VAT settings and exemptions'
+title: "Tax Configuration for Invoices"
+description: "Configure VAT/BTW rates, tax display, and exemptions on your invoices"
 ---
 
-# Tax Configuration
+# Tax Configuration for Invoices
 
-_Work in progress. Content coming soon._
+PayRequest automatically calculates and displays taxes on your invoices based on your business settings, product configurations, and customer tax status. This guide explains how tax appears on invoices and how to configure it.
+
+## How Invoice Tax Works
+
+When you create an invoice, PayRequest:
+
+1. **Checks the customer's tax status** - Is the customer tax exempt?
+2. **Applies product tax rates** - Each line item uses its product's configured tax rate
+3. **Calculates tax amounts** - Based on tax-included or tax-excluded pricing
+4. **Generates the invoice** - With full tax breakdown for compliance
+
+<Info>
+Tax settings are determined hierarchically: Customer exemption > Product tax rate > Business default rate
+</Info>
+
+## Tax on Invoice Line Items
+
+Each invoice item shows:
+
+| Field | Description |
+|-------|-------------|
+| **Description** | Product/service name |
+| **Quantity** | Number of units |
+| **Unit Price** | Price per unit |
+| **Tax Rate** | VAT/BTW percentage |
+| **Tax Amount** | Calculated tax for this line |
+| **Total** | Line total including/excluding tax |
+
+### Example Invoice Breakdown
+
+**Standard Customer (21% BTW):**
+
+```
+┌──────────────────────────────────────────────────────┐
+│ Invoice #2025-0042                                   │
+│ Customer: Acme B.V.                                  │
+├──────────────────────────────────────────────────────┤
+│ Item              Qty    Price    Tax     Total      │
+├──────────────────────────────────────────────────────┤
+│ Web Hosting        1    €50.00    21%    €60.50      │
+│ SSL Certificate    1    €25.00    21%    €30.25      │
+│ Support Hours      3    €75.00    21%    €90.75      │
+├──────────────────────────────────────────────────────┤
+│ Subtotal (excl. BTW)              €150.00           │
+│ BTW 21%                            €31.50           │
+│ Total                             €181.50           │
+└──────────────────────────────────────────────────────┘
+```
+
+**Tax-Exempt Customer (BTW Verlegd):**
+
+```
+┌──────────────────────────────────────────────────────┐
+│ Invoice #2025-0043                                   │
+│ Customer: Euro Partners GmbH                         │
+│ VAT: DE123456789                                     │
+│ BTW VERLEGD                                          │
+├──────────────────────────────────────────────────────┤
+│ Item              Qty    Price    Tax     Total      │
+├──────────────────────────────────────────────────────┤
+│ Consulting        10   €100.00     0%   €1,000.00   │
+├──────────────────────────────────────────────────────┤
+│ Subtotal                          €1,000.00         │
+│ BTW (Verlegd)                          €0.00         │
+│ Total                             €1,000.00         │
+└──────────────────────────────────────────────────────┘
+```
+
+## Configuring Tax Rates
+
+### Business Default Tax Rate
+
+Set your default tax rate in **Settings > Tax & Currency**:
+
+<Steps>
+  <Step title="Navigate to Settings">
+    Go to **Settings** in your dashboard sidebar.
+  </Step>
+
+  <Step title="Open Tax & Currency">
+    Click on the **Tax & Currency** tab.
+  </Step>
+
+  <Step title="Set Default Rate">
+    Enter your standard tax rate (e.g., **21** for 21% Dutch BTW).
+  </Step>
+
+  <Step title="Save Changes">
+    Click **Save** to apply the new default rate.
+  </Step>
+</Steps>
+
+This default rate is used when:
+- Creating new products (as their initial tax rate)
+- Adding manual invoice items without a product reference
+
+### Per-Product Tax Rates
+
+Each product can have its own tax rate that overrides the default:
+
+1. Go to **Products > [Select Product] > Edit**
+2. Find the **Tax Settings** section
+3. Set the **Tax Rate** for this product
+4. Toggle **Tax Included** if the price includes tax
+
+<Accordion title="When to Use Different Tax Rates">
+  **21% Standard Rate (Algemeen tarief)**
+  - Most goods and services
+  - Software licenses
+  - Consulting services
+  - Digital products
+
+  **9% Reduced Rate (Verlaagd tarief)**
+  - Books and e-books
+  - Food products
+  - Medications
+  - Hotel accommodations
+  - Cultural events
+
+  **0% Zero Rate (Nultarief)**
+  - Exports outside EU
+  - Intra-EU B2B supplies
+  - Certain medical services
+</Accordion>
+
+## Tax Included vs Excluded
+
+### Tax Included (Recommended for B2C)
+
+When **Tax Included** is enabled on a product:
+
+- The price you set is what customers see
+- Tax is calculated backwards: `Tax = Price - (Price / (1 + Rate/100))`
+- Better for consumer-facing pricing
+
+**Example:**
+- Price set: €121.00
+- Tax rate: 21%
+- Tax calculation: €121 - (€121 / 1.21) = €21.00
+- Net amount: €100.00
+
+### Tax Excluded (Common for B2B)
+
+When **Tax Included** is disabled:
+
+- The price you set is the net price
+- Tax is added on top: `Tax = Price × (Rate/100)`
+- Common for wholesale/B2B pricing
+
+**Example:**
+- Price set: €100.00
+- Tax rate: 21%
+- Tax calculation: €100 × 0.21 = €21.00
+- Total: €121.00
+
+## Creating Invoices with Tax
+
+### Manual Invoice Items
+
+When adding items manually to an invoice:
+
+1. Enter the item description
+2. Set quantity and unit price
+3. Select the tax rate from dropdown
+4. Toggle tax included if needed
+
+PayRequest calculates the totals automatically.
+
+### Product-Based Invoice Items
+
+When adding a product to an invoice:
+
+1. Select the product from the dropdown
+2. The product's tax settings are applied automatically
+3. Tax rate and inclusion settings come from the product
+4. Adjust quantity as needed
+
+### Handling Mixed Tax Rates
+
+An invoice can contain items with different tax rates. PayRequest:
+
+- Calculates tax per line item
+- Shows a tax breakdown by rate in the invoice
+- Totals all amounts correctly
+
+**Example with Mixed Rates:**
+
+```
+┌─────────────────────────────────────────────────┐
+│ Tax Breakdown:                                  │
+├─────────────────────────────────────────────────┤
+│ 21% BTW over €200.00            €42.00         │
+│  9% BTW over €50.00              €4.50         │
+│  0% BTW over €25.00              €0.00         │
+├─────────────────────────────────────────────────┤
+│ Total BTW                       €46.50         │
+└─────────────────────────────────────────────────┘
+```
+
+## Customer Tax Exemption
+
+When a customer is marked as **Tax Exempt**:
+
+### Automatic Behavior
+
+- All invoice items are set to **0% tax**
+- Invoice displays **"BTW VERLEGD"** indicator
+- Tax totals show €0.00
+- Customer is not charged any VAT
+
+### Manual Override
+
+Even for tax-exempt customers, you can manually adjust tax rates on specific invoice items if needed (though this is rarely required).
+
+<Warning>
+Be careful when manually overriding tax for exempt customers. This should only be done in special circumstances with proper documentation.
+</Warning>
+
+## Invoice PDF Tax Display
+
+Your invoice PDFs include:
+
+### Header/Footer
+- Your business VAT number
+- Customer's VAT number (if applicable)
+- "BTW Verlegd" notice for reverse charge
+
+### Line Items
+- Each item shows its tax rate
+- Tax amounts calculated per line
+
+### Summary Section
+- Subtotal (excluding tax)
+- Tax breakdown by rate
+- Total amount
+- Payment instructions
+
+### Legal Requirements
+
+For EU VAT compliance, your invoices should show:
+
+<CardGroup cols={2}>
+  <Card title="Your Business Info" icon="building">
+    - Business name and address
+    - VAT/BTW registration number
+    - KvK number (Dutch companies)
+  </Card>
+
+  <Card title="Customer Info" icon="user">
+    - Customer name and address
+    - VAT number (for B2B reverse charge)
+    - Country
+  </Card>
+
+  <Card title="Invoice Details" icon="file">
+    - Unique invoice number
+    - Invoice date
+    - Payment due date
+    - Currency
+  </Card>
+
+  <Card title="Tax Information" icon="percent">
+    - Tax rate per line item
+    - Tax amounts
+    - Total tax
+    - Reverse charge notice if applicable
+  </Card>
+</CardGroup>
+
+## Editing Invoice Tax
+
+### Before Invoice is Sent
+
+You can freely edit:
+- Tax rates on any line item
+- Tax included setting
+- Add or remove items
+
+### After Invoice is Sent
+
+<Warning>
+Editing sent invoices affects your accounting records. If significant changes are needed, consider issuing a credit note instead.
+</Warning>
+
+Minor corrections are allowed, but changing tax rates after sending may require:
+- Notifying the customer
+- Updating your accounting records
+- Potentially issuing a corrected invoice
+
+## Tax in Invoice Templates
+
+Customize how tax appears in your invoice templates:
+
+### Available Template Variables
+
+| Variable | Description |
+|----------|-------------|
+| `{tax_subtotal}` | Total before tax |
+| `{tax_amount}` | Total tax amount |
+| `{tax_rate}` | Applied tax rate (%) |
+| `{invoice_total}` | Grand total including tax |
+| `{tax_exempt_notice}` | "BTW Verlegd" text if applicable |
+
+### Customization Options
+
+In **Settings > Invoice Settings**, you can:
+
+- Add custom footer text for tax notices
+- Include payment terms
+- Add reverse charge statements
+- Customize the tax breakdown display
+
+## Subscription Invoice Tax
+
+For recurring subscription invoices:
+
+### Automatic Tax Application
+
+- Tax is calculated based on the subscription product's settings
+- Customer exemption status is checked each billing cycle
+- Tax rates can be updated and will apply to future invoices
+
+### Subscription Amount Changes
+
+If you change a subscription's tax settings:
+- Past invoices remain unchanged
+- Future invoices use the new settings
+- Proration calculations include tax
+
+## Common Tax Scenarios
+
+<AccordionGroup>
+  <Accordion title="Dutch B2C Invoice">
+    **Settings:**
+    - Customer: Dutch individual, not tax exempt
+    - Product: Standard rate (21%)
+
+    **Result:** Invoice shows full 21% BTW, customer pays total including tax.
+  </Accordion>
+
+  <Accordion title="Dutch B2B Invoice">
+    **Settings:**
+    - Customer: Dutch business, not tax exempt
+    - Product: Standard rate (21%)
+
+    **Result:** Same as B2C - 21% BTW charged. Customer reclaims on their VAT return.
+  </Accordion>
+
+  <Accordion title="EU B2B Reverse Charge">
+    **Settings:**
+    - Customer: German business, marked tax exempt
+    - Customer VAT number stored: DE123456789
+
+    **Result:** Invoice shows 0% VAT, "BTW Verlegd" notice, customer accounts for VAT in Germany.
+  </Accordion>
+
+  <Accordion title="Export Invoice">
+    **Settings:**
+    - Customer: US company, marked tax exempt
+    - Delivery: Outside EU
+
+    **Result:** Invoice shows 0% VAT, marked as export sale.
+  </Accordion>
+
+  <Accordion title="Mixed Rate Invoice">
+    **Settings:**
+    - Line 1: Software (21%)
+    - Line 2: Training manual/book (9%)
+
+    **Result:** Tax breakdown shows amounts per rate, totals calculated correctly.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Tax not showing on invoice">
+    **Check:**
+    1. Is your business registered for VAT in Settings?
+    2. Does the product have a tax rate set?
+    3. Is the customer marked as tax exempt?
+
+    If VAT registration is disabled, no tax will be applied.
+  </Accordion>
+
+  <Accordion title="Wrong tax rate on invoice">
+    **Possible causes:**
+    1. Product has a different rate than expected
+    2. Invoice item was manually adjusted
+    3. Business default rate changed after invoice was created
+
+    **Solution:** Edit the invoice item and select the correct tax rate.
+  </Accordion>
+
+  <Accordion title="Tax exempt customer showing tax">
+    **Check:**
+    1. Was the customer marked exempt before the invoice was created?
+    2. Was the invoice created from an older order?
+
+    **Solution:** Edit the invoice and set tax rates to 0%, or recreate the invoice.
+  </Accordion>
+
+  <Accordion title="Tax amounts don't add up">
+    This usually happens with tax-included pricing. The calculation extracts tax from the total, which can result in rounding differences.
+
+    **Example:** €10.00 at 21% = €8.26 net + €1.74 tax (rounds correctly)
+
+    PayRequest handles rounding to 2 decimal places.
+  </Accordion>
+</AccordionGroup>
+
+## Tax Reporting
+
+PayRequest provides tax data for your bookkeeping:
+
+### Available Reports
+
+- **Transaction Reports**: Show tax amounts per transaction
+- **Invoice Export**: CSV export with tax breakdown
+- **Revenue Tracking**: Separates net revenue from tax collected
+
+### Bookkeeping Integration
+
+Export your invoice data including:
+- Invoice number and date
+- Net amounts
+- Tax amounts by rate
+- Gross totals
+- Customer information
+
+This data integrates with common Dutch bookkeeping software.
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Tax & VAT Guide" icon="receipt" href="/business-settings/tax-vat-guide">
+    Complete guide to tax settings in PayRequest
+  </Card>
+
+  <Card title="Tax Exemptions" icon="user-shield" href="/customer-management/tax-exemptions">
+    Managing customer tax exemption status
+  </Card>
+
+  <Card title="Creating Products" icon="box" href="/products-and-pricing/creating-products">
+    Configure product pricing and tax settings
+  </Card>
+
+  <Card title="Invoice Templates" icon="file-lines" href="/invoices/invoice-templates">
+    Customize your invoice appearance
+  </Card>
+</CardGroup>
+
+---
+
+<Note>
+This documentation explains PayRequest's tax features. For advice on which tax rates to apply or how to handle specific tax situations, consult with a qualified tax professional familiar with Dutch and EU VAT regulations.
+</Note>

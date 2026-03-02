@@ -1,8 +1,129 @@
 ---
-title: QR Code Payments
-description: 'Accept payments via QR codes'
+title: 'QR Code Payments'
+description: 'Accept payments via QR codes on flyers, receipts, table tents, and signage'
+icon: 'qrcode'
 ---
 
-# QR Code Payments
+## Overview
 
-_Work in progress. Content coming soon._
+Every Smart Link automatically generates a QR code that customers can scan to make a payment. QR codes are perfect for physical locations, printed materials, and anywhere you want to offer contactless payments.
+
+## How It Works
+
+1. **Create a Smart Link** with a fixed amount or product
+2. **Open the smart link detail page** and click **Share**
+3. **Download or share the QR code** — it encodes the smart link URL
+4. **Customer scans** the QR code with their phone camera
+5. **Payment page opens** with the correct amount pre-filled
+
+<Info>
+QR codes are generated automatically for every smart link. No additional setup required.
+</Info>
+
+## Getting Your QR Code
+
+### From Smart Link Detail Page
+
+1. Navigate to **Payment Page** → **Smart Links**
+2. Click on any smart link to open the detail page
+3. Click the **Share** button
+4. The QR code is displayed in the share modal
+5. Right-click the QR code to save (200x200px PNG)
+
+### Sharing Options
+
+The share modal provides:
+- **QR Code Image** — Right-click to save
+- **Copy URL** — Copy the smart link URL to clipboard
+
+## Use Cases
+
+### Restaurant Table Payments
+
+Place QR codes on table tents or menus:
+
+```
+Smart Link: Table Payment
+Amount: Variable (let customer enter)
+Path: pay
+QR Code: Printed on table tent
+```
+
+### Invoice Supplements
+
+Add QR code to printed invoices for easy mobile payment:
+
+```
+Smart Link: Invoice Payment
+Amount: €250.00
+Path: inv-2025-001
+QR Code: Printed on invoice footer
+```
+
+### Retail Deposits
+
+Display QR codes at the register for equipment deposits:
+
+```
+Smart Link: Equipment Deposit (Security Deposit product)
+Amount: €500.00
+Path: equipment-deposit
+QR Code: Laminated card at service desk
+```
+
+### Event Entrance Fees
+
+Print QR codes on tickets or event posters:
+
+```
+Smart Link: Workshop Entry
+Amount: €35.00
+Path: workshop-march
+QR Code: Event poster, email invitation
+```
+
+## Print Guidelines
+
+**Minimum Size:** 2cm x 2cm (0.8 x 0.8 inches)
+
+**Best Practices:**
+- Use high contrast (black QR on white background)
+- Leave white space (quiet zone) around the QR code
+- Test the printed QR code before distributing
+- Include a short text label below the code (e.g., "Scan to pay")
+
+**Recommended Sizes by Use:**
+
+| Format | Suggested Size |
+|--------|---------------|
+| Business card | 2cm x 2cm |
+| Table tent | 4cm x 4cm |
+| Flyer / A5 | 5cm x 5cm |
+| Poster / A3 | 8cm x 8cm |
+| Banner | 10cm+ x 10cm+ |
+
+<Warning>
+Always test QR codes after printing. Some printers may distort the code at very small sizes. Test with at least 3 different phone cameras.
+</Warning>
+
+## Tracking QR Code Payments
+
+All payments through QR codes are tracked via the Smart Link analytics:
+
+- **Views**: Each QR scan counts as a view
+- **Payments**: Completed payments through the link
+- **Conversion Rate**: Views vs. payments percentage
+- **Revenue**: Total collected through this QR code
+
+This lets you measure the effectiveness of physical QR code placements.
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Smart Links" icon="link" href="/payment-processing/smart-links">
+    Full smart link documentation
+  </Card>
+  <Card title="Security Deposits" icon="shield-halved" href="/payment-processing/security-deposits">
+    QR codes for deposit collection
+  </Card>
+</CardGroup>

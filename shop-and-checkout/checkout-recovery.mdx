@@ -1,0 +1,300 @@
+---
+title: 'Checkout Recovery'
+description: 'Recover lost sales by automatically tracking abandoned checkouts and sending personalized recovery emails'
+icon: 'cart-shopping'
+---
+
+## Overview
+
+Checkout Recovery helps you recover lost sales by tracking customers who start but don't complete their checkout. When a customer abandons their cart or payment, you can send them a personalized email with a direct link to resume exactly where they left off.
+
+<Tip>
+Studies show that abandoned cart emails have an average open rate of 45% and can recover 10-15% of lost sales. Enabling Checkout Recovery can significantly boost your revenue.
+</Tip>
+
+## Key Features
+
+- **Automatic Tracking**: Every checkout attempt is tracked automatically across payment pages, shop checkout, and smart links
+- **Recovery Emails**: Send personalized emails with a direct link to complete the order
+- **Recovery Analytics**: Track recovered revenue and conversion rates
+- **Multiple Reminders**: Send up to 3 reminder emails per abandoned checkout
+- **Source Tracking**: See where customers abandoned (payment page, shop, or smart link)
+- **Conversion Attribution**: Know whether customers converted organically or from a recovery email
+
+## How It Works
+
+1. **Customer starts checkout** - When a customer enters their email and begins the payment process, a checkout attempt is recorded
+2. **30 minutes of inactivity** - If no payment is completed within 30 minutes, the checkout is marked as abandoned
+3. **You send recovery email** - From the Checkout Attempts page, send a recovery email with one click
+4. **Customer completes order** - The email contains a direct link that resumes their checkout with all details pre-filled
+5. **Revenue recovered** - The system tracks the conversion and attributes it to your recovery efforts
+
+<Info>
+Checkout attempts are only created when a customer provides their email address. Anonymous visitors who don't enter contact details cannot receive recovery emails.
+</Info>
+
+## Enabling Checkout Recovery
+
+Navigate to **Settings** → scroll down to find the **Checkout Recovery** section.
+
+1. Toggle **Enable Checkout Recovery** to on
+2. Click **Save Settings**
+
+Once enabled, the system will automatically start tracking checkout attempts across all your payment pages and shop.
+
+## Understanding Checkout Statuses
+
+Each checkout attempt has one of three statuses:
+
+| Status | Description | Color |
+|--------|-------------|-------|
+| **In Progress** | Customer is actively in checkout (less than 30 min) | Amber |
+| **Abandoned** | No activity for 30+ minutes, no payment completed | Red |
+| **Converted** | Payment was successfully completed | Green |
+
+## Viewing Checkout Attempts
+
+Navigate to **Checkout Attempts** from your dashboard sidebar to see all tracked checkouts.
+
+### Stats Overview
+
+At the top of the page, you'll see key metrics for the current month:
+
+- **This Month**: Total checkout attempts started
+- **Abandoned**: Checkouts that weren't completed
+- **Converted**: Successfully completed payments
+- **In Progress**: Active checkout sessions
+- **Recovered Revenue**: Total revenue from recovered checkouts
+
+### Filtering Options
+
+Use the filters to find specific checkout attempts:
+
+**Search**: Find by customer email or name
+
+**Status Filter**:
+- All Statuses
+- In Progress
+- Abandoned
+- Converted
+
+**Source Filter**:
+- Payment Page
+- Shop
+- Smart Link
+
+**Date Filter**:
+- Today
+- This Week
+- This Month
+- All Time
+
+## Sending Recovery Emails
+
+To send a recovery email for an abandoned checkout:
+
+1. Go to **Checkout Attempts**
+2. Filter by **Abandoned** status to see recoverable checkouts
+3. Find the checkout you want to recover
+4. Click the **Send Recovery Email** button (envelope icon)
+
+<Warning>
+You can send a maximum of 3 recovery emails per checkout attempt. The "Reminders" column shows how many have been sent.
+</Warning>
+
+### What Customers Receive
+
+The recovery email includes:
+
+- **Personalized greeting** with the customer's name
+- **Order summary** showing the product and amount
+- **Prominent "Complete Your Order" button** linking directly to their checkout
+- **Urgency messaging** that increases with each reminder
+
+**First reminder**: Friendly notification that items are waiting
+**Second reminder**: Gentle follow-up with reminder of what they selected
+**Third reminder**: Final notice with urgency about session expiration
+
+### Recovery Link
+
+The email contains a secure recovery link that:
+
+- Pre-fills the customer's information
+- Restores their cart contents
+- Takes them directly to the payment step
+- Expires after 24 hours for security
+
+## Conversion Tracking
+
+When a customer completes their checkout, the system tracks how they converted:
+
+| Conversion Source | Description |
+|-------------------|-------------|
+| **Organic** | Customer returned and paid on their own |
+| **Reminder Email** | Customer clicked the recovery email link |
+| **Manual** | You marked the checkout as converted manually |
+
+<Tip>
+Use conversion tracking to measure the effectiveness of your recovery emails. If most conversions come from reminder emails, your recovery strategy is working!
+</Tip>
+
+## Manual Conversion
+
+Sometimes a customer may complete their purchase through a different channel (phone call, new checkout, bank transfer). You can manually mark a checkout as converted:
+
+1. Find the abandoned checkout
+2. Click the **...** menu
+3. Select **Mark as Converted**
+
+This helps keep your analytics accurate and prevents sending recovery emails for orders that were already completed.
+
+## Best Practices
+
+### Timing Your Recovery Emails
+
+**First email**: Send within 1-2 hours of abandonment for best results
+**Second email**: Wait 24 hours before the second reminder
+**Third email**: Send 48-72 hours after the first, with urgency messaging
+
+### Writing Effective Recovery Emails
+
+The default recovery email is professionally designed, but here are tips for maximizing success:
+
+- **Act quickly**: The sooner you send, the higher the conversion rate
+- **Be helpful, not pushy**: Position it as a reminder, not a sales pitch
+- **Include the product**: Remind them what they were about to purchase
+- **Make it easy**: The one-click recovery link removes all friction
+
+### When NOT to Send Recovery Emails
+
+- If the customer contacted you about an issue
+- If you know they completed the purchase another way
+- If too much time has passed (more than a week)
+- If you've already sent 3 reminders
+
+## Analytics in Business Insights
+
+Checkout recovery metrics also appear in your **Business Insights** dashboard:
+
+- **Abandoned Today**: Number of checkouts abandoned in the last 24 hours
+- **Recovered This Week**: Checkouts converted after abandonment
+- **Recovered Revenue**: Total value of recovered sales
+- **Abandonment Rate**: Percentage of checkouts that don't complete
+
+Use these metrics to:
+- Identify patterns in abandonment timing
+- Measure recovery email effectiveness
+- Spot issues with your checkout flow
+- Track improvement over time
+
+## Source Types
+
+Checkouts are tracked from three sources:
+
+### Payment Page
+Direct payment links where customers enter an amount or pay for a specific product.
+
+### Shop Checkout
+Your online shop's checkout process when customers add items to cart and proceed to payment.
+
+### Smart Link
+Branded payment links you've created for campaigns, social media, or QR codes.
+
+<Info>
+Tracking works automatically for all three sources once Checkout Recovery is enabled. No additional configuration needed.
+</Info>
+
+## Deleting Checkout Attempts
+
+To remove a checkout attempt from your records:
+
+1. Click the **...** menu on the checkout row
+2. Select **Delete**
+3. Confirm the deletion
+
+<Warning>
+Deleted checkout attempts cannot be recovered. Only delete records you're certain you don't need.
+</Warning>
+
+## Troubleshooting
+
+### Recovery emails not sending
+
+**Check:**
+1. Checkout Recovery is enabled in Settings
+2. The checkout has a valid email address
+3. You haven't exceeded 3 reminders
+4. Your email configuration is working (Settings → Email)
+
+### Customer says they didn't receive the email
+
+**Solutions:**
+1. Ask them to check spam/junk folder
+2. Verify the email address is correct
+3. Try sending another reminder (if under limit)
+4. Contact them through another channel
+
+### Checkout shows as "In Progress" indefinitely
+
+**Cause:** The 30-minute timeout hasn't elapsed yet, or the system check hasn't run.
+
+**Solution:** Wait for the next system check (runs every few minutes) or check back later.
+
+### Customer converted but still showing as abandoned
+
+**Cause:** Payment may have been processed through a different checkout or the connection was lost.
+
+**Solution:** Use "Mark as Converted" to manually update the status.
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="How long are checkout attempts stored?">
+    Checkout attempts are stored indefinitely so you can track historical patterns and analytics. You can manually delete individual attempts if needed.
+  </Accordion>
+
+  <Accordion title="Can I customize the recovery email template?">
+    The recovery email uses a professional template with your business name and branding colors. Custom email templates for checkout recovery will be available in a future update.
+  </Accordion>
+
+  <Accordion title="Does this work with guest checkouts?">
+    Yes, as long as the customer enters their email address during checkout. The email address is required to send recovery emails.
+  </Accordion>
+
+  <Accordion title="Will customers receive automatic emails?">
+    No. Recovery emails are sent manually by you. This gives you control over when and which customers receive reminders. Automated recovery sequences may be added in a future update.
+  </Accordion>
+
+  <Accordion title="What happens if the recovery link expires?">
+    If a customer clicks an expired recovery link (after 24 hours), they'll be taken to your normal checkout page. Their details won't be pre-filled, but they can still complete the purchase.
+  </Accordion>
+
+  <Accordion title="Can I see what products were in the abandoned cart?">
+    Yes, the checkout attempt record includes the product name and amount. For shop checkouts with multiple items, the full cart contents are preserved.
+  </Accordion>
+
+  <Accordion title="Is checkout tracking GDPR compliant?">
+    Yes. Checkout tracking only captures information the customer actively provides (email, name). The data is stored securely and can be deleted upon request. Include mention of checkout recovery in your privacy policy.
+  </Accordion>
+
+  <Accordion title="How do I measure recovery success?">
+    Compare your "Recovered Revenue" metric against "Abandoned" checkouts. A healthy recovery rate is typically 10-15% of abandoned checkouts. Track this over time to optimize your recovery timing.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Smart Links" icon="link" href="/payment-processing/smart-links">
+    Create branded payment links
+  </Card>
+  <Card title="Shop Setup" icon="store" href="/shop-and-checkout/shop-setup">
+    Configure your online shop
+  </Card>
+  <Card title="Payment Forms" icon="credit-card" href="/payment-processing/payment-forms">
+    Set up payment pages
+  </Card>
+  <Card title="Email Configuration" icon="envelope" href="/business-settings/email-configuration">
+    Configure email settings
+  </Card>
+</CardGroup>

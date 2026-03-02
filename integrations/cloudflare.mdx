@@ -1,0 +1,289 @@
+---
+title: "Cloudflare Integration"
+description: "Connect Cloudflare to manage DNS records and set up domain forwarding for your customers"
+---
+
+# Cloudflare Integration ☁️
+
+Connect your Cloudflare account to PayRequest and give your customers the power to manage DNS records and set up domain forwarding — all from within their customer portal. No need to share Cloudflare login credentials or handle DNS changes manually.
+
+<Info>
+**Who is this for?** If you sell domain subscriptions through PayRequest (using OpenProvider for registration), the Cloudflare integration lets your customers manage their domain settings themselves — saving you time and support tickets.
+</Info>
+
+## What You Can Do
+
+<CardGroup cols={2}>
+  <Card title="DNS Management" icon="server">
+    Your customers can view, add, edit, and delete DNS records for their domain directly from their subscription page. No more back-and-forth emails about DNS changes.
+  </Card>
+
+  <Card title="Domain Forwarding" icon="arrow-right">
+    Customers can redirect their domain to any URL — like a social media page, a new website, or a landing page. Everything is handled through Cloudflare's redirect system.
+  </Card>
+
+  <Card title="Admin Dashboard" icon="cog">
+    As a business owner, you get a full Cloudflare management panel in your dashboard. View all zones, manage DNS records, and configure forwarding for any domain.
+  </Card>
+
+  <Card title="Automatic Setup" icon="bolt">
+    When customers set up forwarding, the required DNS records are created automatically. No manual configuration needed.
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+### Prerequisites
+
+Before connecting Cloudflare, make sure you have:
+
+- A Cloudflare account ([sign up free](https://dash.cloudflare.com/sign-up))
+- Your domains added to Cloudflare (nameservers must point to Cloudflare)
+- An API token with the right permissions
+
+### Step 1: Create a Cloudflare API Token
+
+<Steps>
+  <Step title="Go to your Cloudflare dashboard">
+    Log in at [dash.cloudflare.com](https://dash.cloudflare.com) and click on your profile icon in the top right corner.
+  </Step>
+
+  <Step title="Navigate to API Tokens">
+    Go to **My Profile** → **API Tokens** → **Create Token**
+  </Step>
+
+  <Step title="Set up permissions">
+    Create a custom token with the following permissions:
+
+    | Permission | Access Level | What it does |
+    |-----------|-------------|-------------|
+    | **Zone** | Read | Allows PayRequest to list your domains |
+    | **DNS** | Edit | Allows managing DNS records |
+    | **Zone Rulesets** | Edit | Required for domain forwarding |
+
+    Under **Zone Resources**, select either "All Zones" or specific zones you want to manage through PayRequest.
+  </Step>
+
+  <Step title="Copy your token">
+    Click **Continue to summary** → **Create Token**. Copy the token — you'll only see it once!
+  </Step>
+</Steps>
+
+<Warning>
+**Keep your token safe!** Store it somewhere secure before closing the page. Cloudflare only shows the token once. If you lose it, you'll need to create a new one.
+</Warning>
+
+### Step 2: Find Your Account ID
+
+Your Account ID is visible on your Cloudflare dashboard:
+
+1. Go to [dash.cloudflare.com](https://dash.cloudflare.com)
+2. Click on any domain
+3. Look in the right sidebar under **API** — you'll see your **Account ID**
+4. Copy it
+
+<Tip>
+Your Account ID is also visible in the URL when you're on your Cloudflare dashboard: `dash.cloudflare.com/ACCOUNT_ID_HERE`
+</Tip>
+
+### Step 3: Connect in PayRequest
+
+<Steps>
+  <Step title="Open the App Store">
+    In your PayRequest dashboard, go to **Settings** → **App Store** → **Cloudflare**
+  </Step>
+
+  <Step title="Add your credentials">
+    Click **Add Cloudflare Integration** and enter:
+    - **Account ID**: The ID you copied from Cloudflare
+    - **API Token**: The token you just created
+  </Step>
+
+  <Step title="Sync your zones">
+    After connecting, PayRequest will automatically sync all your Cloudflare zones (domains). You'll see them listed on the Cloudflare management page.
+  </Step>
+
+  <Step title="Verify the connection">
+    Click **Test Connection** to make sure everything is working. You should see a green "Connected" badge.
+  </Step>
+</Steps>
+
+## Managing DNS Records
+
+Once connected, DNS management becomes available for any domain that exists as both a domain subscription in PayRequest and an active zone in Cloudflare.
+
+### For Business Owners (Admin Dashboard)
+
+From the Cloudflare app page in your dashboard:
+
+1. Find the domain in **Your Zones**
+2. Click **Manage DNS** to view all DNS records
+3. Edit or delete existing records
+4. Add new records as needed
+
+### For Your Customers (Customer Portal)
+
+Your customers will automatically see a **DNS** tab on their domain subscription page. From there, they can:
+
+- **View** all DNS records for their domain
+- **Add** new records (A, AAAA, CNAME, MX, TXT, NS, SRV, CAA)
+- **Edit** existing records — change the content, TTL, or proxy settings
+- **Delete** records they no longer need
+- **Refresh** to see the latest state from Cloudflare
+
+<Info>
+DNS changes are applied through Cloudflare's network and typically take effect within minutes, though full global propagation can take up to 48 hours.
+</Info>
+
+## Domain Forwarding
+
+Domain forwarding lets your customers redirect their entire domain to another URL. This is one of the most requested features for domain customers.
+
+### Common Use Cases
+
+- **Social media redirect**: Forward `mybrand.com` to `instagram.com/mybrand`
+- **Website migration**: Redirect an old domain to a new one
+- **Short URL**: Use a short domain as a branded redirect to a longer URL
+- **Coming soon**: Point a domain to a temporary page while a website is being built
+
+### How It Works
+
+<Steps>
+  <Step title="Customer opens their subscription">
+    From the customer portal, your customer navigates to their domain subscription and clicks the **Forwarding** tab.
+  </Step>
+
+  <Step title="Enter the target URL">
+    They enter the URL they want their domain to forward to — for example, `https://www.instagram.com/mybrand`.
+  </Step>
+
+  <Step title="Choose redirect options">
+    - **Redirect Type**: Permanent (301) or Temporary (302)
+    - **Preserve Path**: If enabled, `domain.com/about` forwards to `target.com/about`
+    - **Preserve Query String**: If enabled, `domain.com?ref=abc` forwards to `target.com?ref=abc`
+  </Step>
+
+  <Step title="Save and done">
+    Click **Set Up Forwarding**. PayRequest automatically:
+    1. Creates the required DNS record for Cloudflare to handle the redirect
+    2. Sets up the redirect rule in Cloudflare
+    3. Shows a confirmation with the active forwarding details
+  </Step>
+</Steps>
+
+### Redirect Types Explained
+
+| Type | Code | Best For |
+|------|------|----------|
+| **Permanent** | 301 | Moving to a new domain permanently. Search engines will update their index to the new URL. |
+| **Temporary** | 302 | Short-term redirects like promotions or maintenance. Search engines keep the original URL. |
+
+<Tip>
+**Not sure which to pick?** Use **Permanent (301)** if the redirect will stay forever (like forwarding to a social media page). Use **Temporary (302)** if you plan to use the domain for something else later.
+</Tip>
+
+### Managing Forwarding as a Business Owner
+
+You can also manage forwarding from the admin Cloudflare dashboard:
+
+1. Go to **Settings** → **App Store** → **Cloudflare**
+2. Find the zone in **Your Zones** — domains with active forwarding show a purple **Forwarding** badge
+3. Click **Edit Forwarding** to change settings, or **Set Up Forwarding** to configure a new one
+
+## What Your Customers See
+
+When a customer has a domain subscription and the domain is managed in Cloudflare, their subscription page gets extra tabs:
+
+<AccordionGroup>
+  <Accordion title="Domain Tab">
+    Shows domain information: domain name, expiry date, nameservers, authorization code, and auto-renewal status. This tab is always available for domain subscriptions.
+  </Accordion>
+
+  <Accordion title="DNS Tab">
+    A full DNS record table where customers can view, add, edit, and delete records. Uses a clean table layout with record type badges, proxy status indicators, and action buttons.
+  </Accordion>
+
+  <Accordion title="Forwarding Tab">
+    A simple form to set up or manage domain forwarding. Shows the current forwarding status (active or not configured), the target URL, and all forwarding options.
+  </Accordion>
+</AccordionGroup>
+
+<Info>
+The DNS and Forwarding tabs only appear when the domain is active in Cloudflare. If a domain hasn't been added to Cloudflare yet, customers will only see the Domain tab.
+</Info>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Forwarding shows 'Authentication error'">
+    This means your Cloudflare API token is missing the **Zone Rulesets: Edit** permission. DNS features will still work, but forwarding requires this extra permission.
+
+    **Fix**: Go to your Cloudflare dashboard → **My Profile** → **API Tokens** → edit your token → add **Zone Rulesets: Edit** permission.
+  </Accordion>
+
+  <Accordion title="DNS and Forwarding tabs don't appear for a customer">
+    These tabs only show when:
+    1. The subscription is for a **domain** product
+    2. The domain has a **domain registration** linked to it
+    3. The domain exists as an **active zone** in your Cloudflare account
+    4. Your Cloudflare integration is **connected and active** in PayRequest
+
+    Check each of these conditions. The most common issue is that the domain hasn't been synced from Cloudflare — click **Refresh Zones** on the Cloudflare app page.
+  </Accordion>
+
+  <Accordion title="Connection test fails">
+    - **Double-check your API token** — make sure you copied the full token
+    - **Verify the Account ID** — it should match what's in your Cloudflare dashboard URL
+    - **Check token permissions** — it needs Zone: Read, DNS: Edit, and Zone Rulesets: Edit
+    - **Token expired?** — Cloudflare tokens can have expiry dates. Create a new one if needed.
+  </Accordion>
+
+  <Accordion title="Zones not showing after connection">
+    Click **Refresh Zones** on the Cloudflare management page. If zones still don't appear:
+    - Make sure your domains are added to Cloudflare
+    - Check that the API token has access to the correct zones
+    - Verify the zones are in "Active" status in Cloudflare (nameservers must be pointing to Cloudflare)
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Use Descriptive Token Names" icon="tag">
+    Name your Cloudflare API token something like "PayRequest Integration" so you can easily find it later in your Cloudflare dashboard.
+  </Card>
+
+  <Card title="Limit Token Scope" icon="shield-check">
+    Only give the token access to the zones you manage through PayRequest. This follows the principle of least privilege and keeps your other domains safe.
+  </Card>
+
+  <Card title="Monitor Forwarding Usage" icon="chart-bar">
+    Check the Cloudflare dashboard for zones with active forwarding. The purple "Forwarding" badge in PayRequest makes it easy to see which domains have redirects configured.
+  </Card>
+
+  <Card title="Educate Your Customers" icon="academic-cap">
+    Let your customers know they can manage DNS and forwarding themselves. This reduces support requests and gives them more control over their domains.
+  </Card>
+</CardGroup>
+
+## Related Documentation
+
+<CardGroup cols={3}>
+  <Card title="App Store" icon="squares-2x2" href="/business-settings/app-store">
+    Manage all your integrations
+  </Card>
+
+  <Card title="Customer Portal" icon="users" href="/customer-management/customer-portal">
+    Learn about the customer experience
+  </Card>
+
+  <Card title="Subscriptions" icon="arrow-path" href="/subscriptions/creating-subscriptions">
+    Set up domain subscriptions
+  </Card>
+</CardGroup>
+
+---
+
+<Tip>
+**Quick Access**: Manage your Cloudflare integration anytime from **Settings** → **App Store** → **Cloudflare** in your PayRequest dashboard.
+</Tip>

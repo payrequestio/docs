@@ -1,8 +1,411 @@
 ---
 title: Managing Mandates
-description: 'SEPA Direct Debit authorizations'
+description: 'Set up and manage SEPA Direct Debit authorizations for automatic subscription payments'
+icon: 'building-columns'
 ---
 
-# Managing Mandates
+## Overview
 
-_Work in progress. Content coming soon._
+A mandate is a payment authorization that allows you to automatically collect payments from a customer's bank account. PayRequest uses SEPA Direct Debit mandates via Mollie to enable automatic subscription billing without requiring customer action each billing cycle.
+
+<Tip>
+Mandates are the foundation of automated subscription billing. Once a customer authorizes a mandate, you can collect payments automatically - no payment links, no waiting.
+</Tip>
+
+## How Mandates Work
+
+### The Authorization Flow
+
+1. **Customer receives email** with mandate authorization link
+2. **Customer clicks link** and lands on Mollie's secure payment page
+3. **Customer completes authorization** via iDEAL (creates SEPA mandate) or enters card details
+4. **Mandate created** in Mollie, linked to customer
+5. **Subscription activated** - automatic payments enabled
+
+### Mandate Types
+
+PayRequest supports mandates created via:
+
+| Payment Method | Mandate Type | Speed | Fees |
+|---------------|--------------|-------|------|
+| **iDEAL** | SEPA Direct Debit | 1-3 business days | Lower |
+| **Credit Card** | Card recurring | Instant | Higher |
+| **Bancontact** | SEPA Direct Debit | 1-3 business days | Lower |
+
+<Info>
+iDEAL is the most common method in the Netherlands. When a customer pays with iDEAL, Mollie automatically creates a SEPA mandate from the bank account used.
+</Info>
+
+## Viewing Customer Mandates
+
+### From Customer Profile
+
+1. Go to **Customers** → Select customer
+2. View the **Mandates** section
+3. See all active and expired mandates
+
+### From Subscription
+
+1. Go to **Subscriptions** → Select subscription
+2. View **Mandate** in subscription details
+3. Click mandate ID to see details
+
+### Mandate Information Displayed
+
+| Field | Description |
+|-------|-------------|
+| **Mandate ID** | Mollie mandate reference (e.g., `mdt_xxx`) |
+| **Method** | iDEAL, Credit Card, etc. |
+| **Status** | Valid, Pending, Invalid |
+| **Account** | Last 4 digits of bank account (SEPA) |
+| **Created At** | When mandate was authorized |
+
+## Creating New Mandates
+
+### Method 1: During Subscription Creation
+
+When creating a subscription for a customer without an existing mandate:
+
+1. Create subscription with **Payment Method: Mandate**
+2. If no mandate exists, email sent automatically to customer
+3. Customer completes authorization
+4. Subscription changes from "Pending Mandate" to "Active"
+
+### Method 2: Via First Payment
+
+Mandates are created automatically when customers make a first payment via:
+
+- **Shop checkout** (recurring product purchase)
+- **Payment page** (first subscription payment)
+- **Invoice payment** (using iDEAL)
+
+### Method 3: Dedicated Mandate Request
+
+Request mandate authorization without creating a subscription:
+
+1. Go to **Customers** → Select customer
+2. Click **Request Mandate**
+3. Customer receives email with authorization link
+4. Once completed, mandate available for future subscriptions
+
+## Mandate Status Lifecycle
+
+```
+Customer Notified → Pending → Valid → Used for Payments
+                      ↓
+                   Failed/Expired
+```
+
+### Status Definitions
+
+| Status | Meaning | Can Bill? |
+|--------|---------|-----------|
+| **Valid** | Authorization complete, ready to use | ✅ Yes |
+| **Pending** | Authorization in progress | ❌ No |
+| **Invalid** | Revoked or failed | ❌ No |
+| **Expired** | No longer usable | ❌ No |
+
+## Managing Mandate Issues
+
+### Customer Without Mandate
+
+**Symptoms:**
+- Subscription status: "Pending Mandate"
+- Cannot create mandate-based payments
+
+**Solutions:**
+1. **Resend authorization email**:
+   - Go to Subscription → Click **Resend Mandate Email**
+
+2. **Switch to manual payment**:
+   - Go to Subscription → Click **Change** next to payment method
+   - Select **Manual Payment** → Save
+   - Customer will receive invoices to pay via bank transfer
+   - See [Payment Methods for Subscriptions](/subscriptions/payment-methods) for details
+
+3. **Contact customer**:
+   - Verify email address is correct
+   - Ask customer to check spam folder
+
+### Mandate Revoked by Customer
+
+Customers can revoke mandates through their bank. When this happens:
+
+**Impact:**
+- Next payment attempt fails
+- Subscription status → "Failed"
+- No automatic payments possible
+
+**Solutions:**
+1. Contact customer to understand reason
+2. Request new mandate authorization
+3. Consider switching to invoice-based billing
+
+### Mandate Revoked by Bank
+
+Banks may revoke mandates for:
+- Account closure
+- Fraud prevention
+- Customer request through bank
+
+**Detection:**
+- Payment failure with "mandate revoked" reason
+- Mandate status changes to "Invalid"
+
+**Resolution:**
+- Contact customer for new mandate
+- Verify customer's payment details
+
+## Synchronizing Mandates
+
+### Automatic Sync
+
+PayRequest automatically syncs mandate status with Mollie:
+
+- **Every 8 hours**: Full mandate sync for active customers
+- **On payment failure**: Immediate mandate status check
+- **On subscription billing**: Mandate verification before payment
+
+### Manual Sync
+
+To manually refresh mandate data:
+
+1. Go to **Settings** → **Payment Providers**
+2. Find Mollie provider
+3. Click **Sync Mandates**
+
+<Note>
+Manual sync is rarely needed. Automatic sync handles most scenarios.
+</Note>
+
+## Customer Portal Mandate Management
+
+Customers can manage their mandates through the Customer Portal:
+
+### What Customers Can Do
+
+- **View saved payment methods**: See their active mandates
+- **Add new payment method**: Create additional mandate via new payment
+- **See mandate details**: View account info (last 4 digits)
+
+### What Customers Cannot Do
+
+- **Revoke mandates directly** (must go through bank)
+- **Edit mandate details** (mandates are immutable)
+- **Transfer mandates** (tied to specific bank account)
+
+### Enabling Customer Portal Mandate Access
+
+Configure in **Shop Settings** → **Customer Portal**:
+
+- **Show saved payment methods**: Display mandates to customers
+- **Allow new payment method**: Let customers add methods
+
+## Mandate Best Practices
+
+### ✅ Do's
+
+- **Use iDEAL for Dutch customers** - Creates SEPA mandate automatically
+- **Send reminders** for pending mandate authorizations
+- **Monitor "Pending Mandate" subscriptions** - Follow up within 48 hours
+- **Keep customer contact info updated** - Ensures emails are delivered
+- **Explain the authorization process** - Customers unfamiliar with mandates may hesitate
+
+### ❌ Don'ts
+
+- **Don't create multiple pending mandates** for the same customer
+- **Don't ignore mandate failures** - They indicate customer or bank issues
+- **Don't assume mandates last forever** - Monitor for revocations
+- **Don't use mandates for one-time payments** - Use direct payment instead
+
+## Troubleshooting
+
+### Authorization Email Not Received
+
+**Causes:**
+1. Incorrect email address
+2. Email in spam/junk folder
+3. Email delivery failure
+
+**Solutions:**
+- Verify customer email in profile
+- Ask customer to check spam folder
+- Resend authorization email
+- Check email delivery status in logs
+
+### Mandate Authorization Stuck at Pending
+
+**Causes:**
+1. Customer started but didn't complete authorization
+2. Bank verification pending
+3. Technical issue during authorization
+
+**Solutions:**
+- Resend authorization email
+- Contact customer to complete process
+- Wait 24-48 hours for bank processing
+- Check Mollie dashboard for status
+
+### Payment Failing Despite Valid Mandate
+
+**Causes:**
+1. Insufficient funds in customer account
+2. Bank temporarily blocking debits
+3. Mandate about to be revoked (not yet updated)
+
+**Solutions:**
+- Check Mollie payment failure reason
+- Contact customer about bank account status
+- Retry payment after a few days
+- Request new mandate if issues persist
+
+### Customer Has Multiple Mandates
+
+This is normal and expected. Customers may have mandates from:
+- Different payment methods (iDEAL vs card)
+- Multiple bank accounts
+- Previous authorizations
+
+**PayRequest behavior:**
+- Uses most recently created valid mandate
+- You can select specific mandate when creating subscription
+
+## Technical Details
+
+### Mandate Data Stored
+
+PayRequest stores minimal mandate data for efficiency:
+
+```
+mandate_id: "mdt_xxxxxxxxxxxxx"
+customer_id: "cst_xxxxxxxxxxxxx"
+method: "directdebit"
+status: "valid"
+```
+
+Full mandate details are retrieved from Mollie API when needed.
+
+### Mandate Verification Before Billing
+
+Before each billing attempt, PayRequest:
+
+1. Checks mandate status in database
+2. Verifies with Mollie API (if billing imminent)
+3. Fails gracefully if mandate invalid
+4. Updates subscription status accordingly
+
+### Webhook Integration
+
+Mandate status changes trigger webhooks:
+
+- **Mandate created**: Activates pending subscriptions
+- **Mandate revoked**: Marks subscriptions for attention
+- **Mandate expired**: Updates customer records
+
+## SEPA Direct Debit Specifics
+
+### Settlement Timeline
+
+| Day | Event |
+|-----|-------|
+| Day 0 | Payment created |
+| Day 1-2 | Bank processes debit |
+| Day 2-3 | Payment status → Paid |
+| Day 3-5 | Funds available in Mollie |
+
+<Info>
+SEPA Direct Debits are not instant. Plan for 2-3 business day settlement time.
+</Info>
+
+### Chargeback Window
+
+Customers can dispute SEPA Direct Debits:
+
+- **8 weeks**: Unconditional refund right for authorized debits
+- **13 months**: For unauthorized debits (mandate issues)
+
+**Impact:**
+- Chargeback creates negative transaction
+- Customer may lose access (configure your policy)
+- Review and contact customer
+
+### Cross-Border Payments
+
+SEPA mandates work across the Single Euro Payments Area:
+
+**Supported Countries:**
+All EU countries, plus Iceland, Liechtenstein, Norway, Switzerland, Monaco, San Marino, Andorra, Vatican City.
+
+**Limitations:**
+- EUR currency only (for SEPA Direct Debit)
+- Some banks may have slower processing
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods" icon="credit-card" href="/subscriptions/payment-methods">
+    Switch between automatic and manual payment
+  </Card>
+  <Card title="Creating Subscriptions" icon="plus" href="/subscriptions/creating-subscriptions">
+    Set up subscriptions with mandates
+  </Card>
+  <Card title="Failed Payments" icon="triangle-exclamation" href="/subscriptions/failed-payment-handling">
+    Handle payment failures
+  </Card>
+  <Card title="Payment Providers" icon="gear" href="/payment-processing/setting-up-payment-providers">
+    Configure Mollie integration
+  </Card>
+</CardGroup>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="How long does a mandate last?">
+    SEPA mandates don't expire automatically. They remain valid until revoked by the customer through their bank, or if the bank account is closed. It's good practice to verify mandate status periodically.
+  </Accordion>
+
+  <Accordion title="Can a customer have multiple mandates?">
+    Yes, customers can have multiple mandates from different payment methods or bank accounts. PayRequest uses the most recently created valid mandate by default, but you can select a specific mandate when creating subscriptions.
+  </Accordion>
+
+  <Accordion title="What happens if a mandate is revoked during an active subscription?">
+    The next billing attempt will fail, and the subscription status will change to "Failed". You'll need to contact the customer to understand why they revoked and potentially request a new mandate or switch to invoice-based billing.
+  </Accordion>
+
+  <Accordion title="Can I transfer a mandate to a different subscription?">
+    Yes! Mandates are linked to customers, not subscriptions. When creating a new subscription for a customer with an existing valid mandate, that mandate is automatically available for use.
+  </Accordion>
+
+  <Accordion title="Why did my customer's mandate fail even though they just authorized it?">
+    Some banks require additional verification after mandate creation. This can take 24-48 hours. Wait and retry, or check Mollie dashboard for specific error messages from the bank.
+  </Accordion>
+
+  <Accordion title="Can customers in other countries use SEPA mandates?">
+    Yes, SEPA mandates work across all SEPA member countries (EU and some additional European countries). However, the mandate must be in EUR currency, and some banks may have slower processing times for cross-border debits.
+  </Accordion>
+
+  <Accordion title="How do I know if a mandate is about to be revoked?">
+    Unfortunately, banks don't notify merchants before mandate revocation. You'll find out when the next payment fails. Regular communication with customers and prompt follow-up on failed payments helps catch issues early.
+  </Accordion>
+
+  <Accordion title="What's the difference between a mandate and a payment method?">
+    A **mandate** is a standing authorization to collect payments. A **payment method** is how a specific payment is made (iDEAL, card, etc.). When a customer pays with iDEAL, both a payment and a mandate are created. The mandate enables future automatic payments.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Saved Payment Methods" icon="credit-card" href="/payment-processing/saved-payment-methods">
+    Customer payment method management
+  </Card>
+  <Card title="Subscription Lifecycle" icon="arrows-spin" href="/subscriptions/subscription-lifecycle">
+    Understand subscription states
+  </Card>
+  <Card title="Mollie Setup" icon="gear" href="/payment-processing/setting-up-payment-providers">
+    Configure your payment provider
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/troubleshooting/payment-failures">
+    Debug payment issues
+  </Card>
+</CardGroup>

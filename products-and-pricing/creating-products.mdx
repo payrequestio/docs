@@ -1,8 +1,276 @@
 ---
 title: Creating Products
-description: 'Set up one-time and recurring products'
+description: 'Set up one-time and recurring products with AI-powered descriptions and images'
 ---
 
 # Creating Products
 
-_Work in progress. Content coming soon._
+Create professional product listings with pricing, descriptions, and custom fields. Use AI to generate compelling product descriptions and product images instantly.
+
+## Basic Product Setup
+
+### Creating a New Product
+
+1. Navigate to **Products** in your dashboard
+2. Click **New Product** button
+3. Fill in the required information:
+   - **Product Name**: Clear, descriptive name
+   - **Description**: Detailed product information (or use AI to generate)
+   - **Price**: Amount in EUR
+   - **Currency**: EUR (default)
+
+### Product Types
+
+**One-Time Products**
+- Single purchase items
+- Physical or digital goods
+- Services or consultations
+- No recurring billing
+
+**Recurring Products (Subscriptions)**
+- Enable **Is Recurring** toggle
+- Set **Billing Interval**: Daily, Weekly, Monthly, Yearly
+- Configure **Interval Count**: Charge every X intervals
+- Example: "Every 3 months" = Monthly interval with count of 3
+
+**Security Deposit Products** *(Business plan)*
+- Places a temporary authorization hold on the customer's credit card
+- Amount is reserved but not charged until you capture it
+- Configure hold duration (1-28 days), partial capture, and deposit instructions
+- Credit card only — other payment methods are hidden automatically
+- Best for: Hotels, car rentals, equipment rentals, Airbnb deposits
+- See [Security Deposits →](/payment-processing/security-deposits) for full documentation
+
+**Domain Products**
+- Domain registration with automatic annual renewal subscriptions
+- Requires a configured provision provider (OpenProvider)
+- Customers search for available domains and select TLD
+- See your admin for domain provider setup
+
+## AI-Powered Content 🤖
+
+Generate professional product descriptions and images with one click using AI.
+
+### AI Descriptions
+
+Generate compelling, sales-focused product descriptions instantly.
+
+**How to Use:**
+1. **Enter Product Name**: The AI uses your product name as context
+2. **Click the ✨ AI Button**: Located in the description editor toolbar
+3. **Review & Edit**: AI generates 2-3 sentences focusing on benefits
+4. **Customize**: Edit the generated text to match your brand voice
+
+**Features:**
+- **Benefit-Focused**: Emphasizes what customers get, not just features
+- **Professional Tone**: Persuasive but authentic copywriting
+- **Concise**: 2-3 sentences for quick reading
+- **Sales-Optimized**: Highlights value proposition clearly
+- **Fast Generation**: Powered by GPT-4o-mini (usually 2-3 seconds)
+
+**Example:**
+```
+Input: "Business Email Hosting"
+
+AI Generated:
+Business Email Hosting provides professional email addresses
+with your domain name, giving your business a credible and
+trustworthy image. Enjoy reliable uptime, spam protection,
+and easy management while keeping customer communications
+secure and organized.
+```
+
+### AI Image Generation ✨
+
+Generate professional product images using AI - no photography or design skills needed.
+
+**How to Use:**
+1. **Enter Product Name**: A descriptive name helps generate better images
+2. **Add Description** (optional): More context improves image relevance
+3. **Click "Generate with AI"**: Button with sparkles icon next to the product image
+4. **Wait for Generation**: Usually takes 15-30 seconds
+5. **Image Saved Automatically**: Displayed immediately in the product
+
+**Features:**
+- **Professional Quality**: Modern e-commerce style with clean backgrounds
+- **No Watermarks**: Clean images ready for your shop
+- **Automatic Upload**: Saved directly to your product
+- **High Resolution**: 1024x1024px images
+- **Powered by GPT Image**: OpenAI's latest image generation model
+
+**Best Practices:**
+- Use descriptive product names (e.g., "Premium Leather Wallet" not just "Wallet")
+- Add a description for more context and better results
+- Works great for digital products, services, and conceptual items
+- Physical product images are also generated professionally
+
+<Tip>
+**During Onboarding**: AI image generation is also available when creating your first product during the onboarding flow - perfect for getting started quickly!
+</Tip>
+
+### Best Practices for AI Content
+
+**For Best Results:**
+- Use clear, descriptive product names
+- Include product type in the name (e.g., "Premium Hosting Plan" not just "Premium")
+- Generate description first, then image for consistent context
+- Review and customize generated content for your brand voice
+- Add technical details manually after AI generation
+
+## Advanced Product Settings
+
+### Pricing Options
+
+**Setup Fees**
+- One-time charge added to first payment
+- Perfect for onboarding or activation costs
+- Can have custom name (e.g., "Installation Fee", "Borg")
+
+**Quantity-Based Pricing**
+- Allow customers to select quantity
+- Total = (Base Price + Add-ons) × Quantity
+- Useful for seat-based SaaS or multiple licenses
+
+**Custom Pricing**
+- Override standard price when creating subscriptions
+- Add-ons markup **not included** when custom price is set
+- Custom price is the final amount
+
+### Trial Periods
+
+Configure free trials for recurring products:
+- **Trial Days**: Number of days customer can test for free
+- **Trial Description**: Explain what's included in trial
+- **Automatic Conversion**: Billing starts automatically after trial ends
+
+### Custom Fields
+
+Collect additional information from customers:
+- **Field Types**: Text, email, URL, number, textarea, select, toggle
+- **Markup Pricing**: Add extra charges to specific options
+- **Required/Optional**: Control which fields are mandatory
+- **Public/Dashboard Only**: Control where fields appear
+
+See [Custom Fields Guide](/products-and-pricing/custom-fields) for detailed information.
+
+### Order Creation Mode
+
+Control when orders are created during checkout. This is especially useful for products with high abandonment rates.
+
+**Orders at Checkout (Default)**
+- Order created when customer starts checkout
+- Customer registration email sent immediately
+- Order confirmation email sent immediately
+- Order appears in dashboard even if payment fails
+- Standard behavior for most products
+
+**Paid-Only Orders**
+- Order created only after successful payment
+- No emails sent until payment is confirmed
+- Reduces spam from abandoned checkouts
+- Cleaner order data (only paid orders)
+- Recommended for high-volume or lead-generation products
+
+<Tip>
+**When to Use Paid-Only Orders**: If you're receiving many "Customer registered" and "New order" emails followed by "Order cancelled" notifications, switch to Paid-Only mode to reduce noise.
+</Tip>
+
+See [Order Management](/shop-and-checkout/order-management) for more details on how orders work.
+
+## Product Visibility
+
+### Public Products
+- Visible in your shop
+- Customers can browse and purchase
+- Shown in catalog and search results
+
+### Private Products
+- Only accessible via direct link
+- Not shown in shop catalog
+- Perfect for custom quotes or special offers
+
+## Product Images
+
+**Supported Formats**: JPG, PNG, WebP
+**Recommended Size**: 1200x800px (3:2 ratio)
+**File Size Limit**: 5MB maximum
+
+### Upload Your Own Image
+- Drag and drop or click to upload
+- Images are automatically optimized
+- Stored securely on our CDN
+
+### Generate with AI
+Don't have product photos? Use AI to generate professional images:
+- Click **"Generate with AI"** button (sparkles icon)
+- AI creates a modern e-commerce style image
+- Based on your product name and description
+- See [AI Image Generation](#ai-image-generation-) for details
+
+### Image Best Practices
+- Use high-quality product photography when available
+- AI-generated images work great for digital products and services
+- Show product in use when possible
+- Consistent style across all products
+- Optimize for web (compress images)
+
+## SEO & Metadata
+
+**URL Slug**
+- Auto-generated from product name
+- Can be customized for better SEO
+- Use hyphens, lowercase, no special characters
+
+**Meta Description**
+- Uses product description by default
+- Keep under 160 characters for search results
+- Include key benefits and keywords
+
+## Product Organization
+
+### Categories & Tags
+- Organize products into logical groups
+- Use tags for filtering and search
+- Create collections for promotions
+- Tag-based automation for workflows
+
+### Product Archiving
+- Archive instead of deleting products
+- Maintains data integrity for past orders
+- Can be restored if needed
+- Archived products hidden from shop
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Custom Fields" icon="list-check" href="/products-and-pricing/custom-fields">
+    Add custom fields with markup pricing
+  </Card>
+  <Card title="Setup Fees" icon="money-bill" href="/products-and-pricing/setup-fees">
+    Configure one-time setup charges
+  </Card>
+  <Card title="Trial Periods" icon="calendar-check" href="/products-and-pricing/trial-periods">
+    Set up free trial periods
+  </Card>
+  <Card title="Product Sharing" icon="share" href="/products-and-pricing/product-sharing">
+    Share product links with QR codes
+  </Card>
+</CardGroup>
+
+## Tips & Tricks
+
+<Tip>
+**Quick Product Creation**: Use AI to generate both descriptions and images while you configure pricing. This saves time and ensures consistent, professional content across all products.
+</Tip>
+
+<Tip>
+**AI Image Tip**: For best results with AI-generated images, use descriptive product names like "Professional SEO Consulting Package" rather than generic names like "SEO Service".
+</Tip>
+
+<Warning>
+**Pricing Changes**: Modifying a product's price doesn't affect existing subscriptions. Existing customers continue paying their original price.
+</Warning>
+
+<Info>
+**Subscription Products**: Enable "Allow customers to manage subscriptions" to let customers pause, resume, or cancel their own subscriptions from the customer portal.
+</Info>

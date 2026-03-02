@@ -1,8 +1,338 @@
 ---
-title: Tax Exemptions
-description: 'Business customer settings'
+title: "Tax Exemptions"
+description: "Manage tax-exempt status for B2B customers, non-profits, and international clients"
 ---
 
 # Tax Exemptions
 
-_Work in progress. Content coming soon._
+Tax exemptions allow you to process orders and invoices without charging VAT/BTW for qualifying customers. This is essential for B2B transactions within the EU, exports, and dealings with non-profit organizations.
+
+## Who Qualifies for Tax Exemption?
+
+<CardGroup cols={2}>
+  <Card title="EU B2B Customers" icon="building">
+    Businesses in other EU countries with valid VAT numbers qualify for reverse charge (BTW Verlegd).
+  </Card>
+
+  <Card title="Export Customers" icon="globe">
+    Customers outside the EU are exempt from Dutch/EU VAT on exports.
+  </Card>
+
+  <Card title="Non-Profit Organizations" icon="heart">
+    Certain registered non-profits and charities may qualify for tax exemption.
+  </Card>
+
+  <Card title="Government Entities" icon="landmark">
+    Government organizations and public institutions may be exempt from VAT.
+  </Card>
+</CardGroup>
+
+## Enabling Tax Exemption
+
+### For Individual Customers
+
+<Steps>
+  <Step title="Open Customer Profile">
+    Navigate to **Customers** in your dashboard and click on the customer you want to update.
+  </Step>
+
+  <Step title="Find Tax Settings">
+    In the customer details panel, look for the **Tax Exempt** toggle in the business information section.
+  </Step>
+
+  <Step title="Enable Tax Exemption">
+    Toggle the switch to enable tax exemption. The customer will now receive 0% tax on all future invoices and orders.
+  </Step>
+
+  <Step title="Add Documentation">
+    Add a **Private Note** explaining why this customer is exempt (e.g., "EU VAT number verified: DE123456789").
+  </Step>
+</Steps>
+
+<Info>
+Tax exemption applies immediately. Any new invoices or orders for this customer will automatically have 0% tax.
+</Info>
+
+### Using Bulk Actions
+
+To update multiple customers at once:
+
+1. Go to **Customers**
+2. Check the boxes next to customers you want to update
+3. Click **Bulk Actions** button
+4. Select **Toggle Tax Exempt**
+5. Confirm the action
+
+All selected customers will have their tax exemption status toggled.
+
+## Visual Indicators
+
+PayRequest makes it easy to identify tax-exempt customers:
+
+### In Customer Lists
+
+Tax-exempt customers display a badge:
+- **Tax Exempt**: Green badge indicating exemption is active
+- **Standard Tax**: Gray badge (or no badge) for regular customers
+
+### On Customer Detail Pages
+
+The customer profile shows:
+- Tax exemption toggle status
+- Country information (relevant for EU VAT rules)
+- VAT number if stored
+
+### On Invoices
+
+When creating invoices for tax-exempt customers:
+- All line items show **0%** tax rate
+- Invoice displays **"BTW VERLEGD"** (Tax Reversed)
+- Total excludes tax automatically
+
+## How Tax Exemption Affects Different Areas
+
+### Shopping Cart & Checkout
+
+When a tax-exempt customer shops in your store:
+
+| Without Exemption | With Exemption |
+|-------------------|----------------|
+| Product: €100.00 | Product: €100.00 |
+| BTW (21%): €21.00 | BTW (0%): €0.00 |
+| **Total: €121.00** | **Total: €100.00** |
+
+The cart automatically detects the customer's exemption status and adjusts calculations.
+
+### Invoice Creation
+
+When creating an invoice for a tax-exempt customer:
+
+1. System automatically sets tax rate to 0% for all items
+2. Invoice header/footer can show "BTW Verlegd" note
+3. No manual intervention needed
+
+### Subscriptions
+
+Existing subscriptions for a customer who becomes tax-exempt:
+
+- Future billing cycles will use 0% tax
+- Past invoices remain unchanged (for audit purposes)
+- Recurring amount stays the same (customer saves the tax portion)
+
+### Orders
+
+New orders placed by tax-exempt customers:
+
+- Order total calculated without tax
+- Order confirmation shows 0% tax breakdown
+- OrderItems stored with 0% tax rate
+
+## VAT Number Storage
+
+For EU B2B customers, store their VAT number for compliance:
+
+### Adding VAT Information
+
+1. Open the customer profile
+2. Navigate to **Business Information** section
+3. Enter:
+   - **VAT Number**: The customer's EU VAT number (e.g., DE123456789)
+   - **Country**: The customer's country
+   - **Company Name**: Legal business name
+
+<Warning>
+Always verify VAT numbers before applying tax exemption. Use the EU's [VIES VAT validation service](https://ec.europa.eu/taxation_customs/vies/) to check validity.
+</Warning>
+
+### VAT Number Validation
+
+PayRequest stores validation information:
+- `vat_number_valid`: Whether the number passed validation
+- `vat_number_validated_at`: When validation was performed
+- `vat_company_name`: Company name returned by validation
+- `vat_company_address`: Address returned by validation
+
+<Tip>
+Keep records of your VAT validations. Tax authorities may request proof that you verified customer VAT numbers before applying reverse charge.
+</Tip>
+
+## Reverse Charge (BTW Verlegd)
+
+When selling to EU businesses with valid VAT numbers, the reverse charge mechanism applies:
+
+### How It Works
+
+1. **You sell** to an EU business (not in your country)
+2. **You verify** their VAT number is valid
+3. **You mark them** as tax exempt in PayRequest
+4. **You invoice** them at 0% VAT
+5. **Invoice shows** "BTW Verlegd" or "Reverse Charge VAT"
+6. **Customer accounts** for VAT in their own country
+
+### Requirements for Reverse Charge
+
+To legally apply reverse charge, you must:
+
+<Steps>
+  <Step title="Verify VAT Number">
+    Validate the customer's EU VAT number through VIES or similar service.
+  </Step>
+
+  <Step title="Confirm Different Country">
+    The customer must be in a different EU country than your business.
+  </Step>
+
+  <Step title="Document the B2B Nature">
+    The transaction must be business-to-business, not B2C.
+  </Step>
+
+  <Step title="Include Required Invoice Text">
+    Invoice must mention "Reverse Charge" or "BTW Verlegd" and show 0% VAT.
+  </Step>
+</Steps>
+
+### Invoice Requirements
+
+For reverse charge invoices, ensure your invoice shows:
+
+- Your VAT number
+- Customer's VAT number
+- Text: "BTW verlegd" or "VAT reverse charge applies"
+- 0% VAT rate on all items
+
+## Export Sales (Outside EU)
+
+For customers outside the European Union:
+
+### Automatic Detection
+
+PayRequest recognizes non-EU countries and can apply 0% tax for exports.
+
+### Manual Setup
+
+1. Set customer's **Country** to their non-EU location
+2. Mark customer as **Tax Exempt**
+3. Add note: "Export - customer outside EU"
+
+### Export Invoice Requirements
+
+Your export invoices should include:
+- Clear indication this is an export sale
+- Customer's full address (outside EU)
+- 0% VAT rate with explanation
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Document Everything">
+    For each tax-exempt customer, record:
+    - Why they qualify for exemption
+    - Date exemption was verified
+    - VAT number validation results (for EU businesses)
+    - Any supporting documentation received
+
+    Use Private Notes on customer profiles to store this information.
+  </Accordion>
+
+  <Accordion title="Regular Reviews">
+    VAT numbers can become invalid. Schedule periodic reviews:
+    - Revalidate EU VAT numbers annually
+    - Check if business customers are still operating
+    - Verify non-profits maintain their exempt status
+  </Accordion>
+
+  <Accordion title="Train Your Team">
+    Ensure anyone creating invoices understands:
+    - How to verify VAT numbers
+    - When to apply tax exemption
+    - What documentation to collect
+    - How to handle edge cases
+  </Accordion>
+
+  <Accordion title="Audit Trail">
+    PayRequest maintains an activity log of changes. Keep your records up to date:
+    - Note when exemption was enabled/disabled
+    - Record reasons for changes
+    - Store validation screenshots or exports from VIES
+  </Accordion>
+</AccordionGroup>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I apply tax exemption retroactively?">
+    Tax exemption only applies to new invoices and orders. Past invoices are not automatically updated (this is correct for accounting purposes). If you need to correct a past invoice, you may need to issue a credit note and new invoice.
+  </Accordion>
+
+  <Accordion title="What if a customer's VAT number becomes invalid?">
+    If you're notified that a customer's VAT number is no longer valid:
+    1. Disable their tax exemption
+    2. Contact the customer to verify their VAT status
+    3. Re-enable only after confirming a valid number
+    4. Document the change in their profile
+  </Accordion>
+
+  <Accordion title="Can different products have different exemption rules?">
+    Tax exemption is applied at the customer level, not product level. When a customer is tax exempt, all products they purchase are at 0% tax. If you need per-product rules, consider creating separate customer records or using different product variants.
+  </Accordion>
+
+  <Accordion title="How do subscriptions handle exemption changes?">
+    If you toggle tax exemption for a customer with active subscriptions:
+    - **Enabling**: Future billing cycles will be at 0% tax
+    - **Disabling**: Future billing cycles will include tax at the product's rate
+
+    The change takes effect on the next billing cycle.
+  </Accordion>
+
+  <Accordion title="Do I need proof of export for non-EU sales?">
+    While PayRequest handles the tax calculation, you should maintain proof of export (shipping documentation, delivery confirmations) for your records. Tax authorities may request this during audits.
+  </Accordion>
+</AccordionGroup>
+
+## Compliance Checklist
+
+Before applying tax exemption, verify:
+
+<Steps>
+  <Step title="Customer Qualification">
+    Does the customer legally qualify for tax exemption?
+  </Step>
+
+  <Step title="Documentation">
+    Do you have the required documentation (VAT number, export proof, etc.)?
+  </Step>
+
+  <Step title="Validation">
+    Have you validated any VAT numbers through official channels?
+  </Step>
+
+  <Step title="Record Keeping">
+    Have you recorded the exemption reason in the customer profile?
+  </Step>
+</Steps>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Tax & VAT Guide" icon="receipt" href="/business-settings/tax-vat-guide">
+    Complete guide to tax configuration in PayRequest
+  </Card>
+
+  <Card title="Customer Profiles" icon="user" href="/customer-management/customer-profiles">
+    Managing customer information and settings
+  </Card>
+
+  <Card title="Creating Invoices" icon="file-invoice" href="/invoices/creating-invoices">
+    How to create invoices with proper tax handling
+  </Card>
+
+  <Card title="Bulk Operations" icon="list-check" href="/organization-and-automation/bulk-operations">
+    Update multiple customers at once
+  </Card>
+</CardGroup>
+
+---
+
+<Note>
+Tax exemption rules are complex and vary by jurisdiction. This documentation covers PayRequest's features. Consult with a tax professional for advice specific to your business situation.
+</Note>

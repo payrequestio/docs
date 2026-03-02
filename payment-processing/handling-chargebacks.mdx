@@ -1,8 +1,110 @@
 ---
 title: Handling Chargebacks
-description: 'Dispute management and prevention'
+description: 'Understanding and managing SEPA chargebacks in PayRequest'
 ---
 
 # Handling Chargebacks
 
-_Work in progress. Content coming soon._
+A chargeback (terugboeking) occurs when a customer reverses a payment, typically for SEPA Direct Debit transactions. PayRequest provides comprehensive tools to track, understand, and manage chargebacks effectively.
+
+## Accessing Chargebacks
+
+Navigate to **Payment Processing > Chargebacks** to view all chargebacks in your account. PayRequest automatically syncs chargebacks from Mollie every 4 hours in the background.
+
+## Chargeback Detail Page
+
+Click on any chargeback to view detailed information:
+
+### Customer Information
+- **Customer card** with avatar and contact details
+- Direct link to customer profile
+- View complete customer history
+
+### Subscription & Transaction Links
+PayRequest intelligently links chargebacks to their related:
+- **Subscription** - Shows the product, status, and recurring amount
+- **Transaction** - Payment details including date, method, and description
+- **Invoice** - If applicable
+
+### Chargeback Details
+- **Amount** - The charged-back amount
+- **Created Date** - When the chargeback was initiated
+- **Reversed Date** - If the chargeback was later reversed
+- **Settlement Amount** - Only shown if different from the chargeback amount
+
+## SEPA Reason Codes
+
+PayRequest displays color-coded reason codes to help you quickly understand why a chargeback occurred:
+
+### Critical Issues (Red/Rose)
+- **AC01** - IBAN incorrect or unknown
+- **MD01** - Invalid mandate (expired, missing, or incorrect type)
+
+### Account Issues (Orange/Amber)
+- **AC04** - Account closed
+- **AC06** - Direct debit not allowed on this account
+
+### Transaction Issues (Yellow)
+- **AG02** - Transaction information incorrect (wrong payment type or mandate reference)
+
+### Insufficient Funds (Lime)
+- **AM04** - Insufficient funds in customer's account
+
+### Customer Actions (Purple/Blue)
+- **MD06** - Customer reversed the payment (possible within 8 weeks)
+- **MS02** - Customer declined before processing
+
+### Special Cases
+- **MD07** - Customer deceased (Zinc)
+- **MS03** - Multiple possible reasons (Cyan)
+- **SL01** - Bank refused (daily limit or blocked account) (Indigo)
+
+## What to Do When You Receive a Chargeback
+
+1. **Check the Reason Code** - Understand why the chargeback occurred
+2. **Review Customer Details** - Check subscription and transaction history
+3. **Contact Your Customer** - For codes like MD06, MS02, or MS03, reach out to understand the issue
+4. **Update Payment Details** - For AC01, AC04, or AC06, request new bank account information
+5. **Fix Technical Issues** - For AG02, review your payment type settings
+6. **Retry if Appropriate** - For AM04, you may retry after confirming funds are available
+
+## Prevention Tips
+
+### Mandate Management
+- Ensure mandates are created before charging customers
+- Keep track of mandate expiration (36 months)
+- Always use unique mandate references
+
+### Clear Communication
+- Inform customers about upcoming charges
+- Use clear payment descriptions
+- Maintain up-to-date customer contact information
+
+### Payment Timing
+- Don't charge immediately after mandate creation
+- Allow time for first payments (FRST) before recurring (RCUR)
+
+### Account Verification
+- Validate IBANs before creating mandates
+- Confirm account status with customers
+- Update banking details when customers notify you
+
+## Automatic Syncing
+
+PayRequest automatically syncs chargeback data from Mollie:
+- **Frequency**: Every 4 hours
+- **Scope**: Last 90 days of transactions
+- **Background**: No manual refresh needed
+
+All chargeback information is kept up-to-date automatically, ensuring you always have the latest status and details.
+
+## Related Resources
+
+- [Payment Methods Overview](/payment-processing/payment-methods-overview)
+- [Setting Up Payment Providers](/payment-processing/setting-up-payment-providers)
+- [Customer Management](/customer-management)
+- [Subscriptions](/subscriptions)
+
+## Need Help?
+
+If you're experiencing frequent chargebacks or need assistance understanding a specific case, our support team is here to help. Contact us with your chargeback ID for personalized assistance.

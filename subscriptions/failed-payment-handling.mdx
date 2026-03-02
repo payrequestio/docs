@@ -1,8 +1,207 @@
 ---
 title: Failed Payment Handling
-description: 'Retry logic and dunning'
+description: 'How PayRequest automatically handles failed subscription payments and chargebacks'
 ---
 
 # Failed Payment Handling
 
-_Work in progress. Content coming soon._
+PayRequest automatically handles failed subscription payments and chargebacks to help you recover revenue without manual intervention.
+
+## How Automatic Retries Work
+
+When a subscription payment fails (due to insufficient funds, expired card, or chargeback), PayRequest automatically schedules retry attempts.
+
+### Retry Schedule
+
+- **First Retry**: 3 days after the failed payment
+- **Second Retry**: 10 days after the failed payment
+- **Default Maximum**: 2 retry attempts (configurable per subscription)
+
+<Note>
+  Your billing schedule stays the same. Retries don't affect your regular monthly billing dates.
+</Note>
+
+## What Triggers a Retry?
+
+PayRequest creates automatic retry attempts for specific failure reasons:
+
+- **Insufficient Funds (AM04)**: Not enough money in customer's bank account
+- **Multiple Reasons (MS03)**: Can indicate insufficient funds or similar recoverable issues
+- **Payment Method Error**: Temporary payment processing issues
+
+<Warning>
+  Not all chargebacks trigger retries. Fraud, customer disputes, or irreversible chargebacks will mark the subscription as "Payment Failed" without scheduling retries.
+</Warning>
+
+## Viewing Retry Status
+
+On the subscription detail page, you'll see a **Payment Retry Status** card when there are failed payments:
+
+<img src="/images/retry-status-card.png" alt="Payment Retry Status Card" />
+
+The retry card shows:
+
+- **Failed Attempts**: Current failures vs maximum allowed (e.g., "1 / 2")
+- **Last Failure**: When the most recent failure occurred
+- **Next Retry Scheduled**: When the next automatic retry will happen
+- **Retry History**: Complete timeline of all retry attempts
+
+## Retry History
+
+The retry history shows every attempt with:
+
+- Attempt number
+- Date and time
+- Status (Chargeback, Pending, Paid)
+- Failure reason (e.g., "Insufficient funds")
+- Amount
+
+This gives you full visibility into payment recovery efforts.
+
+## Configuring Retry Attempts
+
+You can customize the maximum number of retry attempts per subscription:
+
+1. Go to **Subscriptions** in your dashboard
+2. Click on a subscription
+3. Navigate to the **Settings** tab
+4. Change **Max Retry Attempts** (1-5 attempts)
+5. Click **Save Changes**
+
+<Tip>
+  For high-value subscriptions, consider increasing retry attempts to 3-4 for better recovery rates.
+</Tip>
+
+## What Happens After Max Retries?
+
+When all retry attempts are exhausted:
+
+- Subscription status changes to **Payment Failed**
+- You'll see a warning: "Max retry attempts reached - Subscription requires attention"
+- No further automatic retries will occur
+- You can manually contact the customer or cancel the subscription
+
+## Understanding Billing vs Retry Dates
+
+<Warning>
+  Retries don't change your regular billing schedule.
+</Warning>
+
+### Example Timeline
+
+Let's say you have a monthly subscription that bills on the 5th of each month:
+
+| Date | Event | Billing Date |
+|------|-------|--------------|
+| **Sept 5** | Regular monthly billing | Next: Oct 5 |
+| **Sept 11** | Chargeback received | Next: Oct 5 ✓ |
+| **Sept 14** | First retry attempt (3 days later) | Next: Oct 5 ✓ |
+| **Sept 21** | Second retry attempt (10 days after failure) | Next: Oct 5 ✓ |
+| **Oct 5** | Next regular billing as scheduled | Next: Nov 5 |
+
+Your regular billing dates remain unchanged regardless of retry attempts.
+
+## When the Retry Payment is Successful
+
+Once a retry payment is confirmed:
+
+- **Failed Attempts**: Reset to 0
+- **Retry Fields**: Cleared automatically
+- **Subscription Status**: Returns to "Active"
+- **Retry Card**: Hidden (no active failures)
+- **Next Billing**: Remains on original schedule
+
+The subscription continues normally from the next scheduled billing date.
+
+## Chargebacks
+
+When a customer disputes a payment through their bank:
+
+1. PayRequest receives the chargeback notification
+2. Invoice status changes to **Chargeback**
+3. Subscription is marked with a failed attempt
+4. System checks the chargeback reason code:
+   - **AM04 / MS03** (Insufficient funds) → Automatic retry scheduled (3 days later)
+   - **Other reasons** (Fraud, dispute, etc.) → Subscription marked "Payment Failed" without retry
+5. You're notified in your activity log
+
+<Note>
+  Only chargebacks with recoverable reasons (insufficient funds) are automatically retried. Fraud or customer disputes require manual intervention.
+</Note>
+
+## Notifications
+
+You'll be notified when:
+
+- A payment fails or is charged back
+- A retry attempt is scheduled
+- All retry attempts are exhausted
+- A retry payment is successful
+
+Check your **Activity Log** for complete payment recovery tracking.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Set Appropriate Retry Limits">
+    - **Standard subscriptions**: 2 retries
+    - **High-value subscriptions**: 3-4 retries
+    - **Annual subscriptions**: 4-5 retries
+  </Accordion>
+
+  <Accordion title="Monitor Retry Status Regularly">
+    Check subscriptions with active retries weekly to:
+    - Identify patterns (same customer, same failure reason)
+    - Reach out to customers proactively
+    - Update payment methods before max retries
+  </Accordion>
+
+  <Accordion title="Contact Customers Between Retries">
+    If the first retry fails, consider:
+    - Sending a friendly reminder email
+    - Asking them to update their payment method
+    - Offering alternative payment options
+  </Accordion>
+
+  <Accordion title="Review Failed Subscriptions Monthly">
+    For subscriptions that exhausted all retries:
+    - Contact the customer directly
+    - Offer a manual payment link
+    - Consider pausing instead of canceling
+  </Accordion>
+</AccordionGroup>
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Will retry attempts charge the customer multiple times?">
+    No. Each retry is a separate payment attempt. The customer is only charged once when a payment succeeds.
+  </Accordion>
+
+  <Accordion title="Can I manually trigger a retry?">
+    Yes. Go to the subscription detail page and click "Process Payment" to create an immediate payment attempt.
+  </Accordion>
+
+  <Accordion title="What if the customer updates their payment method?">
+    The next scheduled retry will automatically use the updated payment method.
+  </Accordion>
+
+  <Accordion title="Do retries cost extra?">
+    No. Retry attempts are included in PayRequest at no additional cost.
+  </Accordion>
+
+  <Accordion title="Can I disable automatic retries?">
+    Yes. Set "Max Retry Attempts" to 0 in the subscription settings to disable automatic retries.
+  </Accordion>
+
+  <Accordion title="What happens if a retry succeeds after I've canceled the subscription?">
+    If the subscription was canceled before the retry, the retry will not be attempted.
+  </Accordion>
+</AccordionGroup>
+
+## Related Articles
+
+- [Managing Mandates](/subscriptions/managing-mandates)
+- [Subscription Lifecycle](/subscriptions/subscription-lifecycle)
+- [Handling Chargebacks](/payment-processing/handling-chargebacks)
+- [Customer Self-Service](/subscriptions/customer-self-service)

@@ -1,0 +1,458 @@
+---
+title: "Tax & VAT Guide"
+description: "Complete guide to setting up and managing tax collection, VAT compliance, and tax exemptions in PayRequest"
+---
+
+# Tax & VAT Guide
+
+PayRequest provides comprehensive tax handling for businesses of all sizes. Whether you're collecting Dutch BTW, EU VAT, or dealing with international tax exemptions, this guide covers everything you need to know.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Automatic Calculations" icon="calculator">
+    PayRequest automatically calculates taxes based on your product settings, customer location, and tax exemption status.
+  </Card>
+
+  <Card title="EU VAT Compliant" icon="eu">
+    Built-in support for EU VAT rules including reverse charge mechanisms for B2B transactions.
+  </Card>
+
+  <Card title="Flexible Display" icon="eye">
+    Choose how prices are displayed to customers - with tax included or shown separately.
+  </Card>
+
+  <Card title="Customer Exemptions" icon="badge-check">
+    Easy-to-manage tax exemption status for B2B customers and qualifying organizations.
+  </Card>
+</CardGroup>
+
+## Setting Up Your Tax Configuration
+
+### Step 1: Configure Business Tax Settings
+
+Navigate to **Settings > Tax & Currency** to configure your business-wide tax defaults.
+
+<Steps>
+  <Step title="Enable VAT Registration">
+    Toggle **VAT Registered** if your business is registered for VAT/BTW. This enables tax collection features across your account.
+  </Step>
+
+  <Step title="Set Default Tax Rate">
+    Enter your default tax rate (e.g., **21%** for Dutch BTW high rate). This rate will be applied to new products automatically.
+  </Step>
+
+  <Step title="Specify Tax Region">
+    Select your business location (**NL** for Netherlands, or your EU country code). This affects how taxes are calculated for international customers.
+  </Step>
+
+  <Step title="Enter Your VAT Number">
+    Add your official VAT/BTW registration number. This appears on invoices and enables VAT validation features.
+  </Step>
+</Steps>
+
+<Info>
+Your default tax settings serve as templates for new products. You can always override these on individual products.
+</Info>
+
+### Step 2: Configure Product Tax Settings
+
+Each product can have its own tax configuration. Go to **Products > Edit Product** to adjust:
+
+| Setting | Description | Example |
+|---------|-------------|---------|
+| **Tax Rate** | The percentage of tax to apply | 21%, 9%, 0% |
+| **Tax Included** | Whether the displayed price includes tax | Yes (recommended) |
+
+<Accordion title="Understanding Tax Included vs Excluded">
+  **Tax Included (Recommended for B2C)**
+
+  When enabled, the price you set is the final price customers see. Tax is calculated backwards from this price.
+
+  - Price set: €121.00
+  - Tax rate: 21%
+  - Net amount: €100.00
+  - Tax amount: €21.00
+
+  **Tax Excluded (Common for B2B)**
+
+  When disabled, the price you set is the net price. Tax is added on top.
+
+  - Price set: €100.00
+  - Tax rate: 21%
+  - Tax amount: €21.00
+  - Total: €121.00
+</Accordion>
+
+### Step 3: Configure Shop Tax Display
+
+Control how prices appear in your shop. Go to **Settings > Shop** and find the **Tax Display** setting:
+
+<Tabs>
+  <Tab title="Inclusive (Default)">
+    Prices show the final amount including tax.
+
+    **Customer sees:**
+    ```
+    Product Name
+    €121.00 incl. BTW
+    ```
+
+    Best for: B2C businesses, consumer-facing shops
+  </Tab>
+
+  <Tab title="Exclusive">
+    Prices show the base amount, with tax added at checkout.
+
+    **Customer sees:**
+    ```
+    Subtotal:     €100.00
+    BTW (21%):     €21.00
+    Total:        €121.00
+    ```
+
+    Best for: B2B businesses, wholesale pricing
+  </Tab>
+</Tabs>
+
+## Dutch BTW (VAT) Rates
+
+PayRequest supports all Dutch BTW rates:
+
+| Rate | Name | Common Use Cases |
+|------|------|------------------|
+| **21%** | High Rate (Algemeen tarief) | Most goods and services |
+| **9%** | Low Rate (Verlaagd tarief) | Food, books, medications, hotels |
+| **0%** | Zero Rate (Nultarief) | Exports, intra-EU B2B supplies |
+
+<Warning>
+Always consult with your accountant to determine the correct tax rate for your products or services.
+</Warning>
+
+## Tax Exemptions for Customers
+
+Some customers may qualify for tax exemption, such as:
+- B2B customers with valid EU VAT numbers
+- Non-profit organizations
+- Government entities
+- Export customers outside the EU
+
+### Marking a Customer as Tax Exempt
+
+<Steps>
+  <Step title="Open Customer Profile">
+    Navigate to **Customers** and select the customer you want to mark as exempt.
+  </Step>
+
+  <Step title="Enable Tax Exemption">
+    In the customer details, toggle **Tax Exempt** to enabled.
+  </Step>
+
+  <Step title="Document the Reason">
+    Add a note explaining why this customer is tax exempt (e.g., "Valid EU VAT number verified" or "Non-profit organization").
+  </Step>
+</Steps>
+
+### What Happens When a Customer is Tax Exempt?
+
+When you create invoices or process orders for tax-exempt customers:
+
+- All tax rates are automatically set to **0%**
+- Invoice line items show **"BTW VERLEGD"** (Tax Reversed)
+- The invoice total excludes tax
+- Cart and checkout calculations reflect zero tax
+
+<Info>
+Tax exemption status is checked automatically at checkout. Exempt customers always see tax-free prices.
+</Info>
+
+### Bulk Tax Exemption Updates
+
+Need to update multiple customers at once? Use the **Bulk Actions** feature:
+
+1. Go to **Customers**
+2. Select multiple customers using checkboxes
+3. Click **Bulk Actions**
+4. Choose **Toggle Tax Exempt**
+
+## EU VAT Rules
+
+PayRequest implements standard EU VAT rules for cross-border transactions:
+
+### B2C Sales (Business to Consumer)
+
+| Your Location | Customer Location | Tax Applied |
+|---------------|-------------------|-------------|
+| Netherlands | Netherlands | Dutch BTW (21%) |
+| Netherlands | Other EU Country | Dutch BTW (21%)* |
+| Netherlands | Outside EU | 0% (Export) |
+
+*Note: For high-volume sellers, One-Stop-Shop (OSS) rules may apply.
+
+### B2B Sales (Business to Business)
+
+| Your Location | Customer Location | Tax Applied |
+|---------------|-------------------|-------------|
+| Netherlands | Netherlands | Dutch BTW (21%) |
+| Netherlands | Other EU Country with VAT | 0% (Reverse Charge) |
+| Netherlands | Outside EU | 0% (Export) |
+
+<Accordion title="About Reverse Charge (BTW Verlegd)">
+  When selling B2B to customers in other EU countries who have a valid VAT number, the reverse charge mechanism applies:
+
+  - You charge **0% VAT** on the invoice
+  - The invoice shows **"BTW VERLEGD"** or "VAT Reverse Charge"
+  - The customer accounts for VAT in their own country
+  - You must verify the customer's VAT number is valid
+
+  **To apply reverse charge in PayRequest:**
+  1. Mark the customer as **Tax Exempt**
+  2. Store their EU VAT number in the customer profile
+  3. Add a note confirming VAT number validation
+</Accordion>
+
+### Supported EU Countries
+
+PayRequest recognizes all 27 EU member states:
+
+<Accordion title="View Full Country List">
+  | Code | Country |
+  |------|---------|
+  | AT | Austria |
+  | BE | Belgium |
+  | BG | Bulgaria |
+  | HR | Croatia |
+  | CY | Cyprus |
+  | CZ | Czech Republic |
+  | DK | Denmark |
+  | EE | Estonia |
+  | FI | Finland |
+  | FR | France |
+  | DE | Germany |
+  | GR | Greece |
+  | HU | Hungary |
+  | IE | Ireland |
+  | IT | Italy |
+  | LV | Latvia |
+  | LT | Lithuania |
+  | LU | Luxembourg |
+  | MT | Malta |
+  | NL | Netherlands |
+  | PL | Poland |
+  | PT | Portugal |
+  | RO | Romania |
+  | SK | Slovakia |
+  | SI | Slovenia |
+  | ES | Spain |
+  | SE | Sweden |
+</Accordion>
+
+## Tax on Invoices
+
+### How Tax Appears on Invoices
+
+Your customers see a clear tax breakdown on every invoice:
+
+```
+┌─────────────────────────────────────────┐
+│ INVOICE #2025-001                       │
+├─────────────────────────────────────────┤
+│ Product/Service           Qty    Amount │
+│ Web Hosting (Monthly)      1    €100.00 │
+│ Domain Registration        1     €15.00 │
+├─────────────────────────────────────────┤
+│ Subtotal                        €115.00 │
+│ BTW 21%                          €24.15 │
+│ Total                           €139.15 │
+└─────────────────────────────────────────┘
+```
+
+For tax-exempt customers:
+
+```
+┌─────────────────────────────────────────┐
+│ INVOICE #2025-002                       │
+│ BTW VERLEGD                             │
+├─────────────────────────────────────────┤
+│ Product/Service           Qty    Amount │
+│ Consulting Services        5    €500.00 │
+├─────────────────────────────────────────┤
+│ Subtotal                        €500.00 │
+│ BTW (0% - Verlegd)                €0.00 │
+│ Total                           €500.00 │
+└─────────────────────────────────────────┘
+```
+
+### Per-Line Tax Rates
+
+Different products on the same invoice can have different tax rates:
+
+```
+┌─────────────────────────────────────────────────┐
+│ Product                  Tax Rate       Amount  │
+├─────────────────────────────────────────────────┤
+│ Software License         21%           €100.00  │
+│ Training Manual (Book)    9%            €25.00  │
+│ Export Shipping           0%            €15.00  │
+├─────────────────────────────────────────────────┤
+│ BTW Breakdown:                                  │
+│   21% over €100.00                      €21.00  │
+│   9% over €25.00                         €2.25  │
+│   0% over €15.00                         €0.00  │
+│ Total BTW                               €23.25  │
+│ Total                                  €163.25  │
+└─────────────────────────────────────────────────┘
+```
+
+## Setup Fees and Tax
+
+[Setup fees](/products-and-pricing/setup-fees) are taxed at the same rate as their parent product. If a product has:
+
+- Price: €50.00/month at 21% BTW
+- Setup fee: €100.00 (named "Borg" or "Installation Fee")
+
+The setup fee will also be taxed at 21%.
+
+<Info>
+Setup fees with custom names (like "Borg" or "Onboarding Fee") appear with their custom name on invoices, making it clear what the customer is paying for.
+</Info>
+
+## Tax in the Shopping Cart
+
+During checkout, customers see a complete tax breakdown:
+
+<Frame>
+  <img src="/images/cart-tax-breakdown.png" alt="Cart with tax breakdown" />
+</Frame>
+
+The cart displays:
+- Individual product prices
+- Setup fees (if applicable)
+- Custom field markups
+- Tax amount calculated
+- Total including tax
+
+## Common Tax Scenarios
+
+<AccordionGroup>
+  <Accordion title="Selling to Dutch Consumers (B2C)">
+    **Setup:**
+    - Tax Rate: 21%
+    - Tax Included: Yes
+    - Customer: Not tax exempt
+
+    **Result:** Customer pays the displayed price, which includes 21% BTW.
+  </Accordion>
+
+  <Accordion title="Selling to Dutch Businesses (B2B)">
+    **Setup:**
+    - Tax Rate: 21%
+    - Customer: Regular Dutch business (not exempt)
+
+    **Result:** Customer pays 21% BTW. They can reclaim this on their own VAT return.
+  </Accordion>
+
+  <Accordion title="Selling to EU Business with VAT Number">
+    **Setup:**
+    - Customer: Marked as Tax Exempt
+    - Customer's EU VAT number recorded
+
+    **Result:** 0% VAT applied (reverse charge). Invoice shows "BTW VERLEGD".
+  </Accordion>
+
+  <Accordion title="Selling Outside the EU">
+    **Setup:**
+    - Customer country: Outside EU (e.g., USA, UK)
+    - Customer: Should be marked as Tax Exempt
+
+    **Result:** 0% VAT applied (export). No Dutch BTW on exports.
+  </Accordion>
+
+  <Accordion title="Selling Reduced-Rate Products">
+    **Setup:**
+    - Product Tax Rate: 9%
+    - Examples: Books, food, medications
+
+    **Result:** 9% BTW applied instead of standard 21%.
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Verify VAT Numbers" icon="shield-check">
+    Always validate EU VAT numbers before applying tax exemption. Use the [VIES VAT validation service](https://ec.europa.eu/taxation_customs/vies/).
+  </Card>
+
+  <Card title="Document Exemptions" icon="file-lines">
+    Keep records of why each customer is tax exempt. Add notes to customer profiles with validation dates.
+  </Card>
+
+  <Card title="Review Periodically" icon="calendar-check">
+    VAT numbers can become invalid. Review tax-exempt customers periodically to ensure continued compliance.
+  </Card>
+
+  <Card title="Consult Professionals" icon="user-tie">
+    Tax laws are complex and change frequently. Work with an accountant familiar with Dutch and EU VAT regulations.
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Tax not being calculated">
+    **Check these settings:**
+    1. Is your business marked as VAT Registered in Settings?
+    2. Does the product have a tax rate set?
+    3. Is the customer accidentally marked as Tax Exempt?
+  </Accordion>
+
+  <Accordion title="Wrong tax rate appearing">
+    **Possible causes:**
+    1. Product has a different tax rate than your default
+    2. Customer has specific tax settings
+    3. Country-based tax rules are being applied
+
+    **Solution:** Check the product's individual tax settings and the customer's tax exemption status.
+  </Accordion>
+
+  <Accordion title="Tax Exempt customer still seeing tax">
+    **Check:**
+    1. Is the Tax Exempt toggle actually enabled on the customer profile?
+    2. Was the invoice/order created before the exemption was set?
+    3. Clear any cached cart data and try again
+  </Accordion>
+
+  <Accordion title="Invoice shows wrong tax amount">
+    **Verify:**
+    1. Check if Tax Included is set correctly on the product
+    2. Ensure the tax rate matches what you expect
+    3. For existing invoices, you may need to edit and recalculate
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Tax Exemptions" icon="user-shield" href="/customer-management/tax-exemptions">
+    Detailed guide on managing customer tax exemptions
+  </Card>
+
+  <Card title="Invoice Tax Configuration" icon="file-invoice" href="/invoices/tax-configuration">
+    How tax is configured and displayed on invoices
+  </Card>
+
+  <Card title="Setup Fees" icon="receipt" href="/products-and-pricing/setup-fees">
+    Configure one-time setup fees with custom names
+  </Card>
+
+  <Card title="Business Details" icon="building" href="/business-settings/business-details">
+    Configure your business information including VAT number
+  </Card>
+</CardGroup>
+
+---
+
+<Note>
+Tax regulations vary by country and situation. This documentation provides general guidance on PayRequest's tax features. Always consult with a qualified tax professional for advice specific to your business.
+</Note>

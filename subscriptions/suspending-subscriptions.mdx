@@ -1,0 +1,178 @@
+---
+title: Suspending Subscriptions
+description: 'Halt service for non-paying customers with automatic reactivation on payment'
+---
+
+# Suspending Subscriptions
+
+Suspension is an admin-initiated status for customers who are not paying. Unlike **pausing** (which is a voluntary hold the customer can request), **suspension** signals that service has been halted due to non-payment and notifies the customer via email.
+
+<Note>
+  Suspended subscriptions are automatically reactivated when the overdue invoice is paid. No manual action required.
+</Note>
+
+## When to Use Suspension
+
+Use suspension when a customer has overdue invoices and you want to:
+
+- **Halt their service** (e.g., disable their Google Workspace, hosting, or domain)
+- **Notify them** that their subscription is on hold due to non-payment
+- **Track the status** in PayRequest so your team knows what's happening
+- **Auto-reactivate** once they pay — no manual follow-up needed
+
+### Suspension vs. Pausing vs. Cancellation
+
+| Action | Initiated by | Color | Billing | Auto-reactivate | Email sent |
+|--------|-------------|-------|---------|----------------|------------|
+| **Pause** | Customer or admin | Blue | Stops | On resume date | No |
+| **Suspend** | Admin only | Orange | Stops | On invoice payment | Yes |
+| **Cancel** | Customer or admin | Red | Stops permanently | No | No |
+
+## How to Suspend a Subscription
+
+1. Go to **Subscriptions** and click on the subscription you want to suspend
+2. In the **Subscription Actions** card on the right, click **Suspend Subscription**
+3. Optionally enter a reason (e.g., "Non-payment of invoice INV-2026-001")
+4. Click **Confirm Suspension**
+
+The subscription status changes to **Suspended** (orange badge), and the customer receives an email notification.
+
+<Warning>
+  Suspension only changes the status in PayRequest. You still need to manually disable the actual service (e.g., suspend their Google Workspace account, disable hosting, etc.). PayRequest tracks the status so your team knows what's been suspended.
+</Warning>
+
+## What Happens When You Suspend
+
+When you suspend a subscription:
+
+- **Status** changes from Active to **Suspended** (orange)
+- **Suspended at** timestamp is recorded
+- **Suspension reason** is saved (if provided)
+- **Customer email** is sent with details about the suspension and how to pay
+- **Activity log** records the suspension
+- **Billing stops** — the subscription won't be billed while suspended
+- **Insights dashboard** shows suspended subscriptions in the Action Required section
+
+## Suspended Subscription View
+
+On the subscription detail page, you'll see:
+
+- An **orange "Suspended" badge** in the header
+- A **warning callout** showing when it was suspended and the reason
+- **Unsuspend** and **Cancel** buttons in the actions card
+- **Suspended At** and **Suspension Reason** in the dates section
+
+## Auto-Reactivation on Payment
+
+When the customer pays their overdue invoice through Mollie (iDEAL, credit card, etc.):
+
+1. PayRequest receives the payment webhook
+2. The subscription is automatically set back to **Active**
+3. `suspended_at` and `suspension_reason` are cleared
+4. An activity log entry records the auto-reactivation
+5. Billing resumes on the normal schedule
+
+<Tip>
+  You don't need to manually unsuspend — just send the customer their overdue invoice link and let the system handle the rest.
+</Tip>
+
+## Manual Unsuspend
+
+If you want to reactivate a suspended subscription manually (e.g., the customer paid via bank transfer):
+
+1. Go to the subscription detail page
+2. Click **Unsuspend Subscription**
+3. The subscription returns to **Active** status immediately
+
+## Suspension Email
+
+When a subscription is suspended, the customer receives an email with:
+
+- The subscription name and amount due
+- A notice that their service has been suspended
+- Instructions to pay the outstanding invoice to restore service
+- Your business contact information
+
+You can customize this email template under **Settings > Email Templates > Subscription Suspended**.
+
+<Note>
+  Email deduplication prevents the same suspension email from being sent multiple times within a short period.
+</Note>
+
+## Monitoring Suspended Subscriptions
+
+### Subscription Table
+
+The subscription list has a dedicated **Suspended** tab (orange) showing all currently suspended subscriptions with a count badge.
+
+### Insights Dashboard
+
+The **Action Required** section on the Insights page shows suspended subscriptions as an amber alert item:
+
+- Shows the count of suspended subscriptions
+- Subtitle: "Service halted, awaiting payment"
+- Click to navigate directly to the suspended subscriptions tab
+
+## Status Transitions
+
+Suspended subscriptions can transition to:
+
+- **Active** — via manual unsuspend or auto-reactivation on payment
+- **Canceled** — if you decide to cancel instead of waiting for payment
+
+Subscriptions can be suspended from:
+
+- **Active** — the most common case
+- **Failed** — when payment retries have been exhausted
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Include Invoice Reference in Reason">
+    When suspending, include the specific invoice number in the reason field (e.g., "Non-payment of INV-2026-042"). This makes it easy for your team to identify which invoice triggered the suspension.
+  </Accordion>
+
+  <Accordion title="Send Invoice Before Suspending">
+    Make sure the customer has received their invoice and payment reminders before suspending. The suspension email tells them to pay, but they need to know where to pay.
+  </Accordion>
+
+  <Accordion title="Use with Debt Collection">
+    For long-overdue accounts, consider opening a [debt collection case](/debt-collection/overview) alongside the suspension. This gives you a structured escalation process while the service is suspended.
+  </Accordion>
+
+  <Accordion title="Check Insights Dashboard Regularly">
+    The Action Required section shows suspended subscriptions. Review these weekly to follow up with customers or decide whether to cancel.
+  </Accordion>
+</AccordionGroup>
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Can the customer unsuspend their own subscription?">
+    No. Suspension is admin-only. The customer can only resolve it by paying the overdue invoice, which triggers automatic reactivation.
+  </Accordion>
+
+  <Accordion title="Will the customer still be billed while suspended?">
+    No. Suspended subscriptions are excluded from billing. Billing resumes only after reactivation.
+  </Accordion>
+
+  <Accordion title="What if I want to suspend multiple subscriptions for the same customer?">
+    You'll need to suspend each subscription individually from its detail page.
+  </Accordion>
+
+  <Accordion title="Is the suspension email customizable?">
+    Yes. Go to **Settings > Email Templates** and edit the "Subscription Suspended" template to match your tone and branding.
+  </Accordion>
+
+  <Accordion title="Does suspending affect the customer portal?">
+    The subscription will show as "Suspended" in the customer's portal view, but they can still access the portal and pay invoices.
+  </Accordion>
+</AccordionGroup>
+
+## Related Articles
+
+- [Subscription Lifecycle](/subscriptions/subscription-lifecycle)
+- [Pausing & Resuming](/subscriptions/pausing-and-resuming)
+- [Failed Payment Handling](/subscriptions/failed-payment-handling)
+- [Debt Collection Overview](/debt-collection/overview)
+- [Business Insights Dashboard](/analytics-and-reporting/insights-dashboard)

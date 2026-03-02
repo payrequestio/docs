@@ -1,0 +1,236 @@
+---
+title: Spam Protection
+description: 'Protect your checkout from bots, fake orders, and unwanted traffic from specific countries'
+---
+
+# Spam Protection
+
+Keep your checkout safe from spam, bots, and fraudulent orders. PayRequest's built-in spam protection helps you focus on real customers while automatically blocking suspicious activity.
+
+## Why Use Spam Protection?
+
+Without protection, your checkout can be targeted by:
+
+- **Bots**: Automated scripts that create fake orders
+- **Card Testers**: Fraudsters testing stolen credit cards
+- **Spam Submissions**: Fake names and emails cluttering your data
+- **Unwanted Regions**: Orders from countries you don't serve
+
+Enabling spam protection reduces these issues and keeps your order data clean.
+
+## Getting Started
+
+1. Go to **Settings** in your dashboard
+2. Click **Spam Protection** in the sidebar
+3. Toggle the main **Protection** switch to enable
+
+Once enabled, you'll see additional options to customize your protection.
+
+<Note>
+Spam protection is disabled by default. Enable it when you start receiving unwanted orders or want to proactively protect your checkout.
+</Note>
+
+## Protection Methods
+
+PayRequest uses multiple techniques to identify and block spam:
+
+### CAPTCHA (Cloudflare Turnstile)
+
+An invisible security check that runs in the background. Most real customers won't notice it, but bots will be blocked.
+
+- **Best for**: Stopping automated bot attacks
+- **Customer impact**: Minimal - runs silently for most users
+
+### Honeypot
+
+A hidden field that's invisible to humans but gets filled in by bots. If filled, the order is blocked.
+
+- **Best for**: Catching simple bots
+- **Customer impact**: None - invisible to real customers
+
+### Name Analysis
+
+Detects randomly generated or suspicious names that don't look like real customer names.
+
+- **Best for**: Blocking gibberish entries like "asdfJKL123"
+- **Customer impact**: None for legitimate names
+
+### Rate Limiting
+
+Limits how many checkout attempts can come from the same IP address or email in one hour.
+
+- **Best for**: Preventing rapid-fire spam attacks
+- **Customer impact**: Only affects users making many attempts quickly
+
+## Country Blocking
+
+Block orders from specific countries where you don't do business or where you see high fraud rates.
+
+### How to Block Countries
+
+1. Go to **Settings** → **Spam Protection**
+2. Enable **Country Blocking** in the Protection Methods section
+3. Click the dropdown and search for a country
+4. Click the **+** button to add it to your blocked list
+5. Repeat for other countries you want to block
+
+### What Customers See
+
+When someone from a blocked country tries to checkout, they'll see a friendly message:
+
+> "Orders from [Country] are currently not accepted. Please contact support if you need assistance."
+
+This gives legitimate customers a way to reach out if they believe they were blocked in error.
+
+### Removing a Country
+
+To unblock a country:
+
+1. Find the country badge in your blocked list
+2. Click the **×** on the badge
+3. The country is immediately unblocked
+
+<Tip>
+Start by blocking countries where you've seen the most spam or fraud. You can always adjust later based on your blocked attempts log.
+</Tip>
+
+## Sensitivity Settings
+
+Adjust how strict the spam detection should be:
+
+| Level | Description |
+|-------|-------------|
+| **Low** | Only blocks obvious spam. Best if you're seeing false positives. |
+| **Medium** (Default) | Balanced protection for most businesses. |
+| **Strict** | Aggressive blocking. May catch some edge cases. |
+
+<Warning>
+Higher sensitivity may occasionally block legitimate customers with unusual names or email patterns. Monitor your blocked attempts if you increase sensitivity.
+</Warning>
+
+## Rate Limits
+
+Control how many checkout attempts are allowed:
+
+- **Max IP attempts/hour**: How many orders from the same IP address (default: 10)
+- **Max email attempts/hour**: How many orders using the same email (default: 5)
+- **Block duration**: How long blocked IPs stay blocked in minutes (default: 30)
+
+Most businesses can use the defaults. Increase limits if you have many customers from shared networks (offices, universities).
+
+## Whitelists
+
+Ensure trusted customers always get through by whitelisting their email or domain.
+
+### Whitelist an Email
+
+1. In the **Whitelisted Emails** section, enter the email address
+2. Press Enter or click **+**
+3. That email will bypass all spam checks
+
+### Whitelist a Domain
+
+1. In the **Whitelisted Domains** section, enter the domain (e.g., `yourcompany.com`)
+2. Press Enter or click **+**
+3. All emails from that domain bypass spam checks
+
+<Tip>
+Whitelist your own company domain and any trusted partners who order frequently.
+</Tip>
+
+## Viewing Blocked Attempts
+
+The **Blocked Attempts** section shows all orders that were stopped by spam protection:
+
+- **Date**: When the attempt occurred
+- **IP Address**: Where it came from
+- **Email**: The email used (if provided)
+- **Name**: The name entered
+- **Reason**: Why it was blocked (Bot Detected, Rate Limited, Country Blocked, etc.)
+- **Risk Score**: How suspicious the attempt was (higher = more suspicious)
+
+### Filtering Blocked Attempts
+
+Use the search box and dropdown to filter:
+
+- Search by IP, email, or name
+- Filter by reason (CAPTCHA Failed, Country Blocked, etc.)
+
+### Unblocking an IP
+
+If a legitimate customer gets blocked:
+
+1. Click **Unblock IP** in Quick Actions
+2. Enter their IP address
+3. Click **Unblock**
+
+They can immediately try checkout again.
+
+## Statistics
+
+At a glance, see how your protection is performing:
+
+- **Blocked (24h)**: Attempts blocked in the last day
+- **Blocked (7 days)**: Attempts blocked in the last week
+- **Unique IPs**: Different IP addresses that were blocked
+- **Avg. Risk Score**: Average suspiciousness of blocked attempts
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Start with default settings">
+    The default sensitivity and rate limits work well for most businesses. Only adjust if you see issues.
+  </Accordion>
+
+  <Accordion title="Monitor the blocked attempts log">
+    Check regularly to ensure you're not blocking legitimate customers. Look for recognizable emails or company names.
+  </Accordion>
+
+  <Accordion title="Whitelist important customers">
+    If you have key accounts or partners, whitelist their email domains so they never get blocked.
+  </Accordion>
+
+  <Accordion title="Block high-fraud countries strategically">
+    Only block countries where you genuinely don't do business or see consistent fraud. Don't block countries where you have real customers.
+  </Accordion>
+
+  <Accordion title="Use country blocking with care">
+    Remember that VPN users may appear to be from different countries. Consider keeping your contact information visible for edge cases.
+  </Accordion>
+</AccordionGroup>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Will spam protection slow down checkout?">
+    No. The checks happen instantly in the background. Customers won't notice any delay.
+  </Accordion>
+
+  <Accordion title="What if a real customer gets blocked?">
+    They'll see an error message asking them to try again or contact support. You can unblock their IP manually, or whitelist their email for future orders.
+  </Accordion>
+
+  <Accordion title="Does country blocking work for VPN users?">
+    Country detection is based on the customer's IP address. If someone uses a VPN, they'll appear to be from the VPN's location. This is why the blocked message includes contact information for support.
+  </Accordion>
+
+  <Accordion title="Are existing customers affected?">
+    Whitelisted emails bypass all checks. For others, protection only applies to new checkout attempts - existing orders and subscriptions are not affected.
+  </Accordion>
+
+  <Accordion title="Can I see why a specific order was blocked?">
+    Yes. The blocked attempts log shows the exact reason, risk score, and any issues detected for each blocked attempt.
+  </Accordion>
+
+  <Accordion title="How accurate is country detection?">
+    Very accurate. PayRequest uses Cloudflare's infrastructure when available, which provides reliable country detection. IP-based lookups are used as a fallback.
+  </Accordion>
+
+  <Accordion title="Will this affect invoice payments?">
+    No. Spam protection only applies to shop checkout. Customers paying invoices through payment links are not affected.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+If you're seeing unexpected blocks or need help configuring spam protection, contact us at [support@payrequest.io](mailto:support@payrequest.io).

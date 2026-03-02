@@ -1,8 +1,550 @@
 ---
-title: Custom Domains
-description: 'Use your own domain for the shop'
+title: "Custom Domains"
+description: "Set up your own domain for a professional branded shop experience that builds trust and improves SEO"
 ---
 
-# Custom Domains
+# Custom Domains 🌐
 
-_Work in progress. Content coming soon._
+Transform your PayRequest shop from a subdomain into a professional branded storefront with your own custom domain. Custom domains enhance your brand credibility, improve SEO rankings, and provide a seamless customer experience.
+
+<Info>
+**Professional Branding**: Custom domains like `shop.yourbusiness.com` appear more trustworthy than subdomains and can significantly improve conversion rates.
+</Info>
+
+## 🎯 Why Use Custom Domains?
+
+Custom domains provide substantial benefits for your online business:
+
+<CardGroup cols={2}>
+  <Card title="🏪 Brand Consistency" icon="store">
+    **Professional Appearance**
+    - Match your main website branding
+    - Consistent customer experience
+    - Enhanced brand recognition
+    - Improved customer trust
+  </Card>
+
+  <Card title="📈 SEO Benefits" icon="chart-line">
+    **Search Engine Optimization**
+    - Better search rankings
+    - Domain authority building
+    - Improved click-through rates
+    - Enhanced local SEO
+  </Card>
+
+  <Card title="🔒 Customer Trust" icon="shield">
+    **Security & Credibility**
+    - SSL certificate included
+    - Professional appearance
+    - Reduced cart abandonment
+    - Higher conversion rates
+  </Card>
+
+  <Card title="📊 Analytics Integration" icon="bar-chart">
+    **Tracking & Insights**
+    - Google Analytics integration
+    - Unified tracking across domains
+    - Better attribution data
+    - Enhanced reporting capabilities
+  </Card>
+</CardGroup>
+
+## 🛠️ Domain Setup Process
+
+Setting up a custom domain is straightforward with PayRequest's guided configuration:
+
+<Steps>
+  <Step title="Choose Your Domain Strategy">
+    **Subdomain Approach (Recommended)**
+    - `shop.yourbusiness.com`
+    - `store.yourbusiness.com`
+    - `buy.yourbusiness.com`
+
+    **Subdirectory Alternative**
+    - `yourbusiness.com/shop`
+    - `yourbusiness.com/store`
+    - Requires additional DNS configuration
+  </Step>
+
+  <Step title="Configure Domain in PayRequest">
+    Navigate to **Shop** → **Settings** → **Custom Domain**
+
+    **Domain Settings:**
+    - Enter your chosen domain/subdomain
+    - Enable custom domain usage
+    - Configure redirect preferences
+    - Set up SSL certificate (automatic)
+  </Step>
+
+  <Step title="DNS Configuration">
+    Add DNS records with your domain provider (detailed instructions below)
+  </Step>
+
+  <Step title="Verification & Testing">
+    - Verify domain connectivity
+    - Test SSL certificate
+    - Confirm redirect behavior
+    - Validate all shop pages
+  </Step>
+</Steps>
+
+## 🔧 DNS Configuration Guide
+
+Configure your DNS settings based on your chosen domain strategy:
+
+<Tabs>
+  <Tab title="Subdomain Setup (Recommended)">
+    **For shop.yourbusiness.com:**
+
+    Add a **CNAME record** with your DNS provider:
+
+    ```
+    Type:    CNAME
+    Name:    shop (or your chosen subdomain)
+    Value:   payrequest.app
+    TTL:     3600 (or your provider's default)
+    ```
+
+    **Example DNS Configurations:**
+
+    **Cloudflare:**
+    - Type: CNAME
+    - Name: shop
+    - Target: payrequest.app
+    - Proxy status: DNS only (gray cloud)
+
+    **Namecheap:**
+    - Type: CNAME Record
+    - Host: shop
+    - Value: payrequest.app
+
+    **GoDaddy:**
+    - Type: CNAME
+    - Name: shop
+    - Value: payrequest.app
+
+    <Warning>
+    **Important**: Ensure proxy/CDN features are disabled initially. You can enable them after verifying the basic setup works.
+    </Warning>
+  </Tab>
+
+  <Tab title="Root Domain Setup">
+    **For yourbusiness.com/shop:**
+
+    Add an **A record** pointing to PayRequest's IP:
+
+    ```
+    Type:    A
+    Name:    @ (root domain)
+    Value:   [PayRequest IP - provided in dashboard]
+    TTL:     3600
+    ```
+
+    **Additional Configuration:**
+    - Set up URL forwarding for `/shop` path
+    - Configure server-side redirects
+    - Ensure proper SSL certificate coverage
+
+    <Info>
+    **Note**: Root domain setup requires additional coordination with PayRequest support for proper routing configuration.
+    </Info>
+  </Tab>
+
+  <Tab title="Advanced DNS Setup">
+    **Multiple Subdomains:**
+    ```
+    shop.yourbusiness.com  → CNAME → payrequest.app
+    store.yourbusiness.com → CNAME → payrequest.app
+    buy.yourbusiness.com   → CNAME → payrequest.app
+    ```
+
+    **International Domains:**
+    ```
+    shop.yourbusiness.nl   → CNAME → payrequest.app
+    shop.yourbusiness.de   → CNAME → payrequest.app
+    boutique.yourbusiness.fr → CNAME → payrequest.app
+    ```
+
+    **CDN/Proxy Configuration:**
+    - Enable after basic setup verification
+    - Configure caching rules appropriately
+    - Ensure payment processing routes work
+    - Test webhook delivery functionality
+  </Tab>
+</Tabs>
+
+## ⚙️ PayRequest Dashboard Configuration
+
+Configure your custom domain settings in the PayRequest dashboard:
+
+<Accordion>
+  <AccordionItem title="🎛️ Domain Settings">
+    **Navigation**: Shop → Settings → Custom Domain
+
+    **Configuration Options:**
+    - **Domain Name**: Enter your full domain (shop.yourbusiness.com)
+    - **Enable Custom Domain**: Toggle to activate custom domain usage
+    - **Force HTTPS**: Automatically redirect HTTP to HTTPS
+    - **Default Redirect**: Set behavior for payrequest.app URLs
+
+    **SSL Certificate:**
+    - Automatically provisioned by PayRequest
+    - Let's Encrypt or equivalent certificate authority
+    - Auto-renewal every 90 days
+    - Covers all configured subdomains
+  </AccordionItem>
+
+  <AccordionItem title="🔄 Redirect Configuration">
+    **Redirect Scenarios:**
+
+    **Subdomain to Custom Domain:**
+    - `payrequest.app/shop/yourshop` → `shop.yourbusiness.com`
+    - Permanent 301 redirects for SEO preservation
+    - Automatic redirect of all shop pages
+
+    **Custom Domain Fallback:**
+    - Maintain payrequest.app URLs as backup
+    - Useful during DNS propagation
+    - Ensures continuous shop availability
+
+    **Cross-Domain Consistency:**
+    - Product links work on both domains
+    - Payment processing functions correctly
+    - Customer portal integration maintained
+  </AccordionItem>
+
+  <AccordionItem title="📧 Email Integration">
+    **Domain-Matched Emails:**
+    - Configure `From` email addresses to match domain
+    - Use `noreply@yourbusiness.com` for automated emails
+    - Maintain brand consistency in communications
+
+    **DKIM/SPF Configuration:**
+    - Add email authentication records
+    - Improve email deliverability
+    - Prevent emails from being marked as spam
+    - Enhance professional appearance
+  </AccordionItem>
+</Accordion>
+
+## 🧪 Testing & Verification
+
+Ensure your custom domain setup is working correctly:
+
+### Pre-Launch Testing Checklist
+
+<CardGroup cols={2}>
+  <Card title="🔍 DNS Verification" icon="globe">
+    **Check DNS Propagation:**
+    - Use online DNS checker tools
+    - Verify CNAME/A record resolution
+    - Test from multiple geographic locations
+    - Confirm TTL settings are appropriate
+
+    **Tools to Use:**
+    - DNS Checker (dnschecker.org)
+    - What's My DNS (whatsmydns.net)
+    - Dig command-line tool
+    - Browser developer tools
+  </Card>
+
+  <Card title="🔐 SSL Certificate" icon="shield-check">
+    **Certificate Verification:**
+    - Check certificate validity
+    - Verify domain coverage
+    - Test HTTPS enforcement
+    - Validate certificate chain
+
+    **Browser Testing:**
+    - Green padlock icon visible
+    - No certificate warnings
+    - Proper certificate details
+    - Mixed content issues resolved
+  </Card>
+</CardGroup>
+
+### Functional Testing
+
+<Steps>
+  <Step title="Basic Connectivity">
+    - Access shop homepage via custom domain
+    - Navigate through product categories
+    - Test search functionality
+    - Verify responsive design on mobile
+  </Step>
+
+  <Step title="Product & Cart Testing">
+    - View individual product pages
+    - Add products to cart
+    - Modify cart quantities
+    - Test custom field inputs
+  </Step>
+
+  <Step title="Checkout Process">
+    - Complete checkout flow
+    - Test payment processing
+    - Verify order confirmation
+    - Check automated emails
+  </Step>
+
+  <Step title="SEO & Analytics">
+    - Verify meta tags and structured data
+    - Test Google Analytics tracking
+    - Check social media sharing
+    - Validate sitemap.xml accessibility
+  </Step>
+</Steps>
+
+## 🚨 Common Issues & Troubleshooting
+
+### DNS Propagation Issues
+
+<Accordion>
+  <AccordionItem title="🕐 Slow DNS Propagation">
+    **Symptoms:**
+    - Domain not resolving consistently
+    - Works in some locations but not others
+    - Intermittent connectivity issues
+
+    **Solutions:**
+    - Wait 24-48 hours for full propagation
+    - Reduce TTL values temporarily
+    - Clear local DNS cache
+    - Test with different DNS servers (8.8.8.8, 1.1.1.1)
+
+    **Commands for Troubleshooting:**
+    ```bash
+    # Check DNS resolution
+    nslookup shop.yourbusiness.com
+
+    # Trace DNS path
+    dig shop.yourbusiness.com +trace
+
+    # Clear local DNS cache (Windows)
+    ipconfig /flushdns
+
+    # Clear local DNS cache (macOS)
+    sudo dscacheutil -flushcache
+    ```
+  </AccordionItem>
+
+  <AccordionItem title="🔧 Incorrect DNS Configuration">
+    **Common Mistakes:**
+    - Wrong CNAME target (should be payrequest.app)
+    - A record instead of CNAME for subdomain
+    - Missing DNS records
+    - Conflicting DNS entries
+
+    **Verification Steps:**
+    1. Double-check DNS record type (CNAME vs A)
+    2. Verify target/value exactly matches requirements
+    3. Remove conflicting or duplicate records
+    4. Confirm DNS changes are saved and published
+
+    **Quick Fixes:**
+    - Delete and recreate DNS records
+    - Contact DNS provider support
+    - Try alternative DNS record configurations
+    - Temporarily use A record with PayRequest IP
+  </AccordionItem>
+</Accordion>
+
+### SSL Certificate Problems
+
+<Accordion>
+  <AccordionItem title="🔐 Certificate Issues">
+    **Common Problems:**
+    - Certificate not generating automatically
+    - Browser security warnings
+    - Mixed content errors
+    - Certificate mismatch errors
+
+    **Resolution Steps:**
+    1. Verify DNS is properly configured first
+    2. Wait for automatic certificate generation (up to 24 hours)
+    3. Contact PayRequest support if certificate doesn't generate
+    4. Check for mixed HTTP/HTTPS content on pages
+    5. Ensure all resources load via HTTPS
+
+    **Prevention:**
+    - Configure DNS correctly before enabling domain
+    - Allow time for certificate provisioning
+    - Test with modern browsers
+    - Use HTTPS for all embedded content
+  </AccordionItem>
+</Accordion>
+
+## 🌟 Advanced Custom Domain Features
+
+### Multiple Domain Support
+
+<CardGroup cols={2}>
+  <Card title="🌍 International Domains" icon="globe">
+    **Multi-Country Setup:**
+    - shop.yourbusiness.com (global)
+    - shop.yourbusiness.nl (Netherlands)
+    - shop.yourbusiness.de (Germany)
+    - boutique.yourbusiness.fr (France)
+
+    **Benefits:**
+    - Localized customer experience
+    - Improved local SEO rankings
+    - Country-specific branding
+    - Regional payment method optimization
+  </Card>
+
+  <Card title="🏢 Brand Variations" icon="building">
+    **Multiple Brand Support:**
+    - shop.mainbrand.com
+    - store.subbrand.com
+    - marketplace.company.com
+
+    **Use Cases:**
+    - Multi-brand businesses
+    - Separate product lines
+    - B2B vs B2C storefronts
+    - Regional brand variations
+  </Card>
+</CardGroup>
+
+### Domain-Based Customization
+
+<Accordion>
+  <AccordionItem title="🎨 Domain-Specific Theming">
+    **Customization Options:**
+    - Different color schemes per domain
+    - Unique logos and branding elements
+    - Domain-specific product catalogs
+    - Localized content and languages
+
+    **Implementation:**
+    - Configure themes in PayRequest dashboard
+    - Upload domain-specific assets
+    - Set up conditional content rules
+    - Test cross-domain consistency
+  </AccordionItem>
+
+  <AccordionItem title="📊 Domain Analytics">
+    **Tracking Setup:**
+    - Google Analytics 4 with multiple domains
+    - Cross-domain tracking configuration
+    - Attribution modeling across domains
+    - Conversion tracking and optimization
+
+    **Advanced Analytics:**
+    - Domain-specific performance metrics
+    - Customer journey analysis
+    - Revenue attribution by domain
+    - A/B testing across domains
+  </AccordionItem>
+</Accordion>
+
+## 💰 Cost & Performance Considerations
+
+### Custom Domain Pricing
+
+<Info>
+**PayRequest Pricing**: Custom domains are included in all PayRequest plans at no additional cost. You only pay for your domain registration with your chosen domain registrar.
+</Info>
+
+<CardGroup cols={3}>
+  <Card title="Domain Registration" icon="credit-card">
+    **Annual Costs:**
+    - .com domains: $10-15/year
+    - .org/.net domains: $12-18/year
+    - Country TLDs: $15-50/year
+    - Premium domains: $50-500+/year
+  </Card>
+
+  <Card title="SSL Certificates" icon="shield">
+    **Included Free:**
+    - Let's Encrypt certificates
+    - Automatic renewal
+    - Wildcard support available
+    - Multi-domain certificates
+  </Card>
+
+  <Card title="Performance Impact" icon="gauge">
+    **Optimization:**
+    - CDN integration supported
+    - Caching configuration
+    - Global edge locations
+    - Sub-100ms response times
+  </Card>
+</CardGroup>
+
+### Performance Optimization
+
+<Steps>
+  <Step title="CDN Configuration">
+    Enable content delivery network for faster global performance
+  </Step>
+
+  <Step title="Caching Strategy">
+    Configure appropriate cache headers for static resources
+  </Step>
+
+  <Step title="Image Optimization">
+    Use WebP format and responsive images for faster loading
+  </Step>
+
+  <Step title="Monitoring Setup">
+    Implement uptime monitoring and performance tracking
+  </Step>
+</Steps>
+
+## 📞 Support & Resources
+
+Need help with custom domain setup?
+
+<CardGroup cols={3}>
+  <Card title="DNS Support" icon="globe">
+    **Technical Assistance**
+    - DNS configuration help
+    - Propagation troubleshooting
+    - Record verification
+    - Provider-specific guidance
+  </Card>
+
+  <Card title="Domain Migration" icon="arrows-right-left">
+    **Migration Services**
+    - Existing domain transfer
+    - Zero-downtime migration
+    - SEO preservation
+    - Redirect management
+  </Card>
+
+  <Card title="Performance Optimization" icon="rocket">
+    **Speed & SEO**
+    - CDN configuration
+    - Performance auditing
+    - SEO optimization
+    - Analytics setup
+  </Card>
+</CardGroup>
+
+## 🎓 Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Shop Setup" icon="store" href="/shop-and-checkout/shop-setup">
+    Complete your shop configuration and customize the customer experience
+  </Card>
+
+  <Card title="Product Display" icon="grid" href="/shop-and-checkout/product-display">
+    Optimize how your products are presented to customers
+  </Card>
+
+  <Card title="Checkout Customization" icon="credit-card" href="/shop-and-checkout/checkout-customization">
+    Customize the checkout flow for better conversion rates
+  </Card>
+
+  <Card title="Analytics Setup" icon="chart-bar" href="/analytics-and-reporting/insights-dashboard">
+    Set up comprehensive analytics and tracking for your custom domain
+  </Card>
+</CardGroup>
+
+---
+
+<Tip>
+**Pro Tip**: Set up your custom domain early in your shop development process. This ensures all SEO benefits accumulate to your branded domain from day one, and customers become familiar with your professional web presence.
+</Tip>

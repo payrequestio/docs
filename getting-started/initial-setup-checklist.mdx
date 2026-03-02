@@ -1,8 +1,376 @@
 ---
-title: Initial Setup Checklist
-description: 'Complete account setup step-by-step'
+title: "Initial Setup Checklist"
+description: "Complete your PayRequest account setup with this comprehensive checklist to ensure optimal configuration"
 ---
 
-# Initial Setup Checklist
+# Initial Setup Checklist ✅
 
-_Work in progress. Content coming soon._
+Use this comprehensive checklist to ensure your PayRequest account is properly configured for optimal performance. Complete each section to unlock the full potential of your billing automation platform.
+
+<Info>
+**Estimated Time**: 30-45 minutes for complete setup
+**Prerequisites**: Access to your business documents and payment provider account
+</Info>
+
+## 📋 Pre-Setup Preparation
+
+Before diving into PayRequest configuration, gather these essential items:
+
+<CardGroup cols={2}>
+  <Card title="Business Documents" icon="building">
+    - Business registration details
+    - VAT/Tax identification number
+    - Official business address
+    - Banking information (IBAN/BIC)
+  </Card>
+
+  <Card title="Digital Assets" icon="image">
+    - Company logo (PNG/JPG, recommended 300x300px)
+    - Brand colors (hex codes)
+    - Business email addresses
+    - Website URL (if applicable)
+  </Card>
+</CardGroup>
+
+## 🏢 Business Information Setup
+
+<Accordion>
+  <AccordionItem title="✅ Company Details">
+    Navigate to **Settings** → **Business Details**
+
+    **Required Fields:**
+    - [ ] Company name (legal business name)
+    - [ ] Business address (complete with postal code)
+    - [ ] Country and region
+    - [ ] Primary contact email
+    - [ ] Business phone number
+
+    **Optional but Recommended:**
+    - [ ] VAT/Tax identification number
+    - [ ] Chamber of Commerce number
+    - [ ] Website URL
+    - [ ] Business description
+
+    <Tip>
+    Complete business information improves customer trust and ensures compliance with local regulations.
+    </Tip>
+  </AccordionItem>
+
+  <AccordionItem title="✅ Branding & Visual Identity">
+    **Logo Upload:**
+    - [ ] Upload company logo (300x300px recommended)
+    - [ ] Test logo appearance on invoices
+    - [ ] Verify logo displays correctly in shop
+
+    **Brand Colors:**
+    - [ ] Set primary brand color
+    - [ ] Configure secondary accent color
+    - [ ] Test color scheme across platform
+
+    **Invoice Customization:**
+    - [ ] Configure invoice footer text
+    - [ ] Set invoice numbering format
+    - [ ] Add terms and conditions
+  </AccordionItem>
+</Accordion>
+
+## 💳 Payment Provider Configuration
+
+<Tabs>
+  <Tab title="Mollie Setup (EU Recommended)">
+    <Steps>
+      <Step title="Account Connection">
+        - [ ] Navigate to **Settings** → **Payment Providers**
+        - [ ] Click **Connect with Mollie**
+        - [ ] Complete OAuth authorization
+        - [ ] Verify connection status shows "Connected"
+      </Step>
+
+      <Step title="Payment Methods">
+        Enable your preferred payment options:
+        - [ ] iDEAL (Netherlands)
+        - [ ] Bancontact (Belgium)
+        - [ ] SEPA Direct Debit (EU-wide)
+        - [ ] Credit/Debit Cards
+        - [ ] PayPal (if needed)
+        - [ ] Bank Transfer
+      </Step>
+
+      <Step title="SEPA Direct Debit">
+        For subscription billing:
+        - [ ] Enable SEPA Direct Debit
+        - [ ] Configure mandate settings
+        - [ ] Set up automatic retry logic
+        - [ ] Test mandate creation flow
+      </Step>
+
+      <Step title="Webhook Configuration">
+        - [ ] Verify webhook URL is automatically configured
+        - [ ] Test webhook delivery (automatic)
+        - [ ] Check webhook logs for any issues
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Stripe Setup">
+    <Steps>
+      <Step title="API Keys">
+        - [ ] Obtain Stripe API keys from dashboard
+        - [ ] Enter Publishable Key in PayRequest
+        - [ ] Enter Secret Key in PayRequest
+        - [ ] Verify connection status
+      </Step>
+
+      <Step title="Payment Methods">
+        - [ ] Configure accepted card types
+        - [ ] Enable ACH Direct Debit (US)
+        - [ ] Set up SEPA Direct Debit (EU)
+        - [ ] Configure local payment methods
+      </Step>
+
+      <Step title="Subscription Settings">
+        - [ ] Configure billing thresholds
+        - [ ] Set up automatic retry logic
+        - [ ] Configure proration settings
+        - [ ] Test subscription creation
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+<Warning>
+**Test Mode**: Always start with test mode enabled to verify your configuration before processing real payments.
+</Warning>
+
+## 📧 Email Configuration
+
+<Accordion>
+  <AccordionItem title="✅ Email Templates">
+    Navigate to **Settings** → **Email Templates**
+
+    **Configure Templates:**
+    - [ ] Invoice Created notification
+    - [ ] Payment Received confirmation
+    - [ ] Subscription Activated email
+    - [ ] Payment Failed alert
+    - [ ] Subscription Cancelled notice
+
+    **Template Customization:**
+    - [ ] Add your business branding
+    - [ ] Customize email signatures
+    - [ ] Set appropriate tone and language
+    - [ ] Test email delivery
+  </AccordionItem>
+
+  <AccordionItem title="✅ Email Automation">
+    **Automated Sequences:**
+    - [ ] Welcome email for new customers
+    - [ ] Payment reminder sequence
+    - [ ] Failed payment recovery emails
+    - [ ] Subscription renewal reminders
+
+    **Automation Rules:**
+    - [ ] Set up customer tagging based on email events
+    - [ ] Configure automatic follow-ups
+    - [ ] Set up bounce and complaint handling
+  </AccordionItem>
+</Accordion>
+
+## 🛍️ Shop Configuration
+
+<Steps>
+  <Step title="Basic Shop Settings">
+    Navigate to **Shop** → **Settings**
+
+    - [ ] Set shop name and description
+    - [ ] Configure contact information
+    - [ ] Set business hours (if applicable)
+    - [ ] Add social media links
+  </Step>
+
+  <Step title="Shop Appearance">
+    - [ ] Upload shop banner/hero image
+    - [ ] Configure color scheme
+    - [ ] Set up navigation menu
+    - [ ] Customize footer content
+  </Step>
+
+  <Step title="Custom Domain (Optional)">
+    - [ ] Purchase/configure domain (e.g., shop.yourbusiness.com)
+    - [ ] Add domain in PayRequest settings
+    - [ ] Configure DNS records
+    - [ ] Verify domain connection
+    - [ ] Test custom domain functionality
+  </Step>
+
+  <Step title="Shop Policies">
+    - [ ] Add terms of service
+    - [ ] Configure privacy policy
+    - [ ] Set up refund policy
+    - [ ] Add shipping information (if applicable)
+  </Step>
+</Steps>
+
+## 🏷️ Organization Setup
+
+<CardGroup cols={2}>
+  <Card title="Customer Tags" icon="tag">
+    **Create Tag Categories:**
+    - [ ] Customer segments (VIP, Regular, New)
+    - [ ] Geographic regions
+    - [ ] Product interests
+    - [ ] Payment preferences
+
+    **Automation Rules:**
+    - [ ] Auto-tag based on purchase behavior
+    - [ ] Tag based on email engagement
+    - [ ] Geographic auto-tagging
+  </Card>
+
+  <Card title="Product Categories" icon="grid">
+    **Organize Products:**
+    - [ ] Create logical categories
+    - [ ] Set up product collections
+    - [ ] Configure category descriptions
+    - [ ] Optimize for shop navigation
+
+    **Category Settings:**
+    - [ ] Set category images
+    - [ ] Configure SEO settings
+    - [ ] Set up category-specific policies
+  </Card>
+</CardGroup>
+
+## 🔒 Security & Compliance
+
+<Accordion>
+  <AccordionItem title="✅ Account Security">
+    **Two-Factor Authentication:**
+    - [ ] Enable 2FA for your account
+    - [ ] Set up backup codes
+    - [ ] Configure 2FA for team members
+    - [ ] Test 2FA login process
+
+    **API Security:**
+    - [ ] Generate API keys (if needed)
+    - [ ] Set appropriate permissions
+    - [ ] Document API usage
+    - [ ] Regularly rotate API keys
+  </AccordionItem>
+
+  <AccordionItem title="✅ GDPR Compliance">
+    **Data Protection:**
+    - [ ] Configure data retention policies
+    - [ ] Set up customer data export
+    - [ ] Configure data deletion procedures
+    - [ ] Add GDPR notices to forms
+
+    **Privacy Settings:**
+    - [ ] Configure cookie consent
+    - [ ] Set up privacy policy links
+    - [ ] Configure data processing notices
+    - [ ] Test customer data requests
+  </AccordionItem>
+</Accordion>
+
+## 📊 Analytics & Reporting
+
+<Steps>
+  <Step title="Dashboard Configuration">
+    - [ ] Set up key performance indicators (KPIs)
+    - [ ] Configure dashboard widgets
+    - [ ] Set up automated reports
+    - [ ] Configure notification thresholds
+  </Step>
+
+  <Step title="Integration Setup">
+    - [ ] Connect Google Analytics (optional)
+    - [ ] Set up webhook integrations
+    - [ ] Configure third-party reporting tools
+    - [ ] Test data synchronization
+  </Step>
+</Steps>
+
+## 🧪 Testing & Verification
+
+Before going live, thoroughly test your setup:
+
+<CardGroup cols={2}>
+  <Card title="Payment Flow Testing" icon="credit-card">
+    - [ ] Test product purchase flow
+    - [ ] Verify payment processing
+    - [ ] Confirm invoice generation
+    - [ ] Test customer notifications
+  </Card>
+
+  <Card title="Subscription Testing" icon="refresh">
+    - [ ] Create test subscription
+    - [ ] Verify mandate creation
+    - [ ] Test billing cycle
+    - [ ] Confirm automated emails
+  </Card>
+</CardGroup>
+
+## ✅ Pre-Launch Checklist
+
+<Warning>
+**Final Review**: Complete this checklist before switching to live mode or launching to customers.
+</Warning>
+
+**Technical Verification:**
+- [ ] All payment methods tested successfully
+- [ ] Email delivery confirmed working
+- [ ] Shop loads correctly on all devices
+- [ ] Custom domain functioning (if configured)
+- [ ] Webhook delivery verified
+- [ ] API integrations tested (if applicable)
+
+**Business Verification:**
+- [ ] All business information accurate
+- [ ] Pricing correctly configured
+- [ ] Tax settings appropriate for your region
+- [ ] Terms and policies up to date
+- [ ] Customer support processes in place
+
+**Team Preparation:**
+- [ ] Team members trained on platform
+- [ ] Support procedures documented
+- [ ] Emergency contacts configured
+- [ ] Backup access methods established
+
+## 🎉 You're Ready to Launch!
+
+<Card title="Next Steps" icon="rocket">
+Congratulations! Your PayRequest account is fully configured. You're now ready to:
+
+- Switch to live mode in your payment provider
+- Share your shop with customers
+- Process real payments
+- Start growing your business with automated billing
+
+Continue to our [Quick Start Guide](/getting-started/quick-start-guide) to process your first real payment!
+</Card>
+
+## 📞 Need Help?
+
+If you encounter any issues during setup:
+
+<CardGroup cols={3}>
+  <Card title="Email Support" icon="envelope">
+    [support@payrequest.io](mailto:support@payrequest.io)
+  </Card>
+
+  <Card title="Documentation" icon="book">
+    Browse detailed feature guides
+  </Card>
+
+  <Card title="Troubleshooting" icon="wrench" href="/troubleshooting/common-issues">
+    Common setup issues and solutions
+  </Card>
+</CardGroup>
+
+---
+
+<Tip>
+**Pro Tip**: Bookmark this checklist and return to it when adding new features or team members to ensure consistent configuration across your account.
+</Tip>

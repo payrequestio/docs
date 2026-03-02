@@ -1,0 +1,129 @@
+---
+title: 'Refund Requests'
+description: 'How customers can request refunds for paid invoices through the customer portal'
+icon: 'arrow-rotate-left'
+---
+
+## Overview
+
+Customers can request refunds for paid invoices directly from their customer portal. Instead of needing to contact you through a generic support form, they get a dedicated, streamlined refund request page linked to the specific invoice they want refunded.
+
+<Info>
+Refund requests don't process refunds automatically. They create a support ticket of type "Refund Request" for you to review and act on. You remain in full control of whether to approve or decline the refund.
+</Info>
+
+## How It Works
+
+### Customer Experience
+
+When a customer views a **paid** invoice in their customer portal, they see a **"Request Refund"** button next to the "Download PDF" button in the invoice actions area.
+
+<Steps>
+  <Step title="View Paid Invoice">
+    Customer navigates to their invoice detail page in the customer portal and sees the "Request Refund" button alongside other actions
+  </Step>
+
+  <Step title="Review Invoice Summary">
+    After clicking the button, a dedicated refund request page loads showing the full invoice summary: invoice number, date, amount, and line items
+  </Step>
+
+  <Step title="Provide Reason">
+    Customer fills in a subject (pre-filled with the invoice number) and writes a reason for their refund request using a rich text editor
+  </Step>
+
+  <Step title="Submit Request">
+    Customer submits the form. A support ticket is created with type "Refund Request", linked directly to the invoice, and the customer is redirected back to the invoice detail page with a success message
+  </Step>
+</Steps>
+
+### What Gets Created
+
+When a customer submits a refund request, a **Support Request** record is created with:
+
+| Field | Value |
+|-------|-------|
+| **Type** | Refund Request |
+| **Priority** | Medium |
+| **Related Record** | The specific invoice (automatically linked) |
+| **Subject** | Pre-filled with "Refund request for invoice [number]" |
+| **Message** | Customer's reason for the refund |
+| **Status** | Open |
+
+### Duplicate Prevention
+
+The system prevents customers from submitting multiple refund requests for the same invoice:
+
+- If an **open or in-review** refund request already exists for that invoice, the "Request Refund" button on the invoice detail page changes to a disabled **"Refund Requested"** button
+- If the customer navigates directly to the refund request page, they see a callout informing them that a request has already been submitted, with a link to view their existing ticket
+
+## Managing Refund Requests
+
+### Viewing Requests
+
+Refund requests appear in your **Support Requests** section alongside all other customer requests. You can filter by type "Refund Request" to see only refund-related tickets.
+
+Each refund request is automatically linked to the relevant invoice, so you can quickly see:
+
+- Which invoice the customer wants refunded
+- The invoice amount and items
+- The customer's stated reason
+
+### Processing a Refund
+
+<Steps>
+  <Step title="Review the Request">
+    Open the refund request from your Support Requests page. Review the customer's reason and the linked invoice details
+  </Step>
+
+  <Step title="Decide on the Refund">
+    Determine whether to approve a full refund, partial refund, or decline the request based on your business policies
+  </Step>
+
+  <Step title="Process via Mollie">
+    If approved, process the refund through your Mollie dashboard or via the invoice's refund functionality in PayRequest
+  </Step>
+
+  <Step title="Update the Ticket">
+    Respond to the customer through the support ticket and mark it as Resolved (or Rejected if declined)
+  </Step>
+</Steps>
+
+<Tip>
+Respond to refund requests promptly. Quick, clear communication builds customer trust even when you need to decline a refund.
+</Tip>
+
+## Where Customers Find It
+
+The "Request Refund" button appears in two locations, depending on your shop setup:
+
+- **Standard shop URL**: `yourshop.payrequest.shop/customer/invoices/{id}`
+- **Custom domain**: `shop.yourbusiness.com/customer/invoices/{id}`
+
+The refund request page is accessible at:
+
+- **Standard**: `/shop/{storename}/customer/invoices/{id}/refund`
+- **Custom domain**: `/customer/invoices/{id}/refund`
+
+<Warning>
+The "Request Refund" button only appears for invoices with a **paid** status. Unpaid, pending, or canceled invoices do not show the refund option.
+</Warning>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Customer Portal" icon="user" href="/customer-management/customer-portal">
+    Learn more about the full customer portal experience
+  </Card>
+
+  <Card title="Handling Chargebacks" icon="shield" href="/payment-processing/handling-chargebacks">
+    Understand the difference between refund requests and chargebacks
+  </Card>
+
+  <Card title="Invoice Payment Links" icon="link" href="/invoices/invoice-payment-links">
+    Share payment links with customers for unpaid invoices
+  </Card>
+
+  <Card title="Payment Reminders" icon="bell" href="/invoices/payment-reminders">
+    Set up automated reminders for unpaid invoices
+  </Card>
+</CardGroup>

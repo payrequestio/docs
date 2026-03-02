@@ -1,0 +1,269 @@
+---
+title: 'Portal Notifications'
+description: 'Send announcements, alerts, and updates directly to your customers through the Customer Portal'
+icon: 'bell'
+---
+
+## Overview
+
+Portal Notifications let you communicate directly with your customers through the Customer Portal. Whether you're announcing a price change, going on vacation, or flagging a service issue, notifications appear as prominent banners and in a notification bell — so your customers never miss important updates.
+
+<Tip>
+Think of Portal Notifications as your private communication channel with customers. Unlike emails that can end up in spam, portal notifications are always visible the moment a customer logs in.
+</Tip>
+
+## Key Features
+
+- **Four notification types**: Announcements, Price Changes, Vacation notices, and Problem alerts
+- **Targeted delivery**: Send to all customers, specific customers, or customers with certain tags
+- **Two display locations**: Callout banners at the top of the portal and a notification bell in the header
+- **Optional email delivery**: Also send the notification via email when you create it
+- **Scheduling**: Set a start date for future notifications
+- **Expiry dates**: Automatically hide notifications after a certain date
+- **Permanent or dismissible**: Choose whether customers can dismiss the notification or not
+- **Active/inactive toggle**: Quickly enable or disable notifications without deleting them
+
+## How Customers See Notifications
+
+### Callout Banners
+
+When a customer logs into the portal, active notifications appear as colored banners at the top of every page. Each notification type has its own color and icon:
+
+| Type | Color | Icon | Best For |
+|------|-------|------|----------|
+| **Announcement** | Blue | Megaphone | General updates, new features, company news |
+| **Price Change** | Yellow | Currency symbol | Upcoming price adjustments, plan changes |
+| **Vacation** | Yellow | Calendar | Holiday closures, reduced availability |
+| **Problem** | Red | Warning triangle | Service issues, outages, known bugs |
+
+Customers can dismiss banners (unless you've marked them as permanent), and dismissed notifications won't reappear.
+
+### Notification Bell
+
+A bell icon appears in the portal header with a badge showing the number of unread notifications. Clicking the bell opens a panel listing all active notifications with:
+
+- Notification title and message
+- Color-coded icon matching the notification type
+- How long ago the notification was posted
+- A dismiss button (for non-permanent notifications)
+
+<Info>
+The notification count on the bell icon updates automatically. When a customer dismisses a notification, it disappears from both the banner area and the bell panel.
+</Info>
+
+## Creating a Notification
+
+### Step 1: Open the Notification Manager
+
+Navigate to **Portal Notifications** in your dashboard sidebar (under Portal & Products).
+
+Click the **Create Notification** button.
+
+### Step 2: Write Your Message
+
+- **Title**: A short, clear heading (e.g., "Holiday Closure December 24-31")
+- **Message**: The full notification text. Keep it concise — customers see the first few lines in the bell panel.
+
+### Step 3: Choose Notification Type
+
+Select the type that best matches your message:
+
+- **Announcement** — General updates and news (blue banner)
+- **Price Change** — Pricing-related notices (yellow banner)
+- **Vacation** — Availability or closure notices (yellow banner)
+- **Problem** — Issues or alerts that need attention (red banner)
+
+<Tip>
+The notification type automatically sets the banner color and icon. You can also choose a custom color variant (Info, Success, Warning, Danger) if you want a different look.
+</Tip>
+
+### Step 4: Select Your Audience
+
+Choose who should see this notification:
+
+**All Customers**
+- Every customer who logs into your portal will see the notification.
+- Best for: General announcements, holiday closures, system updates.
+
+**Specific Customers**
+- Pick individual customers from a searchable list.
+- Best for: Targeted price change notices, account-specific updates.
+
+**Customers with Tags**
+- Select one or more tags. Any customer with at least one of the selected tags will see the notification.
+- Best for: Segment-based communication (e.g., all "Enterprise" customers, all "Trial" customers).
+
+<Info>
+Tags are a powerful way to organize your customers into groups. If you haven't set up tags yet, check out the [Tags System](/organization-and-automation/tags-system) documentation.
+</Info>
+
+### Step 5: Configure Options
+
+**Permanent notification**
+Turn this on if the notification should always stay visible. Customers won't be able to dismiss it. Use this sparingly — only for critical, ongoing information.
+
+**Send email notification**
+Turn this on to also send the notification content via email to the targeted customers. The email includes your business name and the notification message. Emails are sent immediately when you create the notification.
+
+<Warning>
+Emails are only sent when creating a new notification — not when editing an existing one. Make sure your message is ready before enabling this option.
+</Warning>
+
+### Step 6: Set Timing (Optional)
+
+**Start date**
+Leave empty to show the notification immediately, or pick a future date to schedule it.
+
+**Expiry date**
+Leave empty for no expiration, or set a date after which the notification automatically hides. Great for time-limited announcements like holiday closures or promotional periods.
+
+### Step 7: Preview and Save
+
+A live preview at the bottom of the form shows exactly how your notification will look as a banner in the portal. Review it, then click **Save**.
+
+## Managing Notifications
+
+### The Notification List
+
+The Portal Notifications page shows all your notifications in a table with:
+
+- **Title** and **type badge**
+- **Target audience** (All, Specific, or Tagged)
+- **Status** (Active, Inactive, Scheduled, or Expired)
+- **Active toggle** — Quickly enable or disable a notification
+- **Actions menu** — Edit or delete
+
+### Filtering Notifications
+
+Use the filter dropdowns at the top to narrow down your list:
+
+- **Search** — Find notifications by title or message text
+- **Type** — Filter by Announcement, Price Change, Vacation, or Problem
+- **Status** — Filter by Active, Inactive, Scheduled, or Expired
+
+### Editing a Notification
+
+Click **Edit** from the actions menu to update any notification. All fields can be changed except the email setting — emails that were already sent cannot be unsent.
+
+### Activating and Deactivating
+
+Use the toggle switch in the notification list to quickly turn notifications on or off. Deactivated notifications are hidden from customers but not deleted, so you can reactivate them later.
+
+### Deleting a Notification
+
+Click **Delete** from the actions menu to permanently remove a notification. This also removes any dismissal records associated with it.
+
+## Use Cases
+
+### Holiday Closure
+
+> **Type**: Vacation
+>
+> **Title**: "Holiday Closure: December 24 - January 2"
+>
+> **Message**: "Our office will be closed for the holidays. We'll respond to support tickets when we return on January 2nd. Happy holidays!"
+>
+> **Target**: All Customers
+>
+> **Expiry**: January 2nd
+>
+> **Email**: Yes
+
+### Upcoming Price Increase
+
+> **Type**: Price Change
+>
+> **Title**: "Price Update Effective March 1st"
+>
+> **Message**: "Starting March 1st, our Business plan will increase from €15 to €18 per month. Your current billing continues unchanged until your next renewal. Contact us with questions."
+>
+> **Target**: Customers tagged "Business Plan"
+>
+> **Permanent**: Yes (until the change takes effect)
+>
+> **Email**: Yes
+
+### Service Issue
+
+> **Type**: Problem
+>
+> **Title**: "Payment Processing Delay"
+>
+> **Message**: "We're experiencing a brief delay in processing payments. Your payments are safe — they will complete within 1-2 hours. We apologize for the inconvenience."
+>
+> **Target**: All Customers
+>
+> **Permanent**: Yes (remove manually when resolved)
+
+### New Feature Announcement
+
+> **Type**: Announcement
+>
+> **Title**: "New: Pay with Saved Payment Methods"
+>
+> **Message**: "You can now pay invoices using your saved SEPA Direct Debit mandate. Look for the 'Use Saved Method' option on your next invoice payment."
+>
+> **Target**: All Customers
+>
+> **Expiry**: 2 weeks from now
+
+## Best Practices
+
+- **Keep messages short** — Customers scan rather than read. Use clear, direct language.
+- **Use the right type** — It sets the right color and tone automatically.
+- **Set expiry dates** — Old notifications clutter the portal. Always add an expiry unless the notice is truly permanent.
+- **Use permanent sparingly** — If customers can't dismiss a notification, it stays visible forever. Reserve this for critical, ongoing information.
+- **Combine with email** — For important notices (price changes, outages), enable email delivery so customers are notified even if they don't log in.
+- **Target wisely** — Use tags to segment your audience. A price change for one plan doesn't need to go to all customers.
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can customers reply to notifications?">
+    No, portal notifications are one-way communication. For two-way communication, customers can use the Support section to create a ticket.
+  </Accordion>
+
+  <Accordion title="What happens when I delete a notification?">
+    The notification is permanently removed and all customer dismissal records are deleted too. Customers will no longer see it anywhere.
+  </Accordion>
+
+  <Accordion title="Can I edit a notification after sending the email?">
+    Yes, you can edit the title, message, and all other settings. However, the email that was already sent will still show the original content.
+  </Accordion>
+
+  <Accordion title="How many notifications can I have active at once?">
+    There's no limit. However, we recommend keeping it to 2-3 active banners at most — too many banners can overwhelm customers.
+  </Accordion>
+
+  <Accordion title="Do notifications show on mobile devices?">
+    Yes. Both callout banners and the notification bell are fully responsive and work on all screen sizes.
+  </Accordion>
+
+  <Accordion title="Can I schedule a notification for a specific time?">
+    You can set a start date. The notification will become visible on that date. Time is based on your account timezone.
+  </Accordion>
+
+  <Accordion title="What if a customer isn't logged in when I send a notification?">
+    The notification will be waiting for them the next time they log in, as long as it hasn't expired. If you also enabled email, they'll receive the email regardless of login status.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Customer Portal" icon="browser" href="/customer-management/customer-portal">
+    Learn about the full Customer Portal experience
+  </Card>
+
+  <Card title="Tags System" icon="tags" href="/organization-and-automation/tags-system">
+    Organize customers into groups for targeted notifications
+  </Card>
+
+  <Card title="Email Configuration" icon="envelope" href="/business-settings/email-configuration">
+    Set up your email settings for notification delivery
+  </Card>
+
+  <Card title="Customer Portal Settings" icon="gear" href="/customer-management/customer-portal-settings">
+    Configure portal appearance and preferences
+  </Card>
+</CardGroup>

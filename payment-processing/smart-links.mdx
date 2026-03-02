@@ -1,0 +1,1155 @@
+---
+title: 'Smart Links'
+description: 'Create reusable, branded payment links with built-in analytics for marketing campaigns and QR code payments'
+icon: 'qrcode'
+---
+
+## Overview
+
+Smart Links are reusable, branded payment URLs designed for marketing campaigns, social media sharing, and QR code payments. Unlike dynamic payment page links that need to be generated each time, Smart Links provide a permanent, memorable URL that you can share anywhere.
+
+<Tip>
+Smart Links are perfect for social media campaigns, QR codes on flyers, email signatures, or any situation where you want a clean, memorable payment URL with analytics tracking.
+</Tip>
+
+## Key Features
+
+- **Pretty URLs**: `https://payrequest.me/[businessname]/[path]`
+- **QR Code Generation**: Automatic QR code for every smart link
+- **Analytics Tracking**: View counts, payment counts, revenue, and conversion rates
+- **Two Link Types**: Product checkout or fixed amount payments
+- **Payment Limits**: One-time, multiple, or unlimited payment options
+- **SMS & Email Delivery**: Send links directly to customers via SMS or email
+- **Payment Reminders**: Automatic follow-up reminders for unpaid links
+- **Tag Support**: Organize smart links with tags for easy management
+- **Active/Inactive Toggle**: Quickly enable or disable links
+- **After-Payment Actions**: Redirect customers or update tags after successful payment
+
+## Accessing Smart Links
+
+Navigate to **Payment Page** in your dashboard sidebar, then click the **Smart Links** tab.
+
+<Note>
+Smart Links are available for all PayRequest accounts. The feature integrates seamlessly with your existing payment page setup.
+</Note>
+
+## URL Structure
+
+Every smart link follows this format:
+
+```
+https://payrequest.me/[your-handle]/[path]
+```
+
+**Example:**
+```
+https://payrequest.me/acme-corp/summer-sale
+```
+
+- **`[your-handle]`**: Your payment page handle or business name
+- **`[path]`**: Custom URL path (auto-generated from link name)
+
+<Info>
+The path is automatically generated from your link name, but you can customize it when editing the smart link.
+</Info>
+
+## Creating a Smart Link
+
+### Step 1: Choose Link Type
+
+When creating a new smart link, first select the type:
+
+**Product Link**
+- Links directly to a specific product
+- Redirects to your shop's product page
+- Best for: Product promotions, catalog links, shop items
+
+**Amount Link**
+- Fixed payment amount
+- Renders directly on payment page (keeps smart link URL visible)
+- Best for: Donations, event tickets, service fees
+
+**Deposit Link** (Product Link with a Deposit product)
+- When you select a Security Deposit product, the smart link becomes a deposit link
+- Customers pay via credit card authorization hold (amount is held, not charged)
+- Deposits tab appears on the smart link detail page for capture/release management
+- Best for: Hotel deposits, car rental holds, equipment guarantees
+
+<Tip>
+Choose "Amount Link" for marketing campaigns where you want the branded URL to remain visible during checkout. For security deposits, create a [Deposit product](/payment-processing/security-deposits) and use a Product Link.
+</Tip>
+
+### Step 2: Configure Link Details
+
+**Required Fields:**
+- **Name**: Descriptive name for the link (e.g., "Summer Sale Promotion")
+- **Type**: Product or Amount
+- **Product** (for product links): Select from your product catalog
+- **Amount & Currency** (for amount links): Set fixed payment amount
+
+**Optional Fields:**
+- **Description**: Public description shown to customers
+- **Tags**: Organize links by campaign, category, or purpose
+
+### Step 3: Set Payment Limit (Optional)
+
+Control how many times your smart link can be used for payments:
+
+**Unlimited** (Default)
+- Link stays active indefinitely
+- Accepts unlimited payments
+- Best for: Ongoing campaigns, permanent donation links
+
+**One-time**
+- Link automatically disables after the first successful payment
+- Prevents multiple uses
+- Best for: Individual invoices, one-time offers, exclusive deals
+
+**Multiple times**
+- Set a custom limit (1-1000 payments)
+- Link disables when limit is reached
+- Shows remaining payment count in analytics
+- Best for: Limited inventory, early bird tickets, capacity-limited events
+
+<Tip>
+Payment limits are perfect for scarcity marketing. Show "Only 50 spots left!" and the link automatically disables at the limit.
+</Tip>
+
+**How it works:**
+1. Select payment limit type when creating the link
+2. For "Multiple times", enter the maximum number of payments (1-1000)
+3. Smart link tracks successful payments automatically
+4. When limit is reached, customers see "Payment limit reached" message
+5. You can view remaining payments in the analytics dashboard
+
+<Info>
+Payment limits only count successful (paid) transactions. Failed or pending payments don't count toward the limit.
+</Info>
+
+### Step 4: Send to Customer (Optional)
+
+Send the smart link directly to a customer via email or SMS:
+
+**Delivery Options:**
+1. **Select Customer**: Choose from your customer list
+2. **Choose Delivery Method**:
+   - **Email**: Send to customer's email address
+   - **SMS**: Send to customer's phone number (requires valid international format)
+   - **Both**: Send via both email and SMS simultaneously
+
+**Email Delivery:**
+- Uses your configured email template
+- Includes smart link URL
+- Professional branded message
+- Sent immediately upon creation
+
+**SMS Delivery:**
+- Requires valid phone number (international format: +31612345678)
+- Sent via MessageBird
+- Personalized message with customer name
+- Includes shortened payment link
+- Sent from your business name
+
+<Warning>
+SMS delivery requires the customer to have a valid phone number in international format (starting with country code). Invalid numbers will disable the SMS option.
+</Warning>
+
+**Tracking:**
+- Delivery status shown on smart link detail page
+- Timestamp of when link was sent
+- Delivery method badges (Email/SMS)
+
+<Tip>
+Combine SMS and email delivery for important payment requests to ensure customers receive the link through their preferred channel.
+</Tip>
+
+### Step 4b: Enable Payment Reminders (Optional)
+
+Automatically send follow-up reminders to customers who haven't paid yet. This feature appears when you select a delivery method (Email or SMS).
+
+**Enabling Reminders:**
+1. Select a customer and delivery method (Step 4)
+2. Check **Enable Payment Reminders**
+3. Configure reminder settings
+
+**Reminder Frequency Options:**
+- **Daily**: Send a reminder every day
+- **Every 2 days**: Send reminder every other day
+- **Every 3 days**: Send reminder every third day
+- **Weekly**: Send one reminder per week
+- **Monthly**: Send one reminder per month
+
+**Maximum Reminders:**
+- Set how many reminders to send (1-50)
+- Use the slider or input field to select
+- Reminders stop automatically when limit is reached
+- Reminders also stop when payment is completed
+
+<Info>
+Payment reminders use the same delivery method(s) you selected for the initial send. If you chose Email + SMS, reminders will be sent via both channels.
+</Info>
+
+**How Reminders Work:**
+1. Initial smart link is sent to customer
+2. If no payment received, first reminder sent based on frequency
+3. Reminders continue until:
+   - Customer completes payment, OR
+   - Maximum reminder limit is reached
+
+**Example Configuration:**
+```
+Delivery Method: Email + SMS
+Reminder Frequency: Every 2 days
+Maximum Reminders: 5
+
+Timeline:
+Day 0: Initial link sent
+Day 2: Reminder 1 (if unpaid)
+Day 4: Reminder 2 (if unpaid)
+Day 6: Reminder 3 (if unpaid)
+Day 8: Reminder 4 (if unpaid)
+Day 10: Reminder 5 (final reminder)
+```
+
+<Tip>
+For urgent invoices, use "Daily" frequency with 3-5 reminders. For less urgent requests, use "Weekly" or "Monthly" with more reminders.
+</Tip>
+
+**Tracking Reminders:**
+When editing a smart link with reminders enabled, you'll see:
+- Number of reminders sent vs. limit
+- Next scheduled reminder date
+- Reminder status
+
+<Warning>
+Reminders are only available when sending to a specific customer via delivery methods. They cannot be enabled for links shared publicly without a customer association.
+</Warning>
+
+### Step 5: Save and Share
+
+After creating your smart link:
+1. Copy the generated URL
+2. Download the QR code
+3. Share via social media, email, or print materials
+
+## Use Cases
+
+### 1. Marketing Campaign
+
+Create an amount link for a limited-time promotion:
+
+```
+https://payrequest.me/fitnessstudio/early-bird-2025
+```
+
+**Setup:**
+- **Type**: Amount Link
+- **Name**: Early Bird Registration 2025
+- **Amount**: €49.00
+- **Description**: Special early bird discount - Register before December 31st!
+
+**Where to share:**
+- Social media posts
+- Email newsletters
+- WhatsApp messages
+- Website banners
+
+### 2. Event Registration
+
+Fixed-price event ticket payment:
+
+```
+https://payrequest.me/techconference/ticket
+```
+
+**Benefits:**
+- Clean, memorable URL
+- Track registrations in real-time
+- See conversion rate from social media
+- QR code for physical posters
+
+### 3. Donation Link
+
+Permanent donation link for non-profit:
+
+```
+https://payrequest.me/charity/donate
+```
+
+**Features:**
+- Fixed suggested amount (customers can change if payment page allows)
+- Track total donations
+- Calculate average donation size
+- Share QR code in physical locations
+
+### 4. Product Promotion
+
+Direct link to specific product with tracking:
+
+```
+https://payrequest.me/webshop/premium-bundle
+```
+
+**Advantages:**
+- Shorter than dynamic product links
+- Track which campaigns drive sales
+- Measure conversion from different channels
+- Professional branded URL
+
+### 5. QR Code Payments
+
+Print QR code on invoices, receipts, or signage:
+
+**Use cases:**
+- Restaurant table payments
+- Service provider invoices
+- Retail store deposits
+- Event entrance fees
+
+### 6. Limited Early Bird Campaign with SMS
+
+Create scarcity with payment limits and instant SMS delivery:
+
+```
+https://payrequest.me/gym/early-bird-50
+```
+
+**Setup:**
+- **Type**: Amount Link
+- **Amount**: €39.00 (normal price €59)
+- **Payment Limit**: Multiple times - 50 payments
+- **Delivery**: Send to existing customers via SMS
+- **Message**: "🎉 Early bird special! Only 50 spots at €39. Link: [URL]"
+
+**Benefits:**
+- Creates urgency with visible limit counter
+- Instant SMS delivery to customer database
+- Automatic deactivation at 50 payments
+- Track conversion rate by delivery method
+- Shows "X payments remaining" in real-time
+
+**Marketing Strategy:**
+1. Send initial batch via SMS to VIP customers
+2. Share link on social media once SMS customers claim spots
+3. Monitor analytics to see SMS vs social media conversion
+4. Link automatically closes when limit reached
+
+## Analytics Dashboard
+
+Every smart link tracks comprehensive analytics:
+
+### Key Metrics
+
+**Views**
+- Total number of link visits
+- Tracks every time someone opens the URL
+- Blue icon with eye symbol
+- **Detailed view tracking**: IP address (masked), browser/OS, referer, timestamp
+
+**Payments**
+- Successful payments through this link
+- Green icon with credit card symbol
+- Shows conversion percentage: `(payments / views) × 100`
+
+**Revenue**
+- Total amount collected via this smart link
+- Purple icon with euro symbol
+- Shows average payment value: `revenue / payments`
+
+### Payment Limit Tracking
+
+For smart links with payment limits, the detail page shows:
+
+**Remaining Payments Badge:**
+- Color-coded status indicator
+- Green: 4+ payments remaining
+- Orange: 1-3 payments remaining
+- Red: Limit reached
+
+**Payment Limit Card:**
+- Current limit type (One-time, Multiple, Unlimited)
+- Total limit (for multiple payment links)
+- Remaining payment count
+- Percentage of limit used
+
+<Info>
+When a payment limit is reached, the smart link automatically becomes inactive and displays a "Payment limit reached" message to customers.
+</Info>
+
+### Delivery Information
+
+If you sent the smart link to a customer, the detail page displays:
+
+**Delivery Card:**
+- Delivery methods used (Email/SMS badges)
+- Timestamp of when link was sent
+- Relative time (e.g., "2 hours ago")
+
+### Activity Log (Tabbed Interface)
+
+The smart link detail page shows a comprehensive activity dashboard with four tabs:
+
+#### All Tab
+Overview of all activity combined, sorted by date (newest first):
+- Payment events
+- View events
+- Link sent events
+- Reminder events
+
+#### Views Tab
+Detailed view analytics with pagination (10 per page):
+
+**Information tracked per view:**
+- Timestamp (e.g., "Dec 14, 2025 17:47")
+- Browser & OS (e.g., "Chrome / Mac", "Safari / iOS")
+- IP address (masked for privacy: "192.168.1.xxx")
+- Referer URL (where visitor came from)
+- Relative time (e.g., "2 hours ago")
+
+<Info>
+Detailed view tracking records every visit with analytics data. IP addresses are automatically masked (last octet hidden) for visitor privacy.
+</Info>
+
+#### Payments Tab
+All payments through this smart link with pagination:
+- Customer name
+- Payment date and time
+- Invoice number (if applicable)
+- Amount paid
+- Payment status badge
+
+#### Reminders Tab
+Reminder status and history:
+
+**Settings Summary:**
+- Frequency (Daily, Every 2 days, etc.)
+- Sent count vs. limit (e.g., "1 / 3")
+- Remaining reminders
+
+**Reminder Events:**
+- Sent reminders with timestamp
+- Scheduled reminders showing "Upcoming" status
+
+**Activity Timeline Features:**
+- Tab-based organization for easy navigation
+- Pagination for large datasets
+- All events sorted by date (newest first)
+- Different colored icons for quick identification
+- Amount displayed for payment events
+- Status badges for each activity type
+
+<Info>
+Activity data updates in real-time. New payments, views, and reminders appear immediately across all tabs.
+</Info>
+
+## Managing Smart Links
+
+### Editing Smart Links
+
+Click **Edit** on any smart link to modify:
+
+**Editable after creation:**
+- Path (URL slug)
+- Description
+- Internal notes (private)
+- Tags
+- After-payment redirect URL
+- Active/inactive status
+
+**Cannot change:**
+- Type (product vs amount)
+- The smart link will keep its analytics history
+
+### Duplicating Links
+
+Create a copy of an existing smart link:
+1. Click the **...** menu on any link
+2. Select **Duplicate**
+3. Modify the duplicated link as needed
+
+**Use cases:**
+- Create similar campaigns for different time periods
+- Test different amounts with same description
+- Duplicate successful campaigns
+
+### Deactivating Links
+
+Toggle a smart link active/inactive:
+
+**When inactive:**
+- URL returns 404 error
+- Link no longer accepts payments
+- Analytics history is preserved
+- Can be reactivated anytime
+
+**Use cases:**
+- End limited-time campaigns
+- Pause seasonal promotions
+- Disable outdated links
+
+## QR Code Integration
+
+Every smart link automatically generates a QR code.
+
+### Downloading QR Codes
+
+1. Open smart link detail page
+2. Right-click QR code image
+3. Save image (200x200px PNG)
+
+### QR Code Best Practices
+
+**Print Quality:**
+- Use vector format for large prints
+- Minimum size: 2cm × 2cm
+- Ensure high contrast (black on white)
+
+**Placement Ideas:**
+- Business cards
+- Flyers and posters
+- Table tents
+- Product packaging
+- Email signatures
+- Invoice footers
+
+<Warning>
+Always test QR codes after printing to ensure they scan correctly on different devices.
+</Warning>
+
+## After-Payment Actions
+
+Configure what happens after customers complete payment. Smart Links support three types of after-payment actions that can be combined:
+
+### 1. Redirect Option
+
+**Setting Location:** Smart Link Edit → After Payment Actions → Redirect Action
+
+**Redirect URL:**
+Enter a full URL to redirect customers after successful payment.
+
+**Common redirect destinations:**
+- Thank you page: `https://yourdomain.com/thank-you`
+- Discount code page: `https://yourdomain.com/special-offer`
+- Download link: `https://yourdomain.com/download/guide.pdf`
+- Member portal: `https://yourdomain.com/welcome`
+
+**Example:**
+```
+After payment redirect: https://fitnessstudio.com/welcome?promo=early-bird
+```
+
+<Tip>
+Use redirect URLs to provide immediate value: discount codes, exclusive content, or onboarding instructions.
+</Tip>
+
+### 2. Apply Tag to Customer
+
+Automatically add a tag to the customer when they complete payment through this smart link.
+
+**Setting Location:** Smart Link Create/Edit → After Payment Actions → Apply Tag to Customer
+
+<Note>
+This option only appears when you select a customer in "Send smart payment link to customer". Customer tags are designed for targeted customer-specific smart links.
+</Note>
+
+**How it works:**
+1. Select a customer to send the smart link to
+2. Choose a Customer-type tag from the "Apply Tag to Customer" dropdown
+3. When the customer completes payment, the tag is automatically added to their profile
+
+**Use cases:**
+
+| Scenario | Tag to Apply | Result |
+|----------|--------------|--------|
+| Promotion payment | "2025 Promo Buyer" | Track who bought via promotions |
+| VIP upgrade offer | "VIP Customer" | Auto-upgrade customer status |
+| Loyalty program | "Loyalty Member" | Enroll in loyalty program |
+| Course purchase | "Course Participant" | Grant course access |
+| Event registration | "Event Attendee 2025" | Track event participants |
+
+**Example Workflow:**
+```
+Smart Link: Early Bird Conference Ticket
+Customer: john@company.com
+Apply Tag: "Conference 2025 Attendee"
+
+→ John pays via the smart link
+→ "Conference 2025 Attendee" tag automatically added to his profile
+→ Filter all attendees by this tag for event communications
+```
+
+<Tip>
+Combine "Apply Tag" with email automations to trigger welcome sequences when customers receive specific tags.
+</Tip>
+
+### 3. Remove Tag from Customer
+
+Automatically remove a tag from the customer when they complete payment. The dropdown shows only tags that the customer currently has.
+
+**Setting Location:** Smart Link Create/Edit → After Payment Actions → Remove Tag from Customer
+
+<Info>
+The "Remove Tag" dropdown dynamically shows:
+- Tags the customer currently has
+- Plus: any tag selected in "Apply Tag" (since it will be added)
+
+If the customer has no tags, you'll see "This customer has no tags to remove".
+</Info>
+
+**How it works:**
+1. Select a customer to send the smart link to
+2. Choose a tag from "Remove Tag from Customer" (shows only customer's existing tags)
+3. When payment completes, the tag is automatically removed from their profile
+
+**Use cases:**
+
+| Scenario | Tag to Remove | Result |
+|----------|---------------|--------|
+| Payment reminder | "Overdue Payment" | Clear overdue status |
+| Trial conversion | "Trial User" | Remove trial status |
+| Upgrade payment | "Basic Plan" | Remove old plan tag |
+| Renewal | "Renewal Due" | Clear renewal reminder |
+| Debt collection | "Payment Pending" | Mark as paid |
+
+**Example Workflow:**
+```
+Smart Link: Outstanding Invoice Payment
+Customer: sarah@business.nl
+Remove Tag: "Overdue Payment"
+Apply Tag: "Paid Customer"
+
+→ Sarah pays her overdue invoice via the smart link
+→ "Overdue Payment" tag automatically removed
+→ "Paid Customer" tag automatically added
+→ Customer status updated in one action
+```
+
+<Warning>
+The "Remove Tag" dropdown only shows tags the customer actually has. If you don't see a tag, the customer doesn't have it assigned.
+</Warning>
+
+### Combining All Three Actions
+
+You can use all three after-payment actions together for powerful automation:
+
+**Complete Example:**
+```
+Smart Link: VIP Membership Upgrade
+Customer: existing-customer@email.com
+Redirect: https://yourdomain.com/vip-welcome
+Apply Tag: "VIP Member"
+Remove Tag: "Standard Member"
+
+Result after payment:
+✅ Customer redirected to VIP welcome page
+✅ "VIP Member" tag added to profile
+✅ "Standard Member" tag removed from profile
+```
+
+<Tip>
+This combination is perfect for upgrade flows, trial conversions, and membership tier changes where you need to update customer status and provide immediate next steps.
+</Tip>
+
+## Tags and Organization
+
+Organize smart links using the tag system. Smart Links support two types of tags:
+
+1. **Smart Link Tags**: Organize your smart links by campaign, channel, or purpose
+2. **Customer Tags**: Automatically applied/removed from customers after payment (see After-Payment Actions)
+
+### Creating Tags Inline
+
+When creating or editing a smart link, you can create new tags directly without leaving the form:
+
+1. Scroll to the **Smart Link Tags** section
+2. Click **Create New Tag**
+3. Enter a tag name
+4. Select a color from the color picker
+5. Click **Create Tag**
+
+The new tag is immediately available and selected.
+
+<Tip>
+Inline tag creation saves time when setting up campaigns. No need to navigate to the Tags page first.
+</Tip>
+
+### Managing Tags on Smart Links
+
+From the smart link detail page:
+
+1. Click the **pencil icon** next to "Tags" in the sidebar
+2. The tag management modal opens
+3. Select or deselect tags using the searchable dropdown
+4. Create new tags inline if needed
+5. Click **Save Tags**
+
+### Tag Use Cases
+
+**By Campaign:**
+- "Summer 2025"
+- "Black Friday"
+- "Newsletter Campaign"
+
+**By Channel:**
+- "Social Media"
+- "Email"
+- "Print Materials"
+
+**By Purpose:**
+- "Donations"
+- "Event Tickets"
+- "Product Sales"
+
+### Filtering by Tags
+
+In the Smart Links list:
+1. Click **Tag Filter** dropdown
+2. Select one or more tags
+3. View only matching smart links
+
+## Technical Details
+
+### URL Routing
+
+Smart links use intelligent routing:
+
+1. **Amount routes** match numeric values: `/[handle]/12.50`
+2. **Smart link routes** match alphabetic paths: `/[handle]/campaign-name`
+3. **Default payment page**: `/[handle]`
+
+<Info>
+Smart link paths must start with a letter (not a number) to avoid conflicts with amount-based payment links.
+</Info>
+
+### Payment Page Customization
+
+When accessed via smart link, the payment page shows:
+
+**Custom Content:**
+- **Title**: Smart link name (instead of payment page title)
+- **Description**: Smart link description (instead of default)
+- **Amount**: Pre-filled and disabled (amount links only)
+
+**Hidden Elements:**
+- Minimum/maximum amount text
+- Amount field editing (for amount links)
+
+### Session Tracking
+
+Smart links use session-based tracking:
+
+**Data stored:**
+- Smart link ID
+- Link name and description
+- Fixed amount (for amount links)
+- Original path
+
+**Payment attribution:**
+- Session persists through checkout
+- Payment webhook links transaction to smart link
+- Analytics update automatically
+
+## Advanced Integration
+
+### Email Campaign Integration
+
+Include smart links in marketing emails:
+
+```html
+<a href="https://payrequest.me/yourhandle/special-offer">
+  Claim Your Discount - Pay Now
+</a>
+```
+
+**Benefits:**
+- Track email campaign conversion
+- Shorter, cleaner URLs than dynamic links
+- Professional branding
+
+### Social Media Campaigns
+
+Share smart links on social platforms:
+
+**Twitter/X:**
+```
+Early bird discount ends midnight!
+🎟️ Get your ticket: payrequest.me/event/ticket-2025
+```
+
+**Instagram Bio:**
+```
+💳 Pay tuition: payrequest.me/school/tuition
+```
+
+**Facebook Post:**
+```
+Donate to our cause: payrequest.me/charity/donate
+Track: Total donations and supporter count via analytics
+```
+
+### Website Integration
+
+Embed smart links on your website:
+
+**Button example:**
+```html
+<a href="https://payrequest.me/yourhandle/premium-plan"
+   class="btn btn-primary">
+  Subscribe to Premium - €49/month
+</a>
+```
+
+**QR Code embed:**
+```html
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payrequest.me/yourhandle/donate"
+     alt="Scan to donate">
+```
+
+## Security Best Practices
+
+### ✅ Do's
+
+- **Use descriptive paths** that indicate the purpose
+- **Monitor analytics** for unusual activity
+- **Deactivate old campaigns** to prevent confusion
+- **Test links** before launching campaigns
+- **Use tags** to track campaign performance
+- **Set after-payment redirects** for better customer experience
+
+### ❌ Don'ts
+
+- **Don't use paths** that could be guessed (avoid "test", "temp")
+- **Don't share inactive links** (they'll return 404)
+- **Don't change paths** during active campaigns (breaks existing shares)
+- **Don't delete links** with important analytics history
+- **Don't use generic names** like "link1", "payment2"
+
+## Troubleshooting
+
+### Smart Link Returns 404
+
+**Causes:**
+1. Link is inactive (check status badge)
+2. Path was changed recently
+3. Business handle doesn't match
+4. Link was deleted
+
+**Solutions:**
+- Verify link is **Active** in smart links list
+- Check path spelling (case-sensitive)
+- Confirm business handle in Settings → Payment Page
+
+### Analytics Not Updating
+
+**Check:**
+1. Payment completed successfully (check Transactions)
+2. Customer paid within same session (session timeout = 2 hours)
+3. Smart link ID appears in transaction details
+
+**Manual verification:**
+Navigate to transaction detail page and check "Smart Link" field.
+
+### QR Code Not Scanning
+
+**Fixes:**
+1. Increase QR code size (minimum 2cm × 2cm for print)
+2. Ensure high contrast (black QR on white background)
+3. Test with multiple QR scanner apps
+4. Regenerate QR code if image is corrupted
+
+### Wrong Amount Showing
+
+**For Amount Links:**
+- Amount is fixed based on smart link configuration
+- Edit smart link to change amount
+- Clear browser cache and revisit URL
+
+### Payment Page Shows Wrong Title
+
+**Cause:** Session data not loading correctly
+
+**Fix:**
+1. Clear browser cookies
+2. Open link in incognito/private mode
+3. Verify smart link description is set
+
+## Examples Library
+
+### Donation Campaign
+```
+Name: Monthly Donor Program
+Type: Amount Link
+Amount: €10.00
+Path: monthly-donation
+URL: https://payrequest.me/charity/monthly-donation
+```
+
+### Event Ticket
+```
+Name: Tech Conference 2025
+Type: Amount Link
+Amount: €149.00
+Path: techconf-2025
+After Payment: https://techconf.com/thank-you
+URL: https://payrequest.me/events/techconf-2025
+```
+
+### Product Promotion
+```
+Name: Premium Bundle Sale
+Type: Product Link
+Product: Premium Bundle (ID: 1814)
+Path: premium-bundle
+Tags: Summer Sale, Products
+URL: https://payrequest.me/shop/premium-bundle
+```
+
+### Service Deposit
+```
+Name: Web Design Deposit
+Type: Amount Link
+Amount: €500.00
+Path: design-deposit
+Description: 50% deposit for web design project
+URL: https://payrequest.me/agency/design-deposit
+```
+
+### Security Deposit (Authorization Hold)
+```
+Name: Airbnb Deposit March 2025
+Type: Product Link (Deposit product)
+Product: Airbnb Borg (€500, 14-day hold)
+Path: airbnb-borg-march
+Description: Security deposit for your Airbnb stay
+URL: https://payrequest.me/hosting/airbnb-borg-march
+```
+
+**How it works:**
+- Customer pays with credit card → €500 is held (not charged)
+- After checkout inspection → capture €75 for damages or release full amount
+- All deposit management happens in the Deposits tab of this smart link
+- Customer gets a branded status page to track their deposit
+
+See [Security Deposits →](/payment-processing/security-deposits) for full documentation.
+
+### Limited Workshop with SMS Delivery
+```
+Name: Photography Workshop March 2025
+Type: Amount Link
+Amount: €89.00
+Path: photo-workshop-march
+Payment Limit: Multiple times - 20
+Delivery: Select customer → Email + SMS
+Tags: Workshops, March 2025
+URL: https://payrequest.me/studio/photo-workshop-march
+```
+
+**Customer receives:**
+- Email: Professional branded invitation with link
+- SMS: "Hi John, your photography workshop link: payrequest.me/studio/photo-workshop-march"
+
+**Dashboard shows:**
+- Delivery: Email + SMS badges
+- Sent at: Mar 1, 2025 10:30 AM
+- Remaining: 15 of 20 payments left
+- Analytics: 45 views, 5 payments, 11% conversion
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What's the difference between Smart Links and Dynamic Payment Links?">
+    **Smart Links** are permanent, reusable URLs with built-in analytics. They're designed for campaigns and marketing.
+
+    **Dynamic Payment Links** are generated on-demand with query parameters. They're better for personalized payment requests with customer data.
+  </Accordion>
+
+  <Accordion title="Can I change the smart link path after creation?">
+    Yes! Edit the smart link and modify the "Path" field. However, this will break any existing links you've shared, so only change paths before launching campaigns.
+  </Accordion>
+
+  <Accordion title="How long are analytics stored?">
+    Analytics are stored permanently for the lifetime of your smart link. Even if you deactivate a link, historical data remains accessible.
+  </Accordion>
+
+  <Accordion title="Can I use custom domains with Smart Links?">
+    Currently, all smart links use the `payrequest.me` domain with your business handle. Custom domain support for smart links is planned for a future update.
+  </Accordion>
+
+  <Accordion title="What happens if I delete a smart link?">
+    Deleted smart links cannot be recovered. The URL will return a 404 error, and all analytics data is permanently lost. Consider deactivating instead of deleting.
+  </Accordion>
+
+  <Accordion title="Can customers change the amount in amount-based smart links?">
+    No. Amount links display a disabled amount field. The payment amount is fixed and cannot be modified by customers. This ensures consistent pricing for campaigns.
+  </Accordion>
+
+  <Accordion title="How do payment limits work?">
+    Payment limits control how many successful payments a smart link can accept:
+
+    - **One-time**: Link disables after first payment
+    - **Multiple**: Set custom limit (1-1000), link disables when reached
+    - **Unlimited**: Default, accepts infinite payments
+
+    Only successful (paid) transactions count toward the limit. Failed or pending payments are not counted. When the limit is reached, customers see "Payment limit reached" and cannot complete payment.
+  </Accordion>
+
+  <Accordion title="Can I send smart links via SMS?">
+    Yes! When creating a smart link, you can select a customer and choose delivery methods:
+
+    - Email only
+    - SMS only (requires valid phone number with country code)
+    - Both email and SMS
+
+    SMS messages are sent via MessageBird and include a personalized message with the payment link. The customer must have a valid international phone number (e.g., +31612345678) for SMS delivery to be available.
+  </Accordion>
+
+  <Accordion title="What happens when a payment limit is reached?">
+    When a smart link reaches its payment limit:
+
+    1. Link automatically becomes inactive
+    2. Customers see "Payment limit reached" error message
+    3. No more payments can be accepted
+    4. Analytics show "Limit reached" badge in red
+    5. You can reactivate by editing the link and increasing the limit
+
+    All existing analytics data is preserved when the limit is reached.
+  </Accordion>
+
+  <Accordion title="Can I change the payment limit after creating a smart link?">
+    Yes! Edit the smart link and modify the payment limit settings. You can:
+
+    - Change from unlimited to limited (or vice versa)
+    - Increase or decrease the limit number
+    - Switch between one-time and multiple payments
+
+    However, existing payment counts remain. If a link already has 5 payments and you set the limit to 3, it will immediately be marked as "limit reached".
+  </Accordion>
+
+  <Accordion title="How do customer tag actions work?">
+    When you select a customer to send a smart link to, two additional options appear:
+
+    - **Apply Tag to Customer**: Adds a Customer-type tag to the customer's profile after payment
+    - **Remove Tag from Customer**: Removes an existing tag from the customer after payment
+
+    Both actions are optional and can be combined. For example, you can remove "Trial User" and add "Paid Customer" in one payment action.
+  </Accordion>
+
+  <Accordion title="Why don't I see the Apply/Remove Tag options?">
+    The customer tag action fields only appear when you:
+
+    1. Select a customer in "Send smart payment link to customer"
+    2. The tag dropdowns then become visible
+
+    These features are designed for targeted, customer-specific payment links where you want to automate customer status updates.
+  </Accordion>
+
+  <Accordion title="Why doesn't the Remove Tag dropdown show all customer tags?">
+    The "Remove Tag from Customer" dropdown is smart - it only shows:
+
+    - Tags that the selected customer currently has
+    - Plus any tag you've selected in "Apply Tag" (since it will be added)
+
+    This prevents confusion and ensures you can only remove tags the customer actually has. If the customer has no tags, you'll see "This customer has no tags to remove".
+  </Accordion>
+
+  <Accordion title="Can I create tags while creating a smart link?">
+    Yes! You can create new tags directly from the smart link form:
+
+    1. Click "Create New Tag" in the Smart Link Tags section
+    2. Enter a name and choose a color
+    3. Click "Create Tag"
+
+    The new tag is immediately created and selected. This works for Smart Link tags during creation and editing, as well as in the tag management modal on the detail page.
+  </Accordion>
+
+  <Accordion title="How do payment reminders work?">
+    Payment reminders automatically send follow-up messages to customers who haven't paid:
+
+    1. Enable reminders when sending a smart link to a customer
+    2. Choose frequency: Daily, Every 2 days, Every 3 days, Weekly, or Monthly
+    3. Set maximum reminders (1-50)
+    4. Reminders are sent via the same method(s) as the original link (Email/SMS)
+
+    Reminders automatically stop when the customer pays or when the maximum limit is reached.
+  </Accordion>
+
+  <Accordion title="Can I change reminder settings after creating a smart link?">
+    Yes! Edit the smart link and modify the reminder settings:
+
+    - Enable or disable reminders
+    - Change the frequency
+    - Adjust the maximum reminder count
+
+    If reminders have already been sent, you'll see a status showing how many were sent and when the next one is scheduled.
+  </Accordion>
+
+  <Accordion title="Why don't I see the reminder options?">
+    Payment reminders only appear when:
+
+    1. You select a customer in "Send smart payment link to customer"
+    2. You select at least one delivery method (Email or SMS)
+
+    Reminders require a customer association because they need somewhere to send the follow-up messages. Public smart links without a customer cannot have reminders.
+  </Accordion>
+
+  <Accordion title="What happens to reminders when a customer pays?">
+    When a customer completes payment through the smart link:
+
+    - All scheduled reminders are automatically cancelled
+    - No more reminders will be sent
+    - The reminder status shows as complete
+
+    This prevents customers from receiving unnecessary payment reminders after they've already paid.
+  </Accordion>
+
+  <Accordion title="What information is tracked for each view?">
+    Every time someone opens your smart link, the following is recorded:
+
+    - **Timestamp**: Exact date and time of the visit
+    - **IP Address**: Visitor's IP (automatically masked for privacy: last octet hidden)
+    - **Browser/OS**: Detected from user agent (e.g., "Chrome / Windows", "Safari / iOS")
+    - **Referer**: The URL the visitor came from (if available)
+
+    This data helps you understand when and how people access your payment links. All IP addresses are masked to protect visitor privacy.
+  </Accordion>
+
+  <Accordion title="How do the activity tabs work?">
+    The activity section on the smart link detail page has four tabs:
+
+    - **All**: Combined view of all activity types (views, payments, reminders, sent events)
+    - **Views**: Paginated list of all detailed view records with IP, browser, and timestamp
+    - **Payments**: Paginated list of all payments with customer name, amount, and status
+    - **Reminders**: Reminder settings summary and sent/scheduled reminder events
+
+    Each tab updates in real-time as new activity occurs. Views and Payments tabs support pagination (10 items per page).
+  </Accordion>
+
+  <Accordion title="What is a Deposit Link?">
+    When you create a Product Link that points to a **Security Deposit** product, the smart link becomes a deposit link. This adds a **Deposits tab** to the detail page where you can:
+
+    - View all authorization holds from customers
+    - See hold duration progress bars
+    - Capture full or partial amounts
+    - Release holds back to customers
+    - View capture history
+
+    Deposit links only accept credit card payments (required for authorization holds). See [Security Deposits →](/payment-processing/security-deposits) for full details.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Security Deposits" icon="shield-halved" href="/payment-processing/security-deposits">
+    Collect authorization holds for rentals and services
+  </Card>
+  <Card title="Payment Page Setup" icon="file-invoice" href="/payment-processing/payment-page-dynamic-links">
+    Configure your payment page settings
+  </Card>
+  <Card title="Products" icon="box" href="/products-and-pricing/creating-products">
+    Create products for product links
+  </Card>
+  <Card title="Tags System" icon="tag" href="/organization-and-automation/tags-system">
+    Organize with tags
+  </Card>
+</CardGroup>

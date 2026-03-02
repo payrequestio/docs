@@ -1,8 +1,141 @@
 ---
-title: Setup Fees
-description: 'Configure one-time onboarding costs'
+title: 'Setup Fees'
+description: 'Add customizable one-time setup fees to products with custom names and descriptions'
+icon: 'money-bill-1'
 ---
 
-# Setup Fees
+## Overview
 
-_Work in progress. Content coming soon._
+Setup fees let you add a one-time charge on top of a product's regular price. This is commonly used for onboarding costs, installation fees, deposits (borg), or activation charges. The setup fee is charged once during the first purchase and does not repeat for subscription renewals.
+
+<Tip>
+Setup fees are fully customizable — you can change the name and description to match your business terminology. Instead of generic "Setup Fee", show "Borg", "Installation", "Onboarding Fee", or whatever fits your context.
+</Tip>
+
+## Enabling Setup Fees
+
+### Step 1: Edit Your Product
+
+Navigate to **Products** → select a product → **Edit**.
+
+### Step 2: Enable Setup Fee
+
+1. Toggle **Has Setup Fee** to on
+2. Enter the **Setup Fee Amount** (e.g., €25.00)
+3. Optionally customize the name and description
+
+### Step 3: Customize Name & Description
+
+When the setup fee toggle is enabled, two additional fields appear:
+
+**Setup Fee Name** (Optional)
+- Custom label for the fee
+- Default: "Setupkosten" (Setup Costs)
+- Examples: "Borg", "Installation Fee", "Onboarding", "Activation"
+
+**Setup Fee Description** (Optional)
+- Explanation shown alongside the fee
+- Default: "One-time setup fee for this service"
+- Examples: "Refundable deposit for equipment", "One-time professional installation"
+
+<Info>
+If you leave the name and description blank, the defaults are used automatically. You only need to fill these in if you want custom terminology.
+</Info>
+
+## Where Setup Fees Appear
+
+Setup fees are displayed consistently throughout the customer journey:
+
+| Location | What's Shown |
+|----------|-------------|
+| Shop product page | Fee name + amount below the product price |
+| Shopping cart | Separate line item with custom name |
+| Checkout summary | Fee listed with product, before total |
+| Invoice | Line item with custom name and description |
+| Order confirmation | Fee amount in order breakdown |
+
+## Common Use Cases
+
+### Borg (Deposit)
+Dutch businesses commonly use "Borg" for refundable deposits:
+
+```
+Product: Office Space Rental (€500/month)
+Setup Fee: €1,000
+Name: "Borg"
+Description: "Refundable deposit, returned at end of contract"
+```
+
+### Installation Fee
+For products requiring physical setup:
+
+```
+Product: Fiber Internet (€49.99/month)
+Setup Fee: €75.00
+Name: "Installatiekosten"
+Description: "Professional installation at your location"
+```
+
+### Onboarding Fee
+For SaaS products with initial setup:
+
+```
+Product: CRM Platform (€29/month)
+Setup Fee: €199.00
+Name: "Onboarding Fee"
+Description: "One-time setup, data migration, and training session"
+```
+
+### Activation Fee
+For services requiring account activation:
+
+```
+Product: Hosting Plan (€9.99/month)
+Setup Fee: €15.00
+Name: "Activation Fee"
+Description: "One-time account activation and server provisioning"
+```
+
+## Setup Fees with Subscriptions
+
+When a product has both a recurring price and a setup fee:
+
+1. **First payment**: Regular price + setup fee
+2. **All subsequent payments**: Regular price only
+
+The setup fee is clearly separated in the cart and checkout so customers understand it's a one-time charge.
+
+<Note>
+Setup fees do not affect subscription billing cycles. They are charged once at the initial purchase and never again, even if the subscription is paused and resumed.
+</Note>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I add a setup fee to an existing product?">
+    Yes. Edit the product, enable the setup fee toggle, and set the amount. New purchases will include the fee. Existing subscriptions are not affected.
+  </Accordion>
+
+  <Accordion title="Is the setup fee included in the product price display?">
+    The setup fee is shown as a separate line item, not added to the product price. Customers see the product price and setup fee as distinct charges in the cart and checkout.
+  </Accordion>
+
+  <Accordion title="Can I make the setup fee name different per product?">
+    Yes. Each product has its own setup fee name and description fields. You can call it "Borg" on one product and "Installation" on another.
+  </Accordion>
+
+  <Accordion title="Does the setup fee appear on invoices?">
+    Yes. The setup fee appears as a separate line item on the invoice with your custom name and description.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Creating Products" icon="box" href="/products-and-pricing/creating-products">
+    Learn about all product configuration options
+  </Card>
+  <Card title="Quantity Pricing" icon="hashtag" href="/products-and-pricing/quantity-based-pricing">
+    Seat-based and quantity pricing
+  </Card>
+</CardGroup>

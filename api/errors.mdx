@@ -1,0 +1,270 @@
+---
+title: 'Error Handling'
+description: 'Understanding and handling API errors'
+icon: 'triangle-exclamation'
+---
+
+# Error Handling
+
+The PayRequest API uses conventional HTTP response codes and returns detailed error messages to help you diagnose issues quickly.
+
+## HTTP Status Codes
+
+| Code | Meaning | Description |
+|------|---------|-------------|
+| `200` | OK | Request succeeded |
+| `201` | Created | Resource created successfully |
+| `400` | Bad Request | Invalid request parameters or body |
+| `401` | Unauthorized | Missing or invalid authentication |
+| `403` | Forbidden | Valid auth but insufficient permissions |
+| `404` | Not Found | Resource doesn't exist or doesn't belong to you |
+| `422` | Unprocessable Entity | Validation errors |
+| `429` | Too Many Requests | Rate limit exceeded |
+| `500` | Internal Server Error | Something went wrong on our end |
+
+## Error Response Format
+
+All error responses follow this structure:
+
+```json
+{
+  "success": false,
+  "error": "Human-readable error message",
+  "errors": {
+    "field_name": [
+      "Specific validation error"
+    ]
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `success` | boolean | Always `false` for errors |
+| `error` | string | General error description |
+| `errors` | object | Field-specific validation errors (optional) |
+
+## Common Errors
+
+### Authentication Errors
+
+<Accordion title="401 - Unauthenticated">
+**Cause**: Missing, invalid, or expired access token.
+
+```json
+{
+  "message": "Unauthenticated."
+}
+```
+
+**Solutions**:
+- Ensure you're including the `Authorization` header
+- Check that your token starts with `Bearer `
+- Generate a new token if expired
+</Accordion>
+
+<Accordion title="403 - Insufficient Scope">
+**Cause**: Your token doesn't have the required scope.
+
+```json
+{
+  "success": false,
+  "error": "Invalid scope(s) provided."
+}
+```
+
+**Solutions**:
+- Check which scope the endpoint requires
+- Create a new token with the required scopes
+- Use the [Authentication guide](/api/authentication) for scope details
+</Accordion>
+
+### Validation Errors
+
+<Accordion title="422 - Validation Failed">
+**Cause**: Request body failed validation rules.
+
+```json
+{
+  "success": false,
+  "error": "The given data was invalid.",
+  "errors": {
+    "customer_id": ["The customer id field is required."],
+    "items": ["The items field is required."],
+    "due_date": ["The due date must be a date after or equal to date."]
+  }
+}
+```
+
+**Solutions**:
+- Check each field in the `errors` object
+- Ensure required fields are provided
+- Verify data types and formats match the documentation
+</Accordion>
+
+### Resource Errors
+
+<Accordion title="404 - Not Found">
+**Cause**: Resource doesn't exist or doesn't belong to your account.
+
+```json
+{
+  "success": false,
+  "error": "Invoice not found"
+}
+```
+
+**Solutions**:
+- Verify the resource ID is correct
+- Ensure the resource belongs to your account
+- Check if the resource was deleted
+</Accordion>
+
+<Accordion title="400 - Bad Request">
+**Cause**: Business logic prevented the action.
+
+```json
+{
+  "success": false,
+  "error": "Invoice is already paid"
+}
+```
+
+**Solutions**:
+- Check the current state of the resource
+- Review the error message for specific guidance
+</Accordion>
+
+### Rate Limiting
+
+<Accordion title="429 - Rate Limited">
+**Cause**: Too many requests in a short period.
+
+```json
+{
+  "success": false,
+  "error": "Too many requests. Please try again later."
+}
+```
+
+**Headers included**:
+```
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1706540400
+Retry-After: 45
+```
+
+**Solutions**:
+- Implement exponential backoff
+- Cache responses where possible
+- Wait until `X-RateLimit-Reset` timestamp
+</Accordion>
+
+## Best Practices
+
+### Implement Proper Error Handling
+
+```javascript
+async function apiRequest(endpoint, options = {}) {
+  const response = await fetch(`https://payrequest.app/api/v1${endpoint}`, {
+    ...options,
+    headers: {
+      'Authorization': `Bearer ${process.env.PAYREQUEST_TOKEN}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      ...options.headers
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    // Handle specific error types
+    switch (response.status) {
+      case 401:
+        throw new AuthenticationError('Invalid or expired token');
+      case 403:
+        throw new PermissionError('Insufficient permissions');
+      case 404:
+        throw new NotFoundError(data.error || 'Resource not found');
+      case 422:
+        throw new ValidationError(data.errors);
+      case 429:
+        const retryAfter = response.headers.get('Retry-After');
+        throw new RateLimitError(`Rate limited. Retry after ${retryAfter}s`);
+      default:
+        throw new ApiError(data.error || 'Unknown error');
+    }
+  }
+
+  return data;
+}
+```
+
+### Retry Strategy
+
+For transient errors (5xx, network issues), implement exponential backoff:
+
+```javascript
+async function apiRequestWithRetry(endpoint, options, maxRetries = 3) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await apiRequest(endpoint, options);
+    } catch (error) {
+      // Don't retry client errors (4xx)
+      if (error.status >= 400 && error.status < 500) {
+        throw error;
+      }
+
+      // Don't retry on last attempt
+      if (attempt === maxRetries - 1) {
+        throw error;
+      }
+
+      // Exponential backoff: 1s, 2s, 4s
+      const delay = Math.pow(2, attempt) * 1000;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+```
+
+### Validate Before Sending
+
+Catch validation issues early:
+
+```javascript
+function validateInvoiceData(data) {
+  const errors = {};
+
+  if (!data.customer_id) {
+    errors.customer_id = ['Customer ID is required'];
+  }
+
+  if (!data.items || data.items.length === 0) {
+    errors.items = ['At least one line item is required'];
+  }
+
+  if (data.due_date && data.date && new Date(data.due_date) < new Date(data.date)) {
+    errors.due_date = ['Due date must be on or after invoice date'];
+  }
+
+  if (Object.keys(errors).length > 0) {
+    throw new ValidationError(errors);
+  }
+}
+```
+
+## Getting Help
+
+If you encounter persistent errors:
+
+1. Check this documentation for the endpoint requirements
+2. Verify your token has the correct scopes
+3. Test with a minimal request body
+4. Contact [support@payrequest.io](mailto:support@payrequest.io) with:
+   - The endpoint you're calling
+   - Your request (without the token)
+   - The error response
+   - Your account email

@@ -1,8 +1,214 @@
 ---
-title: Customer Portal
-description: 'Self-service capabilities'
+title: "Customer Portal"
+description: "Give your customers a self-service portal to manage subscriptions, view invoices, pay bills, and update their preferences"
 ---
 
 # Customer Portal
 
-_Work in progress. Content coming soon._
+The PayRequest Customer Portal is a full self-service experience for your customers. When customers log into your shop, they get a personal dashboard with everything they need: subscriptions, invoices, orders, payment methods, support tickets, and account settings.
+
+<Info>
+The Customer Portal is automatically available for every shop. Customers register or log in via your shop URL (or custom domain) and get immediate access to their personal dashboard.
+</Info>
+
+## Portal Navigation
+
+When logged in, customers see a persistent sidebar with quick access to all portal sections:
+
+| Section | Description |
+|---------|-------------|
+| **Shop** | Return to the shop homepage / product catalog |
+| **Payment Methods** | Manage SEPA mandates and saved payment methods |
+| **Edit Details** | Update name, email, address, and company information |
+| **Invoices** | View all invoices, pay outstanding ones, download PDFs |
+| **Orders** | Browse order history with details |
+| **Subscriptions** | Manage active subscriptions (pause, resume, cancel) |
+| **Support** | Create and track support tickets |
+| **Contact Persons** | Add people from the organization to receive email notifications |
+| **Notifications** | View announcements, alerts, and updates from the business |
+| **Settings** | Appearance, language, and notification preferences |
+
+The sidebar also shows **open invoices** with amounts and **open support tickets** with status badges, giving customers a quick overview of items that need attention.
+
+## Customer Homepage
+
+The homepage is the customer's personal dashboard. It shows at-a-glance statistics and recent activity.
+
+### Statistics Cards
+
+Three clickable stat cards at the top show:
+
+- **Orders** — Total order count, links to order history
+- **Invoices** — Total invoice count, links to invoice list
+- **Subscriptions** — Active subscription count, links to subscription management
+
+### Active Subscriptions
+
+A prominent section showing all active subscriptions with:
+
+- Product name and status badge (Active, Paused, Trial)
+- Billing interval and amount (e.g., "monthly" at "15.00/month")
+- Next billing date
+- Trial end date (if on trial, with countdown)
+- Direct link to subscription details
+
+### Recent Orders
+
+The most recent orders displayed with:
+
+- Order number and date
+- Total amount
+- Link to order details
+
+### Open Invoices & Tickets (Mobile)
+
+On mobile devices, open invoices and support tickets are displayed as alert cards. On desktop, these appear in the sidebar instead.
+
+## Portal Pages
+
+### Invoices
+
+Customers can browse all their invoices with status indicators:
+
+- **Pay outstanding invoices** directly via iDEAL, credit card, or saved payment methods
+- **Download PDF** invoices for their records
+- **Request a refund** for paid invoices — submits a support ticket linked to the invoice (see [Refund Requests](/invoices/refund-requests))
+- View payment history and transaction details per invoice
+- Filter by status (paid, unpaid, pending)
+
+### Subscriptions
+
+Full subscription self-management:
+
+- View subscription details (product, amount, interval, next billing)
+- **Pause** a subscription temporarily
+- **Resume** a paused subscription
+- **Cancel** a subscription
+- View custom fields associated with the subscription
+- See trial status and end dates
+
+<Info>
+Subscription self-management can be enabled or disabled per product via the **Allow Self-Management** toggle in product settings.
+</Info>
+
+### Orders
+
+Complete order history with:
+
+- Order number, date, and status
+- Line items with quantities and amounts
+- Order total with tax breakdown
+
+### Payment Methods (Mandates)
+
+Customers can manage their saved payment methods:
+
+- View active SEPA Direct Debit mandates
+- See mandate status (valid, pending, invalid)
+- Add new payment methods
+- Use saved methods to pay invoices
+
+### Profile
+
+Customers can update their personal and business details:
+
+- Name, email, phone number
+- Address (street, city, postal code, country)
+- Company details (for business customers)
+
+### Debt Collection Cases
+
+When a business opens a collection case for an overdue invoice, the customer sees it in their portal:
+
+- View case details (case number, linked invoice, days overdue)
+- See amount breakdown (original amount + any collection fees)
+- Visual progress indicator showing the current collection stage
+- **Pay Now** button to settle the full amount immediately
+- **Request a payment plan** to pay in monthly installments (when enabled by the business)
+
+<Info>
+Customers can only see collection cases linked to their own invoices. The portal shows clear, professional communication without unnecessary legal jargon.
+</Info>
+
+### Support
+
+Integrated support ticket system:
+
+- Create new support tickets
+- Track ticket status (Open, In Review, Resolved)
+- Add replies to existing tickets
+- View ticket history
+- Receive email notifications when the business replies
+
+See [Support Requests](/customer-management/support-requests) for full documentation on managing support tickets from the admin side.
+
+### Contact Persons
+
+Customers can add additional people from their organization to receive email notifications:
+
+- Add up to 10 contact persons with name, email, phone, and role
+- Choose notification preferences per contact: **Billing emails** (invoices, payments) or **Account emails** (subscriptions, orders)
+- Edit or remove contact persons at any time
+
+See [Contact Persons](/customer-management/contact-persons) for full documentation.
+
+### Settings
+
+A dedicated settings page where customers control their portal experience. See [Customer Portal Settings](/customer-management/customer-portal-settings) for full details.
+
+- **Appearance** — Choose between System, Light, or Dark mode
+- **Language** — Select Auto (browser default), English, or Dutch
+- **Notifications** — Toggle email notifications per category
+
+## Custom Domain Support
+
+The Customer Portal works seamlessly on custom domains. If you've configured a custom domain for your shop (e.g., `shop.yourbusiness.com`), the entire portal including all customer pages, settings, and payment flows operates under your domain.
+
+Everything works automatically under your domain — a fully white-label experience for your customers.
+
+## Customer Authentication
+
+Customers create an account on your shop and log in with their email and password. They stay logged in during their session and can log out from the portal header.
+
+<Warning>
+Customer login is completely separate from your PayRequest dashboard. Customers cannot access your business dashboard.
+</Warning>
+
+## Mobile Experience
+
+The portal is fully responsive:
+
+- **Desktop** — Sidebar navigation with all sections visible
+- **Mobile** — Optimized layout with collapsible sections, open invoices and tickets shown inline instead of sidebar
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Portal Settings" icon="gear" href="/customer-management/customer-portal-settings">
+    Learn about appearance, language, and notification preferences
+  </Card>
+
+  <Card title="Customer Profiles" icon="users" href="/customer-management/customer-profiles">
+    Managing customer profiles and data
+  </Card>
+
+  <Card title="Custom Domains" icon="globe" href="/shop-and-checkout/custom-domains">
+    Set up a custom domain for your shop and portal
+  </Card>
+
+  <Card title="Subscription Self-Service" icon="refresh" href="/subscriptions/customer-self-service">
+    Configure what customers can manage themselves
+  </Card>
+
+  <Card title="Debt Collection" icon="scale-balanced" href="/debt-collection/overview">
+    How collection cases appear in the customer portal
+  </Card>
+
+  <Card title="Refund Requests" icon="arrow-rotate-left" href="/invoices/refund-requests">
+    How customers can request refunds for paid invoices
+  </Card>
+
+  <Card title="Portal Notifications" icon="bell" href="/customer-management/portal-notifications">
+    Send announcements and alerts to customers in the portal
+  </Card>
+</CardGroup>

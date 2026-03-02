@@ -1,8 +1,490 @@
 ---
 title: Billing Cycles
-description: 'Configure intervals and payment timing'
+description: 'Configure payment intervals, timing, and billing behavior for subscriptions'
+icon: 'calendar'
 ---
 
-# Billing Cycles
+## Overview
 
-_Work in progress. Content coming soon._
+Billing cycles determine when and how often customers are charged for their subscriptions. PayRequest supports flexible billing intervals, custom timing, and automatic billing date management.
+
+<Tip>
+Choose billing cycles that match your business model. Monthly billing provides steady cash flow, while annual billing reduces churn and administrative overhead.
+</Tip>
+
+## Supported Billing Intervals
+
+PayRequest supports the following billing intervals:
+
+| Interval | Billing Frequency | Common Use Cases |
+|----------|------------------|------------------|
+| **Monthly** | Every 30 days | SaaS, memberships, retainers |
+| **Quarterly** | Every 3 months | Enterprise contracts, seasonal services |
+| **Yearly** | Every 12 months | Annual subscriptions, domain renewals |
+
+<Info>
+The billing interval is configured on the **product** level. All subscriptions using that product follow the same interval.
+</Info>
+
+## How Billing Works
+
+### Billing Date Calculation
+
+When a subscription is created, PayRequest calculates the first and subsequent billing dates:
+
+**Without Trial:**
+```
+Creation date: December 5, 2025
+Interval: Monthly
+First billing: January 5, 2026
+Next billing: February 5, 2026
+```
+
+**With Trial:**
+```
+Creation date: December 5, 2025
+Trial period: 14 days
+Trial ends: December 19, 2025
+First billing: December 19, 2025
+Next billing: January 19, 2026
+```
+
+**With Custom Start Date:**
+```
+Creation date: December 5, 2025
+Custom start: January 1, 2026
+First billing: January 1, 2026
+Next billing: February 1, 2026
+```
+
+### The Billing Process
+
+Each day at **03:00 (Europe/Amsterdam timezone)**, PayRequest processes due subscriptions:
+
+1. **Identify Due Subscriptions**: Find all active subscriptions where `next_billing_at` is in the past
+2. **Validate Billing**: Check subscription status (active, not paused, not completed)
+3. **Check Trial Status**: Skip billing if subscription is still in trial period
+4. **Process Payment**: Charge via mandate or generate invoice
+5. **Update Next Billing**: Calculate next billing date based on interval
+6. **Record Transaction**: Create transaction record for payment tracking
+
+<Note>
+Billing runs automatically. You don't need to manually trigger payments - just ensure subscriptions are set up correctly.
+</Note>
+
+## Configuring Product Intervals
+
+Set the billing interval when creating or editing a product:
+
+### Step 1: Navigate to Products
+
+Go to **Products** in the sidebar and click **Create Product** or edit an existing one.
+
+### Step 2: Enable Recurring
+
+Toggle **"Is Recurring"** to enable subscription billing for this product.
+
+### Step 3: Set Interval
+
+Choose the billing interval:
+
+- **Monthly**: Charged every month
+- **Quarterly**: Charged every 3 months
+- **Yearly**: Charged every 12 months
+
+### Step 4: Set Interval Count (Optional)
+
+For custom intervals, set the interval count:
+
+| Interval | Count | Result |
+|----------|-------|--------|
+| Monthly | 1 | Every month |
+| Monthly | 2 | Every 2 months |
+| Monthly | 6 | Every 6 months |
+| Yearly | 1 | Every year |
+| Yearly | 2 | Every 2 years |
+
+<Warning>
+Changing a product's interval only affects **new** subscriptions. Existing subscriptions retain their original billing interval.
+</Warning>
+
+## Billing Date Management
+
+### Viewing Billing Dates
+
+Each subscription shows:
+
+- **Last Billed At**: Date of most recent successful payment
+- **Next Billing At**: Date of upcoming payment
+
+View these in:
+- Subscription list table
+- Subscription detail page
+- Customer profile (subscription section)
+
+### Modifying Billing Dates
+
+To change a subscription's next billing date:
+
+1. Go to **Subscriptions** → Click the subscription
+2. Click **Edit**
+3. Modify **Next Billing Date**
+4. Save changes
+
+**Common reasons to modify billing dates:**
+- Align multiple subscriptions to bill on the same day
+- Accommodate customer payment cycles
+- Correct an incorrectly set date
+- Provide billing grace period
+
+<Info>
+Changing the next billing date only affects that one cycle. Subsequent billing dates are calculated from the new date using the standard interval.
+</Info>
+
+### Billing Date Alignment
+
+For customers with multiple subscriptions, you may want to align billing dates:
+
+**Before:**
+```
+Subscription A: Bills on 5th
+Subscription B: Bills on 12th
+Subscription C: Bills on 23rd
+Result: 3 separate payments per month
+```
+
+**After alignment:**
+```
+Subscription A: Bills on 1st
+Subscription B: Bills on 1st
+Subscription C: Bills on 1st
+Result: 1 combined payment per month (or 3 same-day payments)
+```
+
+<Note>
+PayRequest doesn't automatically combine payments. Each subscription generates its own payment, even if billing on the same day.
+</Note>
+
+## Trial Period Impact
+
+Trial periods affect the billing cycle:
+
+### How Trials Work
+
+1. **Subscription created** → Status = "Trial"
+2. **Trial period counts down** → No billing occurs
+3. **Trial ends** → Status changes to "Active"
+4. **First billing** → Payment collected on trial end date
+
+### Trial End Behavior
+
+When a trial ends:
+
+| Mandate Status | Result |
+|---------------|--------|
+| Active mandate | Payment collected automatically |
+| No mandate | Subscription moves to "Pending Mandate" |
+| Failed payment | Subscription moves to "Failed" |
+
+### Configuring Trials
+
+Set trial periods on the product:
+
+1. Go to **Products** → Edit product
+2. Enable **"Has Trial"**
+3. Set **Trial Days** (e.g., 14)
+4. Optionally add **Trial Description** (shown to customers)
+
+<Tip>
+Common trial lengths: 7 days (quick evaluation), 14 days (standard), 30 days (complex products).
+</Tip>
+
+## Payment Timing
+
+### Automatic Billing (Mandate-Based)
+
+For mandate-based subscriptions:
+
+**Daily Schedule:**
+- **03:00**: Billing job runs, identifies due subscriptions
+- **03:00-04:00**: Payments created in Mollie
+- **Within 1-3 business days**: SEPA Direct Debit settles
+
+**Payment Status Flow:**
+```
+Created → Open → Pending → Paid
+                      ↓
+                   Failed (if declined)
+```
+
+### Invoice-Based Billing (Manual Payment)
+
+For subscriptions set to **manual payment** (no mandate assigned):
+
+**Daily Schedule:**
+- **03:00**: Billing job identifies due subscriptions
+- **03:00**: Invoice generated and emailed to customer
+- **Customer action**: Customer pays via bank transfer, iDEAL, or payment link
+
+**Invoice Due Date:**
+- Default: 14 days from invoice date
+- Configurable in invoice settings
+
+<Info>
+You can switch any subscription between automatic and manual payment at any time. See [Payment Methods for Subscriptions](/subscriptions/payment-methods) for details.
+</Info>
+
+### Billing Period on Invoices
+
+Subscription invoices automatically display the billing period so customers know exactly what they're paying for:
+
+| Interval | Period Format | Example |
+|----------|--------------|---------|
+| **Monthly** | Month name + Year | "November 2025" |
+| **Quarterly** | Quarter + Year | "Q4 2025" |
+| **Yearly** | Year | "2025" |
+| **Other** | Date range | "20-11-2025 - 19-12-2025" |
+
+**Where the period appears:**
+
+1. **Invoice Reference**: The period is stored in the invoice reference field
+2. **Invoice Item Description**: Each line item shows "Abonnement - November 2025"
+3. **Customer Communications**: Email and PDF invoices include the period
+
+**Example Invoice Item:**
+```
+Product: Directadmin Hosting
+Description: Abonnement - November 2025
+Quantity: 1
+Unit Price: €15.00
+Tax (21%): €3.15
+Total: €18.15
+```
+
+<Tip>
+The billing period helps with accounting reconciliation and reduces customer questions about which period an invoice covers.
+</Tip>
+
+## Fixed-Term Subscriptions
+
+### Payment Limits
+
+Set a maximum number of payments for fixed-term contracts:
+
+```
+Product: 12-Month Premium Plan
+Payment limit: 12
+Interval: Monthly
+```
+
+**Behavior:**
+- After 12 payments, subscription status → "Completed"
+- No further billing occurs
+- Customer retains access based on your business logic
+
+### Tracking Payments
+
+Each subscription tracks:
+
+- **Payments Made**: Number of successful payments
+- **Payments Total**: Payment limit (if set)
+- **Remaining**: Payments Total - Payments Made
+
+View this information in the subscription detail page.
+
+## Proration (Not Supported)
+
+<Warning>
+PayRequest does not currently support prorated billing. Full billing periods are charged regardless of when the subscription starts or changes.
+</Warning>
+
+**Workarounds:**
+- Use custom pricing for partial first periods
+- Offer credit notes for cancelled subscriptions
+- Align subscription changes to billing cycle dates
+
+## Billing Failures
+
+When a billing attempt fails:
+
+### Automatic Retry
+
+PayRequest automatically retries failed payments:
+
+| Retry | Timing |
+|-------|--------|
+| 1st attempt | Immediately (billing date) |
+| 2nd attempt | 2 days later |
+| 3rd attempt | 2 days after 2nd |
+| Final | 2 days after 3rd |
+
+After max retries (default: 3), subscription status → "Failed"
+
+### Manual Retry
+
+To manually retry a failed payment:
+
+1. Go to **Subscriptions** → Click failed subscription
+2. Review failure reason
+3. Click **Retry Payment**
+
+### Common Failure Reasons
+
+| Reason | Solution |
+|--------|----------|
+| Insufficient funds | Wait and retry, or contact customer |
+| Mandate revoked | Request new mandate authorization |
+| Account closed | Contact customer for new payment method |
+| Technical error | Retry automatically, contact support if persistent |
+
+<Info>
+See [Failed Payment Handling](/subscriptions/failed-payment-handling) for complete dunning configuration.
+</Info>
+
+## Pausing and Billing
+
+When a subscription is paused:
+
+- **Billing stops** immediately
+- **Next billing date** is preserved
+- **Resume behavior** depends on configuration:
+
+### Resume Options
+
+**Option A: Resume at next billing date (default)**
+```
+Paused on: December 10
+Next billing: January 5
+Resumed on: December 20
+Next billing: January 5 (unchanged)
+```
+
+**Option B: Resume with new cycle**
+```
+Paused on: December 10
+Original next billing: January 5
+Resumed on: December 20
+New next billing: January 20 (recalculated)
+```
+
+Configure resume behavior when pausing the subscription.
+
+## Billing Reports
+
+### Monthly Summary
+
+View subscription billing summaries in **Analytics** → **Subscriptions**:
+
+- **MRR (Monthly Recurring Revenue)**: Total monthly subscription value
+- **Active Subscriptions**: Count by status
+- **Upcoming Billings**: Next 30 days projection
+
+### Transaction History
+
+All subscription payments appear in **Transactions**:
+
+- Filter by "Subscription" source
+- Export to CSV for accounting
+- Link transactions to specific subscriptions
+
+## Best Practices
+
+### ✅ Do's
+
+- **Bill on consistent dates** when possible (1st or 15th of month)
+- **Monitor failed payments** daily and follow up quickly
+- **Test billing** with a test subscription before going live
+- **Set appropriate trial lengths** - long enough to evaluate, short enough to convert
+- **Document billing terms** clearly for customers
+
+### ❌ Don'ts
+
+- **Don't change intervals** on active subscriptions without customer communication
+- **Don't ignore failed payments** - they indicate customer or mandate issues
+- **Don't set billing dates** on dates that don't exist (e.g., 31st for monthly)
+- **Don't modify billing dates** right before a scheduled billing run
+
+## Troubleshooting
+
+### Subscription Didn't Bill
+
+**Causes:**
+1. Subscription status is not "Active"
+2. Subscription is paused
+3. Trial period not ended
+4. Next billing date is in the future
+5. Payment limit reached (completed)
+
+**Solution:**
+- Check subscription status and next billing date
+- Verify trial end date if applicable
+- Review subscription details page for status
+
+### Wrong Amount Charged
+
+**Causes:**
+1. Quantity changed after subscription creation
+2. Custom field markup not calculated
+3. Price override was set
+
+**Solution:**
+- Review subscription recurring amount
+- Check transaction details for breakdown
+- Edit subscription if amount needs correction
+
+### Billing Date Keeps Shifting
+
+**Causes:**
+1. Month-end dates on 31st shift to 28th/30th
+2. Manual billing date modifications
+3. Billing failures causing date adjustments
+
+**Solution:**
+- Use dates that exist in all months (1st-28th)
+- Avoid modifying billing dates unless necessary
+- Review billing history for patterns
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Creating Subscriptions" icon="plus" href="/subscriptions/creating-subscriptions">
+    Set up new subscriptions
+  </Card>
+  <Card title="Failed Payment Handling" icon="triangle-exclamation" href="/subscriptions/failed-payment-handling">
+    Configure dunning and retries
+  </Card>
+  <Card title="Pausing & Resuming" icon="pause" href="/subscriptions/pausing-and-resuming">
+    Temporary subscription stops
+  </Card>
+  <Card title="Trial Periods" icon="gift" href="/products-and-pricing/trial-periods">
+    Configure free trials
+  </Card>
+</CardGroup>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I bill on a specific day of the month?">
+    Yes! Use the "Custom Start Date" option when creating a subscription. Set it to the desired day of the month, and subsequent billing will follow that pattern.
+  </Accordion>
+
+  <Accordion title="What happens if a customer's billing date falls on the 31st?">
+    For months with fewer days, billing occurs on the last day of the month. February 28th (or 29th), April 30th, etc. This can cause billing date drift over time.
+  </Accordion>
+
+  <Accordion title="Can I change the interval of an existing subscription?">
+    Currently, you cannot change the interval of an existing subscription. You would need to cancel and create a new subscription with the desired interval.
+  </Accordion>
+
+  <Accordion title="When exactly does billing run?">
+    The billing job runs daily at 03:00 Europe/Amsterdam timezone. Subscriptions with `next_billing_at` in the past are processed.
+  </Accordion>
+
+  <Accordion title="Do weekends or holidays affect billing?">
+    Billing runs every day, including weekends and holidays. However, SEPA Direct Debit settlement may be delayed during bank holidays - payments are still created, just settled later.
+  </Accordion>
+
+  <Accordion title="How do I give a customer a billing grace period?">
+    Edit the subscription and move the `Next Billing Date` forward by the desired grace period. The customer won't be billed until that new date.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,230 @@
+---
+title: "Payment Methods for Subscriptions"
+description: "Choose between automatic payments and manual invoicing for each subscription, and switch between them at any time"
+icon: "credit-card"
+---
+
+## Overview
+
+Every subscription in PayRequest can be billed in one of two ways: **automatically** via a payment mandate (SEPA Direct Debit or credit card), or **manually** by sending invoices that the customer pays via bank transfer. You can switch between these methods at any time from the subscription detail page.
+
+<Tip>
+**Automatic payments** are ideal when customers have authorized a mandate — payments are collected without any action needed. **Manual payments** work well for customers who prefer bank transfers, or when no mandate is available.
+</Tip>
+
+## Payment Method Options
+
+| Method | How It Works | Best For |
+|--------|-------------|----------|
+| **Automatic Payment** | Customer is charged automatically via their saved mandate (SEPA or credit card) | Recurring SaaS, memberships, ongoing services |
+| **Manual Payment** | An invoice is generated and emailed each billing period — customer pays via bank transfer | Customers without mandates, large invoices, B2B clients |
+
+## Viewing the Current Payment Method
+
+On each subscription detail page, you'll see the current payment method displayed:
+
+- **Mandate assigned**: Shows the mandate reference (e.g., `mdt_jLqzL4cB6H`), payment type (Credit Card, SEPA), and status (Valid)
+- **Manual Payment**: Shows a blue "Manual Payment (Bank Transfer)" label
+- **No payment method**: Shows a red "No mandate assigned" warning
+
+## Switching Payment Methods
+
+You can switch between automatic and manual payment at any time.
+
+### Step 1: Open Payment Method Settings
+
+Go to **Subscriptions** → click on the subscription → click **Change** next to the payment method display. This opens the **Manage Payment Method** modal.
+
+### Step 2: Choose Payment Type
+
+At the top of the modal, you'll see two options:
+
+- **Automatic Payment** — Charge customer automatically via SEPA or credit card mandate
+- **Manual Payment** — Send invoice each period for customer to pay via bank transfer
+
+Select the option you want.
+
+### Step 3: Configure
+
+**If switching to Automatic Payment:**
+
+1. Select a mandate from the dropdown list
+2. Only valid mandates for this customer are shown
+3. Review the mandate details (method, status, signature date)
+4. Click **Save Payment Method**
+
+**If switching to Manual Payment:**
+
+1. No additional configuration needed
+2. Review the info box confirming how manual billing works
+3. Click **Save Payment Method**
+
+<Info>
+When you switch to manual payment, the existing mandate is not deleted — it's just unlinked from this subscription. You can switch back to automatic payment at any time using the same mandate.
+</Info>
+
+### Step 4: Confirm
+
+After saving, the subscription detail page updates to reflect the new payment method. An activity log entry is created to track the change.
+
+## How Each Method Affects Billing
+
+### Automatic Payment Billing
+
+When a subscription with a mandate reaches its billing date:
+
+1. PayRequest creates a payment via Mollie using the linked mandate
+2. The customer's bank account or credit card is charged automatically
+3. A transaction is recorded and the invoice is marked as paid
+4. Next billing date is calculated based on the interval
+
+**No action required** from you or the customer.
+
+### Manual Payment Billing
+
+When a subscription without a mandate reaches its billing date:
+
+1. PayRequest generates an invoice for the billing period
+2. The invoice is emailed to the customer with a payment link
+3. The customer pays via bank transfer, iDEAL, or other available method
+4. Once payment is received, the invoice is marked as paid
+5. Next billing date is calculated based on the interval
+
+<Note>
+With manual payment, there may be a delay between the billing date and when the customer actually pays. Monitor unpaid invoices and send reminders if needed.
+</Note>
+
+## When to Use Each Method
+
+### Use Automatic Payment When:
+
+- Customer has authorized a SEPA mandate or saved a credit card
+- You want hands-off billing with no manual follow-up
+- Payment reliability is important (e.g., monthly SaaS)
+- Customer prefers not to pay manually each month
+
+### Use Manual Payment When:
+
+- Customer prefers paying via bank transfer
+- No mandate is available and customer doesn't want to authorize one
+- Large B2B invoices that require internal approval before payment
+- Customer wants to review each invoice before paying
+- You're using the **Allow Manual Payment (Bank Transfer)** product setting
+
+## Manual Payment on Invoices
+
+When you manually mark an invoice as paid (for example, after receiving a bank transfer), PayRequest now automatically:
+
+1. **Updates the invoice** status to paid
+2. **Updates the linked order** status to completed (if applicable)
+3. **Creates a subscription** for recurring products in the order
+4. The subscription is set to **active** if the product allows manual payment, or **pending mandate** if automatic payment is expected
+
+<Tip>
+This means you can accept orders for subscription products via bank transfer — just mark the invoice as paid, and everything is set up automatically.
+</Tip>
+
+## Managing Payment Methods in Bulk
+
+If you need to switch multiple subscriptions to the same payment method:
+
+1. Go to each subscription's detail page
+2. Click **Change** next to the payment method
+3. Select the desired method and save
+
+<Info>
+Bulk payment method changes are currently done one subscription at a time. This ensures you can verify each change individually.
+</Info>
+
+## Common Scenarios
+
+### Customer Lost Their Mandate
+
+**What happened**: The customer's bank revoked their mandate, or their card expired.
+
+**Solution**:
+1. Open the subscription → **Change** payment method
+2. Switch to **Manual Payment** temporarily
+3. Send the customer a new mandate request
+4. Once they authorize a new mandate, switch back to **Automatic Payment**
+
+### Moving from Manual to Automatic
+
+**What happened**: A customer who was paying manually now wants automatic payments.
+
+**Solution**:
+1. Ensure the customer has a valid mandate (check the mandate dropdown in the modal)
+2. If no mandate exists, send a mandate request from the customer profile
+3. Once the mandate is valid, open the subscription → **Change** → select **Automatic Payment** → choose the mandate
+
+### Customer Wants Bank Transfer Instead
+
+**What happened**: A customer with an active mandate prefers to pay manually.
+
+**Solution**:
+1. Open the subscription → **Change** payment method
+2. Select **Manual Payment**
+3. Save — the mandate stays on file but won't be charged for this subscription
+
+## Best Practices
+
+### ✅ Do's
+
+- **Start with automatic payments** when possible — it reduces admin work
+- **Switch to manual** if a customer consistently has payment failures
+- **Monitor manual payment subscriptions** — follow up on unpaid invoices
+- **Keep mandates on file** even when using manual payment — easy to switch back
+
+### ❌ Don'ts
+
+- **Don't leave subscriptions without any payment method** — either assign a mandate or use manual payment
+- **Don't forget to check invoice status** for manual payment subscriptions
+- **Don't switch payment methods** right before a billing date — wait until after billing completes
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Does switching to manual payment cancel the customer's mandate?">
+    No. The mandate remains valid and on file. It's simply unlinked from this subscription. You can switch back to automatic payment using the same mandate at any time.
+  </Accordion>
+
+  <Accordion title="What happens if I switch during a billing cycle?">
+    The change takes effect from the next billing date. If a payment has already been processed for the current period, it won't be affected.
+  </Accordion>
+
+  <Accordion title="Can I use different payment methods for different subscriptions of the same customer?">
+    Yes! Each subscription has its own payment method setting. A customer could have one subscription on automatic payment and another on manual payment.
+  </Accordion>
+
+  <Accordion title="Will the customer be notified when I switch their payment method?">
+    No automatic notification is sent. If you switch to manual payment, the customer will notice when they receive an invoice instead of being charged automatically. Consider informing them proactively.
+  </Accordion>
+
+  <Accordion title="What if the customer has no mandates available?">
+    If no valid mandates exist, you can either:
+    - Use **Manual Payment** and send invoices
+    - Send a **Mandate Request** email so the customer can authorize a new mandate
+    - The customer can also add a payment method through their Customer Portal
+  </Accordion>
+
+  <Accordion title="I manually marked an invoice as paid — was a subscription created?">
+    Yes! When you mark an invoice as paid for an order containing recurring products, PayRequest automatically creates the subscription. If the product allows manual payment, the subscription is set to active. Otherwise, it's set to pending mandate.
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Managing Mandates" icon="building-columns" href="/subscriptions/managing-mandates">
+    Set up and manage SEPA mandates
+  </Card>
+  <Card title="Billing Cycles" icon="calendar" href="/subscriptions/billing-cycles">
+    Configure billing intervals and timing
+  </Card>
+  <Card title="Bank Transfer Payments" icon="building-columns" href="/payment-processing/bank-transfer">
+    Accept bank transfer payments
+  </Card>
+  <Card title="Failed Payment Handling" icon="triangle-exclamation" href="/subscriptions/failed-payment-handling">
+    Handle failed automatic payments
+  </Card>
+</CardGroup>

@@ -1,8 +1,90 @@
 ---
-title: Checkout Links
-description: 'Generate and customize payment URLs'
+title: 'Checkout Links'
+description: 'Generate direct checkout URLs for products, invoices, and custom amounts'
+icon: 'link'
 ---
 
-# Checkout Links
+## Overview
 
-_Work in progress. Content coming soon._
+Checkout links are URLs that take customers directly to a payment flow. PayRequest offers several types of checkout links depending on your use case.
+
+## Types of Checkout Links
+
+### Payment Page Links
+
+Your payment page is always available at:
+
+```
+https://payrequest.me/[your-handle]
+```
+
+You can pre-fill amounts and customer details using dynamic URL parameters:
+
+```
+https://payrequest.me/[your-handle]/25.00
+https://payrequest.me/[your-handle]?amount=25&name=John&email=john@example.com
+```
+
+See [Payment Page Dynamic Links →](/payment-processing/payment-page-dynamic-links) for full URL parameter documentation.
+
+### Smart Links
+
+Branded, reusable URLs with built-in analytics:
+
+```
+https://payrequest.me/[your-handle]/summer-sale
+```
+
+Smart links provide permanent URLs, QR codes, payment limits, delivery options, and conversion tracking.
+
+See [Smart Links →](/payment-processing/smart-links) for full documentation.
+
+### Product Links
+
+Direct links to specific products in your shop:
+
+```
+https://payrequest.me/shop/[your-handle]/product/[product-id]
+```
+
+Or via payment page with product parameter:
+
+```
+https://payrequest.me/[your-handle]?product=[product-id]
+```
+
+### Invoice Payment Links
+
+Every invoice includes a unique payment link that customers can use to pay. These are automatically generated and included in invoice emails.
+
+See [Invoice Payment Links →](/invoices/invoice-payment-links) for details.
+
+## Choosing the Right Link Type
+
+| Use Case | Recommended Link Type |
+|----------|----------------------|
+| Marketing campaign | Smart Link |
+| One-time payment request | Payment Page Dynamic Link |
+| Product promotion | Smart Link (Product type) |
+| Invoice payment | Invoice Payment Link |
+| QR code on flyer | Smart Link |
+| Security deposit | Smart Link (Deposit product) |
+| Custom amount with pre-filled data | Payment Page Dynamic Link |
+| Reusable donation link | Smart Link (Amount type) |
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Smart Links" icon="qrcode" href="/payment-processing/smart-links">
+    Branded payment links with analytics
+  </Card>
+  <Card title="Dynamic Links" icon="link" href="/payment-processing/payment-page-dynamic-links">
+    URL parameters for payment pages
+  </Card>
+  <Card title="Security Deposits" icon="shield-halved" href="/payment-processing/security-deposits">
+    Authorization hold links
+  </Card>
+  <Card title="Invoice Links" icon="file-invoice" href="/invoices/invoice-payment-links">
+    Invoice payment URLs
+  </Card>
+</CardGroup>

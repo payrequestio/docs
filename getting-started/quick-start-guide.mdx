@@ -1,8 +1,269 @@
 ---
-title: Quick Start Guide
-description: 'Get your first payment in 5 minutes'
+title: "Quick Start Guide"
+description: "Get your PayRequest account set up and receive your first payment in under 10 minutes"
 ---
 
-# Quick Start Guide
+# Quick Start Guide ⚡
 
-_Work in progress. Content coming soon._
+Get your PayRequest account up and running in under 10 minutes! This guide will walk you through the essential steps to start accepting payments and managing your billing automation.
+
+<Info>
+**Before you start**: Make sure you have your business details ready and access to your preferred payment provider (Mollie or Stripe) account.
+</Info>
+
+## Step 1: Complete Your Business Setup
+
+First, let's configure your business information to ensure professional invoices and legal compliance.
+
+<Steps>
+  <Step title="Navigate to Business Settings">
+    Go to **Settings** → **Business Details** in your PayRequest dashboard.
+  </Step>
+
+  <Step title="Enter Your Business Information">
+    Fill in the required fields:
+    - **Company Name**: Your legal business name
+    - **Address**: Complete business address
+    - **VAT Number**: Your tax identification number
+    - **Contact Details**: Phone and email for customer communication
+  </Step>
+
+  <Step title="Upload Your Logo">
+    Add your company logo for professional branding on invoices and your shop.
+  </Step>
+</Steps>
+
+<Card title="💡 Pro Tip" icon="lightbulb">
+Complete business information helps build trust with customers and ensures compliance with local tax regulations.
+</Card>
+
+## Step 2: Connect Your Payment Provider
+
+PayRequest integrates seamlessly with leading European payment providers.
+
+<Tabs>
+  <Tab title="Mollie (Recommended for EU)">
+    <Steps>
+      <Step title="Go to Payment Settings">
+        Navigate to **Settings** → **Payment Providers** → **Add Mollie**
+      </Step>
+
+      <Step title="Connect via OAuth">
+        Click **Connect with Mollie** and authorize PayRequest to access your Mollie account.
+      </Step>
+
+      <Step title="Configure Settings">
+        - Enable desired payment methods (iDEAL, SEPA, Cards)
+        - Set up SEPA Direct Debit for subscriptions
+        - Configure webhook settings (handled automatically)
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Stripe">
+    <Steps>
+      <Step title="Get Your API Keys">
+        Log into your Stripe dashboard and copy your API keys from the Developers section.
+      </Step>
+
+      <Step title="Add Stripe Provider">
+        In PayRequest, go to **Settings** → **Payment Providers** → **Add Stripe**
+      </Step>
+
+      <Step title="Enter Credentials">
+        Paste your Stripe API keys and configure your preferred settings.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+<Warning>
+**Test Mode**: Start with test mode enabled to verify everything works before processing real payments.
+</Warning>
+
+## Step 3: Create Your First Product
+
+Now let's create a product or service that your customers can purchase.
+
+<Steps>
+  <Step title="Navigate to Products">
+    Go to **Products** in your dashboard and click **Create Product**.
+  </Step>
+
+  <Step title="Basic Product Information">
+    - **Name**: Clear, descriptive product name
+    - **Description**: What your customers are buying
+    - **Price**: Set your pricing (supports decimals)
+    - **Currency**: EUR, USD, or your preferred currency
+  </Step>
+
+  <Step title="Choose Product Type">
+    <CardGroup cols={2}>
+      <Card title="One-time Product" icon="shopping-cart">
+        Perfect for digital downloads, courses, or one-off services
+      </Card>
+      <Card title="Subscription Product" icon="repeat">
+        Ideal for SaaS, memberships, or recurring services
+      </Card>
+    </CardGroup>
+  </Step>
+
+  <Step title="Configure Advanced Options (Optional)">
+    - **Custom Fields**: Collect additional information (domain names, specifications)
+    - **Setup Fees**: One-time charges for subscription products
+    - **Trial Periods**: Free trials to reduce customer acquisition friction
+    - **Tax Settings**: Configure VAT or tax rates as needed
+  </Step>
+
+  <Step title="Save Your Product">
+    Click **Create Product** to save and make it available in your shop.
+  </Step>
+</Steps>
+
+## Step 4: Set Up Your Shop
+
+Create a professional storefront where customers can browse and purchase your products.
+
+<Steps>
+  <Step title="Configure Shop Settings">
+    Navigate to **Shop** → **Settings** and configure:
+    - **Shop Name**: Your store's display name
+    - **Description**: Brief overview of your business
+    - **Contact Information**: Customer support details
+  </Step>
+
+  <Step title="Customize Your Storefront">
+    - Upload a shop logo and banner
+    - Choose your color scheme
+    - Set up navigation and categories
+  </Step>
+
+  <Step title="Set Up Custom Domain (Optional)">
+    Instead of `payrequest.app/shop/yourname`, use your own domain:
+    - Go to **Shop** → **Custom Domain**
+    - Enter your domain (e.g., `shop.yourbusiness.com`)
+    - Follow the DNS configuration instructions
+  </Step>
+</Steps>
+
+<Info>
+Your shop is automatically available at `payrequest.app/shop/[your-shop-name]` even without a custom domain.
+</Info>
+
+## Step 5: Process Your First Order
+
+Let's test the complete flow from customer visit to payment completion.
+
+<Steps>
+  <Step title="Share Your Product">
+    Get your product link:
+    - Go to **Products** → Select your product
+    - Click **Share Product Link**
+    - Copy the link or scan the QR code
+  </Step>
+
+  <Step title="Test Customer Experience">
+    Open your product link in an incognito browser window to simulate a customer:
+    - Browse your product page
+    - Add the product to cart
+    - Proceed through checkout
+    - Complete a test payment
+  </Step>
+
+  <Step title="Monitor in Dashboard">
+    Return to your PayRequest dashboard to see:
+    - New order in **Orders** section
+    - Customer record in **Customers**
+    - Transaction details in payment provider
+    - Automatic invoice generation
+  </Step>
+</Steps>
+
+## Step 6: Set Up Automation (Optional but Recommended)
+
+Maximize efficiency with PayRequest's automation features.
+
+<Accordion>
+  <AccordionItem title="Email Notifications">
+    Configure automatic emails for:
+    - Order confirmations
+    - Payment receipts
+    - Subscription renewals
+    - Payment failures
+
+    Go to **Settings** → **Email Templates** to customize messages.
+  </AccordionItem>
+
+  <AccordionItem title="Customer Tags">
+    Organize customers automatically:
+    - Create tags for different customer segments
+    - Set up automatic tagging rules
+    - Use tags for targeted communications
+
+    Visit **Tags** to create your first tag categories.
+  </AccordionItem>
+
+  <AccordionItem title="Failed Payment Recovery">
+    For subscription products, set up automatic retry logic:
+    - Configure retry attempts
+    - Set up dunning emails
+    - Define cancellation policies
+
+    Configure in **Settings** → **Subscription Settings**.
+  </AccordionItem>
+</Accordion>
+
+## 🎉 Congratulations!
+
+You've successfully set up PayRequest and processed your first payment! Here's what you've accomplished:
+
+✅ Business information configured
+✅ Payment provider connected
+✅ First product created
+✅ Shop customized
+✅ Test payment completed
+✅ Automation configured
+
+## Next Steps
+
+Now that you're up and running, explore these advanced features:
+
+<CardGroup cols={2}>
+  <Card title="Analytics & Reporting" icon="chart-line" href="/analytics-and-reporting/insights-dashboard">
+    Track your revenue, customer growth, and business performance with detailed analytics.
+  </Card>
+
+  <Card title="Customer Portal" icon="user-circle" href="/customer-management/customer-portal">
+    Give customers self-service access to manage their subscriptions and invoices.
+  </Card>
+
+  <Card title="API Integration" icon="code" href="/advanced-features/api-reference">
+    Integrate PayRequest with your existing tools and workflows using our API.
+  </Card>
+
+  <Card title="Advanced Features" icon="cog" href="/advanced-features/custom-css">
+    Customize your shop appearance and add advanced functionality.
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+<CardGroup cols={3}>
+  <Card title="Email Support" icon="envelope">
+    [support@payrequest.io](mailto:support@payrequest.io)
+  </Card>
+
+  <Card title="Documentation" icon="book">
+    Browse our comprehensive guides
+  </Card>
+
+  <Card title="Troubleshooting" icon="wrench" href="/troubleshooting/common-issues">
+    Common issues and solutions
+  </Card>
+</CardGroup>
+
+---
+
+<Tip>
+**Quick Tip**: Bookmark your PayRequest dashboard and consider enabling browser notifications to stay updated on new orders and customer activity!
+</Tip>

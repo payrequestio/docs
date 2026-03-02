@@ -1,0 +1,377 @@
+---
+title: "Expense Tracker"
+description: "Keep track of your business expenses and see where your money goes each month"
+---
+
+# Expense Tracker 💳
+
+Never lose track of your business expenses again! The Expense Tracker automatically finds your recurring costs and shows them in a simple calendar view, so you always know what's being charged and when.
+
+## What is the Expense Tracker?
+
+Think of it as your automatic expense diary. Once you connect your bank account, PayRequest looks at your transactions and finds things you pay for regularly - like software subscriptions, hosting, and services. No more spreadsheets or manual tracking needed!
+
+### Why You'll Love It
+
+<CardGroup cols={2}>
+  <Card title="🤖 Finds Expenses Automatically" icon="sparkles">
+    Connect your bank and let PayRequest discover your recurring costs for you.
+  </Card>
+
+  <Card title="📊 See Where Money Goes" icon="chart-pie">
+    Visual breakdown shows exactly what you're spending on each category.
+  </Card>
+
+  <Card title="⚠️ Spot Price Increases" icon="arrow-trending-up">
+    Get alerted when a service raises their price so you can decide what to do.
+  </Card>
+
+  <Card title="🏷️ Organize by Category" icon="tag">
+    Tag expenses like "Marketing" or "Software" to understand your spending better.
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+### Opening Your Expense Calendar
+
+1. Click **Expenses** in your dashboard menu
+2. You'll see a monthly calendar with all your expenses
+
+**What's on the screen:**
+- 💰 **Summary cards** at the top show your current balance and monthly costs
+- 📅 **Calendar view** displays all expenses organized by date
+- 🎨 **Colored cards** show different expense types at a glance
+
+<Tip>
+You need a **bank connection** (Ponto) for automatic expense detection. Set this up in Settings → Integrations first.
+</Tip>
+
+### Understanding the Colors
+
+The calendar uses colors to help you see what's happening:
+
+- **🟢 Green cards**: Recurring expenses that were paid this month
+- **🔵 Blue cards**: One-time purchases
+- **🟠 Orange cards**: Expenses that haven't been paid yet
+- **🟣 Purple cards**: Multiple expense types on the same day
+
+<Note>
+Click any colored card to see more details about that expense.
+</Note>
+
+## Finding Your Recurring Expenses
+
+### Let PayRequest Do the Work
+
+Instead of entering each expense manually, let PayRequest find them for you:
+
+1. Click the **"Detect Recurring Expenses"** button
+2. Wait a few seconds while PayRequest scans your bank transactions
+3. A summary shows what was found
+
+**You'll see:**
+- How many recurring expenses were found
+- How many new ones were added
+- How many existing ones were updated
+
+<Info>
+PayRequest looks at your last 6 months of bank transactions to find patterns. It can even spot when you have multiple subscription tiers for the same service!
+</Info>
+
+### What Gets Detected?
+
+PayRequest automatically finds:
+- 📱 Software subscriptions (Netflix, Spotify, etc.)
+- 🖥️ Hosting and servers
+- 📧 Email and marketing services
+- 💳 Payment processing fees
+- 🔧 Business tools and licenses
+- 📊 Analytics and monitoring services
+
+<Tip>
+Run detection once a month to catch new subscriptions and keep your expense list up to date.
+</Tip>
+
+## Adding Expenses Manually
+
+If something isn't detected automatically, you can add it yourself:
+
+<Steps>
+  <Step title="Click 'Add Expense'">
+    Find the button at the top of your expense calendar
+  </Step>
+
+  <Step title="Fill in the Details">
+    - **Name**: What's the expense? (e.g., "Spotify Premium")
+    - **Amount**: How much does it cost?
+    - **Next Due Date**: When's the next payment?
+    - **Frequency**: Weekly, Monthly, or Yearly?
+  </Step>
+
+  <Step title="Save">
+    Click "Add Expense" and it appears on your calendar
+  </Step>
+</Steps>
+
+## Organizing with Tags
+
+### Why Use Tags?
+
+Tags help you group expenses by category so you can see:
+- How much you spend on marketing vs hosting
+- Which categories are growing over time
+- Where you might be able to cut costs
+
+**Popular categories:**
+- 🖥️ Hosting
+- 🛠️ Software & Tools
+- 📧 Marketing & Ads
+- 💳 Payment Processing
+- 📊 Analytics
+- 🔒 Security
+
+### Tagging an Expense
+
+<Steps>
+  <Step title="Open the Expense">
+    Click on any expense in your calendar
+  </Step>
+
+  <Step title="Click the Tag Icon">
+    Look for the 🏷️ icon next to the expense name
+  </Step>
+
+  <Step title="Choose or Create Tags">
+    - Select from existing tags
+    - Or click "Create New Tag" to add a new category
+  </Step>
+
+  <Step title="Save">
+    Your tags will appear as colored labels on the expense
+  </Step>
+</Steps>
+
+<Tip>
+Create your main expense categories first (Hosting, Marketing, Tools), then tag expenses as you review them.
+</Tip>
+
+## Viewing Your Spending Breakdown
+
+### See Where Your Money Goes
+
+Click the **"💰 Spending"** button to open your spending analysis.
+
+**What you'll see:**
+- **Total monthly expenses** in one number
+- **Breakdown by category** with percentages
+- **Visual bars** showing spending distribution
+- **Expense counts** for each category
+
+**Example:**
+```
+Your Monthly Spending
+
+Total: €1,247.50
+
+🖥️ Hosting          €450 (36%) ████████░░ 6 expenses
+🛠️ Tools            €320 (26%) ██████░░░░ 5 expenses
+📧 Marketing        €180 (14%) ████░░░░░░ 3 expenses
+📊 Analytics        €120 (10%) ███░░░░░░░ 2 expenses
+```
+
+<Info>
+This updates automatically as you add or edit expenses, so you always have an accurate picture of your spending.
+</Info>
+
+### Using Spending Insights
+
+**Weekly check-in:**
+- Are you staying within budget?
+- Any unexpected charges?
+- New services you forgot about?
+
+**Monthly review:**
+- Which categories are growing?
+- Where can you optimize costs?
+- Any subscriptions you don't use anymore?
+
+## Price Increase Alerts
+
+### Automatic Monitoring
+
+PayRequest watches your expenses and alerts you when a service increases their price by more than 5%.
+
+### Where You'll See Alerts
+
+**1. On the expense itself:**
+When you click an expense that increased in price, you'll see:
+
+<Frame>
+  ⚠️ **Price Increase Detected (+46%)**
+
+  This expense increased from **€17** (Aug 1) to **€25** (Oct 1) over **2 months**.
+</Frame>
+
+**2. In the expense list:**
+- Orange badge shows the percentage: **"+46%"**
+- Trending arrow icon appears next to the name
+
+**3. Summary alert:**
+At the top of your expense manager:
+> ⚠️ **2 expenses with price increases detected**
+
+### What to Do About It
+
+When you spot a price increase:
+
+1. **Check your email** for announcements from the service
+2. **Review if you still need it** - maybe downgrade to a cheaper plan?
+3. **Look at alternatives** - are competitors cheaper now?
+4. **Negotiate** - contact them and ask about discounts
+5. **Update your budget** to reflect the new cost
+
+<Warning>
+Some services like cloud hosting charge based on usage. If you see an "increase", check if you're just using more resources rather than the price actually going up.
+</Warning>
+
+## Managing Your Expenses
+
+### Editing an Expense
+
+1. Click on the expense in your calendar OR open "Manage Expenses"
+2. Click the ✏️ (pencil) icon
+3. Update any information (name, amount, date, frequency)
+4. Save your changes
+
+### Deleting an Expense
+
+If you cancel a subscription or want to remove something:
+
+1. Open the expense
+2. Click the 🗑️ (trash) icon
+3. Confirm you want to delete it
+
+The expense disappears from your calendar but doesn't affect your bank transactions.
+
+### Viewing All Expenses
+
+Click **"Manage Expenses"** to see a complete list of everything you're tracking:
+- All expense names and amounts
+- Next payment dates
+- Categories (tags)
+- Whether they were auto-detected or manually added
+
+This is great for getting an overview or quickly editing multiple expenses.
+
+## Filtering Your View
+
+Use the filter buttons to focus on specific expense types:
+
+- **All**: Shows everything
+- **🔁 Recurring**: Only subscription-type expenses (your true monthly burn rate)
+- **One-time**: Only single purchases
+
+<Tip>
+Filter to "Recurring" to see your actual monthly costs without one-off purchases cluttering the view.
+</Tip>
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Why isn't my expense showing up?">
+    **If automatic detection missed it:**
+    - It might be too new (needs at least 2 payments to detect a pattern)
+    - The merchant name varies too much between charges
+    - It's a one-time purchase, not recurring
+
+    **Solution:** Just add it manually! Click "Add Expense" and enter the details.
+  </Accordion>
+
+  <Accordion title="An expense shows as unpaid but I know it was charged">
+    **This usually happens when:**
+    - The bank transaction description is different from your expense name
+    - The amount changed and is outside the matching range
+    - Your bank sync is delayed
+
+    **Solution:** Edit the expense name to match what shows on your bank statement exactly.
+  </Accordion>
+
+  <Accordion title="I see the same expense twice">
+    **Why this happens:**
+    - PayRequest found different subscription tiers (like Basic and Pro plans)
+    - You added it manually and then detection also found it
+    - The service charges on multiple dates
+
+    **Solution:** Go to "Manage Expenses" and delete the duplicate entry.
+  </Accordion>
+
+  <Accordion title="How does PayRequest find expenses automatically?">
+    PayRequest looks at your bank transactions and finds patterns - things you pay regularly with similar names and amounts. It can even recognize when "DigitalOcean" and "DIGITAL OCEAN INC" are the same service.
+  </Accordion>
+
+  <Accordion title="Can I track one-time expenses?">
+    Yes! While the automatic detection focuses on recurring costs, you can manually add any expense you want to track. One-time purchases from your bank also show up in blue on the calendar.
+  </Accordion>
+</AccordionGroup>
+
+## Tips for Success
+
+### 1. Check Your Expenses Weekly
+
+Make it a Monday morning habit:
+- Scan the calendar for any surprises
+- Review what's coming up this week
+- Spot any price increases early
+
+### 2. Tag Everything
+
+Spend 10 minutes tagging your expenses:
+- Makes spending analysis actually useful
+- Helps at tax time
+- Shows where your money really goes
+
+### 3. Run Detection Monthly
+
+First of every month:
+- Click "Detect Recurring Expenses"
+- Review what was found
+- Add any missing ones manually
+
+### 4. Review Quarterly
+
+Every 3 months, audit your expenses:
+- Cancel services you don't use
+- Look for cheaper alternatives
+- Update any changed amounts
+
+### 5. Use It for Budgeting
+
+Set spending targets per category:
+- "We should keep hosting under €500"
+- "Marketing budget is €300/month"
+- Check your spending analysis to stay on track
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="🔗 Connect Your Bank" href="/payment-processing/bank-sync-ponto" icon="building-columns">
+    Set up Ponto to enable automatic expense detection.
+  </Card>
+
+  <Card title="🏷️ Set Up Tags" href="/organization-and-automation/tags-system" icon="tags">
+    Learn how tags work for organizing all your data.
+  </Card>
+
+  <Card title="📊 Dashboard Overview" href="/analytics-and-reporting/insights-dashboard" icon="chart-pie">
+    See your complete business overview with revenue and expenses.
+  </Card>
+
+  <Card title="💳 Payment Processing" href="/payment-processing/payment-methods-overview" icon="credit-card">
+    Understand how your income and expenses connect.
+  </Card>
+</CardGroup>
+
+---
+
+*Keep your finger on the pulse of your business expenses. Know what you're paying for, and make smarter decisions about where your money goes!* 💳✨

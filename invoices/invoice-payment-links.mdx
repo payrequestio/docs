@@ -1,0 +1,266 @@
+---
+title: 'Invoice Payment Links'
+description: 'Learn how to share payment links with customers and manage invoice payments'
+icon: 'link'
+---
+
+## Overview
+
+Invoice payment links make it easy for your customers to pay their invoices online. Every invoice in PayRequest automatically gets a unique payment link that you can share with customers via email, messaging apps, or any other channel.
+
+## How Payment Links Work
+
+When you create an invoice, PayRequest automatically generates a secure payment link for it. This link:
+
+- **Pre-fills all invoice information** - Amount, customer details, and invoice items
+- **Shows invoice status** - Customers see if the invoice is paid, pending, or overdue
+- **Works on any device** - Mobile-friendly payment experience
+- **Never expires** - The link remains valid until the invoice is paid
+- **Is unique per invoice** - Each invoice has its own dedicated link
+
+## Payment Link Format
+
+Payment links use your PayRequest business name:
+
+```
+https://payrequest.me/yourbusiness?invoice=132
+```
+
+**Why payrequest.me?**
+Payment links always use the PayRequest.me domain for security and reliability, even if you have a custom shop domain configured. Your custom domain is reserved for your shop storefront.
+
+## Sharing Payment Links
+
+### From the Invoice List
+
+1. Go to **Invoices** in your dashboard
+2. Find the invoice you want to share
+3. Click the **three dots (⋮)** next to the invoice
+4. Click **"Payment Link"**
+5. The link opens in a new tab - copy the URL to share it
+
+### From Invoice Details
+
+When viewing a specific invoice, you have two options:
+
+#### Share Link Button
+1. Open the invoice details page
+2. Click the **"Share Payment Link"** button in the header
+3. A modal opens with:
+   - The full payment link (click to copy)
+   - A QR code for easy mobile scanning
+   - Options to share directly
+
+#### Pay Now Button
+- If the invoice is unpaid, you'll see a **"Pay Now"** button
+- Click it to open the payment page in a new tab
+- Copy the URL from your browser to share with the customer
+
+## What Customers See
+
+When customers open a payment link, they see:
+
+### Invoice Information Header
+- **Your business name and logo**
+- **Invoice number** (e.g., "Invoice #132")
+- **Status badge** with color coding:
+  - 🟢 **Green** = Paid
+  - 🟡 **Yellow** = Pending payment
+  - ⚪ **Gray** = Open/Draft
+  - 🔴 **Red** = Overdue or Failed
+
+### For Unpaid Invoices
+- All invoice items with descriptions and prices
+- Payment method options (iDEAL, Credit Card, etc.)
+- Customer information pre-filled
+- "Pay Now" button to complete payment
+
+### For Paid Invoices
+- ✅ **Success message** confirming payment
+- Payment date and time
+- Complete list of purchased items
+- Total amount paid
+- **No payment form** (prevents accidental double payments)
+
+## Using Payment Links in Emails
+
+### Automatic Email Links
+When you send invoice emails from PayRequest, payment links are automatically included in the email template. Customers can click directly from their inbox.
+
+### Manual Email Sharing
+To share a payment link via your own email:
+
+1. Get the payment link from your dashboard
+2. Write your email message
+3. Add the link as a button or hyperlink:
+
+```
+Hi [Customer Name],
+
+Your invoice #132 is ready for payment.
+
+Click here to pay: https://payrequest.me/yourbusiness?invoice=132
+
+Thank you!
+```
+
+## Payment Link Best Practices
+
+### ✅ Do's
+
+- **Include context** - Always mention the invoice number when sharing links
+- **Add due dates** - Let customers know when payment is expected
+- **Use reminders** - Set up automatic payment reminders for overdue invoices
+- **Test the link** - Click it yourself before sharing to ensure it works
+- **Track payments** - Check your dashboard for payment confirmations
+
+### ❌ Don'ts
+
+- **Don't share via unsecured channels** - Avoid posting payment links publicly
+- **Don't modify the URL** - Share the complete link as-generated
+- **Don't create duplicate invoices** - Use the retry feature if payment fails
+- **Don't share expired links** - Links work until paid, but keep invoices current
+
+## Sharing Payment Links via QR Code
+
+QR codes make it easy for customers to pay from their mobile devices:
+
+### Generating QR Codes
+
+1. Open the invoice details
+2. Click **"Share Payment Link"**
+3. The modal displays a QR code automatically
+4. Customers can scan with their phone camera
+
+### Where to Use QR Codes
+
+- **Printed invoices** - Include QR code on PDF invoices
+- **In-person payments** - Show QR code on tablet or phone
+- **Physical locations** - Display on counters or signage
+- **Receipts** - Add to printed receipts for easy re-ordering
+
+## Payment Methods Available
+
+When customers use payment links, they can pay with:
+
+- **iDEAL** - Direct bank payments (Netherlands)
+- **Credit/Debit Cards** - Visa, Mastercard, American Express
+- **SEPA Direct Debit** - For recurring subscriptions
+- **Bank Transfer** - Manual payment instructions
+- **Other local methods** - Based on your payment provider settings
+
+The available methods depend on which payment providers you've connected in your PayRequest settings.
+
+## Security & Privacy
+
+Payment links are secure:
+
+- ✅ **HTTPS encryption** - All payment pages use secure connections
+- ✅ **No sensitive data** - Links don't contain payment information
+- ✅ **PCI compliant** - Payment processing meets industry standards
+- ✅ **Fraud prevention** - Built-in security checks
+- ✅ **Audit trail** - All payments are logged and tracked
+
+## Tracking Payment Link Usage
+
+### Monitor Link Activity
+
+In your dashboard, you can track:
+
+- **Payment status** - See which invoices have been paid
+- **Payment date/time** - Know exactly when payment was received
+- **Payment method** - Track how customers prefer to pay
+- **Failed payments** - Identify invoices needing follow-up
+
+### Activity Log
+
+Every time a customer uses a payment link, the action is recorded:
+
+1. Go to **Activity** in your dashboard
+2. Filter by invoice number
+3. See all payment attempts and completions
+
+## Common Scenarios
+
+### Scenario 1: Customer Wants to Pay Later
+
+**Situation:** Customer receives invoice but wants to pay next week
+
+**Solution:**
+- Payment link remains valid
+- Customer can bookmark the link
+- Or you can resend it when they're ready
+
+### Scenario 2: Payment Link Not Working
+
+**Situation:** Customer reports the link doesn't work
+
+**Check these things:**
+1. Ensure link wasn't cut off in email (send as clickable button)
+2. Verify invoice isn't already marked as paid
+3. Check payment provider is connected and active
+4. Try the link yourself to reproduce the issue
+
+### Scenario 3: Customer Lost the Link
+
+**Situation:** Customer can't find the payment link email
+
+**Solution:**
+1. Go to invoice in your dashboard
+2. Click "Share Payment Link"
+3. Send the link again via email, SMS, or messaging app
+
+### Scenario 4: Multiple Payment Reminders
+
+**Situation:** Invoice is overdue and you want to send reminders
+
+**Solution:**
+- Use the same payment link in all reminders
+- Set up automatic payment reminders in settings
+- Each reminder includes the original payment link
+
+## Integration with Other Features
+
+### Works With Payment Reminders
+Payment links are automatically included in:
+- Initial invoice emails
+- Overdue reminders
+- Payment confirmation emails
+
+### Works With Subscriptions
+For subscription-based invoices:
+- Each billing cycle gets a new invoice with its own link
+- Links connect to subscription payment methods
+- Customers can update payment details via the link
+
+### Works With Custom Domains
+Even if your shop uses a custom domain (e.g., yourshop.com):
+- Payment links use payrequest.me for consistency
+- Your branding still appears on the payment page
+- This ensures payment security and reliability
+
+## Troubleshooting
+
+### Link Shows 404 Error
+**Cause:** Invoice was deleted or business name changed
+**Fix:** Verify invoice exists in dashboard, regenerate link if needed
+
+### Payment Form Not Showing
+**Cause:** Invoice already marked as paid
+**Fix:** Check invoice status, use payment retry if needed
+
+### Wrong Business Name in Link
+**Cause:** Shop name was changed after link creation
+**Fix:** Links automatically update to current business name
+
+### Customer Can't Select Payment Method
+**Cause:** Payment provider not connected or inactive
+**Fix:** Go to Settings → Payment Providers and verify connection
+
+## Related Articles
+
+- [Invoice Payment Retry](/invoices/invoice-payment-retry)
+- [Creating Invoices](/invoices/creating-invoices)
+- [Payment Reminders](/invoices/payment-reminders)
+- [Setting Up Payment Providers](/payment-processing/setting-up-payment-providers)
+- [Email Templates](/invoices/email-templates)

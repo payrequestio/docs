@@ -1,8 +1,374 @@
 ---
-title: Bank Sync (Ponto)
-description: 'Automatic bank transaction matching'
+title: "Bank Sync (Ponto)"
+description: "Connect your bank account for automatic transaction syncing and Bank Transfer payments"
 ---
 
 # Bank Sync (Ponto)
 
-_Work in progress. Content coming soon._
+Ponto is an open banking platform that connects your business bank account to PayRequest. This enables automatic transaction syncing and powers the Bank Transfer payment method.
+
+<Info>
+**Powered by Isabel Group**: Ponto is a trusted open banking solution used by thousands of European businesses for secure bank connectivity.
+</Info>
+
+## What Ponto Enables
+
+<CardGroup cols={2}>
+  <Card title="Transaction Syncing" icon="arrows-rotate">
+    Automatically import your bank transactions into PayRequest for reconciliation and reporting
+  </Card>
+
+  <Card title="Bank Transfer Payments" icon="building-columns">
+    Accept bank transfers with automatic payment matching using reference codes
+  </Card>
+
+  <Card title="Balance Monitoring" icon="chart-line">
+    View your real-time bank balance directly in PayRequest
+  </Card>
+
+  <Card title="Financial Insights" icon="lightbulb">
+    Better understand your cash flow with integrated bank data
+  </Card>
+</CardGroup>
+
+## Connecting Ponto
+
+### Prerequisites
+
+Before connecting Ponto, ensure you have:
+
+- A **business bank account** with a Ponto-supported bank
+- **Admin access** to your PayRequest account
+- Your **bank login credentials** ready
+
+### Supported Banks
+
+Ponto supports most major European banks including:
+
+<Tabs>
+  <Tab title="Netherlands">
+    - ABN AMRO
+    - ING
+    - Rabobank
+    - SNS Bank
+    - ASN Bank
+    - RegioBank
+    - Triodos Bank
+  </Tab>
+
+  <Tab title="Belgium">
+    - KBC
+    - BNP Paribas Fortis
+    - ING Belgium
+    - Belfius
+    - Argenta
+    - AXA Bank
+  </Tab>
+
+  <Tab title="Other EU">
+    - Deutsche Bank
+    - Commerzbank
+    - BNP Paribas
+    - Crédit Agricole
+    - And many more...
+  </Tab>
+</Tabs>
+
+<Tip>
+**Check Availability**: Visit the Ponto website to verify your specific bank is supported before starting the connection process.
+</Tip>
+
+### Connection Steps
+
+<Steps>
+  <Step title="Navigate to Settings">
+    Go to **Settings → Ponto** in your PayRequest dashboard
+  </Step>
+
+  <Step title="Initiate Connection">
+    Click **Connect Ponto API** to start the connection process
+  </Step>
+
+  <Step title="Select Your Bank">
+    Choose your bank from the list of available financial institutions
+  </Step>
+
+  <Step title="Authorize Access">
+    Log in to your bank and authorize Ponto to access your account data. This uses your bank's secure authentication (often including 2FA)
+  </Step>
+
+  <Step title="Complete Setup">
+    Return to PayRequest where your account will be synced automatically
+  </Step>
+</Steps>
+
+<Warning>
+**Security Note**: PayRequest never sees your bank login credentials. Authentication happens directly with your bank through Ponto's secure infrastructure.
+</Warning>
+
+## Managing Your Connection
+
+### Connection Status
+
+On the Ponto settings page, you can see:
+
+- **Connected Date**: When the connection was established
+- **Last Synced**: Most recent transaction sync timestamp
+- **Account Details**: Your IBAN and current balance
+
+### Available Actions
+
+<CardGroup cols={3}>
+  <Card title="View Banks" icon="building-library">
+    See all available financial institutions if you want to connect additional accounts
+  </Card>
+
+  <Card title="Refresh Accounts" icon="arrows-rotate">
+    Manually trigger an account refresh to get the latest transactions
+  </Card>
+
+  <Card title="Remove Connection" icon="trash">
+    Disconnect your bank account from PayRequest (this doesn't affect your bank)
+  </Card>
+</CardGroup>
+
+## Transaction Syncing
+
+### Automatic Sync
+
+Once connected, Ponto automatically syncs your transactions:
+
+- **Frequency**: Every few minutes during business hours
+- **History**: Imports recent transaction history
+- **Direction**: Both incoming (credits) and outgoing (debits)
+
+### Transaction Data
+
+Each synced transaction includes:
+
+| Field | Description |
+|-------|-------------|
+| Date | Transaction execution date |
+| Amount | Transaction amount with direction |
+| Description | Bank-provided transaction description |
+| Counterpart | Name of the other party |
+| Reference | Payment reference/communication |
+| Status | Booked or pending |
+
+### Viewing Transactions
+
+To view your synced bank transactions:
+
+1. Go to **Settings → Ponto**
+2. Find your connected bank account
+3. Click **View Transactions**
+
+Transactions are displayed with color coding:
+- **Green**: Incoming payments (credits)
+- **Red**: Outgoing payments (debits)
+
+## Bank Transfer Payments
+
+One of the most powerful features enabled by Ponto is automatic Bank Transfer payment matching.
+
+### How It Works
+
+<Steps>
+  <Step title="Enable Bank Transfer">
+    Toggle "Bank Transfer Payment Method" on in your Ponto settings
+  </Step>
+
+  <Step title="Customer Pays">
+    Customer receives your IBAN and a unique reference (e.g., `PAY-12345`)
+  </Step>
+
+  <Step title="Transfer Made">
+    Customer transfers the exact amount with the reference to your account
+  </Step>
+
+  <Step title="Auto-Match">
+    PayRequest detects the incoming transaction and matches it by reference
+  </Step>
+
+  <Step title="Invoice Paid">
+    The invoice/order is automatically marked as paid
+  </Step>
+</Steps>
+
+### Configuration
+
+In the Bank Transfer section of Ponto settings:
+
+- **Toggle**: Enable/disable Bank Transfer as a payment option
+- **IBAN Display**: Your IBAN shown to customers (auto-detected from bank)
+- **Account Name**: Your account name shown to customers
+- **Custom Instructions**: Add your own guidance text for customers
+
+<AccordionGroup>
+  <Accordion title="Custom Instructions Example">
+    Add helpful instructions like:
+
+    ```
+    Please include the reference code exactly as shown in your payment description.
+    Payments are typically matched within 24 hours. For urgent orders, please
+    contact us after making your transfer.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Where Bank Transfer Appears
+
+When enabled, Bank Transfer shows as a payment option on:
+
+- Payment pages
+- Invoice payment portal
+- Smart links
+- Checkout (coming soon)
+
+<Note>
+Bank Transfer is **not available** for recurring payments or subscriptions. Use SEPA Direct Debit for those use cases.
+</Note>
+
+For complete Bank Transfer documentation, see [Bank Transfer Payments](/payment-processing/bank-transfer).
+
+## Transaction Categorization
+
+PayRequest helps you organize synced transactions:
+
+### VAT Categories
+
+Categorize transactions for accounting:
+
+- Standard Rate (21%)
+- Reduced Rate (9%)
+- Zero Rate (0%)
+- Exempt
+- Out of Scope
+
+### Bulk Editing
+
+Select multiple transactions and:
+
+- Assign VAT category
+- Add notes
+- Mark as reviewed
+- Export for accounting
+
+## Security & Privacy
+
+<CardGroup cols={2}>
+  <Card title="PSD2 Compliant" icon="shield-check">
+    Ponto operates under EU PSD2 regulations for open banking security
+  </Card>
+
+  <Card title="Bank-Level Security" icon="lock">
+    All data transmission uses bank-grade encryption
+  </Card>
+
+  <Card title="No Credential Storage" icon="key">
+    PayRequest never stores your bank login credentials
+  </Card>
+
+  <Card title="Revocable Access" icon="power-off">
+    You can revoke access anytime through your bank or PayRequest
+  </Card>
+</CardGroup>
+
+### Data Access
+
+Ponto provides **read-only** access to:
+
+- Account balances
+- Transaction history
+- Account holder information
+
+Ponto does **not** have access to:
+
+- Initiate payments from your account
+- Modify your account settings
+- Access other bank accounts you haven't authorized
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection Failed">
+    **Common causes:**
+
+    1. **Bank not supported**: Check if your bank is in Ponto's network
+    2. **Authentication timeout**: Try again - bank sessions can expire
+    3. **2FA issues**: Ensure you complete all authentication steps
+    4. **Browser issues**: Try a different browser or clear cache
+
+    **Solution**: Wait a few minutes and try again. If persistent, contact support.
+  </Accordion>
+
+  <Accordion title="Transactions Not Syncing">
+    **Check these:**
+
+    1. Is the connection still active? (Check for "Connected" status)
+    2. Click "Refresh Accounts" to force a sync
+    3. Some banks have sync delays (especially weekends)
+    4. Very recent transactions may take a few hours to appear
+
+    **Note**: Bank transaction availability varies by institution.
+  </Accordion>
+
+  <Accordion title="Bank Transfer Not Matching">
+    **Matching requires:**
+
+    1. Exact reference (e.g., `PAY-12345`) in payment description
+    2. Exact amount (to the cent)
+    3. Transaction synced to PayRequest
+
+    **Debug steps:**
+    - Check if transaction appears in Ponto transactions list
+    - Verify the reference in the transaction description
+    - Compare amounts exactly
+  </Accordion>
+
+  <Accordion title="Need to Reconnect">
+    Bank connections may need reconnection if:
+
+    - Your bank requires periodic reauthorization
+    - You changed bank credentials
+    - The bank updated their systems
+
+    **To reconnect**: Remove the existing connection and add it again following the setup steps.
+  </Accordion>
+</AccordionGroup>
+
+## Pricing
+
+<Tabs>
+  <Tab title="PayRequest">
+    **No additional cost** for Ponto integration within PayRequest. Bank Transfer payments have no transaction fees from PayRequest.
+  </Tab>
+
+  <Tab title="Ponto">
+    Ponto may have its own pricing for API access. Check [Ponto's pricing](https://myponto.com) for current rates.
+
+    Typical costs include:
+    - Monthly subscription for API access
+    - Per-transaction fees for certain operations
+  </Tab>
+</Tabs>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Bank Transfer Payments" icon="building-columns" href="/payment-processing/bank-transfer">
+    Complete guide to accepting bank transfers with automatic matching
+  </Card>
+
+  <Card title="Payment Methods Overview" icon="credit-card" href="/payment-processing/payment-methods-overview">
+    Compare all available payment methods
+  </Card>
+
+  <Card title="Transaction Reports" icon="chart-bar" href="/analytics-and-reporting/transaction-reports">
+    Analyze your payment and bank transaction data
+  </Card>
+
+  <Card title="SEPA Direct Debit" icon="repeat" href="/payment-processing/payment-methods-overview#sepa-direct-debit">
+    For recurring payments, use SEPA Direct Debit instead
+  </Card>
+</CardGroup>

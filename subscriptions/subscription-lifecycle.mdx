@@ -1,8 +1,129 @@
 ---
 title: Subscription Lifecycle
-description: 'Active, paused, canceled states'
+description: 'Understand subscription statuses and how they transition'
 ---
 
 # Subscription Lifecycle
 
-_Work in progress. Content coming soon._
+Every PayRequest subscription moves through a series of statuses during its lifetime. Understanding these statuses helps you manage billing, handle edge cases, and communicate clearly with your customers.
+
+## Subscription Statuses
+
+| Status | Color | Description |
+|--------|-------|-------------|
+| **Pending Mandate** | Amber | Waiting for customer to set up a payment method |
+| **Trial** | Purple | Free trial period active, no billing yet |
+| **Active** | Green | Subscription is live and billing normally |
+| **Paused** | Blue | Temporarily on hold (voluntary), billing stopped |
+| **Suspended** | Orange | Service halted by admin due to non-payment |
+| **Failed** | Red | Payment failed, may be retrying automatically |
+| **Completed** | Emerald | Fixed-term subscription finished all payments |
+| **Canceled** | Red | Permanently ended, no further billing |
+
+## Status Flow
+
+```
+┌──────────────────┐
+│ Pending Mandate  │──→ Active ──→ Paused ──→ Active
+└──────────────────┘      │                      ▲
+         │                │                      │
+         ▼                ├──→ Suspended ─────────┤
+       Trial ──→ Active   │    (auto on payment)  │
+                          │                        │
+                          ├──→ Failed ─────────────┘
+                          │    (auto retry / manual)
+                          │
+                          ├──→ Completed
+                          │
+                          └──→ Canceled
+```
+
+## Status Details
+
+### Pending Mandate
+
+The subscription has been created but the customer hasn't set up their payment method yet. You can send a mandate activation email from the subscription detail page.
+
+**Transitions to:** Active, Trial, Canceled, Failed
+
+### Trial
+
+The customer is in a free trial period. No payments are collected during the trial. When the trial ends, the subscription automatically transitions to Active and billing begins.
+
+**Transitions to:** Active, Canceled, Expired
+
+### Active
+
+The subscription is live. Payments are collected automatically on the billing schedule using the customer's payment mandate.
+
+**Transitions to:** Paused, Suspended, Failed, Completed, Canceled
+
+### Paused
+
+A voluntary hold — either requested by the customer or set by the admin. Billing stops while paused. You can optionally set a resume date for automatic reactivation.
+
+**Transitions to:** Active, Canceled
+
+Learn more: [Pausing & Resuming](/subscriptions/pausing-and-resuming)
+
+### Suspended
+
+An admin-initiated hold for customers who aren't paying. Unlike pausing, suspension:
+
+- Sends the customer an email notification
+- Shows an orange badge (distinct from blue "paused")
+- Auto-reactivates when the overdue invoice is paid via Mollie
+- Appears in the Insights dashboard Action Required section
+
+**Transitions to:** Active (manual or auto on payment), Canceled
+
+Learn more: [Suspending Subscriptions](/subscriptions/suspending-subscriptions)
+
+### Failed
+
+A payment attempt failed (insufficient funds, expired card, chargeback). PayRequest can automatically retry payments based on your retry settings.
+
+**Transitions to:** Active (after successful retry), Suspended, Canceled
+
+Learn more: [Failed Payment Handling](/subscriptions/failed-payment-handling)
+
+### Completed
+
+For fixed-term subscriptions (payment plans) that have reached their total number of payments. This is a terminal state.
+
+### Canceled
+
+The subscription has been permanently ended. No further billing occurs. Canceled subscriptions can be reactivated by an admin if needed.
+
+## Automatic Transitions
+
+Several status changes happen automatically:
+
+| Trigger | From | To |
+|---------|------|----|
+| Trial period ends | Trial | Active |
+| Payment fails | Active | Failed |
+| Retry payment succeeds | Failed | Active |
+| Overdue invoice paid | Suspended | Active |
+| Resume date reached | Paused | Active |
+| All payments completed | Active | Completed |
+
+## Billing Behavior by Status
+
+| Status | Bills automatically? | Included in MRR? |
+|--------|---------------------|-------------------|
+| **Active** | Yes | Yes |
+| **Trial** | No (until trial ends) | No |
+| **Paused** | No | No |
+| **Suspended** | No | No |
+| **Failed** | Retry attempts only | Yes (until canceled) |
+| **Completed** | No | No |
+| **Canceled** | No | No |
+
+## Related Articles
+
+- [Creating Subscriptions](/subscriptions/creating-subscriptions)
+- [Suspending Subscriptions](/subscriptions/suspending-subscriptions)
+- [Pausing & Resuming](/subscriptions/pausing-and-resuming)
+- [Failed Payment Handling](/subscriptions/failed-payment-handling)
+- [Billing Cycles](/subscriptions/billing-cycles)

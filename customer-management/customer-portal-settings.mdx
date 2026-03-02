@@ -1,0 +1,83 @@
+---
+title: "Customer Portal Settings"
+description: "Customers can personalize their portal experience with appearance, language, and notification preferences"
+---
+
+# Customer Portal Settings
+
+The Settings page gives your customers control over their portal experience. Customers can choose their preferred theme, language, and which email notifications they receive. All changes are saved automatically.
+
+<Info>
+The Settings page is available at `/customer/settings` on your shop (or custom domain). It's accessible from the sidebar navigation in the customer portal.
+</Info>
+
+## Appearance
+
+Customers can choose how the portal looks with three theme options:
+
+| Option | Behavior |
+|--------|----------|
+| **System** (default) | Follows the customer's browser/OS dark mode preference |
+| **Light** | Always uses light mode |
+| **Dark** | Always uses dark mode |
+
+The theme applies instantly when selected — no page reload needed. The preference is saved to the customer's account and persists across sessions and devices.
+
+<Tip>
+**Default behavior**: When no preference is set, the portal follows the customer's system preference. This means customers who have dark mode enabled in their OS will automatically see the portal in dark mode.
+</Tip>
+
+## Language
+
+Customers can choose their preferred language for the portal:
+
+| Option | Behavior |
+|--------|----------|
+| **Auto** (default) | Uses the browser's language setting |
+| **English** | Portal displays in English |
+| **Nederlands** | Portal displays in Dutch |
+
+When a language is selected, the page refreshes to apply the new language immediately. The preference is stored in the customer's account.
+
+## Notification Preferences
+
+Customers can toggle individual email notification categories on or off. This gives them control over which emails they receive from your business.
+
+### Invoice Notifications
+
+| Notification | Description | Default |
+|-------------|-------------|---------|
+| **New invoice** | When a new invoice is created for the customer | On |
+| **Payment confirmation** | When a payment has been received | On |
+| **Payment reminders** | Reminders for unpaid invoices | On |
+
+### Subscription Notifications
+
+| Notification | Description | Default |
+|-------------|-------------|---------|
+| **Renewal notices** | Before a subscription renews | On |
+| **Status changes** | When a subscription is paused, resumed, or canceled | On |
+
+### Order Notifications
+
+| Notification | Description | Default |
+|-------------|-------------|---------|
+| **Order confirmation** | When an order has been placed successfully | On |
+
+All notification toggles are saved automatically when changed. A note at the bottom of the section confirms: "Changes are saved automatically."
+
+<Info>
+**Good to know**: When your customer opts out of a notification category (e.g. payment reminders), PayRequest automatically respects that preference when sending emails. You don't need to configure anything extra.
+</Info>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Customer Portal" icon="layout" href="/customer-management/customer-portal">
+    Overview of all customer portal features
+  </Card>
+
+  <Card title="Email Configuration" icon="mail" href="/business-settings/email-configuration">
+    Configure your email templates and delivery settings
+  </Card>
+</CardGroup>

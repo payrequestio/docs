@@ -1,8 +1,437 @@
 ---
 title: Creating Subscriptions
-description: 'Manual and automated subscription setup'
+description: 'Set up recurring billing for your customers with automatic payment collection'
+icon: 'rotate'
 ---
 
-# Creating Subscriptions
+## Overview
 
-_Work in progress. Content coming soon._
+Subscriptions enable you to automatically collect recurring payments from customers at regular intervals. PayRequest handles the entire subscription lifecycle: from initial setup and payment authorization, through billing cycles, to pausing, resuming, and cancellation.
+
+<Tip>
+Subscriptions are ideal for SaaS products, memberships, retainers, maintenance contracts, and any service with regular billing.
+</Tip>
+
+## Key Features
+
+- **Flexible Billing Intervals**: Monthly, quarterly, or yearly billing
+- **Free Trials**: Offer trial periods before billing starts
+- **SEPA Direct Debit**: Automatic payments via bank mandate
+- **Invoice-Based Billing**: Send invoices instead of automatic collection
+- **Quantity Support**: Bill per seat, user, or unit
+- **Custom Pricing**: Override product prices per subscription
+- **Custom Start Dates**: Schedule subscriptions to start in the future
+- **Payment Limits**: Set fixed number of payments (e.g., 12-month contracts)
+- **Custom Fields**: Collect additional information per subscription
+
+## Prerequisites
+
+Before creating subscriptions, ensure you have:
+
+1. **Payment Provider Connected**: Mollie account configured in Settings → Payment Providers
+2. **Recurring Product**: At least one product marked as "Recurring" or type "Subscription"
+3. **Customer Record**: The customer you want to bill
+
+<Note>
+Products must have **"Is Recurring"** enabled or product type set to **"Subscription"** to appear in the subscription product dropdown.
+</Note>
+
+## Creating a Subscription (Dashboard)
+
+Navigate to **Subscriptions** in the sidebar, then click **Create Subscription**.
+
+### Step 1: Select Customer
+
+Choose the customer who will be billed for this subscription.
+
+**Customer Selection Tips:**
+- Search by name or email
+- Customer must have a valid email address
+- For mandate-based billing, customer needs a linked Mollie customer ID (created automatically on first payment)
+
+### Step 2: Select Product
+
+Choose a recurring product from your catalog.
+
+**What appears here:**
+- Products with "Is Recurring" enabled
+- Products with type "Subscription"
+- Only active products are shown
+
+When you select a product, the form automatically loads:
+- Base price and billing interval from product settings
+- Trial period configuration (if product has trial enabled)
+- Custom fields defined on the product
+
+### Step 3: Configure Subscription Details
+
+#### Quantity
+
+Set the number of units to bill. Common uses:
+- **Per seat pricing**: Charge per user (e.g., 5 users × €10/month = €50/month)
+- **Tiered quantity**: Higher quantities for bigger packages
+- **Default**: 1 unit
+
+#### Custom Price (Optional)
+
+Enable **"Use custom price"** to override the product's default price:
+
+```
+Product price: €49/month
+Custom price: €39/month (promotional pricing)
+```
+
+<Info>
+Custom pricing is per unit. Total = Custom Price × Quantity.
+</Info>
+
+#### Trial Period
+
+If the product has a trial period configured, it applies automatically. You can also manually set trial days:
+
+```
+Trial days: 14
+Result: Customer can use service for 14 days before first charge
+```
+
+**Trial Behavior:**
+- Subscription status = "Trial" during trial period
+- No payment collected during trial
+- First billing occurs when trial ends
+- Trial end date shown clearly in subscription details
+
+#### Custom Start Date
+
+Enable **"Use custom start date"** to schedule when billing begins:
+
+**Use cases:**
+- Start billing on the 1st of next month
+- Align with customer's fiscal year
+- Replace an expiring subscription seamlessly
+
+```
+Today: December 5, 2025
+Custom start date: January 1, 2026
+Result: First payment collected on January 1, 2026
+```
+
+### Step 4: Payment Method
+
+Choose how payments will be collected:
+
+#### Mandate-Based (Automatic)
+
+**How it works:**
+1. Customer authorizes payments via SEPA Direct Debit
+2. PayRequest automatically charges their bank account each billing cycle
+3. No action needed from customer after initial authorization
+
+**Requirements:**
+- Customer must complete mandate authorization (via email link or checkout)
+- Mollie payment provider configured
+- Supported: SEPA Direct Debit, credit cards (with recurring capability)
+
+**Mandate Status Scenarios:**
+
+| Scenario | Result |
+|----------|--------|
+| Customer has active mandate | Subscription starts immediately |
+| No mandate exists | Email sent to customer to authorize |
+| Mandate pending | Subscription status = "Pending Mandate" |
+
+#### Invoice-Based (Manual)
+
+**How it works:**
+1. PayRequest generates an invoice each billing cycle
+2. Invoice emailed to customer with payment link
+3. Customer pays invoice manually (iDEAL, bank transfer, card, etc.)
+
+**When to use:**
+- Customers prefer to review charges before paying
+- Business customers requiring invoice approval
+- Markets where SEPA Direct Debit isn't common
+
+<Warning>
+Invoice-based subscriptions require Shop settings to enable this option. Go to **Shop Settings** → **Enable Invoice Subscriptions**.
+</Warning>
+
+### Step 5: Custom Fields
+
+If the product has custom fields configured, fill them in:
+
+**Common custom field types:**
+- **Text**: Company name, project reference
+- **Email**: Technical contact email
+- **URL**: Website being hosted
+- **Number**: Additional seats, storage GB
+- **Toggle**: Add-on features with extra cost
+- **Select**: Service tier, support level
+
+<Tip>
+Toggle and select fields can have **price markup** - enabling them automatically increases the recurring amount.
+</Tip>
+
+### Step 6: Review Summary
+
+Before creating, review the summary panel showing:
+
+- **Customer name**
+- **Product and quantity**
+- **Recurring amount** (including any markup from custom fields)
+- **Billing interval** (monthly/quarterly/yearly)
+- **Trial period** (if applicable)
+- **First billing date**
+- **Payment method** (mandate or invoice)
+
+### Step 7: Create
+
+Click **Create Subscription** to finalize.
+
+**What happens next:**
+
+| Payment Method | Customer Has Mandate | Result |
+|----------------|---------------------|--------|
+| Mandate | Yes | Subscription active, billing scheduled |
+| Mandate | No | Email sent to customer with authorization link |
+| Invoice | N/A | Invoice created and emailed (if billing soon) |
+
+## Creating Subscriptions via Shop Checkout
+
+Customers can self-subscribe through your shop:
+
+### Customer Flow
+
+1. Customer visits your shop
+2. Selects a recurring product
+3. Proceeds to checkout
+4. Completes payment (first payment or mandate authorization)
+5. Subscription created automatically
+
+### Shop Configuration
+
+Configure subscription checkout behavior in **Shop Settings**:
+
+- **Allow trial signups**: Let customers start trials without payment
+- **Show billing cycle**: Display "€49/month" or "€499/year" clearly
+- **Require immediate payment**: Collect first payment at checkout
+- **Enable invoice subscriptions**: Allow invoice-based billing
+
+## Subscription Statuses
+
+After creation, subscriptions progress through various statuses:
+
+| Status | Meaning | Actions Available |
+|--------|---------|-------------------|
+| **Active** | Billing normally | Pause, Cancel, Edit |
+| **Trial** | In free trial period | Convert early, Cancel |
+| **Pending Mandate** | Awaiting payment authorization | Resend email, Cancel |
+| **Paused** | Temporarily stopped | Resume, Cancel |
+| **Failed** | Payment collection failed | Retry, Update payment method |
+| **Canceled** | Permanently ended | Reactivate (create new) |
+| **Completed** | Reached payment limit | N/A |
+
+<Info>
+See [Subscription Lifecycle](/subscriptions/subscription-lifecycle) for detailed status transitions.
+</Info>
+
+## Use Cases
+
+### 1. SaaS Monthly Subscription
+
+```
+Product: Pro Plan
+Price: €49/month
+Trial: 14 days
+Payment: Mandate (automatic)
+```
+
+**Result**: Customer gets 14-day trial, then €49 charged automatically each month.
+
+### 2. Annual Retainer
+
+```
+Product: Maintenance Contract
+Price: €2,400/year
+Custom start: January 1
+Payment: Invoice
+```
+
+**Result**: Invoice sent on January 1 each year for customer to pay.
+
+### 3. Per-Seat Pricing
+
+```
+Product: Team Plan
+Price: €10/user/month
+Quantity: 15
+Custom field: Company Name = "Acme Corp"
+```
+
+**Result**: €150/month charged automatically for 15 seats.
+
+### 4. Fixed-Term Contract
+
+```
+Product: 12-Month Premium
+Price: €99/month
+Payment limit: 12 payments
+```
+
+**Result**: 12 monthly payments, then subscription automatically completes.
+
+### 5. Domain Renewal
+
+```
+Product: Domain Registration
+Price: €15/year (based on TLD)
+Custom field: Domain = "example.nl"
+Interval: Yearly
+```
+
+**Result**: Annual renewal charged automatically for domain.
+
+## Best Practices
+
+### ✅ Do's
+
+- **Use clear product names** that explain what's being billed
+- **Set appropriate trial lengths** (7-30 days typical)
+- **Configure payment reminders** for invoice-based subscriptions
+- **Use tags** to organize subscriptions by type, customer segment, or sales rep
+- **Review "Pending Mandate" subscriptions** regularly - follow up if not completed
+- **Test the flow** by creating a test subscription for yourself
+
+### ❌ Don'ts
+
+- **Don't create duplicate subscriptions** for the same service
+- **Don't use trial for invoice-based** (customers might not pay after trial)
+- **Don't forget setup fees** - configure them on the product if applicable
+- **Don't ignore failed payments** - configure [dunning](/subscriptions/failed-payment-handling)
+- **Don't change product prices** without considering existing subscriptions
+
+## After Creation
+
+Once a subscription is created:
+
+1. **Monitor the dashboard** for status updates
+2. **Check transaction history** for payment records
+3. **Review customer portal** - customers can see their subscriptions
+4. **Set up automations** for status changes (failed payment notifications)
+
+## Troubleshooting
+
+### Customer Didn't Receive Mandate Email
+
+**Causes:**
+1. Invalid email address
+2. Email in spam folder
+3. Mail delivery issues
+
+**Solutions:**
+- Verify customer email address
+- Ask customer to check spam
+- Resend mandate email from subscription detail page
+- Check email delivery logs in Settings
+
+### Subscription Stuck at "Pending Mandate"
+
+**Causes:**
+1. Customer hasn't clicked authorization link
+2. Customer abandoned the mandate process
+3. Bank rejected the mandate
+
+**Solutions:**
+- Contact customer to complete authorization
+- Resend mandate email
+- Consider switching to invoice-based billing
+- Check Mollie dashboard for mandate errors
+
+### Wrong Amount Being Charged
+
+**Causes:**
+1. Product price changed after subscription creation
+2. Custom field markup not calculated correctly
+3. Quantity mismatch
+
+**Solutions:**
+- Edit subscription to update amount
+- Subscription amounts are fixed at creation (product price changes don't affect existing subscriptions)
+- Update quantity if seats changed
+
+### Trial Not Applied
+
+**Causes:**
+1. Product doesn't have trial configured
+2. Trial days set to 0
+3. Customer already had a trial (if trial-once logic exists)
+
+**Solutions:**
+- Check product settings for trial configuration
+- Manually set trial days when creating subscription
+- Create new subscription with correct trial settings
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Subscription Lifecycle" icon="arrows-spin" href="/subscriptions/subscription-lifecycle">
+    Understand status transitions
+  </Card>
+  <Card title="Managing Mandates" icon="building-columns" href="/subscriptions/managing-mandates">
+    SEPA authorization management
+  </Card>
+  <Card title="Billing Cycles" icon="calendar" href="/subscriptions/billing-cycles">
+    Configure payment intervals
+  </Card>
+  <Card title="Failed Payments" icon="triangle-exclamation" href="/subscriptions/failed-payment-handling">
+    Handle payment failures
+  </Card>
+</CardGroup>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I change the price of an existing subscription?">
+    Yes! Edit the subscription and update the recurring amount. The new price applies from the next billing cycle. Customers are not automatically notified of price changes - consider sending a manual email.
+  </Accordion>
+
+  <Accordion title="What happens if a customer's mandate expires?">
+    SEPA mandates don't expire, but they can be revoked by the customer or bank. If this happens, the subscription status changes to "Failed" and you'll need to request a new mandate authorization.
+  </Accordion>
+
+  <Accordion title="Can customers have multiple active subscriptions?">
+    Yes, customers can have unlimited active subscriptions. Common scenarios include multiple products, different billing entities, or separate projects.
+  </Accordion>
+
+  <Accordion title="How do I migrate existing customers to subscriptions?">
+    Create subscriptions manually for each customer. Set a custom start date to align with their current billing cycle. For mandate-based billing, they'll need to authorize payments once.
+  </Accordion>
+
+  <Accordion title="Can I link an existing subscription to an order?">
+    Yes! If a subscription was created separately and needs to be associated with an order, go to the **Order Detail** page. In the **Order Subscriptions** card, use the "Link an existing subscription" dropdown to select and connect the subscription. This is useful for reconciling historical data or fixing accidentally unlinked subscriptions.
+  </Accordion>
+
+  <Accordion title="Can I offer different prices to different customers?">
+    Yes! Use the "Custom price" option when creating each subscription. This lets you offer promotional pricing, grandfathered rates, or negotiated enterprise pricing.
+  </Accordion>
+
+  <Accordion title="What's the difference between pausing and canceling?">
+    **Pausing** temporarily stops billing - the subscription can be resumed later and retains all settings. **Canceling** permanently ends the subscription - to restart, you'd create a new subscription.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Products Setup" icon="box" href="/products-and-pricing/creating-products">
+    Create recurring products
+  </Card>
+  <Card title="Trial Periods" icon="gift" href="/products-and-pricing/trial-periods">
+    Configure free trials
+  </Card>
+  <Card title="Order Management" icon="shopping-cart" href="/shop-and-checkout/order-management">
+    Link subscriptions to orders
+  </Card>
+  <Card title="Payment Providers" icon="credit-card" href="/payment-processing/setting-up-payment-providers">
+    Connect Mollie/Stripe
+  </Card>
+</CardGroup>

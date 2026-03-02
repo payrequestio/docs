@@ -1,8 +1,297 @@
 ---
 title: Team Management
-description: 'User roles and permissions (if applicable)'
+description: 'Invite team members and manage permissions for your business'
 ---
 
 # Team Management
 
-_Work in progress. Content coming soon._
+Add team members to help manage your PayRequest business. Assign roles and control exactly what each team member can access and modify.
+
+## Overview
+
+Team management allows you to:
+- Invite colleagues to your dashboard
+- Assign predefined roles or custom permissions
+- Control access to specific features
+- Suspend or remove team members
+- Track pending invitations
+
+## Inviting Team Members
+
+### Send an Invitation
+
+1. Navigate to **Settings** → **Team**
+2. Click **Invite Team Member**
+3. Enter the team member's email address
+4. Select a role (or customize permissions)
+5. Click **Send Invitation**
+
+The invited person receives an email with a link to join your team.
+
+### Invitation Status
+
+| Status | Description |
+|--------|-------------|
+| **Pending** | Invitation sent, awaiting acceptance |
+| **Accepted** | Team member has joined |
+| **Expired** | Invitation link has expired |
+
+### Resend or Cancel
+
+For pending invitations:
+- **Resend**: Send the invitation email again
+- **Cancel**: Remove the invitation entirely
+
+## Roles and Permissions
+
+### Predefined Roles
+
+Choose from these standard roles:
+
+| Role | Description |
+|------|-------------|
+| **Admin** | Full access to everything |
+| **Manager** | View and edit most features, limited settings |
+| **Sales** | Focus on products, customers, and orders |
+| **Support** | View-only access for customer support |
+| **Custom** | Build your own permission set |
+
+### Admin Role
+
+Full access including:
+- All product operations (create, edit, delete)
+- All customer management
+- All invoice operations
+- All order operations
+- Subscription management
+- Settings access
+- Reports and analytics
+
+### Manager Role
+
+Standard management access:
+- Products: View, create, edit
+- Customers: View, create, edit
+- Invoices: View, create, edit
+- Orders: View, edit
+- Subscriptions: View, edit
+- Settings: View only
+- Reports: Full access
+
+### Sales Role
+
+Sales-focused permissions:
+- Products: View, create
+- Customers: View, create, edit
+- Invoices: View, create
+- Orders: View, create
+- Subscriptions: View
+- Reports: View
+
+### Support Role
+
+Read-only for customer assistance:
+- Products: View
+- Customers: View
+- Invoices: View
+- Orders: View
+- Subscriptions: View
+
+### Custom Permissions
+
+Build a custom permission set by toggling individual permissions:
+
+**Products**
+- View products
+- Create products
+- Edit products
+- Delete products
+
+**Customers**
+- View customers
+- Create customers
+- Edit customers
+- Delete customers
+
+**Invoices**
+- View invoices
+- Create invoices
+- Edit invoices
+- Delete invoices
+
+**Orders**
+- View orders
+- Create orders
+- Edit orders
+
+**Subscriptions**
+- View subscriptions
+- Edit subscriptions
+- Cancel subscriptions
+
+**Settings**
+- View settings
+- Edit settings
+
+**Reports**
+- View reports and analytics
+
+## Managing Team Members
+
+### View Team
+
+Navigate to **Settings** → **Team** to see:
+- Active team members
+- Their assigned roles
+- Current status
+- Pending invitations
+
+### Suspend a Member
+
+Temporarily disable access without removing:
+1. Find the team member
+2. Click the status toggle
+3. Member is suspended (can be reactivated)
+
+Suspended members cannot log in until reactivated.
+
+### Remove a Member
+
+Permanently remove access:
+1. Find the team member
+2. Click **Remove**
+3. Confirm removal
+
+<Warning>
+**Permanent Action**: Removing a team member deletes their access permanently. You'll need to send a new invitation if you want to add them back.
+</Warning>
+
+### Edit Permissions
+
+To change a team member's role or permissions:
+1. Click on the team member
+2. Update their role or toggle individual permissions
+3. Save changes
+
+Changes take effect immediately on their next page load.
+
+## Team Member Experience
+
+### Accepting an Invitation
+
+When someone receives a team invitation:
+1. They click the link in the email
+2. Create a password (if new to PayRequest)
+3. Accept the invitation
+4. Gain access to your dashboard
+
+### Dashboard Access
+
+Team members see a version of the dashboard filtered by their permissions:
+- Hidden features they can't access
+- Read-only views for view-only permissions
+- Full edit capabilities where permitted
+
+### Switching Businesses
+
+If a team member is invited to multiple businesses:
+- They can switch between them
+- Each business has separate permissions
+- Data is completely isolated
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Principle of Least Privilege" icon="shield">
+    Give team members only the permissions they need
+  </Card>
+  <Card title="Use Predefined Roles" icon="user-check">
+    Start with predefined roles before customizing
+  </Card>
+  <Card title="Regular Review" icon="calendar-check">
+    Periodically review team member access
+  </Card>
+  <Card title="Suspend Before Remove" icon="pause">
+    Suspend first if unsure about removing access
+  </Card>
+</CardGroup>
+
+## Common Use Cases
+
+### Virtual Assistant
+
+- **Role**: Support or Custom
+- **Permissions**: View customers, view invoices, view orders
+- **Purpose**: Answer customer questions without making changes
+
+### Accountant
+
+- **Role**: Custom
+- **Permissions**: View invoices, view reports, view settings
+- **Purpose**: Financial oversight and reporting
+
+### Sales Team
+
+- **Role**: Sales
+- **Permissions**: Full product and customer access
+- **Purpose**: Create products and manage customer relationships
+
+### Operations Manager
+
+- **Role**: Manager
+- **Permissions**: Most features except settings
+- **Purpose**: Day-to-day business operations
+
+## Security Considerations
+
+### Email Verification
+
+Team members must verify their email to accept invitations.
+
+### Invitation Expiry
+
+Invitations expire after a set period for security. Resend if needed.
+
+### Activity Logging
+
+All team member actions are logged in the activity feed for audit purposes.
+
+### Password Requirements
+
+Team members must create secure passwords meeting minimum requirements.
+
+## Troubleshooting
+
+### Invitation Not Received
+
+- Check spam/junk folder
+- Verify email address is correct
+- Resend the invitation
+- Ask team member to whitelist PayRequest emails
+
+### Cannot Access Features
+
+- Verify assigned role includes needed permissions
+- Check if account is suspended
+- Confirm invitation was accepted (not just clicked)
+
+### Forgot Password
+
+Team members can use the password reset flow on the login page.
+
+## Related Topics
+
+<CardGroup cols={2}>
+  <Card title="Business Details" icon="building" href="/business-settings/business-details">
+    Configure your business information
+  </Card>
+  <Card title="Activity Tracking" icon="clock" href="/organization-and-automation/activity-tracking">
+    Monitor team member actions
+  </Card>
+  <Card title="Two-Factor Authentication" icon="shield-check" href="/security-and-compliance/two-factor-authentication">
+    Secure team member accounts
+  </Card>
+  <Card title="Audit Logs" icon="file-lines" href="/security-and-compliance/audit-logs">
+    Review all account activity
+  </Card>
+</CardGroup>

@@ -1,0 +1,281 @@
+---
+title: "Support Requests"
+description: "Manage customer support tickets with rich text replies, email notifications, and customer activity tracking"
+---
+
+# Support Requests 🎫
+
+A built-in ticketing system that lets you manage customer inquiries, complaints, billing questions, and more — all from your PayRequest dashboard. Customers can submit requests from the customer portal, and you can respond with rich text replies that optionally notify them via email.
+
+<Info>
+**All Plans**: Support Requests are available on all plans. Customers submit requests through the customer portal, and you manage them from the **Support Requests** page in your dashboard sidebar.
+</Info>
+
+## 🎯 Overview
+
+<CardGroup cols={3}>
+  <Card title="📥 Receive" icon="inbox">
+    Customers submit tickets from the portal with subject, message, type, and priority
+  </Card>
+
+  <Card title="💬 Respond" icon="comment-dots">
+    Reply with a rich text editor, insert customer variables, and optionally email the customer
+  </Card>
+
+  <Card title="👁️ Track" icon="eye">
+    See when customers view their tickets, track conversation history, and monitor resolution
+  </Card>
+</CardGroup>
+
+## 📋 Request Types
+
+Support requests are categorized by type to help you triage and filter:
+
+| Type | Use Case |
+|------|----------|
+| **General Support** | General questions and help requests |
+| **Billing Question** | Questions about charges, invoices, or payments |
+| **Technical Issue** | Problems with portal access, payments, or functionality |
+| **Refund Request** | Customer requesting a refund |
+| **Complaint** | Formal complaints requiring attention |
+| **Pause Subscription** | Request to pause an active subscription |
+| **Invoice/Order Correction** | Corrections needed on invoices or orders |
+| **Feature Request** | Suggestions for improvements |
+| **Quote Request** | Custom quote inquiries (see [Quote Requests](/customer-management/quote-requests)) |
+| **Provider Request** | Requests related to service providers |
+
+## 🚀 Managing Requests
+
+### Request List
+
+Navigate to **Support Requests** in your sidebar to see all tickets. The list page shows:
+
+- **Total count** with status breakdown (Open, In Review, Resolved)
+- **Customer avatars** with business/individual badges
+- **Status and priority badges** on each card
+- **Message preview** (HTML stripped for readability)
+- **Conversation count** and last response indicator
+
+### Filtering & Search
+
+Use the filter bar to narrow down requests:
+
+- **Search** — Find by subject, message content, or customer name/email
+- **Status** — Open, In Review, Resolved, Rejected, Closed
+- **Type** — Filter by any request type
+- **Priority** — Low, Medium, High, Urgent
+
+## 💬 Responding to Requests
+
+### Rich Text Editor
+
+The response form includes a full rich text editor with:
+
+- **Formatting** — Bold, italic, underline, strikethrough
+- **Lists** — Bullet and numbered lists
+- **Blockquote** — For quoting customer messages
+- **Links** — Insert clickable links
+- **Undo/Redo** — Full history support
+
+<Tip>
+**Keyboard Shortcuts**: Use standard shortcuts like `Ctrl+B` for bold, `Ctrl+I` for italic, and `Ctrl+Z` for undo. The editor also supports Markdown notation — type `**text**` for bold, `- ` for bullet lists, etc.
+</Tip>
+
+### Insert Variables
+
+Click the **code bracket icon** (`{ }`) in the editor toolbar to quickly insert contextual data at your cursor position:
+
+<CardGroup cols={2}>
+  <Card title="👤 Customer Variables" icon="user">
+    - **Name** — Customer's display name
+    - **Email** — Customer's email address
+    - **Company** — Company name (if business customer)
+  </Card>
+
+  <Card title="🎫 Request Variables" icon="ticket">
+    - **Request ID** — e.g. `#32`
+    - **Subject** — The request subject line
+  </Card>
+
+  <Card title="🔄 Subscription Variables" icon="rotate">
+    Inserts the customer's subscription names (up to 3 shown), with amounts displayed for reference
+  </Card>
+
+  <Card title="📄 Invoice Variables" icon="file-invoice">
+    Inserts invoice numbers (up to 3 shown), with amounts displayed for reference
+  </Card>
+</CardGroup>
+
+The dropdown also includes a **Business Name** option that inserts your company name.
+
+<Info>
+**Real Values**: Variables insert the actual values (e.g. "Francesco Trovato"), not template placeholders. This makes your replies read naturally.
+</Info>
+
+### Internal Notes
+
+Check **"Internal Note (only visible to admin)"** to add notes that customers cannot see. Internal notes appear with an amber highlight in the conversation and are excluded from the customer portal view.
+
+## 📧 Email Notifications
+
+### Sending Reply Notifications
+
+When replying to a request (non-internal), you can check **"Send reply notification to customer via email"** to email the customer about your response.
+
+The email includes:
+
+- **Your business logo** at the top
+- **Customer greeting** by name
+- **Request subject** for context
+- **Reply preview** (first 200 characters)
+- **"View Full Reply" button** linking to the customer portal
+- **Business branding** in the footer
+
+<Tip>
+**Enabled by Default**: The email notification checkbox is checked by default for convenience. Uncheck it if you only want to add a reply without notifying the customer.
+</Tip>
+
+### Button States
+
+The submit button changes based on your selection:
+
+- **"Add Reply"** — When email notification is unchecked or reply is internal
+- **"Send Reply & Email"** — When email notification will be sent
+
+After sending, a confirmation message shows the recipient's email address.
+
+## 👁️ Customer Activity Tracking
+
+### Ticket Views
+
+The timeline automatically tracks when a customer views their support ticket in the portal. This helps you understand engagement:
+
+- **Teal eye icon** in the timeline when the customer opens the ticket
+- **Throttled to once per hour** — repeated page refreshes don't create duplicate entries
+- Shows the exact timestamp of each view
+
+### Timeline
+
+The sidebar timeline shows a chronological feed of all activity on a request:
+
+| Event | Icon | Color |
+|-------|------|-------|
+| Request created | Dot | Green |
+| Customer reply | Dot | Gray |
+| Admin response | Dot | Blue |
+| Internal note | Dot | Amber |
+| Email sent to customer | Envelope | Indigo |
+| Customer viewed request | Eye | Teal |
+
+Up to 15 events are shown, with a summary if there are more.
+
+## 🔄 Request Lifecycle
+
+<Steps>
+  <Step title="Customer Submits Request">
+    Customer creates a ticket from the portal with subject, message, type, and priority. Status: **Open**
+  </Step>
+
+  <Step title="You Review the Request">
+    View the request details, customer info, and any related records. Change status to **In Review**
+  </Step>
+
+  <Step title="Respond to Customer">
+    Write a reply using the rich text editor, insert relevant variables, and optionally send an email notification
+  </Step>
+
+  <Step title="Customer Views & Replies">
+    Customer sees your reply in the portal (tracked in timeline). They can add follow-up replies which reopen closed tickets
+  </Step>
+
+  <Step title="Resolve or Close">
+    Mark the request as **Resolved** when the issue is addressed, or **Closed** when no further action is needed
+  </Step>
+</Steps>
+
+### Status Flow
+
+```
+Open → In Review → Resolved
+                 → Rejected
+                 → Closed
+```
+
+<Info>
+**Auto-Reopen**: If a customer replies to a resolved or closed ticket, it automatically reopens with status **Open** so you don't miss follow-ups.
+</Info>
+
+## 📊 Request Detail Page
+
+### Main Content Area
+
+The detail page has a two-column layout:
+
+**Left Column (2/3 width):**
+- Original request message (rendered with full HTML formatting)
+- Related record link (if linked to an invoice, order, or subscription)
+- Full conversation history with color-coded messages
+- Reply form with rich text editor
+
+**Right Column (1/3 width):**
+- Customer card with avatar, name, email, phone, company
+- Status and priority management dropdowns
+- Activity timeline
+
+### Quick Actions
+
+Action buttons at the top of the page let you quickly:
+- **Mark In Review** — Acknowledge you're looking into it
+- **Mark as Resolved** — Issue has been addressed
+- **Close Request** — No further action needed
+
+## 🎨 Customer Portal Experience
+
+Customers interact with support through the portal at `/shop/{storename}/support`:
+
+- **View all their tickets** with status badges
+- **Create new tickets** with subject, message, type, and priority
+- **Reply to existing tickets** (automatically reopens closed tickets)
+- **See admin responses** (internal notes are hidden)
+
+<Info>
+**Custom Domains**: Support works on custom domains too. If your shop uses `shop.yourbusiness.com`, support is available at `shop.yourbusiness.com/support`.
+</Info>
+
+## 💡 Best Practices
+
+<CardGroup cols={2}>
+  <Card title="⚡ Response Time" icon="bolt">
+    - Acknowledge requests within 4 hours
+    - Use "In Review" status to signal you're on it
+    - Use internal notes to document your investigation
+    - Send email notifications for important updates
+  </Card>
+
+  <Card title="📝 Reply Quality" icon="pen-nib">
+    - Use the variable inserter for consistent, personalized replies
+    - Reference specific subscription or invoice details
+    - Include next steps or expected timelines
+    - Use formatting to highlight key information
+  </Card>
+</CardGroup>
+
+## 🎓 Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quote Requests" icon="message-quote" href="/customer-management/quote-requests">
+    Learn about the specialized quote request workflow for freelancer pages
+  </Card>
+
+  <Card title="Customer Portal" icon="browser" href="/customer-management/customer-portal">
+    See the full customer portal experience including support integration
+  </Card>
+
+  <Card title="Portal Notifications" icon="bell" href="/customer-management/portal-notifications">
+    Set up in-portal notifications for your customers
+  </Card>
+
+  <Card title="Email Configuration" icon="envelope" href="/business-settings/email-configuration">
+    Configure your email settings for support notifications
+  </Card>
+</CardGroup>

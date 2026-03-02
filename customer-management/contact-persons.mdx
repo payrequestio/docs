@@ -1,0 +1,165 @@
+---
+title: "Contact Persons"
+description: "Add additional contacts to customer accounts to receive billing or account email notifications"
+---
+
+# Contact Persons
+
+Contact Persons let your customers (or you) add extra people from their organization who should receive email notifications. A bookkeeper who needs invoice copies, a manager who wants payment updates, or a technical contact for subscription changes — each contact person gets the right emails without needing portal access.
+
+<Info>
+Contact persons receive copies (CC) of selected email types. They do not have login access to the customer portal — only the primary customer account can log in.
+</Info>
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Customer Self-Service" icon="user-group">
+    Customers add and manage their own contact persons from the portal
+  </Card>
+  <Card title="Admin Management" icon="user-gear">
+    You can also add contact persons from the customer detail page in your dashboard
+  </Card>
+  <Card title="Notification Control" icon="bell">
+    Each contact person chooses which email categories they receive
+  </Card>
+  <Card title="Role Labels" icon="tag">
+    Assign roles like Billing, Bookkeeping, or Technical for easy identification
+  </Card>
+</CardGroup>
+
+## How It Works
+
+### For Customers (Portal)
+
+Customers manage their contact persons from the **Contact Persons** page in the portal sidebar.
+
+<Steps>
+  <Step title="Navigate to Contact Persons">
+    In the customer portal, click **Contact Persons** in the sidebar (between Support and Settings).
+  </Step>
+  <Step title="Add a Contact Person">
+    Click **Add Contact Person** and fill in:
+    - **Name** (required) — The person's full name
+    - **Email** (required) — Where notifications will be sent
+    - **Phone** (optional) — Contact phone number
+    - **Role** — Their function: General, Billing, Bookkeeping, Technical, Management, or Support
+  </Step>
+  <Step title="Configure Notifications">
+    Toggle which email categories this person should receive:
+    - **Billing emails** — Invoices, payment confirmations, payment reminders, overdue notices
+    - **Account emails** — Subscription changes, order confirmations, mandate updates
+  </Step>
+  <Step title="Save">
+    The contact person is added immediately and will be CC'd on future emails matching their notification preferences.
+  </Step>
+</Steps>
+
+### For Business Owners (Dashboard)
+
+You can manage contact persons from any customer's detail page in the admin dashboard.
+
+<Steps>
+  <Step title="Open Customer Profile">
+    Go to **Customers** and click on a customer to open their detail page.
+  </Step>
+  <Step title="Find Contact Persons Section">
+    Scroll down below the customer details (in the Details or Business tab). The **Contact Persons** section shows all existing contacts.
+  </Step>
+  <Step title="Add or Edit">
+    Click **Add Contact Person** to add a new one, or use the edit/delete buttons on existing contacts.
+  </Step>
+</Steps>
+
+## Notification Categories
+
+Contact persons can subscribe to two categories of email notifications:
+
+### Billing Emails
+
+| Email Type | When It's Sent |
+|-----------|---------------|
+| New invoice | When an invoice is created |
+| Payment confirmation | When a payment is received |
+| Payment reminders | Automatic reminders for unpaid invoices |
+| Overdue notices | When invoices pass their due date |
+| Mandate requests | When a SEPA mandate needs to be set up |
+| Mandate activations | When a SEPA mandate is confirmed |
+
+### Account Emails
+
+| Email Type | When It's Sent |
+|-----------|---------------|
+| Order confirmation | When an order is placed |
+| Order completed | When an order is fulfilled |
+| Subscription suspended | When a subscription is suspended |
+| Subscription changes | Status updates for subscriptions |
+
+<Tip>
+**Common setup**: Add a bookkeeper with only **Billing emails** enabled so they automatically receive copies of all invoices and payment confirmations. Add a technical contact with only **Account emails** for subscription and service updates.
+</Tip>
+
+## Roles
+
+Each contact person has a role label for easy identification. Roles are descriptive — they don't affect permissions or notification options.
+
+| Role | Typical Use |
+|------|------------|
+| **General** | Default role, general contact |
+| **Billing** | Handles payments and invoicing |
+| **Bookkeeping** | Accountant or bookkeeper who needs invoice copies |
+| **Technical** | IT or technical contact for service-related updates |
+| **Management** | Manager or director who oversees the account |
+| **Support** | Support contact for operational matters |
+
+## Limits
+
+- Maximum **10 contact persons** per customer
+- Each email address can only be added once per customer
+- The customer's own primary email cannot be added as a contact person
+- Contact persons receive emails as **CC** — the primary customer always remains the main recipient
+
+<Info>
+**Privacy**: Contact persons only receive email copies. They cannot log into the portal, view the customer's account, or take any actions. For portal access, see the customer login feature.
+</Info>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can contact persons log into the portal?">
+    No. Contact persons only receive email copies (CC). They do not have portal login access. Only the primary customer email can log into the portal.
+  </Accordion>
+
+  <Accordion title="Do contact persons count as separate customers?">
+    No. Contact persons are linked to an existing customer account. They are not separate customer records and don't appear in your customer list.
+  </Accordion>
+
+  <Accordion title="Can I add contact persons for all my customers at once?">
+    Contact persons are managed per customer. There is no bulk-add feature. Customers can self-manage their contacts through the portal.
+  </Accordion>
+
+  <Accordion title="What happens if I delete a contact person?">
+    They immediately stop receiving email notifications. No emails are sent to notify them of the removal.
+  </Accordion>
+
+  <Accordion title="Can customers manage their own contact persons?">
+    Yes. Customers can add, edit, and remove contact persons from the **Contact Persons** page in their portal. You can also manage them from the admin dashboard.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Customer Portal" icon="browser" href="/customer-management/customer-portal">
+    Overview of all customer portal features
+  </Card>
+  <Card title="Portal Settings" icon="gear" href="/customer-management/customer-portal-settings">
+    Appearance, language, and notification preferences
+  </Card>
+  <Card title="Email Configuration" icon="envelope" href="/business-settings/email-configuration">
+    Configure your email templates and delivery settings
+  </Card>
+  <Card title="Customer Profiles" icon="user" href="/customer-management/customer-profiles">
+    Managing customer data in the admin dashboard
+  </Card>
+</CardGroup>

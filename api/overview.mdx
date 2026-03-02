@@ -1,0 +1,134 @@
+---
+title: 'API Overview'
+description: 'Connect your applications to PayRequest using our REST API'
+icon: 'code'
+---
+
+# PayRequest API
+
+The PayRequest API allows you to programmatically access your billing data, create invoices, and automate your billing workflows. It's designed for integrations with external tools, MCP servers, and custom applications.
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://payrequest.app/api/v1
+```
+
+## API Versioning
+
+The API uses URL-based versioning. The current version is `v1`. We recommend always specifying the version in your requests to ensure compatibility.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Invoice Management" icon="file-invoice" href="/api/invoices">
+    List, create, and manage invoices programmatically
+  </Card>
+  <Card title="OAuth2 Authentication" icon="lock" href="/api/authentication">
+    Secure token-based authentication using OAuth2
+  </Card>
+  <Card title="Billing Statistics" icon="chart-line" href="/api/invoices#get-invoice-statistics">
+    Get real-time insights into your billing data
+  </Card>
+  <Card title="Payment Reminders" icon="bell" href="/api/invoices#send-payment-reminder">
+    Automate follow-ups for overdue invoices
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+### 1. Create an API Token
+
+1. Go to **Settings** → **API Tokens** in your PayRequest dashboard
+2. Click **Create New Token**
+3. Give your token a name (e.g., "MCP Integration")
+4. Select the required scopes (permissions)
+5. Copy and securely store your access token
+
+### 2. Make Your First Request
+
+```bash
+curl -X GET "https://payrequest.app/api/v1/invoices" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Accept: application/json"
+```
+
+### 3. Handle the Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "data": [...],
+    "current_page": 1,
+    "per_page": 25,
+    "total": 150
+  }
+}
+```
+
+## Available Endpoints
+
+| Method | Endpoint | Description | Scope Required |
+|--------|----------|-------------|----------------|
+| GET | `/v1/invoices` | List all invoices | `billing.read` |
+| GET | `/v1/invoices/{id}` | Get invoice details | `billing.read` |
+| GET | `/v1/invoices/stats` | Get invoice statistics | `billing.read` |
+| GET | `/v1/invoices/overdue` | List overdue invoices | `billing.read` |
+| POST | `/v1/invoices` | Create a new invoice | `billing.write` |
+| POST | `/v1/invoices/{id}/reminder` | Send payment reminder | `billing.write` |
+
+## Rate Limiting
+
+API requests are rate limited to ensure fair usage:
+
+- **Standard limit**: 60 requests per minute
+- **Burst limit**: 100 requests per minute (temporary)
+
+Rate limit headers are included in all responses:
+
+```
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 45
+X-RateLimit-Reset: 1706540400
+```
+
+## Response Format
+
+All API responses follow a consistent JSON format:
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Optional success message"
+}
+```
+
+### Error Response
+
+```json
+{
+  "success": false,
+  "error": "Error description",
+  "errors": {
+    "field_name": ["Validation error message"]
+  }
+}
+```
+
+## SDKs and Libraries
+
+While we don't currently offer official SDKs, the API works seamlessly with:
+
+- **MCP (Model Context Protocol)** servers for AI assistants
+- Standard HTTP libraries in any programming language
+- Tools like Postman, Insomnia, or cURL
+
+## Support
+
+Need help with the API? Contact us at [support@payrequest.io](mailto:support@payrequest.io) or check our [troubleshooting guide](/troubleshooting/common-issues).

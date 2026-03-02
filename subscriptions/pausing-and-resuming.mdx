@@ -1,8 +1,49 @@
 ---
 title: Pausing & Resuming
-description: 'Temporary subscription holds'
+description: 'Temporary subscription holds with optional auto-resume'
 ---
 
 # Pausing & Resuming
 
-_Work in progress. Content coming soon._
+Pausing a subscription temporarily stops billing without canceling. This is useful when a customer wants to take a break, or when you need to hold billing for a specific period.
+
+## Pausing a Subscription
+
+1. Go to **Subscriptions** and click on the subscription
+2. Click **Pause Subscription** in the Subscription Actions card
+3. The subscription status changes to **Paused** (blue badge)
+
+Billing stops immediately. The customer's payment mandate remains active for when you resume.
+
+### Auto-Resume
+
+You can optionally set a **resume date** when pausing. When the date arrives, the subscription automatically returns to Active and billing resumes on the normal schedule.
+
+## Resuming a Subscription
+
+1. Go to the paused subscription's detail page
+2. Click **Resume Subscription**
+3. The subscription returns to **Active** status
+
+Billing resumes from the next scheduled billing date.
+
+## Who Can Pause?
+
+Both admins and customers (via the customer portal) can pause subscriptions. The activity log records who initiated the pause.
+
+## Pausing vs. Suspending
+
+If you need to halt service because a customer isn't paying, use **Suspension** instead of pausing. Suspension:
+
+- Sends the customer an email notification
+- Shows an orange badge (instead of blue)
+- Auto-reactivates when the overdue invoice is paid
+- Appears in the Insights dashboard Action Required section
+
+Learn more: [Suspending Subscriptions](/subscriptions/suspending-subscriptions)
+
+## Related Articles
+
+- [Subscription Lifecycle](/subscriptions/subscription-lifecycle)
+- [Suspending Subscriptions](/subscriptions/suspending-subscriptions)
+- [Customer Self-Service](/subscriptions/customer-self-service)

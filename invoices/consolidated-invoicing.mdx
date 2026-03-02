@@ -93,15 +93,6 @@ When viewing a consolidated invoice, line items are grouped by subscription with
 
 If a subscription is canceled while it has pending (not yet invoiced) items, those pending items are automatically **voided** — they won't appear on the next consolidated invoice.
 
-## Scheduling
-
-The consolidation system runs on two schedules:
-
-| Command | Schedule | Purpose |
-|---------|----------|---------|
-| `subscriptions:process-billing` | Daily at 05:00 | Creates pending items instead of individual invoices for opted-in customers |
-| `invoices:generate-consolidated` | Daily at 06:30 | Bundles pending items into consolidated invoices on anchor days |
-
 ## FAQ
 
 <AccordionGroup>
@@ -117,8 +108,8 @@ The consolidation system runs on two schedules:
   <Accordion title="Does the customer see that it's a consolidated invoice?">
     Yes. The invoice notes indicate it's a consolidated invoice and show the billing period. Each line item shows the subscription it belongs to.
   </Accordion>
-  <Accordion title="Can I run consolidation manually?">
-    Yes. Use the command `php artisan invoices:generate-consolidated --customer=ID` to generate a consolidated invoice for a specific customer, or use `--dry-run` to preview without creating invoices.
+  <Accordion title="When are consolidated invoices generated?">
+    Consolidated invoices are generated automatically every morning on the anchor day you configured. Subscription charges are collected throughout the period and bundled into a single invoice.
   </Accordion>
 </AccordionGroup>
 

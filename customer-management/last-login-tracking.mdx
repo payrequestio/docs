@@ -1,0 +1,127 @@
+---
+title: "Last Login Tracking"
+description: "Monitor customer activity with automatic last login tracking including location data"
+---
+
+## Overview
+
+PayRequest automatically tracks when customers log into your shop, recording the date, time, and geographic location based on their IP address. This information helps you understand customer engagement and identify active users.
+
+## How It Works
+
+### Automatic Tracking
+
+When customers log in to your shop using the magic link system, PayRequest automatically:
+
+- Records the exact login timestamp
+- Captures the customer's IP address
+- Determines their geographic location (country and city)
+- Updates their customer profile with this information
+
+### Location Detection
+
+The system uses IP geolocation services to determine:
+
+- **Country**: The customer's country (e.g., "The Netherlands", "Germany")
+- **City**: The customer's city when available (e.g., "Amsterdam", "Berlin")
+- **Fallback Handling**: Shows "Local Network" for private/local IP addresses
+
+## Viewing Last Login Information
+
+### Customer Detail Page
+
+In your dashboard, navigate to any customer's profile to see their last login information:
+
+1. Go to **Customers** in your dashboard
+2. Click on any customer to view their profile
+3. In the sidebar, look for the **Customer Details** section
+4. The last login appears as: `"27 Sep 2025, 11:29 (Amsterdam, The Netherlands)"`
+
+### Information Display Format
+
+The last login information shows:
+- **Date and Time**: In a readable format (27 Sep 2025, 11:29)
+- **Location**: City and country when available
+- **Only When Available**: Only displays if the customer has logged in at least once
+
+## Privacy and Security
+
+### Data Handling
+
+- **IP Addresses**: Stored for location detection purposes
+- **No Personal Data**: Only geographic location is derived and stored
+- **GDPR Compliant**: Data handling follows privacy regulations
+- **Automatic Cleanup**: Old login data can be managed according to your data retention policies
+
+### Location Accuracy
+
+- **Country Level**: Usually very accurate (99%+ correct)
+- **City Level**: Generally accurate but may vary by provider
+- **ISP Dependent**: Location depends on the customer's internet service provider
+- **VPN Consideration**: May show VPN server location if customer uses VPN
+
+## Use Cases
+
+### Customer Support
+
+When customers contact support:
+- Verify recent account activity
+- Confirm login attempts
+- Identify account access patterns
+
+### Business Intelligence
+
+Track customer engagement:
+- Monitor active vs. inactive customers
+- Understand geographic customer distribution
+- Identify login patterns and trends
+
+### Security Monitoring
+
+Basic security insights:
+- Unusual login locations
+- Recent account activity
+- Customer engagement levels
+
+## Technical Details
+
+### Automatic Implementation
+
+Last login tracking is automatically enabled for all shops and requires no setup. The system:
+
+- Tracks all magic link logins
+- Updates customer records in real-time
+- Handles failures gracefully (login won't fail if tracking fails)
+- Provides fallback for local/development environments
+
+### Data Storage
+
+- **Database Field**: `last_login_at`, `last_login_ip`, `last_login_country`, `last_login_city`
+- **Privacy Focused**: Only stores necessary location data
+- **Efficient Queries**: Optimized for fast customer profile loading
+
+## Frequently Asked Questions
+
+### Will this slow down customer logins?
+
+No, the location detection happens asynchronously and won't impact login speed. If the location service fails, the login still completes successfully.
+
+### How accurate is the location data?
+
+Country-level data is typically 99%+ accurate. City-level data is generally accurate but can vary depending on the customer's ISP and network configuration.
+
+### Can customers opt out of tracking?
+
+This is basic login tracking for business purposes. The data helps you provide better customer service and is handled according to standard privacy practices.
+
+### What about customers using VPNs?
+
+If customers use VPN services, the location will show the VPN server's location rather than their actual location.
+
+### Is this GDPR compliant?
+
+Yes, this tracking is for legitimate business purposes (customer service and account security) and follows GDPR guidelines for data minimization and purpose limitation.
+
+---
+
+*Last updated: September 2025*

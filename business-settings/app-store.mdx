@@ -1,0 +1,337 @@
+---
+title: "App Store"
+description: "Connect and manage third-party integrations from the PayRequest App Store"
+---
+
+# App Store 🏪
+
+The PayRequest App Store is your central hub for connecting, configuring, and managing all third-party integrations. From payment processors to domain provisioning services, the App Store provides a unified interface to manage all your business connections.
+
+<Info>
+**Location**: Access the App Store from your dashboard sidebar under **Settings** → **App Store** or visit `/apps`
+</Info>
+
+## Overview
+
+The App Store organizes integrations into categories, making it easy to find and configure the services you need:
+
+- **💳 Payments**: Payment processors like Mollie and Stripe
+- **🌐 Provisioning**: Domain registration and management services like OpenProvider
+- **📱 All Apps**: View all available integrations in one place
+
+## Available Categories
+
+### Payments
+
+Connect payment processors to accept payments from your customers.
+
+<CardGroup cols={1}>
+  <Card title="Mollie" icon="credit-card">
+    **European payment processing powerhouse**
+
+    - iDEAL (Netherlands)
+    - SEPA Direct Debit
+    - Credit & Debit Cards
+    - Bancontact (Belgium)
+    - And 15+ other methods
+
+    Perfect for EU-based businesses with automatic SEPA mandate management for subscriptions.
+  </Card>
+</CardGroup>
+
+<Tip>
+More payment providers coming soon! We're actively working on expanding our payment processor integrations.
+</Tip>
+
+### Provisioning
+
+Automate domain registration and management directly from PayRequest.
+
+<CardGroup cols={1}>
+  <Card title="OpenProvider" icon="globe-alt">
+    **Domain registration and management**
+
+    - Automatic domain provisioning
+    - TLD pricing configuration
+    - DNS management
+    - SSL certificate support
+
+    Ideal for hosting companies, web agencies, and SaaS platforms offering domain services.
+  </Card>
+</CardGroup>
+
+## Connecting Your First App
+
+Let's walk through connecting an integration from the App Store.
+
+<Steps>
+  <Step title="Navigate to App Store">
+    Go to **Settings** → **App Store** in your dashboard sidebar, or visit `/apps`
+  </Step>
+
+  <Step title="Browse Available Apps">
+    Use the category tabs to filter apps:
+    - **All Apps**: View everything at once
+    - **Payments**: Filter to payment processors only
+    - **Provisioning**: Show domain and service providers
+  </Step>
+
+  <Step title="Click on Your Desired App">
+    Click on any app card to view its detail page with:
+    - Current connection status
+    - Configuration options
+    - Management tools
+    - Setup instructions
+  </Step>
+
+  <Step title="Connect the App">
+    Follow the app-specific connection process:
+    - For **Mollie**: OAuth connection via "Connect with Mollie"
+    - For **OpenProvider**: Enter API credentials manually
+  </Step>
+</Steps>
+
+## Managing Connected Apps
+
+Once an app is connected, you can manage it directly from the App Store.
+
+### Connection Status
+
+Apps display clear status badges:
+
+- 🟢 **Connected**: App is active and configured
+- ⚪ **Not Connected**: App needs to be set up
+- 🟡 **Test Mode**: App is in testing/sandbox mode
+- 🔴 **Inactive**: App is configured but disabled
+
+### App Management Actions
+
+Each connected app provides specific management options:
+
+<Accordion>
+  <AccordionItem title="Mollie Management">
+    **Available Actions:**
+    - View connection status and account details
+    - Switch between Mollie profiles
+    - Enable/disable payment methods
+    - Configure customer sync
+    - Manage subscription sync
+    - Test connection
+    - Disconnect and reconnect
+
+    **Quick Access:** Click the Mollie card → Manage settings
+  </AccordionItem>
+
+  <AccordionItem title="OpenProvider Management">
+    **Available Actions:**
+    - View provider statistics
+    - Test API connection
+    - Configure TLD pricing
+    - Manage default nameservers
+    - Toggle test/production mode
+    - Enable/disable provider
+    - Update credentials
+
+    **Quick Access:** Click OpenProvider card → Configure settings
+  </AccordionItem>
+</Accordion>
+
+## App-Specific Guides
+
+### Mollie Integration
+
+Mollie is the recommended payment processor for European businesses.
+
+<Steps>
+  <Step title="Prerequisites">
+    - Active Mollie account (sign up at [mollie.com](https://www.mollie.com))
+    - Verified website profile in Mollie dashboard
+    - Approved payment methods
+  </Step>
+
+  <Step title="Connect via OAuth">
+    1. Click **Connect with Mollie** in the Mollie app page
+    2. Log into your Mollie account
+    3. Authorize PayRequest to access your account
+    4. Select your default profile
+  </Step>
+
+  <Step title="Configure Settings">
+    After connection:
+    - **Profile Management**: Switch between multiple Mollie profiles
+    - **Payment Methods**: Enable/disable specific payment methods
+    - **Customer Sync**: Optionally sync customers to Mollie
+    - **Subscription Sync**: Keep PayRequest and Mollie subscriptions in sync
+  </Step>
+
+  <Step title="Test Your Connection">
+    Use the **Test Connection** button to verify everything works correctly before processing real payments.
+  </Step>
+</Steps>
+
+<Warning>
+**Important**: Always start with test mode enabled. Switch to live mode only after thoroughly testing your payment flow.
+</Warning>
+
+### OpenProvider Integration
+
+OpenProvider enables automated domain provisioning for your products.
+
+<Steps>
+  <Step title="Get OpenProvider Credentials">
+    1. Sign up for an OpenProvider account
+    2. Navigate to your OpenProvider dashboard
+    3. Generate API credentials (username & password)
+  </Step>
+
+  <Step title="Add Provider in PayRequest">
+    1. Click **Add OpenProvider Credentials** on the OpenProvider app page
+    2. Enter your provider name (e.g., "My OpenProvider Account")
+    3. Paste your API username and password
+    4. Configure default nameservers (optional)
+    5. Toggle test mode if using sandbox
+  </Step>
+
+  <Step title="Configure TLD Pricing">
+    After connecting:
+    1. Click **TLD Management** from the OpenProvider page
+    2. Sync available TLDs from OpenProvider
+    3. Set your profit margins per TLD
+    4. Configure sell prices for each extension
+  </Step>
+
+  <Step title="Test Connection">
+    Use the **Test Connection** button to verify your credentials work correctly.
+  </Step>
+</Steps>
+
+<Info>
+OpenProvider automatically provisions domains when customers purchase domain products through your shop. No manual registration needed!
+</Info>
+
+## Connection Status Indicators
+
+Understanding what each status means:
+
+| Status | Badge | Meaning |
+|--------|-------|---------|
+| **Connected** | 🟢 Green | Fully configured and active |
+| **Not Connected** | ⚪ Gray | Needs configuration |
+| **Test Mode** | 🟡 Amber | Using sandbox/test credentials |
+| **Production** | 🔵 Blue | Live mode active |
+| **Inactive** | ⚪ Gray | Configured but disabled |
+
+## Troubleshooting
+
+Common issues and solutions when working with App Store integrations.
+
+<Accordion>
+  <AccordionItem title="App shows 'Not Connected' but I configured it">
+    **Solution:**
+    - Verify your credentials are correct
+    - Check that the app is set to "Active" status
+    - For Mollie: Ensure OAuth connection was completed
+    - Test your connection using the "Test Connection" button
+  </AccordionItem>
+
+  <AccordionItem title="Mollie OAuth connection fails">
+    **Possible causes:**
+    - Incorrect Mollie account permissions
+    - Browser blocking cookies/redirects
+    - Mollie account not fully verified
+
+    **Solution:**
+    - Use a different browser
+    - Ensure Mollie account is verified
+    - Check that website profile is approved in Mollie
+  </AccordionItem>
+
+  <AccordionItem title="OpenProvider test connection fails">
+    **Possible causes:**
+    - Wrong API credentials
+    - Account not activated
+    - IP whitelist restrictions
+
+    **Solution:**
+    - Double-check username and password
+    - Verify OpenProvider account is active
+    - Contact OpenProvider support for IP whitelist issues
+  </AccordionItem>
+
+  <AccordionItem title="Can't see my app in the list">
+    **Solution:**
+    - Check you're looking in the correct category tab
+    - Use the "All Apps" tab to see everything
+    - Some apps may require specific plan levels
+  </AccordionItem>
+</Accordion>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Always Test First" icon="flask">
+    Enable test/sandbox mode before processing real transactions. Verify the entire flow works as expected.
+  </Card>
+
+  <Card title="Monitor Connection Status" icon="chart-line">
+    Regularly check your app connections in the App Store to ensure everything remains properly configured.
+  </Card>
+
+  <Card title="Keep Credentials Secure" icon="lock">
+    Never share your API credentials. Use environment-specific credentials for testing vs production.
+  </Card>
+
+  <Card title="Enable Notifications" icon="bell">
+    Set up webhook notifications to stay informed about transaction events and sync issues.
+  </Card>
+</CardGroup>
+
+## Security Considerations
+
+PayRequest takes the security of your integrations seriously:
+
+- ✅ **Encrypted Storage**: All credentials are encrypted at rest using AES-256
+- ✅ **OAuth Preferred**: We use OAuth 2.0 for Mollie to avoid storing passwords
+- ✅ **Token Refresh**: Access tokens are automatically refreshed before expiration
+- ✅ **Audit Logs**: All connection changes are tracked in your activity log
+- ✅ **Secure Transit**: All API calls use TLS 1.3 encryption
+
+<Warning>
+**Never share** your PayRequest API keys or provider credentials with third parties. PayRequest support will never ask for your passwords or access tokens.
+</Warning>
+
+## Coming Soon
+
+We're actively working on expanding the App Store with new integrations:
+
+- 🔜 **Stripe**: Alternative payment processor with global reach
+- 🔜 **TransIP**: Domain provisioning for Dutch market
+- 🔜 **Exact Online**: Accounting software integration
+- 🔜 **Zapier**: Connect PayRequest to 5000+ apps
+- 🔜 **Mailchimp**: Email marketing automation
+
+<Tip>
+Have a specific integration request? [Email us](mailto:support@payrequest.io) with your suggestion!
+</Tip>
+
+## Related Documentation
+
+<CardGroup cols={3}>
+  <Card title="Payment Methods" icon="credit-card" href="/payment-processing/payment-methods-overview">
+    Learn about available payment methods
+  </Card>
+
+  <Card title="Custom Domains" icon="globe" href="/shop-and-checkout/custom-domains">
+    Set up custom domains for your shop
+  </Card>
+
+  <Card title="API Reference" icon="code" href="/advanced-features/api-reference">
+    Integrate with PayRequest API
+  </Card>
+</CardGroup>
+
+---
+
+<Info>
+**Quick Navigation**: Access your connected apps anytime from the App Store at `/apps` or through the Settings menu in your dashboard sidebar.
+</Info>

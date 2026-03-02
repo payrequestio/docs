@@ -1,0 +1,167 @@
+---
+title: 'Invoice Payment Retry'
+description: 'Learn how customers can retry payments for unpaid invoices and what happens when invoices are already paid'
+icon: 'arrow-rotate-right'
+---
+
+## Overview
+
+When customers encounter issues during payment (such as canceling an iDEAL transaction or experiencing a payment failure), PayRequest makes it easy for them to try again without creating duplicate invoices. The payment retry system ensures a smooth experience while maintaining accurate records.
+
+## How Payment Retry Works
+
+### Sharing Invoice Payment Links
+
+When you create an invoice in PayRequest, you can share a payment link with your customer. This link includes the invoice number and automatically pre-fills all payment information.
+
+**Example payment link:**
+```
+https://payrequest.me/yourbusiness?invoice=132
+```
+
+When customers open this link, they'll see all invoice details pre-filled, including:
+- Invoice amount
+- Product or service details
+- Customer name and email
+- Any notes or descriptions
+
+### When Payment Fails or Is Canceled
+
+If a customer cancels their payment or encounters an error (for example, closing the iDEAL payment screen), they can simply click the **"Try Again"** button to return to the payment page.
+
+**What happens:**
+1. Customer is returned to the payment page with all information pre-filled
+2. The same invoice number is maintained (no duplicates created)
+3. Customer can immediately retry the payment without re-entering information
+4. If an order was created, it remains linked to the original invoice
+
+### Benefits of the Retry System
+
+✅ **No Duplicate Invoices** - The system reuses the existing invoice instead of creating a new one
+
+✅ **Pre-filled Information** - Customers don't need to re-enter their details
+
+✅ **Order Preservation** - If products were ordered, they remain linked correctly
+
+✅ **Clean Records** - Your invoice numbering stays sequential without gaps from failed payments
+
+## Viewing Paid Invoices
+
+### What Customers See
+
+When a customer opens a payment link for an invoice that's already been paid, they'll see:
+
+- A **green success message** confirming the invoice has been paid
+- The **invoice number** and payment date
+- A detailed list of **all items** on the invoice with quantities and prices
+- The **total amount paid**
+
+**No payment form is shown** - this prevents customers from accidentally paying twice.
+
+## Pending Payment Protection
+
+### SEPA Direct Debit Processing
+
+When a customer pays an invoice via SEPA Direct Debit (bank transfer), the payment takes 1-3 business days to complete. During this time, the invoice status is "pending" rather than "paid".
+
+**Duplicate Payment Prevention:**
+
+If a customer opens a payment link for an invoice with a pending SEPA payment, they'll see:
+
+- A **yellow warning callout**: "Payment Processing"
+- Message: "SEPA Direct Debit is pending. This typically takes 1-3 business days to complete."
+- Full invoice details (items, quantities, total amount)
+- **No payment form** - completely hidden to prevent duplicate charges
+
+This protection ensures customers cannot accidentally pay twice while waiting for their bank transfer to complete.
+
+### Why This Matters
+
+SEPA Direct Debit payments can take several days to process. Without this protection:
+- Customers might think their payment failed
+- They could try to pay again, resulting in double charges
+- Business owners would need to manually process refunds
+
+With pending payment protection:
+- ✅ Customers see clear status information
+- ✅ Duplicate payments are impossible
+- ✅ No manual intervention needed
+- ✅ Professional, transparent experience
+
+### Invoice Items Display
+
+Paid invoices show a clear breakdown including:
+- Product or service names
+- Quantities ordered
+- Price per item
+- Total for each line item
+- Grand total amount paid
+
+This gives customers a complete record of their purchase without the risk of duplicate charges.
+
+## Best Practices
+
+### For Business Owners
+
+1. **Share Specific Invoice Links** - When following up on unpaid invoices, include the invoice parameter in the link (`?invoice=132`)
+
+2. **Enable Email Notifications** - Set up automatic email reminders for unpaid invoices with retry links
+
+3. **Monitor Failed Payments** - Check your dashboard regularly for invoices that need attention
+
+### For Customers
+
+1. **Don't Refresh During Payment** - Wait for payment confirmation before closing the page
+
+2. **Use the Try Again Button** - If payment fails, use the provided button rather than the browser back button
+
+3. **Check Your Email** - Payment confirmations and retry links are sent automatically
+
+## Common Scenarios
+
+### Scenario 1: Customer Cancels iDEAL Payment
+
+**What happens:**
+- Customer clicks "Cancel" on their bank's iDEAL screen
+- They're redirected to a PayRequest page with a "Try Again" button
+- Clicking the button returns them to the payment page with all details pre-filled
+- They can immediately start a new iDEAL payment for the same invoice
+
+### Scenario 2: Payment Link Already Paid
+
+**What happens:**
+- Customer opens a payment link for invoice they already paid
+- Green success callout appears: "This invoice has already been paid"
+- Full invoice details are displayed (items, quantities, total)
+- No payment button is shown - prevents double charging
+
+### Scenario 3: Following Up on Unpaid Invoice
+
+**What happens:**
+- You send customer the payment link from your dashboard
+- Customer opens link and sees all invoice details pre-filled
+- They complete payment using their preferred method
+- Both you and the customer receive confirmation
+
+## Troubleshooting
+
+### Customer Says They Can't Pay
+
+**Check these things:**
+1. Ensure the invoice isn't already marked as paid in your dashboard
+2. Verify the payment link includes the correct invoice number
+3. Confirm your payment provider (Mollie/Stripe) is properly connected
+
+### Duplicate Invoices Appearing
+
+**This shouldn't happen with the retry system**, but if you see duplicates:
+1. Check if customer clicked "Pay" multiple times rapidly
+2. Verify only one invoice has actual payment associated
+3. You can safely delete/void the duplicate invoice without payment
+
+## Related Articles
+
+- [Creating Invoices](/invoices/creating-invoices)
+- [Payment Reminders](/invoices/payment-reminders)
+- [Payment Methods](/payment-processing/payment-methods-overview)
+- [Customer Portal](/customer-management/customer-portal)

@@ -1,0 +1,363 @@
+---
+title: 'Security Deposits'
+description: 'Collect authorization holds on credit cards for hotels, car rentals, equipment, and Airbnb. Capture or release funds after inspection.'
+icon: 'shield-halved'
+---
+
+## Overview
+
+Security Deposits let you place a temporary hold on a customer's credit card without actually charging them. The amount is reserved (authorized) but not deducted. After the service is completed — a hotel stay, car rental return, or equipment inspection — you can either **capture** (charge) all or part of the hold, or **release** it back to the customer.
+
+<Tip>
+Security Deposits are perfect for any business that needs a guarantee before delivering a service: hotels, Airbnb hosts, car rental companies, equipment rental, event venues, and more.
+</Tip>
+
+## How It Works
+
+Security Deposits use Mollie's manual capture mode to create authorization holds on credit cards:
+
+1. **Customer pays** → Credit card amount is temporarily held (not charged)
+2. **You inspect** → Check the property, vehicle, or equipment after use
+3. **You decide** → Capture the hold (charge for damages) or release it (no charge)
+
+```
+Customer authorizes €500 deposit
+    ↓
+Hotel stay / Rental period
+    ↓
+Inspection after checkout
+    ↓
+├─ No damage → Release full €500 (customer gets money back)
+├─ Minor damage → Capture €75 (charge only what's needed)
+└─ Major damage → Capture full €500
+```
+
+<Warning>
+Security deposits only work with **credit card** payments. iDEAL, SEPA Direct Debit, bank transfer, and other payment methods do not support authorization holds. Customers will only see the credit card payment option.
+</Warning>
+
+## Key Features
+
+- **Authorization Hold**: Amount reserved on card, not charged
+- **Full or Partial Capture**: Charge the exact amount needed for damages
+- **Release Hold**: Return the full amount with one click
+- **Hold Duration**: Configurable from 1 to 28 days
+- **Customer Status Page**: Branded page where customers can track their deposit
+- **Progress Tracking**: Visual countdown showing remaining hold days
+- **Capture History**: Full audit trail of all captures
+- **Email Notifications**: Automatic confirmation when deposit is authorized
+
+## Creating a Deposit Product
+
+### Step 1: Create a New Product
+
+Navigate to **Products** in your dashboard and click **New Product**.
+
+1. In the product type step, select **Security Deposit**
+2. Give your product a descriptive name (e.g., "Airbnb Deposit", "Car Rental Borg")
+
+### Step 2: Configure Deposit Settings
+
+In the pricing step, configure the deposit-specific settings:
+
+**Hold Duration** (Required)
+- How many days the authorization hold remains active
+- Options: 1 to 28 days
+- After this period, unreleased holds automatically expire
+- Recommended: 7 days for short stays, 14-28 days for longer rentals
+
+**Allow Partial Capture** (Optional)
+- Enable to charge only part of the deposit
+- Example: €500 deposit, charge €75 for a broken item
+- When disabled, you can only capture the full amount
+
+**Deposit Instructions** (Optional)
+- Custom instructions shown to customers
+- Explain what the deposit covers
+- Example: "This deposit covers potential damages during your stay"
+
+<Info>
+The deposit amount is set as the regular product price. Set it to the maximum amount you want to hold (e.g., €500 for a hotel deposit).
+</Info>
+
+### Step 3: Save and Share
+
+After saving your deposit product, you can share it via:
+- **Smart Links** (recommended) — Create a branded payment link
+- **Payment Page** — Send customers directly to your payment page
+
+## Using Deposits with Smart Links
+
+The recommended way to collect security deposits is through **Smart Links**. This gives you a branded URL, analytics tracking, and a centralized management interface.
+
+### Creating a Deposit Smart Link
+
+1. Go to **Payment Page** → **Smart Links** tab
+2. Click **Create Smart Link**
+3. Select **Product Link** as the type
+4. Choose your deposit product
+5. Give it a descriptive name (e.g., "Airbnb Borg 2025")
+6. Optionally add a description explaining the deposit
+7. Click **Create**
+
+### Managing Deposits in Smart Links
+
+All deposits collected through a smart link appear in the **Deposits tab** on the smart link detail page. For each deposit, you can see:
+
+**Deposit Information:**
+- Customer name and email
+- Amount held
+- Authorization status with colored badge
+- Authorization date
+- Mollie payment ID
+- Customer-facing status page URL
+
+**Hold Duration Progress:**
+- Visual progress bar showing elapsed vs. remaining time
+- Days remaining counter
+- Start and end dates
+- Turns red when nearing expiration (2 days or less)
+
+**Capture History:**
+- Table of all captures with amounts
+- Capture status (Succeeded/Failed)
+- Timestamps and descriptions
+
+### Capturing a Deposit
+
+When you're ready to charge the customer (e.g., after inspection reveals damage):
+
+**Full Capture:**
+1. Click **Capture Full** on the deposit
+2. Confirm the full amount
+3. The entire held amount is charged to the customer's card
+
+**Partial Capture** (if enabled):
+1. Click **Partial** on the deposit
+2. Enter the amount to charge (must be less than remaining hold)
+3. Add a description (e.g., "Broken lamp replacement")
+4. Click **Capture**
+
+<Tip>
+After a partial capture, you can capture additional amounts up to the original hold amount. Each capture is recorded separately in the capture history.
+</Tip>
+
+### Releasing a Deposit
+
+When no charges are needed (e.g., property returned in perfect condition):
+
+1. Click **Release** on the deposit
+2. Confirm the release action
+3. The hold is removed and funds become available to the customer
+
+<Warning>
+Releasing a deposit cannot be undone. Once released, the authorization hold is permanently voided and you cannot capture any amount from it.
+</Warning>
+
+## Customer Status Page
+
+Every deposit has a unique, branded status page that customers can visit to check their deposit status. The URL is automatically generated and looks like:
+
+```
+https://payrequest.me/[your-handle]/deposit/[token]
+```
+
+### What Customers See
+
+The status page matches your payment page branding (avatar, business name, tagline) and shows:
+
+- **Status Badge** — Color-coded indicator in the top-right corner (Hold Active, Partially Charged, Released, etc.)
+- **Smart Link Title & Description** — Your custom title and description from the smart link
+- **Amount** — The held amount with a status-appropriate icon
+- **Details** — Booking reference, authorization date, hold expiry with countdown
+- **Hold Duration Progress Bar** — Visual indicator of remaining hold time
+- **Capture History** — All captures with amounts, descriptions, and timestamps
+- **Info Callout** — Status-specific explanation of what happens next
+
+<Info>
+The status page updates automatically every 15 seconds. Customers don't need to refresh to see status changes.
+</Info>
+
+### Status States
+
+| Status | Badge Color | Description |
+|--------|-------------|-------------|
+| Awaiting Authorization | Amber | Payment is being processed |
+| Hold Active | Blue | Amount held on card, awaiting capture or release |
+| Partially Charged | Indigo | Part of the hold has been captured |
+| Deposit Charged | Amber | Full amount captured |
+| Deposit Released | Green | Hold released, no charge |
+| Hold Expired | Red | Authorization hold expired |
+
+## Deposit Lifecycle
+
+```
+Pending → Authorized → Partially Captured → Captured
+                    → Released
+                    → Expired (automatic after hold duration)
+```
+
+**Pending**: Customer has initiated payment but authorization is not yet confirmed.
+
+**Authorized**: Hold is active on the customer's credit card. You can capture or release.
+
+**Partially Captured**: Some amount has been charged. You can capture more (up to remaining) or release the rest.
+
+**Captured**: Full amount has been charged. No further actions available.
+
+**Released**: Hold has been released. Customer's funds are unlocked.
+
+**Expired**: Hold duration has passed without capture or release. The authorization automatically expires.
+
+## Use Cases
+
+### Hotel / Airbnb Deposit
+
+```
+Product: Room Deposit
+Amount: €250
+Hold Duration: 14 days
+Partial Capture: Enabled
+
+Scenario:
+1. Guest authorizes €250 at check-in
+2. Guest checks out after 5 nights
+3. Inspection reveals a stained carpet
+4. Host captures €60 for cleaning fee
+5. Remaining €190 hold automatically expires
+```
+
+### Car Rental Deposit
+
+```
+Product: Vehicle Deposit
+Amount: €1,000
+Hold Duration: 7 days
+Partial Capture: Enabled
+
+Scenario:
+1. Customer authorizes €1,000 when picking up the car
+2. Customer returns car after 3 days
+3. Inspection shows a scratch on the bumper
+4. Agency captures €350 for repair
+5. Remaining €650 is released
+```
+
+### Equipment Rental
+
+```
+Product: Camera Equipment Deposit
+Amount: €500
+Hold Duration: 3 days
+Partial Capture: Disabled
+
+Scenario:
+1. Customer authorizes €500 for a camera rental
+2. Customer returns equipment in perfect condition
+3. Business releases the full €500 hold
+```
+
+### Event Venue Deposit
+
+```
+Product: Venue Deposit
+Amount: €2,000
+Hold Duration: 7 days
+Partial Capture: Enabled
+
+Scenario:
+1. Client authorizes €2,000 for venue rental
+2. Event concludes, venue inspection done
+3. Minor cleanup needed beyond agreement
+4. Venue captures €150 for extra cleaning
+5. Remaining €1,850 is released
+```
+
+## Email Notifications
+
+When a customer's deposit is authorized, they automatically receive a confirmation email containing:
+
+- Business name and branding
+- Deposit amount
+- Hold duration
+- What to expect next
+- Link to the deposit status page
+
+## Best Practices
+
+### Setting Hold Duration
+
+- **Short stays** (1-2 nights): 7 days
+- **Weekly rentals**: 14 days
+- **Monthly rentals**: 28 days
+- **Equipment rental**: 3-7 days depending on rental period
+- Always add a few buffer days beyond the expected return date
+
+### Communication
+
+- Use the **Deposit Instructions** field to clearly explain what the deposit covers
+- Add a descriptive **Smart Link description** so customers understand the purpose
+- When capturing, always add a description explaining the charge reason
+
+### Amount Guidelines
+
+- Set deposits proportional to potential damage costs
+- Don't set deposits unreasonably high — it ties up customer funds
+- Consider your industry standards and customer expectations
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Why can customers only pay with credit card?">
+    Security deposits require Mollie's manual capture mode, which is only supported by credit cards. Other payment methods like iDEAL and SEPA process payments immediately and cannot place authorization holds.
+  </Accordion>
+
+  <Accordion title="What happens if I don't capture or release before the hold expires?">
+    The authorization hold automatically expires after the configured hold duration. The customer's funds are released by their bank. You cannot capture an expired hold — the deposit status changes to "Expired".
+  </Accordion>
+
+  <Accordion title="Can I capture more than the original hold amount?">
+    No. You can only capture up to the original authorized amount. If damage costs exceed the deposit, you'll need to invoice the customer separately for the difference.
+  </Accordion>
+
+  <Accordion title="How quickly do released funds appear in the customer's account?">
+    This depends on the customer's bank. Most banks release held funds within 1-3 business days after release. Some banks may take up to 7 business days.
+  </Accordion>
+
+  <Accordion title="Can I make multiple partial captures?">
+    Yes, as long as partial capture is enabled on the deposit product. Each partial capture reduces the remaining hold amount. You can continue capturing until the full amount is used.
+  </Accordion>
+
+  <Accordion title="Is there a minimum capture amount?">
+    The capture amount must be greater than zero. There is no other minimum — you can capture as little as €0.01 if needed.
+  </Accordion>
+
+  <Accordion title="Can customers see their deposit status?">
+    Yes. Every deposit has a unique status page URL that customers can visit to see the current status, amount held, hold duration progress, and capture history. The URL is visible in the smart link deposits tab.
+  </Accordion>
+
+  <Accordion title="What's the maximum hold duration?">
+    You can configure hold durations from 1 to 28 days. The actual maximum depends on Mollie's authorization hold limits, which are typically 7-28 days depending on the card issuer.
+  </Accordion>
+
+  <Accordion title="Do I need a Business plan for security deposits?">
+    Yes, the security deposit product type is available on the Business plan.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Smart Links" icon="qrcode" href="/payment-processing/smart-links">
+    Create branded payment links for deposits
+  </Card>
+  <Card title="Creating Products" icon="box" href="/products-and-pricing/creating-products">
+    Learn about all product types
+  </Card>
+  <Card title="Payment Methods" icon="credit-card" href="/payment-processing/payment-methods-overview">
+    Understanding payment methods
+  </Card>
+  <Card title="Handling Chargebacks" icon="arrow-rotate-left" href="/payment-processing/handling-chargebacks">
+    Managing payment disputes
+  </Card>
+</CardGroup>

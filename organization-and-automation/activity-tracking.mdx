@@ -1,8 +1,417 @@
 ---
-title: Activity Tracking
-description: 'Audit logs and history'
+title: 'Billing Activity Log'
+description: 'Track all billing activities, changes, and events across your PayRequest account'
+icon: 'clock-rotate-left'
 ---
 
-# Activity Tracking
+## Overview
 
-_Work in progress. Content coming soon._
+The Billing Activity Log provides a comprehensive audit trail of all actions and events in your PayRequest account. Every subscription change, invoice update, customer modification, and payment event is automatically recorded with timestamps, user attribution, and detailed context.
+
+<Tip>
+Use the Activity Log to answer questions like "When was this subscription canceled?", "Who sent this invoice?", or "What changed on this customer record?" - all with complete audit history.
+</Tip>
+
+## Key Features
+
+- **Complete Audit Trail**: Every action automatically logged with timestamp and user
+- **31+ Event Types**: Subscriptions, invoices, customers, payments, and more
+- **Advanced Filtering**: Filter by entity type, action, date range, and search
+- **User Attribution**: See who performed each action (or "System" for automated events)
+- **IP & Device Tracking**: Security audit with IP address and user agent
+- **JSON Details**: Rich contextual data for each event
+- **Real-Time Updates**: Activity appears immediately after actions
+
+## Accessing the Activity Log
+
+Navigate to **Activity Log** (or **Logs**) in your dashboard sidebar to view all billing activities.
+
+<Note>
+The Activity Log shows only your own account's activities. Multi-user accounts see activities from all team members.
+</Note>
+
+## Tracked Events
+
+PayRequest automatically tracks 31+ distinct event types across your billing operations:
+
+### Subscription Events
+
+| Event | Description | Details Captured |
+|-------|-------------|------------------|
+| `subscription_paused` | Subscription manually paused | Pause date, reason |
+| `subscription_resumed` | Subscription reactivated | Resume date |
+| `subscription_canceled` | Subscription canceled | Cancellation reason, effective date |
+| `subscription_completed` | Trial or billing cycle completed | Completion type |
+| `subscription_settings_updated` | Name, amount, interval, or quantity changed | Old values, new values, changed fields |
+| `subscription_custom_fields_updated` | Custom field values modified | Field names, old/new values |
+| `subscription_mandate_updated` | SEPA mandate associated or changed | Mandate ID |
+| `subscription_fields_synced` | Subscription synced with product changes | Synced fields |
+
+### Invoice Events
+
+| Event | Description | Details Captured |
+|-------|-------------|------------------|
+| `invoice_created` | New invoice generated | Invoice number, amount, customer |
+| `invoice_email_sent` | Invoice email sent automatically | Customer email, invoice number |
+| `invoice_email_resent` | Invoice manually resent | Resend reason |
+| `invoice_payment_email_sent` | Payment confirmation sent | Payment amount, method |
+| `invoice_payment_email_resent` | Payment confirmation resent | Resend timestamp |
+| `invoice_status_changed` | Invoice status transitioned | Old status, new status, reason |
+| `invoice_reminder_sent` | Payment reminder sent | Reminder number, days overdue |
+
+### Customer Events
+
+| Event | Description | Details Captured |
+|-------|-------------|------------------|
+| `customer_archived` | Customer archived | Archive reason, note, warnings |
+| `customer_reactivated` | Archived customer reactivated | Reactivation date |
+
+### Payment & Mandate Events
+
+| Event | Description | Details Captured |
+|-------|-------------|------------------|
+| `mandate_request_sent` | SEPA mandate request emailed | Customer email |
+| `mandate_activation_sent` | Mandate activation email sent | Mandate type |
+| `mandate_activated` | Mandate confirmed via payment | Mandate ID, activation method |
+| `chargeback_received` | Payment chargeback processed | Amount, reason, payment ID |
+
+### Bulk Operations
+
+| Event | Description | Details Captured |
+|-------|-------------|------------------|
+| `bulk_action` | Bulk operation initiated | Action type, affected count |
+| Individual actions | Each item in bulk operation | Item-specific details |
+
+### Migration Events
+
+| Event | Description | Details Captured |
+|-------|-------------|------------------|
+| `mollie_selective_migration_initiated` | Single Mollie subscription migrated | Migration status |
+| `mollie_bulk_migration_prepared` | Bulk migration prepared | Eligible count |
+| `mollie_subscription_canceled` | Legacy Mollie subscription canceled | Mollie subscription ID |
+
+## Using the Activity Log
+
+### Viewing Activities
+
+The main Activity Log displays:
+
+1. **Date & Time** - When the action occurred (with relative time like "2 hours ago")
+2. **Action** - The event type with color-coded badge
+3. **User** - Who performed the action (avatar + name, or "System")
+4. **Entity Type** - What type of record was affected
+5. **Entity** - The specific record (ID and friendly name)
+6. **Details** - Expandable section with full context
+
+<Info>
+Color-coded action badges help you quickly identify event types:
+- **Green**: Create, reactivate, activate
+- **Red**: Cancel, delete, archive
+- **Amber**: Update, change, modify
+- **Blue**: Payment, email sent
+- **Gray**: Other system events
+</Info>
+
+### Filtering Activities
+
+Use the filter controls to narrow down activities:
+
+**By Entity Type**
+- Subscription
+- Invoice
+- Customer
+- Mandate
+- Payment
+- And more...
+
+**By Action**
+- Select specific actions like "subscription_canceled" or "invoice_paid"
+- Shows only available actions from your activity history
+
+**By Date Range**
+- Today
+- Yesterday
+- This Week
+- Last Week
+- This Month
+- Last Month
+
+**By Search**
+- Full-text search across entity ID, name, action, and details
+- Example: Search "INV-2025" to find all activity for that invoice
+
+### Sorting
+
+Click column headers to sort by:
+- **Date** (default, newest first)
+- **Action** (alphabetical)
+- **Entity Type** (alphabetical)
+
+Click again to reverse sort direction.
+
+## Activity Details
+
+Each activity log entry contains rich contextual data in the Details section.
+
+### Invoice Status Change Example
+
+```json
+{
+  "old_status": "open",
+  "new_status": "paid",
+  "reason": "Customer paid via iDEAL",
+  "customer_email": "john@example.com"
+}
+```
+
+### Subscription Update Example
+
+```json
+{
+  "old_amount": 12.50,
+  "new_amount": 15.00,
+  "changes": ["recurring_amount"],
+  "updated_by": "Admin User"
+}
+```
+
+### Chargeback Example
+
+```json
+{
+  "amount": 49.00,
+  "reason": "Customer disputed transaction",
+  "payment_id": "tr_AbCdEfGh",
+  "invoice_number": "INV-2025-00123"
+}
+```
+
+### Customer Archive Example
+
+```json
+{
+  "customer_email": "john@example.com",
+  "archived_reason": "inactive",
+  "archive_note": "No activity for 6 months",
+  "archived_by": "Admin Name",
+  "warnings": ["Active subscription exists"]
+}
+```
+
+## Dashboard Activity Widget
+
+The main dashboard includes a Recent Activity widget showing your latest billing activities at a glance.
+
+**Widget Features:**
+- Shows last 10 activities
+- Color-coded action icons
+- Quick link to full Activity Log
+- Auto-updates with new activities
+
+<Tip>
+The dashboard activity widget is perfect for monitoring daily operations without navigating to the full Activity Log.
+</Tip>
+
+## Security & Compliance
+
+### Audit Trail Benefits
+
+The Activity Log serves as your compliance audit trail:
+
+- **Who**: User attribution for every action
+- **What**: Detailed action description with context
+- **When**: Precise timestamp with timezone
+- **Where**: IP address and device information
+- **Why**: Contextual details explaining changes
+
+### Data Captured
+
+For security and compliance purposes, each log entry includes:
+
+| Field | Description |
+|-------|-------------|
+| `user_id` | The user who performed the action |
+| `ip_address` | Source IP address |
+| `user_agent` | Browser/client information |
+| `created_at` | Precise timestamp |
+| `details` | Full context as JSON |
+
+<Warning>
+Activity logs are permanent records and cannot be edited or deleted. This ensures audit trail integrity for compliance purposes.
+</Warning>
+
+### Multi-User Accounts
+
+For accounts with multiple team members:
+
+- Each user's actions are attributed to their account
+- Admin users can view all team activity
+- Standard users see only their own activity
+- System-generated events show "System" as the user
+
+## Common Use Cases
+
+### Investigating Issues
+
+**"When was this subscription canceled?"**
+1. Go to Activity Log
+2. Filter by Entity Type: Subscription
+3. Filter by Action: subscription_canceled
+4. Search for the subscription name or ID
+5. View the details for cancellation reason and timestamp
+
+### Compliance Audits
+
+**"Show all invoice status changes this month"**
+1. Go to Activity Log
+2. Filter by Entity Type: Invoice
+3. Filter by Action: invoice_status_changed
+4. Set Date Range: This Month
+5. Export or screenshot for audit records
+
+### Team Monitoring
+
+**"What did my team do today?"**
+1. Go to Activity Log
+2. Set Date Range: Today
+3. Review all activities with user attribution
+4. Click on specific entries for details
+
+### Payment Tracking
+
+**"Track all payment-related activities"**
+1. Go to Activity Log
+2. Search for "payment" or "paid"
+3. Or filter by actions containing "payment"
+4. Review chronological payment history
+
+## Best Practices
+
+### Regular Review
+
+- **Daily**: Check dashboard widget for unusual activity
+- **Weekly**: Review Activity Log for trends
+- **Monthly**: Audit critical actions (cancellations, chargebacks)
+
+### Search Effectively
+
+- Use invoice numbers: "INV-2025-00123"
+- Use customer emails: "john@example.com"
+- Use subscription names: "Monthly Plan"
+- Combine with filters for precise results
+
+### Document Important Events
+
+When investigating issues:
+1. Note the activity timestamp
+2. Record the user who performed the action
+3. Save the details JSON for reference
+4. Use this information for support tickets or internal documentation
+
+## Troubleshooting
+
+### Activities Not Appearing
+
+**Check:**
+1. Refresh the page to load latest activities
+2. Clear any active filters
+3. Expand date range (activities may be older than expected)
+4. Verify the action type is logged (not all actions create logs)
+
+### Search Not Finding Results
+
+**Try:**
+1. Use partial terms instead of full phrases
+2. Search by ID instead of name
+3. Remove special characters
+4. Check spelling of search terms
+
+### Missing User Attribution
+
+**Cause:** Action was performed by the system (automated job, webhook)
+
+**Solution:** System-generated activities show "System" as the user. This is normal for:
+- Scheduled billing
+- Webhook-triggered updates
+- Automated email sends
+- Background sync jobs
+
+### Old Activities Not Visible
+
+**Note:** Activity logs are retained indefinitely, but very old logs may take longer to load. Use date filters to narrow your search range for better performance.
+
+## Integration with Other Features
+
+### Tags System
+
+When tags are added or removed from entities, activity is logged:
+- Tag additions and removals tracked
+- Automation-triggered tag changes recorded
+- Bulk tag operations logged
+
+### Email Automations
+
+Email automation triggers create activity logs:
+- Email bounce events logged
+- Automated tag actions recorded
+- Trigger execution tracked
+
+### Bulk Operations
+
+All bulk actions are comprehensively logged:
+- Bulk action initiation recorded
+- Individual item changes logged
+- Success/failure status captured
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="How long are activity logs retained?">
+    Activity logs are retained indefinitely. All historical activity remains accessible for compliance and audit purposes. There is no automatic deletion of activity history.
+  </Accordion>
+
+  <Accordion title="Can I export activity logs?">
+    Currently, activity logs are view-only in the dashboard. For export needs, contact support for assistance with compliance reports or use the API for programmatic access.
+  </Accordion>
+
+  <Accordion title="Who can see activity logs?">
+    Standard users see only their own activity. Admin users can view activity from all team members. Activity logs are never visible to your customers.
+  </Accordion>
+
+  <Accordion title="Are automated actions logged?">
+    Yes. System-generated actions (scheduled billing, webhooks, automated emails) are logged with "System" as the user. This provides complete visibility into both manual and automated operations.
+  </Accordion>
+
+  <Accordion title="Can I delete or edit activity logs?">
+    No. Activity logs are immutable records that cannot be modified or deleted. This ensures audit trail integrity for compliance and security purposes.
+  </Accordion>
+
+  <Accordion title="Why don't I see some actions in the log?">
+    Not all actions generate activity logs. The system focuses on billing-critical events: subscription changes, invoice updates, customer modifications, and payment events. Minor UI interactions are not logged.
+  </Accordion>
+
+  <Accordion title="How do I find activities for a specific customer?">
+    Use the search function to search for the customer's email address or name. You can also filter by Entity Type "Customer" to see customer-specific events, or search for their related invoice/subscription IDs.
+  </Accordion>
+
+  <Accordion title="What timezone are timestamps in?">
+    Timestamps are displayed in your local timezone (Europe/Amsterdam for PayRequest). The relative time display (e.g., "2 hours ago") adjusts automatically.
+  </Accordion>
+</AccordionGroup>
+
+## Related Features
+
+<CardGroup cols={2}>
+  <Card title="Tags System" icon="tag" href="/organization-and-automation/tags-system">
+    Organize entities with tags (changes logged)
+  </Card>
+  <Card title="Email Automations" icon="envelope" href="/organization-and-automation/email-automations">
+    Automate actions based on events
+  </Card>
+  <Card title="Subscription Management" icon="repeat" href="/subscriptions/subscription-lifecycle">
+    Manage subscriptions (all changes logged)
+  </Card>
+  <Card title="Invoice Management" icon="file-invoice" href="/invoices/creating-invoices">
+    Create and manage invoices (all actions logged)
+  </Card>
+</CardGroup>

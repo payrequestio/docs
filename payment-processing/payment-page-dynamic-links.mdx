@@ -1,0 +1,478 @@
+---
+title: 'Payment Page Dynamic Links'
+description: 'Create powerful pre-filled payment links with dynamic parameters for seamless customer experiences'
+icon: 'link'
+---
+
+## Overview
+
+Payment Page Dynamic Links allow you to create customized payment URLs with pre-filled information, making it easier for your customers to complete payments. These links can include customer details, product information, amounts, and even custom fields - all automatically populated when your customer clicks the link.
+
+<Tip>
+Dynamic links are perfect for email campaigns, invoices, customer portals, and any situation where you want to streamline the payment process.
+</Tip>
+
+## Base URL Structure
+
+Your payment page is accessible via a clean, branded URL:
+
+```
+https://payrequest.me/{your-handle}
+```
+
+**Example:**
+```
+https://payrequest.me/acme-corp
+```
+
+<Note>
+You can customize your handle in Settings → Payment Page. If you haven't set a handle, your business name is used by default.
+</Note>
+
+## Language Support
+
+### Language Switcher (Interactive)
+
+All payment pages now include a **language switcher dropdown** in the top-right corner, allowing customers to switch between languages with a single click.
+
+**Features:**
+- 🇬🇧 **English** and 🇳🇱 **Dutch** available
+- Flag emoji indicators for easy recognition
+- Preserves all URL parameters when switching (invoice numbers, product IDs, etc.)
+- Automatically updates all text, buttons, and labels
+
+**What customers see:**
+- Fixed position button showing current language flag (🇬🇧 or 🇳🇱)
+- Dropdown menu with both language options
+- Instant language switching without losing payment context
+
+<Tip>
+The language switcher is especially useful for international businesses or when customers share payment links with others who prefer a different language.
+</Tip>
+
+### Language URL Parameter
+
+You can also set the language via URL parameter:
+
+| Parameter | Language | Example |
+|-----------|----------|---------|
+| `?lang=en` | English (default) | `https://payrequest.me/acme-corp?lang=en` |
+| `?lang=nl` | Dutch | `https://payrequest.me/acme-corp?lang=nl` |
+
+**Example:**
+```
+https://payrequest.me/acme-corp?invoice=1505&lang=nl
+```
+
+All payment page text, buttons, and labels will automatically translate based on the selected language. The language switcher dropdown will reflect the currently selected language and allow customers to change it if needed.
+
+## Query Parameter Format (Recommended)
+
+The query parameter format provides maximum flexibility and readability.
+
+**Basic Structure:**
+```
+https://payrequest.me/{handle}?parameter=value&parameter2=value2
+```
+
+### Supported Parameters
+
+| Parameter | Type | Description | Example |
+|-----------|------|-------------|---------|
+| `product` | integer | Product ID to display | `?product=1814` |
+| `amount` | decimal | Payment amount (EUR) | `?amount=25.50` |
+| `method` | string | Pre-select payment method | `?method=ideal` |
+| `name` | string | Customer name | `?name=John%20Doe` |
+| `email` | string | Customer email | `?email=john@example.com` |
+| `address` | string | Street address | `?address=Main%20Street%20123` |
+| `city` | string | City name | `?city=Amsterdam` |
+| `postal` | string | Postal/ZIP code | `?postal=1012AB` |
+| `notes` | string | Payment notes | `?notes=Monthly%20subscription` |
+| `lang` | string | Language (en/nl) | `?lang=nl` |
+| `customfield_*` | string | Custom field value | `?customfield_size=large` |
+| `disabled` | boolean | Lock custom fields (read-only) | `?disabled=true` |
+
+<Info>
+When a `product` parameter is provided, the amount is automatically set to the product price (including setup fees and custom field markups) and cannot be changed by the customer.
+</Info>
+
+## Common Use Cases
+
+### 1. Product Payment Link
+
+Direct customers to pay for a specific product:
+
+```
+https://payrequest.me/acme-corp?product=1814
+```
+
+**What happens:**
+- Product details are displayed (name, description, image)
+- Price is automatically set (including setup fees if applicable)
+- Amount field is hidden (customer cannot change price)
+- Recurring badge shown for subscription products
+
+### 2. Pre-filled Customer Details
+
+Send personalized payment links with customer information already filled in:
+
+```
+https://payrequest.me/acme-corp?product=1814&name=John%20Doe&email=john@example.com
+```
+
+**Benefits:**
+- Faster checkout experience
+- Reduced data entry errors
+- Professional customer experience
+
+<Tip>
+Enable "Readonly dynamic fields" in Settings → Payment Page to prevent customers from editing pre-filled information.
+</Tip>
+
+### 3. Complete Payment Request
+
+Create a fully pre-configured payment link:
+
+```
+https://payrequest.me/acme-corp?product=1814&name=John%20Doe&email=john@example.com&address=Main%20Street%20123&city=Amsterdam&postal=1097CR&lang=nl
+```
+
+**Includes:**
+- Product information
+- Customer details
+- Address information
+- Language preference (Dutch)
+
+### 4. Custom Amount Payment
+
+For flexible payment amounts without a specific product:
+
+```
+https://payrequest.me/acme-corp?amount=150.00&name=John%20Doe&email=john@example.com&method=ideal
+```
+
+**Use cases:**
+- Donation requests
+- Partial payments
+- Flexible invoicing
+- Service deposits
+
+### 5. Custom Fields Integration
+
+Pass additional information using custom fields:
+
+```
+https://payrequest.me/acme-corp?product=1814&customfield_productcode=PROD-2024&customfield_size=large&customfield_color=blue
+```
+
+**Custom field format:**
+- Prefix: `customfield_`
+- Field name: Any alphanumeric name
+- Example: `customfield_reference`, `customfield_order_number`
+
+**Display:**
+Custom fields appear in the "Additional Information" section on the payment page and are stored with the order.
+
+### 6. Per-Unit Pricing with Number Fields
+
+For products with quantity-based pricing (like rental days or seats):
+
+```
+https://payrequest.me/acme-corp?product=1880&customfield_days=5&disabled=true
+```
+
+**How per-unit pricing works:**
+1. Your product has a number field with "per unit markup" configured (e.g., €16/day)
+2. Pass the quantity via URL: `customfield_days=5`
+3. Total markup is calculated automatically: 5 × €16 = €80
+
+**Price breakdown displayed:**
+- Base product price: €100.00
+- Days (5 × €16.00): +€80.00
+- **Total: €180.00**
+
+<Tip>
+Add `&disabled=true` to lock the custom field values, preventing customers from changing quantities you've pre-set.
+</Tip>
+
+### 7. Locked Custom Fields
+
+Pre-fill custom fields and prevent customers from changing them:
+
+```
+https://payrequest.me/acme-corp?product=1880&customfield_days=3&disabled=true
+```
+
+**Use cases:**
+- Quotes with specific quantities
+- Pre-configured packages
+- Invoices with fixed specifications
+
+**What happens:**
+- Custom field inputs are grayed out
+- Values are visible but cannot be changed
+- Price is calculated based on pre-filled values
+
+## Setup Fees Display
+
+When linking to a product with a setup fee:
+
+```
+https://payrequest.me/acme-corp?product=1814
+```
+
+**Automatic display:**
+- Product price: €34.50/month
+- Setup fee: €100.00 (with custom name like "Borg" or "Installation")
+- **Total Today:** €134.50
+
+<Note>
+Setup fees are automatically included in the payment amount. The customer pays both the recurring price and setup fee in the first payment.
+</Note>
+
+## Recurring Products & Mandates
+
+For subscription products with recurring payments:
+
+```
+https://payrequest.me/acme-corp?product=1859
+```
+
+**Automatic behavior:**
+1. Payment page shows "Recurring" badge
+2. Customer pays first installment + setup fee
+3. SEPA mandate is automatically created during payment
+4. Future payments process automatically using the mandate
+5. Subscription becomes active after successful mandate creation
+
+<Info>
+This only works with payment methods that support mandates (iDEAL, SEPA Direct Debit, credit card).
+</Info>
+
+## Payment Recovery
+
+When a payment is interrupted (cancelled, failed, or browser closed), customers can return to complete their payment without losing their selections.
+
+### How It Works
+
+1. Customer fills in custom fields and starts payment
+2. Payment is interrupted (any reason)
+3. Customer receives link: `https://payrequest.me/yourhandle?invoice=1234`
+4. **All custom field values are restored** from the original order
+5. Customer can complete payment immediately
+
+**Retained Information:**
+- All custom field selections (dropdowns, numbers, toggles)
+- Per-unit quantities and calculated markups
+- Customer name and email
+
+<Note>
+This only works when returning via the invoice link (`?invoice=`). If customers visit the product page directly, they'll need to re-enter their selections.
+</Note>
+
+### Cancelled Invoices
+
+If you've cancelled an invoice, customers will see a clear message and cannot make a payment:
+
+- Red warning: "This invoice has been cancelled"
+- Invoice items displayed with strikethrough
+- Payment form is hidden
+
+This prevents confusion and accidental payments on orders you've already cancelled.
+
+## Read-Only Fields
+
+Control whether customers can edit pre-filled information:
+
+**Setting Location:** Settings → Payment Page → Options → "Readonly dynamic fields"
+
+**When enabled:**
+- Pre-filled fields are locked (grayed out)
+- Customer cannot modify name, email, or other pre-filled data
+- Ideal for personalized payment requests
+
+**Example with read-only enabled:**
+```
+https://payrequest.me/acme-corp?product=1814&name=John%20Doe&email=john@example.com
+```
+→ Name and email fields are visible but cannot be changed
+
+## Payment Page Settings
+
+Configure payment page behavior in Settings → Payment Page:
+
+### Display Options
+
+| Setting | Description | Impact on Links |
+|---------|-------------|-----------------|
+| **Show customer login** | Display login prompt | Customers can log in to auto-fill their saved details |
+| **Show order notes** | Display notes field | Customers can add custom notes to payments |
+| **Readonly dynamic fields** | Lock pre-filled fields | URL parameters cannot be edited by customer |
+| **Page active** | Enable/disable payment page | All payment page links return 404 when disabled |
+
+### Amount Constraints
+
+- **Minimum amount:** Enforce minimum payment value
+- **Maximum amount:** Set upper limit for payments
+- **Allow custom amount:** Let customers enter their own amount
+
+<Warning>
+When using `?product=` links, amount constraints are ignored as the product price is fixed.
+</Warning>
+
+## Advanced Integration Examples
+
+### Email Campaign Links
+
+Create personalized payment links for email campaigns:
+
+```html
+<a href="https://payrequest.me/yourhandle?product=123&name={{customer_name}}&email={{customer_email}}&lang={{customer_language}}">
+  Pay Now
+</a>
+```
+
+### CRM Integration
+
+Generate dynamic links from your CRM:
+
+```javascript
+const paymentLink = `https://payrequest.me/yourhandle?` +
+  `product=${productId}` +
+  `&name=${encodeURIComponent(customer.name)}` +
+  `&email=${encodeURIComponent(customer.email)}` +
+  `&customfield_reference=${orderId}` +
+  `&lang=${customer.language}`;
+```
+
+### Invoice Links
+
+Add direct payment links to your invoices:
+
+```
+https://payrequest.me/yourhandle?amount={{invoice_total}}&name={{customer_name}}&email={{customer_email}}&notes=Invoice%20{{invoice_number}}
+```
+
+## URL Encoding
+
+Always encode special characters in URLs:
+
+| Character | Encoded | Example |
+|-----------|---------|---------|
+| Space | `%20` | `John Doe` → `John%20Doe` |
+| @ | `%40` | `user@example.com` → `user%40example.com` |
+| & | `%26` | `Smith & Co` → `Smith%20%26%20Co` |
+| # | `%23` | `Apt #5` → `Apt%20%23%5` |
+
+<Tip>
+Most programming languages have built-in URL encoding functions (`encodeURIComponent` in JavaScript, `urlencode` in PHP, `urllib.parse.quote` in Python).
+</Tip>
+
+## Security & Best Practices
+
+### ✅ Do's
+
+- **URL encode all parameters** to prevent formatting issues
+- **Use HTTPS** for secure payment page access
+- **Enable read-only fields** for personalized payment requests
+- **Test links** before sending to customers
+- **Use product links** for fixed-price items
+- **Add language parameter** for international customers
+
+### ❌ Don'ts
+
+- **Don't include sensitive data** like passwords or credit card numbers
+- **Don't rely on URL parameters for security** (use proper authentication instead)
+- **Don't exceed URL length limits** (keep under 2000 characters)
+- **Don't hardcode customer data** without proper consent
+
+## Troubleshooting
+
+### Link doesn't work
+
+**Check:**
+1. Payment page is active (Settings → Payment Page)
+2. Product ID exists and belongs to your account
+3. URL parameters are properly encoded
+4. Handle is correct (case-sensitive)
+
+### Pre-filled data not showing
+
+**Causes:**
+1. Parameter names must be exact (lowercase)
+2. Special characters need URL encoding
+3. Product parameter overrides amount parameter
+
+### Customer can edit locked fields
+
+**Solution:**
+Enable "Readonly dynamic fields" in Settings → Payment Page → Options
+
+### Wrong language displays
+
+**Fix:**
+Add `?lang=nl` or `?lang=en` parameter to URL. Default is English.
+
+## Examples Library
+
+### Basic Product Payment
+```
+https://payrequest.me/yourhandle?product=1814
+```
+
+### Dutch Product Payment
+```
+https://payrequest.me/yourhandle?product=1814&lang=nl
+```
+
+### Pre-filled Customer Data
+```
+https://payrequest.me/yourhandle?product=1814&name=John%20Doe&email=john@example.com
+```
+
+### Custom Amount with iDEAL
+```
+https://payrequest.me/yourhandle?amount=99.50&method=ideal&name=Jane%20Smith&email=jane@example.com
+```
+
+### Complete Address Information
+```
+https://payrequest.me/yourhandle?product=1814&name=John%20Doe&email=john@example.com&address=Main%20Street%20123&city=Amsterdam&postal=1012AB
+```
+
+### Subscription with Custom Fields
+```
+https://payrequest.me/yourhandle?product=1859&name=Business%20Corp&email=billing@business.com&customfield_company_id=BC-2024&lang=nl
+```
+
+### Per-Unit Pricing (Rental Days)
+```
+https://payrequest.me/yourhandle?product=1880&customfield_days=3&disabled=true
+```
+
+### Locked Custom Fields Quote
+```
+https://payrequest.me/yourhandle?product=1880&customfield_size=large&customfield_quantity=10&disabled=true&name=Customer%20Name&email=customer@example.com
+```
+
+### Payment Recovery Link
+```
+https://payrequest.me/yourhandle?invoice=2358
+```
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods" icon="credit-card" href="/payment-processing/payment-methods-overview">
+    Configure accepted payment methods
+  </Card>
+  <Card title="Products" icon="box" href="/products-and-pricing/creating-products">
+    Create products with dynamic pricing
+  </Card>
+  <Card title="Subscriptions" icon="repeat" href="/subscriptions/subscription-lifecycle">
+    Manage recurring subscriptions
+  </Card>
+  <Card title="Custom Fields" icon="list-check" href="/products-and-pricing/custom-fields">
+    Add custom fields to products
+  </Card>
+</CardGroup>

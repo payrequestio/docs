@@ -1,0 +1,288 @@
+---
+title: "Bank Transfer Payments"
+description: "Accept bank transfers with automatic payment matching via Ponto integration"
+---
+
+# Bank Transfer Payments
+
+Accept direct bank transfers from your customers with automatic payment matching. When customers transfer money to your bank account with the correct reference, PayRequest automatically detects and marks the payment as complete.
+
+<Info>
+**Automatic Reconciliation**: Bank Transfer payments use the Ponto integration to automatically match incoming bank transactions with pending payments - no manual work required.
+</Info>
+
+## How It Works
+
+<Steps>
+  <Step title="Customer Selects Bank Transfer">
+    At checkout, the customer chooses "Bank Transfer" as their payment method
+  </Step>
+
+  <Step title="Payment Details Displayed">
+    Customer receives your IBAN, account name, exact amount, and a unique payment reference (e.g., `PAY-12345`)
+  </Step>
+
+  <Step title="Customer Transfers Funds">
+    Customer logs into their bank and transfers the exact amount with the reference in the payment description
+  </Step>
+
+  <Step title="Automatic Matching">
+    PayRequest syncs your bank transactions via Ponto and automatically matches the payment by reference and amount
+  </Step>
+
+  <Step title="Payment Confirmed">
+    Invoice/order is marked as paid, and customer receives confirmation
+  </Step>
+</Steps>
+
+## Requirements
+
+<CardGroup cols={2}>
+  <Card title="Ponto Connection" icon="building-columns">
+    You need an active Ponto bank connection to use Bank Transfer payments. Ponto syncs your bank transactions automatically.
+  </Card>
+
+  <Card title="Business Bank Account" icon="landmark">
+    A business bank account connected to Ponto. Most European banks are supported through the Ponto network.
+  </Card>
+</CardGroup>
+
+## Enabling Bank Transfer
+
+### Step 1: Connect Ponto
+
+First, ensure you have Ponto connected:
+
+1. Go to **Settings → Ponto**
+2. Click **Connect Ponto API** if not already connected
+3. Authorize access to your bank account
+4. Wait for initial account sync
+
+### Step 2: Enable Bank Transfer Payment Method
+
+Once Ponto is connected:
+
+1. On the **Settings → Ponto** page, find the **Bank Transfer Payment Method** section
+2. Toggle the switch to **enable** Bank Transfer
+3. Your IBAN and account name will be displayed (pulled from your connected bank)
+
+<Tip>
+**Custom Instructions**: You can add custom instructions that will be shown to customers when they select Bank Transfer. Use this to provide additional guidance or expected processing times.
+</Tip>
+
+## Customer Experience
+
+When a customer selects Bank Transfer at checkout, they see:
+
+<AccordionGroup>
+  <Accordion title="Payment Details Screen">
+    **What customers see:**
+
+    - **Account Name**: Your business name from the bank account
+    - **IBAN**: Your bank account number
+    - **Amount**: Exact amount to transfer
+    - **Reference**: Unique payment reference (e.g., `PAY-12345`)
+
+    Each field has a **copy button** for easy copying to their banking app.
+  </Accordion>
+
+  <Accordion title="Reference Importance">
+    The payment reference is crucial for automatic matching. Customers are instructed to:
+
+    - Include the **exact reference** in their payment description
+    - Transfer the **exact amount** (not more, not less)
+    - Use standard SEPA transfer (not instant/express which may truncate references)
+
+    <Warning>
+    If the reference is missing or incorrect, automatic matching won't work and manual reconciliation may be needed.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="After Transfer">
+    After the customer initiates the transfer:
+
+    1. Invoice status changes to **Pending**
+    2. Customer can return to the payment page anytime to see the bank details
+    3. Once matched, status updates to **Paid**
+    4. Customer receives email confirmation (if email templates are configured)
+  </Accordion>
+</AccordionGroup>
+
+## Automatic Matching
+
+PayRequest automatically matches bank transfers using this logic:
+
+<Steps>
+  <Step title="Transaction Sync">
+    Ponto syncs your bank transactions regularly (typically every few minutes)
+  </Step>
+
+  <Step title="Reference Detection">
+    System scans incoming transactions for payment references matching the `PAY-XXXXX` pattern
+  </Step>
+
+  <Step title="Amount Verification">
+    The transaction amount must match the pending payment amount exactly
+  </Step>
+
+  <Step title="Status Update">
+    When matched, the invoice/order is automatically marked as paid with a transaction record
+  </Step>
+</Steps>
+
+### Matching Criteria
+
+| Criteria | Requirement |
+|----------|-------------|
+| Reference | Must contain exact `PAY-XXXXX` reference |
+| Amount | Must match exactly (to the cent) |
+| Direction | Must be an incoming payment (credit) |
+| Timeframe | Transaction within last 30 days |
+
+<Info>
+**Partial Payments**: Bank Transfer currently requires the exact amount. Partial payments are not automatically matched.
+</Info>
+
+## Where Bank Transfer Appears
+
+Bank Transfer is available as a payment option in:
+
+<CardGroup cols={2}>
+  <Card title="Payment Pages" icon="credit-card">
+    Your public payment page (e.g., `payrequest.me/yourbusiness`)
+  </Card>
+
+  <Card title="Invoice Payments" icon="file-invoice">
+    Customer portal where customers pay their invoices
+  </Card>
+
+  <Card title="Smart Links" icon="link">
+    Payment links created for specific amounts or products
+  </Card>
+
+  <Card title="Shop Checkout" icon="shopping-cart">
+    Your online shop checkout (coming soon)
+  </Card>
+</CardGroup>
+
+<Note>
+**Not for Recurring**: Bank Transfer is only available for one-time payments. For subscriptions and recurring billing, use SEPA Direct Debit instead.
+</Note>
+
+## Use Cases
+
+### B2B Payments
+
+Business customers often prefer bank transfers for:
+- Accounting and audit trails
+- Internal approval workflows
+- Avoiding credit card fees
+- Large transaction amounts
+
+### High-Value Transactions
+
+For large payments where:
+- Credit card limits may apply
+- Lower fees are important
+- Customer prefers bank-level security
+
+### Cost-Conscious Customers
+
+Some customers prefer bank transfers to:
+- Avoid card processing fees being passed on
+- Not share card details online
+- Use their familiar banking app
+
+## Pricing
+
+<CardGroup cols={3}>
+  <Card title="Transaction Fee" icon="euro-sign">
+    **€0.00**
+
+    No PayRequest fee for bank transfers
+  </Card>
+
+  <Card title="Percentage Fee" icon="percent">
+    **0%**
+
+    No percentage-based fees
+  </Card>
+
+  <Card title="Ponto Costs" icon="building-columns">
+    **Varies**
+
+    Check your Ponto subscription for API usage costs
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Payment Not Matching">
+    **Possible causes:**
+
+    1. **Wrong reference**: Customer didn't include the reference or made a typo
+    2. **Wrong amount**: Amount doesn't match exactly
+    3. **Sync delay**: Ponto hasn't synced yet (wait a few minutes)
+    4. **Reference truncated**: Some banks truncate long descriptions
+
+    **Solution**: Check your Ponto transactions manually and verify the reference/amount. Contact support if needed.
+  </Accordion>
+
+  <Accordion title="Bank Transfer Option Not Showing">
+    **Check these settings:**
+
+    1. Is Ponto connected? (Settings → Ponto)
+    2. Is Bank Transfer enabled? (Toggle in Ponto settings)
+    3. Is your IBAN available? (Refresh accounts if needed)
+    4. Is this a recurring product? (Bank Transfer not available for subscriptions)
+  </Accordion>
+
+  <Accordion title="Customer Can't Find Reference">
+    **Advise your customer:**
+
+    1. Return to the payment page with `?invoice=ID` parameter
+    2. The reference and IBAN are displayed there
+    3. They can also check their email for the invoice
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Clear Instructions" icon="message">
+    Add custom instructions explaining your expected processing time and any special requirements
+  </Card>
+
+  <Card title="Reference Format" icon="hashtag">
+    Inform customers to copy the reference exactly - including the hyphen
+  </Card>
+
+  <Card title="Amount Precision" icon="calculator">
+    Remind customers to transfer the exact amount shown, not rounded
+  </Card>
+
+  <Card title="Bank Selection" icon="building">
+    Advise customers to use standard SEPA transfers, not instant transfers that may truncate references
+  </Card>
+</CardGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Bank Sync (Ponto)" icon="sync" href="/payment-processing/bank-sync-ponto">
+    Learn more about connecting and configuring Ponto for bank synchronization
+  </Card>
+
+  <Card title="Payment Methods Overview" icon="credit-card" href="/payment-processing/payment-methods-overview">
+    Compare all available payment methods and their features
+  </Card>
+
+  <Card title="Invoice Payment Links" icon="link" href="/invoices/invoice-payment-links">
+    Creating and managing payment links for invoices
+  </Card>
+
+  <Card title="Smart Links" icon="bolt" href="/payment-processing/smart-links">
+    Create reusable payment links with Bank Transfer support
+  </Card>
+</CardGroup>

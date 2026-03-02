@@ -1,0 +1,108 @@
+---
+title: 'MCP Overview'
+description: 'Connect Claude Desktop or ChatGPT to PayRequest using the Model Context Protocol'
+icon: 'robot'
+---
+
+# Model Context Protocol (MCP)
+
+PayRequest provides an MCP server that allows AI assistants to interact with your billing data securely using natural language.
+
+<Note>
+  **Now available for Claude Desktop and ChatGPT!** Connect your favorite AI assistant to PayRequest and manage your billing with simple conversations.
+</Note>
+
+## Supported AI Assistants
+
+<CardGroup cols={2}>
+  <Card title="Claude Desktop" icon="message-bot" href="/mcp/setup#claude-desktop-setup">
+    Full MCP support with OAuth authentication
+  </Card>
+  <Card title="ChatGPT" icon="comments" href="/mcp/setup#chatgpt-setup">
+    MCP connector support for ChatGPT Plus users
+  </Card>
+</CardGroup>
+
+## What is MCP?
+
+The [Model Context Protocol](https://modelcontextprotocol.io/) is an open standard that enables AI applications to connect to external data sources and tools. With PayRequest's MCP integration, your AI assistant can:
+
+- **View billing statistics** - Get real-time insights into your invoices
+- **List invoices** - Search and filter your invoice data
+- **Identify overdue payments** - Find invoices that need attention
+- **Send payment reminders** - Automate follow-up emails
+
+## Why Use MCP?
+
+<CardGroup cols={2}>
+  <Card title="Natural Language Queries" icon="message">
+    Ask questions like "How many invoices are overdue?" and get instant answers
+  </Card>
+  <Card title="Automated Workflows" icon="bolt">
+    Let AI assistants handle routine billing tasks like sending reminders
+  </Card>
+  <Card title="Secure Access" icon="shield-check">
+    OAuth 2.0 authentication ensures only authorized access
+  </Card>
+  <Card title="Real-Time Data" icon="clock">
+    Always work with the latest billing information
+  </Card>
+</CardGroup>
+
+## Server Endpoint
+
+The PayRequest MCP Billing Server is available at:
+
+```
+https://payrequest.app/mcp/billing
+```
+
+## Available Tools
+
+| Tool | Description | Scope Required |
+|------|-------------|----------------|
+| `get-invoice-stats` | Get invoice statistics (totals, pending, paid, overdue) | `billing.read` |
+| `list-invoices` | List invoices with optional status filtering | `billing.read` |
+| `get-overdue-invoices` | Get all overdue invoices with customer details | `billing.read` |
+| `send-invoice-reminder` | Send payment reminder email for an invoice | `billing.read` |
+
+## Quick Example
+
+Once connected, you can ask your AI assistant questions like:
+
+> "Show me all overdue invoices"
+
+The assistant will use the MCP tools to fetch your data and respond:
+
+```
+Overdue Invoices (3 total):
+
+- Invoice #INV-2025-042: €1,250.00
+  Customer: Acme Corp
+  Due: 2025-01-15 (14 days overdue)
+  Status: sent
+
+- Invoice #INV-2025-038: €600.00
+  Customer: TechStart BV
+  Due: 2025-01-10 (19 days overdue)
+  Status: viewed
+
+Total Overdue Amount: €1,850.00
+```
+
+## Get Started
+
+<CardGroup cols={2}>
+  <Card title="Claude Desktop Setup" icon="message-bot" href="/mcp/setup#claude-desktop-setup">
+    Connect Claude Desktop to PayRequest in minutes
+  </Card>
+  <Card title="ChatGPT Setup" icon="comments" href="/mcp/setup#chatgpt-setup">
+    Connect ChatGPT to access your billing data
+  </Card>
+  <Card title="Tools Reference" icon="screwdriver-wrench" href="/mcp/tools">
+    Detailed documentation for all MCP tools
+  </Card>
+  <Card title="Dashboard Setup" icon="gear" href="/mcp/setup#finding-your-setup-instructions">
+    Find setup instructions in your PayRequest dashboard
+  </Card>
+</CardGroup>

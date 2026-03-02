@@ -1,0 +1,185 @@
+---
+title: "Daily Business Summary"
+description: "Receive an automated daily morning email with overnight activity, payments, orders, and key business metrics from the last 24 hours"
+---
+
+# Daily Business Summary
+
+Start every workday with a clear picture of what happened in your business. The Daily Business Summary is an automated email report delivered each morning at 8:00 AM, covering the last 24 hours of activity — including overnight billing jobs, payments, new customers, and your current business health.
+
+<Tip>
+The Daily Business Summary is **opt-in** — it's disabled by default. Enable it in **Settings → Notifications** under the **Reports & Digests** category.
+</Tip>
+
+## What's Included in Your Summary
+
+The daily email is organized into four clear sections so you can quickly scan what matters most.
+
+### Overnight Activity
+
+Every night, PayRequest runs automated jobs to keep your billing running smoothly. The summary tells you exactly what happened:
+
+| Job | What It Tracks |
+|-----|---------------|
+| **Subscription Renewals** | How many subscriptions were billed and total revenue collected |
+| **Renewal Failures** | Subscriptions that failed to renew (payment issues) |
+| **Trial Conversions** | Free trials that converted to paid subscriptions |
+| **Invoice Reminders Sent** | Automated payment reminders sent to customers |
+| **Debt Collection Notices** | Debt collection emails processed |
+
+<Info>
+Overnight jobs run on a fixed schedule: subscription billing at 5:00 AM, trial conversions at 6:00 AM, debt collection at 7:00 AM, and invoice reminders at 9:00 AM. The daily summary is sent at 8:00 AM covering the last 24 hours, so it includes the current night's billing and trial jobs plus yesterday's reminders.
+</Info>
+
+The summary includes smart alerts:
+- **All renewals successful** — a green confirmation so you know everything is healthy
+- **Renewal failures detected** — a warning with the count, prompting you to check your subscriptions dashboard
+
+### Payments & Revenue
+
+A quick snapshot of money flowing through your business:
+
+- **Payments Received**: Total number of successful payments
+- **Revenue**: Total amount collected
+- **Failed Payments**: Payments that didn't go through
+- **Chargebacks**: Disputes initiated by customers (count and amount)
+- **Refunds**: Refunds processed (count and amount)
+
+### Customers & Orders
+
+Track your business growth day by day:
+
+- **New Customers**: Customers who registered or were added
+- **New Orders**: Orders placed (with total value)
+- **New Subscriptions**: Recurring subscriptions started
+- **Cancelled Subscriptions**: Subscriptions ended by customers
+
+### Current Status
+
+A real-time health check of your business at the time the report is generated:
+
+- **Active Subscriptions**: Total active recurring subscriptions
+- **Outstanding Invoices**: Unpaid invoices (count and total amount)
+- **Overdue Invoices**: Past-due invoices that need attention (count and total amount)
+
+<Warning>
+When you have overdue invoices, the summary includes a direct **"View Invoices"** button so you can take action immediately.
+</Warning>
+
+## Enabling the Daily Summary
+
+The Daily Business Summary is disabled by default. To enable it:
+
+1. Navigate to **Settings** in your dashboard
+2. Click on the **Notifications** tab
+3. Scroll to the **Reports & Digests** section
+4. Toggle **"Daily Business Summary"** to ON
+
+<Tip>
+You can enable or disable the summary at any time. Changes take effect for the next morning's delivery.
+</Tip>
+
+## Delivery Schedule
+
+| Detail | Value |
+|--------|-------|
+| **Delivery Time** | 8:00 AM daily |
+| **Reporting Period** | Last 24 hours |
+| **Sent To** | Your registered account email |
+| **Queue** | Processed via the emails queue |
+
+### What the 24-Hour Window Covers
+
+Since the email is sent at 8:00 AM, the reporting window runs from **yesterday 8:00 AM to today 8:00 AM**. This means each summary includes:
+
+- **Yesterday's daytime**: Customer sign-ups, orders, payments throughout the day
+- **Last night's jobs**: Subscription billing (5:00 AM), trial conversions (6:00 AM), debt collection (7:00 AM)
+
+This ensures you never miss overnight activity in your morning briefing.
+
+## Daily Summary vs Monthly Report
+
+PayRequest offers two automated reports that complement each other:
+
+| Feature | Daily Business Summary | Monthly Subscription Report |
+|---------|----------------------|---------------------------|
+| **Frequency** | Every day at 8:00 AM | 1st of each month at 8:00 AM |
+| **Period** | Last 24 hours | Previous calendar month |
+| **Focus** | Operational overview | Strategic subscription analytics |
+| **Includes** | Payments, orders, customers, overnight jobs | MRR, ARPU, growth rate, churn rate, top products |
+| **Best For** | Daily operations monitoring | Monthly business review |
+| **Default** | Off (opt-in) | On (opt-out) |
+
+<Tip>
+For the best insights, enable both reports. Use the **Daily Summary** to stay on top of day-to-day operations, and the **Monthly Report** for strategic planning and trend analysis.
+</Tip>
+
+## Making the Most of Your Daily Summary
+
+### Morning Routine
+
+Spend 2 minutes each morning to:
+
+1. **Check overnight billing**: Were all renewals successful? Any failures to address?
+2. **Review payments**: How much revenue came in yesterday?
+3. **Spot issues early**: Any chargebacks, refunds, or failed payments?
+4. **Track growth**: New customers and orders trending up or down?
+5. **Handle overdue invoices**: Click through to follow up on past-due payments
+
+### When to Take Action
+
+| Signal | Action |
+|--------|--------|
+| Renewal failures > 0 | Check failed subscriptions, contact customers about payment methods |
+| Chargebacks received | Review disputed transactions, improve payment descriptions |
+| Overdue invoices growing | Send manual reminders or enable automated reminders |
+| No new customers in days | Review marketing efforts, check shop availability |
+| Failed payments increasing | Investigate payment provider issues |
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Will I receive a summary on days with no activity?">
+    Yes. A summary with zero activity is still valuable — it confirms your systems are running and nothing needs attention. The "Current Status" section always shows your live business metrics.
+  </Accordion>
+
+  <Accordion title="Can I receive the summary at a different time?">
+    Currently, the summary is sent at 8:00 AM (Europe/Amsterdam timezone). This timing is optimized to include overnight billing results (5:00-7:00 AM) while arriving before your workday starts.
+  </Accordion>
+
+  <Accordion title="Does the daily summary affect my email quota?">
+    The daily summary uses the same email system as all PayRequest emails (Postmark). It counts as one transactional email per day per account.
+  </Accordion>
+
+  <Accordion title="What's the difference between the daily summary and real-time notifications?">
+    Real-time notifications (like "Payment Received" or "New Order") are sent immediately when events occur. The daily summary is a consolidated overview of everything that happened in the last 24 hours, including background job results that don't trigger individual notifications.
+  </Accordion>
+
+  <Accordion title="Can I customize which sections appear in the summary?">
+    Currently, all sections are included in every summary. The email is designed to be a quick scan — sections with zero activity take up minimal space.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Monthly Subscription Report" href="/analytics-and-reporting/monthly-subscription-report" icon="chart-pie">
+    Enable the monthly report for deeper subscription analytics and strategic insights.
+  </Card>
+
+  <Card title="Insights Dashboard" href="/analytics-and-reporting/insights-dashboard" icon="chart-mixed">
+    View real-time business metrics directly in your dashboard.
+  </Card>
+
+  <Card title="Email Automations" href="/organization-and-automation/email-automations" icon="envelope-circle-check">
+    Set up automated emails for customer communication and payment follow-ups.
+  </Card>
+
+  <Card title="Failed Payment Handling" href="/subscriptions/failed-payment-handling" icon="credit-card-slash">
+    Learn strategies to recover failed subscription payments.
+  </Card>
+</CardGroup>
+
+---
+
+*The Daily Business Summary keeps you informed without checking your dashboard. Enable it today and never miss what happened overnight.*

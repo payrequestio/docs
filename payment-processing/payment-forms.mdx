@@ -1,8 +1,681 @@
 ---
-title: Payment Forms
-description: 'Create flexible payment collection forms'
+title: "Payment Pages"
+description: "Create flexible, branded payment pages for collecting payments, donations, and custom amounts with ease"
 ---
 
-# Payment Forms
+# Payment Pages 💰
 
-_Work in progress. Content coming soon._
+PayRequest Payment Pages are powerful, customizable payment collection tools that enable you to receive payments for any purpose without requiring customers to browse your shop. Perfect for invoicing, donations, service fees, deposits, or any custom payment scenario.
+
+<Info>
+**Flexible Payment Collection**: Payment Pages work independently of your product catalog, allowing customers to pay custom amounts or predefined fees with a clean, professional interface.
+</Info>
+
+## 🎯 What are Payment Pages?
+
+Payment Pages are standalone payment collection forms that you can customize and share with customers:
+
+<CardGroup cols={2}>
+  <Card title="💳 Custom Payment Forms" icon="credit-card">
+    **Flexible Collection**
+    - Custom amount entry
+    - Predefined payment amounts
+    - Minimum and maximum limits
+    - Optional customer information
+    - Multiple payment methods
+  </Card>
+
+  <Card title="🔗 Easy Sharing" icon="link">
+    **Simple Distribution**
+    - Clean, branded URLs (payrequest.me/yourhandle)
+    - QR codes for in-person payments
+    - Email integration
+    - Social media sharing
+    - Website embedding
+  </Card>
+
+  <Card title="🎨 Full Customization" icon="palette">
+    **Brand Integration**
+    - Custom page titles and descriptions
+    - Your business branding
+    - Personalized success messages
+    - Responsive mobile design
+    - Professional appearance
+  </Card>
+
+  <Card title="📊 Payment Tracking" icon="chart-bar">
+    **Complete Analytics**
+    - Real-time payment monitoring
+    - Customer information capture
+    - Payment history and reporting
+    - Revenue tracking
+    - Export capabilities
+  </Card>
+</CardGroup>
+
+## 🚀 Payment Page Features
+
+### Flexible Amount Configuration
+
+<Tabs>
+  <Tab title="Custom Amount Entry">
+    **Customer-Defined Amounts:**
+    - Allow customers to enter any amount
+    - Set minimum payment thresholds (e.g., €0.01+)
+    - Configure maximum payment limits
+    - Default amount suggestions
+    - Real-time validation and formatting
+
+    **Use Cases:**
+    - Donations and fundraising
+    - Service fees and consultations
+    - Invoice payments
+    - Tip collection
+    - Flexible billing scenarios
+  </Tab>
+
+  <Tab title="Predefined Amounts">
+    **Fixed Payment Options:**
+    - Set specific payment amounts
+    - Multiple amount choices
+    - Quick-select buttons
+    - Subscription-style pricing
+    - Package deal options
+
+    **Applications:**
+    - Membership fees
+    - Event tickets
+    - Standard service charges
+    - Product deposits
+    - License fees
+  </Tab>
+
+  <Tab title="Amount Validation">
+    **Smart Controls:**
+    - Minimum amount enforcement (€0.01 minimum)
+    - Maximum payment limits
+    - Currency formatting (EUR default)
+    - Real-time validation feedback
+    - Error prevention and guidance
+
+    **Business Protection:**
+    - Prevent micro-payments
+    - Set reasonable payment limits
+    - Ensure payment viability
+    - Reduce processing issues
+    - Maintain profit margins
+  </Tab>
+</Tabs>
+
+### Customer Information Collection
+
+<Expandable title="📝 Flexible Form Fields">
+**Optional Customer Data:**
+- Customer name (optional/required)
+- Email address for receipts
+- Order notes and descriptions
+- Custom reference information
+- Contact details when needed
+
+**Smart Defaults:**
+- Auto-fill for logged-in users
+- Magic link authentication
+- Minimal required information
+- Progressive data collection
+- GDPR-compliant handling
+</Expandable>
+
+<Expandable title="🔐 Customer Authentication">
+**Login Options:**
+- "Login to auto-fill" feature
+- Magic link authentication
+- Guest payment capability
+- Account creation optional
+- Streamlined user experience
+
+**Benefits:**
+- Faster checkout for returning customers
+- Automatic information population
+- Payment history tracking
+- Customer portal access
+- Relationship building
+</Expandable>
+
+### Payment Method Integration
+
+<Steps>
+  <Step title="European Payment Methods">
+    **Optimized for EU Markets:**
+    - iDEAL (Netherlands)
+    - Bancontact (Belgium)
+    - SEPA Direct Debit
+    - Credit/Debit Cards
+    - Bank transfers
+  </Step>
+
+  <Step title="International Options">
+    **Global Payment Support:**
+    - Visa and Mastercard
+    - American Express
+    - PayPal integration
+    - Apple Pay and Google Pay
+    - Local payment methods
+  </Step>
+
+  <Step title="Smart Method Selection">
+    **Intelligent Defaults:**
+    - Geographic payment preferences
+    - Amount-based recommendations
+    - Customer history integration
+    - Mobile-optimized selection
+    - One-click payment options
+  </Step>
+</Steps>
+
+## 🛠️ Setting Up Your Payment Page
+
+### Configuration Process
+
+<Steps>
+  <Step title="Access Payment Page Settings">
+    Navigate to **Payment Pages** in your PayRequest dashboard or go directly to `/paymentpage`
+  </Step>
+
+  <Step title="Configure Basic Settings">
+    **Essential Configuration:**
+    - **Custom Handle**: Create a memorable URL (e.g., `payrequest.me/yourhandle`)
+    - **Page Title**: Professional heading (e.g., "Pay YourBusiness")
+    - **Description**: Clear payment instructions
+    - **Amount Settings**: Default, minimum, and maximum amounts
+  </Step>
+
+  <Step title="Customize Payment Options">
+    **Advanced Settings:**
+    - Enable/disable custom amount entry
+    - Require customer descriptions
+    - Set success messages
+    - Configure redirect URLs
+    - Enable dynamic field controls
+  </Step>
+
+  <Step title="Test and Activate">
+    **Go Live Process:**
+    - Test with small amounts
+    - Verify payment processing
+    - Check email notifications
+    - Confirm mobile experience
+    - Activate for public use
+  </Step>
+</Steps>
+
+### Configuration Options
+
+<Expandable title="⚙️ Basic Settings">
+**Core Configuration:**
+
+**Custom Handle:**
+- Create memorable URLs (letters, numbers, hyphens only)
+- Example: `payrequest.me/consultation` or `payrequest.me/donate`
+- Auto-converts to lowercase
+- Must be unique across PayRequest
+- Falls back to business name if not set
+
+**Page Content:**
+- **Title**: Main heading (e.g., "Pay for Services")
+- **Description**: Instructions or context for payment
+- **Success Message**: Custom thank-you message after payment
+- All text supports your brand voice and tone
+</Expandable>
+
+<Expandable title="💰 Amount Configuration">
+**Payment Amount Controls:**
+
+**Default Amount:**
+- Pre-fill amount field with suggested value
+- Customers can modify if custom amounts enabled
+- Useful for standard fees or donations
+- Leave blank for completely open amounts
+
+**Amount Limits:**
+- **Minimum**: Prevent micro-payments (default €0.01)
+- **Maximum**: Set upper payment limits
+- **Custom Amounts**: Allow/disable customer amount entry
+- Real-time validation and error messages
+
+**Amount Display:**
+- Euro (EUR) currency formatting
+- Automatic decimal handling
+- Clear visual feedback
+- Mobile-friendly input
+</Expandable>
+
+<Expandable title="📋 Form Behavior">
+**Customer Experience Controls:**
+
+**Information Requirements:**
+- **Name**: Optional or required customer name
+- **Email**: For receipt delivery
+- **Description**: Allow customers to add payment notes
+- **Readonly Fields**: Lock specific form elements
+
+**Advanced Options:**
+- **Require Description**: Force customers to add payment context
+- **Dynamic Field Control**: Enable/disable field modifications
+- **Guest Payments**: Allow payments without account creation
+- **Auto-fill Integration**: Support logged-in user data
+</Expandable>
+
+## 🎨 Customization and Branding
+
+### Visual Customization
+
+<CardGroup cols={2}>
+  <Card title="🏪 Brand Integration" icon="store">
+    **Professional Appearance:**
+    - Your business logo display
+    - Consistent color scheme
+    - Custom domain support
+    - Professional typography
+    - Mobile-responsive design
+  </Card>
+
+  <Card title="📱 Mobile Optimization" icon="mobile">
+    **Mobile-First Design:**
+    - Touch-friendly interface
+    - Responsive layouts
+    - Fast loading times
+    - Thumb-friendly buttons
+    - Optimized form fields
+  </Card>
+</CardGroup>
+
+### Content Personalization
+
+<Tabs>
+  <Tab title="Messaging Customization">
+    **Branded Communication:**
+    - Welcome messages and instructions
+    - Payment confirmation text
+    - Success page content
+    - Error message customization
+    - Email receipt branding
+
+    **Tone and Voice:**
+    - Professional service language
+    - Friendly donation appeals
+    - Clear payment instructions
+    - Reassuring security messages
+    - Brand-consistent communication
+  </Tab>
+
+  <Tab title="URL Customization">
+    **Professional URLs:**
+    - Custom handles for memorable links
+    - Business name integration
+    - Service-specific naming
+    - Campaign-focused URLs
+    - Easy sharing and marketing
+
+    **Examples:**
+    - `payrequest.me/consultation`
+    - `payrequest.me/donate`
+    - `payrequest.me/membership`
+    - `payrequest.me/invoice`
+    - `payrequest.me/deposit`
+  </Tab>
+</Tabs>
+
+## 📊 Payment Page Analytics
+
+### Performance Tracking
+
+<CardGroup cols={3}>
+  <Card title="💳 Payment Metrics" icon="chart-line">
+    **Transaction Analytics:**
+    - Total payments received
+    - Revenue generated
+    - Average payment amount
+    - Payment success rates
+    - Method preferences
+  </Card>
+
+  <Card title="👥 Customer Insights" icon="users">
+    **User Behavior:**
+    - Visitor conversion rates
+    - Customer information completion
+    - Return visitor tracking
+    - Geographic distribution
+    - Device usage patterns
+  </Card>
+
+  <Card title="📈 Optimization Data" icon="trending-up">
+    **Performance Optimization:**
+    - Form completion rates
+    - Payment method effectiveness
+    - Mobile vs desktop usage
+    - Time-to-payment analysis
+    - Error and abandonment tracking
+  </Card>
+</CardGroup>
+
+### Recent Payment History
+
+<Steps>
+  <Step title="Real-Time Monitoring">
+    View payments as they happen with instant dashboard updates
+  </Step>
+
+  <Step title="Customer Information">
+    Track customer details, payment amounts, and transaction status
+  </Step>
+
+  <Step title="Payment Methods">
+    Analyze which payment methods customers prefer
+  </Step>
+
+  <Step title="Export and Reporting">
+    Download payment data for accounting and analysis
+  </Step>
+</Steps>
+
+## 🌟 Use Cases and Applications
+
+### Business Applications
+
+<Expandable title="💼 Professional Services">
+**Service-Based Businesses:**
+- Consultation fees and hourly billing
+- Project deposits and milestones
+- Retainer payments
+- Invoice settlements
+- Expense reimbursements
+
+**Configuration Example:**
+- Handle: `consultation`
+- Title: "Professional Consultation Payment"
+- Description: "Pay for your consultation session"
+- Default Amount: €150.00
+- Allow Custom: Yes (for variable session lengths)
+</Expandable>
+
+<Expandable title="🎗️ Fundraising and Donations">
+**Non-Profit and Fundraising:**
+- Charity donations
+- Crowdfunding campaigns
+- Event sponsorships
+- Membership contributions
+- Emergency fundraising
+
+**Configuration Example:**
+- Handle: `donate`
+- Title: "Support Our Cause"
+- Description: "Your donation makes a difference"
+- Minimum Amount: €5.00
+- Allow Custom: Yes
+- Success Message: "Thank you for your generous support!"
+</Expandable>
+
+<Expandable title="🎫 Events and Memberships">
+**Event and Membership Management:**
+- Event ticket sales
+- Membership fee collection
+- Workshop registrations
+- Conference payments
+- Annual dues collection
+
+**Configuration Example:**
+- Handle: `membership`
+- Title: "Annual Membership Payment"
+- Description: "Join our community for exclusive benefits"
+- Default Amount: €99.00
+- Allow Custom: No
+- Require Description: Yes (for member information)
+</Expandable>
+
+<Expandable title="🏠 Rental and Deposits">
+**Property and Rental Payments:**
+- Security deposits
+- Rental payments
+- Booking fees
+- Damage deposits
+- Utility payments
+
+**Configuration Example:**
+- Handle: `deposit`
+- Title: "Security Deposit Payment"
+- Description: "Required deposit for rental agreement"
+- Default Amount: €500.00
+- Allow Custom: No
+- Maximum Amount: €2000.00
+</Expandable>
+
+### Integration Scenarios
+
+<CardGroup cols={2}>
+  <Card title="📧 Email Integration" icon="mail">
+    **Email Marketing:**
+    - Newsletter payment links
+    - Invoice payment buttons
+    - Campaign-specific URLs
+    - Automated follow-ups
+    - Receipt customization
+  </Card>
+
+  <Card title="🌐 Website Integration" icon="globe">
+    **Web Integration:**
+    - Direct website links
+    - Payment page embedding
+    - QR code generation
+    - Social media sharing
+    - SEO-friendly URLs
+  </Card>
+</CardGroup>
+
+## 🔒 Security and Compliance
+
+### Payment Security
+
+<CardGroup cols={3}>
+  <Card title="🛡️ PCI Compliance" icon="shield">
+    **Industry Standards:**
+    - PCI DSS Level 1 certification
+    - Secure card processing
+    - Encrypted data transmission
+    - Tokenized payment storage
+    - Regular security audits
+  </Card>
+
+  <Card title="🔐 Data Protection" icon="lock">
+    **Privacy Safeguards:**
+    - GDPR compliance
+    - Data minimization
+    - Secure data storage
+    - Customer consent management
+    - Right to deletion
+  </Card>
+
+  <Card title="⚡ Fraud Prevention" icon="zap">
+    **Risk Management:**
+    - Real-time fraud detection
+    - Velocity checks
+    - Geographic validation
+    - Device fingerprinting
+    - Risk scoring algorithms
+  </Card>
+</CardGroup>
+
+### Compliance Features
+
+<Expandable title="📋 GDPR Compliance">
+**Data Protection:**
+- Minimal data collection
+- Clear consent mechanisms
+- Data portability options
+- Deletion requests handling
+- Privacy policy integration
+- Cookie consent management
+</Expandable>
+
+<Expandable title="💳 PCI DSS Standards">
+**Payment Card Security:**
+- Secure cardholder data handling
+- Strong access controls
+- Regular security monitoring
+- Vulnerability management
+- Secure network architecture
+- Information security policies
+</Expandable>
+
+## 📱 Mobile Experience
+
+### Mobile-First Design
+
+<Steps>
+  <Step title="Responsive Layout">
+    Automatically adapts to all screen sizes with touch-friendly interfaces
+  </Step>
+
+  <Step title="Fast Loading">
+    Optimized for mobile networks with compressed assets and smart caching
+  </Step>
+
+  <Step title="Touch Optimization">
+    Large buttons, easy form fields, and thumb-friendly navigation
+  </Step>
+
+  <Step title="Mobile Payments">
+    Support for Apple Pay, Google Pay, and mobile wallet integration
+  </Step>
+</Steps>
+
+### Mobile Features
+
+<CardGroup cols={2}>
+  <Card title="📲 PWA Support" icon="mobile">
+    **App-Like Experience:**
+    - Add to home screen
+    - Offline functionality
+    - Push notifications
+    - Fast loading
+    - Native feel
+  </Card>
+
+  <Card title="📷 QR Code Integration" icon="qr-code">
+    **Contactless Payments:**
+    - QR code generation
+    - In-person payment collection
+    - Event check-in integration
+    - Contactless donations
+    - Physical location payments
+  </Card>
+</CardGroup>
+
+## 🔧 Advanced Configuration
+
+### API Integration
+
+<Expandable title="🔌 Webhook Integration">
+**Real-Time Events:**
+- Payment completion notifications
+- Failed payment alerts
+- Customer information updates
+- Refund processing events
+- Custom business logic triggers
+
+**Webhook Payloads:**
+- Complete payment details
+- Customer information
+- Payment method used
+- Transaction metadata
+- Timestamp and reference data
+</Expandable>
+
+<Expandable title="⚙️ API Access">
+**Programmatic Control:**
+- Payment page creation via API
+- Dynamic amount configuration
+- Customer pre-filling
+- Payment status monitoring
+- Bulk payment processing
+
+**Use Cases:**
+- CRM integration
+- Automated billing systems
+- Custom payment workflows
+- Multi-tenant applications
+- White-label solutions
+</Expandable>
+
+### Business Intelligence
+
+<Steps>
+  <Step title="Analytics Integration">
+    Connect Google Analytics and other tracking tools for comprehensive insights
+  </Step>
+
+  <Step title="Payment Optimization">
+    A/B test different page configurations to maximize conversion rates
+  </Step>
+
+  <Step title="Customer Journey Tracking">
+    Understand how customers find and complete payments on your pages
+  </Step>
+
+  <Step title="Revenue Attribution">
+    Track which marketing channels drive the most valuable payments
+  </Step>
+</Steps>
+
+## 📞 Support and Resources
+
+<CardGroup cols={3}>
+  <Card title="🚀 Setup Assistance" icon="rocket">
+    **Implementation Help**
+    - Payment page configuration
+    - Custom integration support
+    - Best practices guidance
+    - Optimization recommendations
+  </Card>
+
+  <Card title="📚 Documentation" icon="book">
+    **Complete Resources**
+    - API documentation
+    - Integration guides
+    - Code examples
+    - Troubleshooting help
+  </Card>
+
+  <Card title="💬 Ongoing Support" icon="chat">
+    **Continuous Help**
+    - Technical support
+    - Feature requests
+    - Performance optimization
+    - Business consultation
+  </Card>
+</CardGroup>
+
+## 🎓 Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods" icon="credit-card" href="/payment-processing/payment-methods-overview">
+    Understand all available payment methods and optimization strategies
+  </Card>
+
+  <Card title="QR Code Payments" icon="qr-code" href="/payment-processing/qr-code-payments">
+    Enable contactless payments with QR codes for in-person collection
+  </Card>
+
+  <Card title="Analytics Dashboard" icon="chart-bar" href="/analytics-and-reporting/insights-dashboard">
+    Track payment page performance and optimize conversion rates
+  </Card>
+
+  <Card title="Customer Management" icon="users" href="/customer-management/customer-profiles">
+    Manage customers who pay through your payment pages
+  </Card>
+</CardGroup>
+
+---
+
+<Tip>
+**Pro Tip**: Start with a simple payment page configuration and gradually add advanced features based on customer feedback and usage analytics. Monitor conversion rates to optimize your page settings for maximum payment completion.
+</Tip>

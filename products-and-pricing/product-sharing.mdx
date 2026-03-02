@@ -1,8 +1,61 @@
 ---
-title: Product Sharing
-description: 'Share products via links and QR codes'
+title: 'Product Sharing'
+description: 'Share products via links and QR codes from your dashboard'
+icon: 'share-nodes'
 ---
 
-# Product Sharing
+## Overview
 
-_Work in progress. Content coming soon._
+Share any product directly from your dashboard using a link or QR code. Product sharing generates a direct URL to your product's shop page that you can send to customers, post on social media, or print on marketing materials.
+
+## How to Share a Product
+
+1. Navigate to **Products** in your dashboard
+2. Click on a product to open its detail page
+3. Click the **Share** button in the header
+4. A modal appears with:
+   - **Product URL** — Direct link to the product in your shop
+   - **QR Code** — Scannable code that opens the product page
+   - **Copy Button** — One-click copy to clipboard
+
+<Info>
+The share URL uses your custom domain if configured, otherwise it uses your PayRequest subdomain.
+</Info>
+
+## URL Format
+
+**With custom domain:**
+```
+https://yourdomain.com/product/[product-id]
+```
+
+**Without custom domain:**
+```
+https://payrequest.me/shop/[your-handle]/product/[product-id]
+```
+
+## Smart Links vs. Product Sharing
+
+| Feature | Product Share | Smart Link |
+|---------|-------------|------------|
+| URL type | Direct product link | Custom branded path |
+| Analytics | No built-in tracking | Views, payments, conversion |
+| QR code | Yes | Yes |
+| Payment limits | No | Yes |
+| Customizable URL path | No | Yes |
+| Delivery (Email/SMS) | No | Yes |
+
+<Tip>
+For marketing campaigns where you need analytics and branded URLs, use [Smart Links](/payment-processing/smart-links) instead. Product sharing is best for quick, one-off sharing needs.
+</Tip>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="Smart Links" icon="qrcode" href="/payment-processing/smart-links">
+    Branded links with analytics
+  </Card>
+  <Card title="Creating Products" icon="box" href="/products-and-pricing/creating-products">
+    Product configuration
+  </Card>
+</CardGroup>

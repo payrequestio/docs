@@ -1,0 +1,211 @@
+---
+title: 'Authentication'
+description: 'Secure your API requests with OAuth2 tokens'
+icon: 'lock'
+---
+
+# API Authentication
+
+The PayRequest API uses **OAuth2** with Personal Access Tokens for authentication. All API requests must include a valid access token in the `Authorization` header.
+
+## Creating an Access Token
+
+<Steps>
+  <Step title="Navigate to API Settings">
+    Go to **Settings** → **API Tokens** in your PayRequest dashboard.
+  </Step>
+  <Step title="Create New Token">
+    Click the **Create New Token** button.
+  </Step>
+  <Step title="Configure Token">
+    - Enter a descriptive name (e.g., "MCP Billing Agent")
+    - Select the scopes (permissions) your token needs
+    - Click **Create**
+  </Step>
+  <Step title="Copy Your Token">
+    <Warning>
+      Your token is only shown once. Copy it immediately and store it securely.
+      If you lose it, you'll need to create a new token.
+    </Warning>
+  </Step>
+</Steps>
+
+## Using Your Token
+
+Include the token in the `Authorization` header of every API request:
+
+```bash
+curl -X GET "https://payrequest.app/api/v1/invoices" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json"
+```
+
+## OAuth Scopes
+
+Scopes define what actions your token can perform. Request only the scopes you need for better security.
+
+### Available Scopes
+
+| Scope | Description | Use Case |
+|-------|-------------|----------|
+| `billing.read` | Read invoices, subscriptions, transactions | Dashboards, reporting, monitoring |
+| `billing.write` | Create and modify invoices and subscriptions | Invoice automation, billing workflows |
+| `billing.agent` | Full AI billing agent access | MCP integrations, AI assistants |
+| `customers.read` | Read customer information | CRM integrations, customer lookup |
+| `customers.write` | Create and modify customers | Customer sync, onboarding automation |
+| `products.read` | Read product catalog | Catalog sync, price checks |
+| `products.write` | Create and modify products | Product management automation |
+
+### Default Scope
+
+If you don't specify scopes when creating a token, it will receive the default `billing.read` scope.
+
+### Scope Inheritance
+
+The `billing.agent` scope includes all capabilities of `billing.read` and `billing.write`, making it ideal for AI-powered billing assistants.
+
+## Token Expiration
+
+| Token Type | Expiration |
+|------------|------------|
+| Personal Access Token | 6 months |
+| Access Token | 15 days |
+| Refresh Token | 30 days |
+
+<Note>
+Tokens expire automatically for security. Plan to refresh or regenerate tokens before they expire.
+</Note>
+
+## Security Best Practices
+
+<AccordionGroup>
+  <Accordion title="Store tokens securely">
+    - Never commit tokens to version control
+    - Use environment variables or secret management services
+    - Encrypt tokens at rest
+  </Accordion>
+  <Accordion title="Use minimal scopes">
+    - Only request the scopes your application needs
+    - Review and audit token permissions regularly
+    - Create separate tokens for different integrations
+  </Accordion>
+  <Accordion title="Rotate tokens regularly">
+    - Regenerate tokens periodically (every 3-6 months)
+    - Revoke tokens that are no longer needed
+    - Monitor for unauthorized usage
+  </Accordion>
+  <Accordion title="Protect in transit">
+    - Always use HTTPS (enforced by our API)
+    - Don't log or display full tokens
+    - Use secure headers in requests
+  </Accordion>
+</AccordionGroup>
+
+## Revoking Tokens
+
+To revoke a token:
+
+1. Go to **Settings** → **API Tokens**
+2. Find the token you want to revoke
+3. Click the **Delete** button
+4. Confirm the deletion
+
+<Warning>
+Revoking a token is immediate and cannot be undone. Any applications using that token will lose access.
+</Warning>
+
+## Error Responses
+
+### Invalid or Missing Token
+
+```json
+{
+  "message": "Unauthenticated."
+}
+```
+
+**HTTP Status**: `401 Unauthorized`
+
+**Solution**: Ensure you're including a valid token in the `Authorization` header.
+
+### Insufficient Scope
+
+```json
+{
+  "success": false,
+  "error": "Invalid scope(s) provided."
+}
+```
+
+**HTTP Status**: `403 Forbidden`
+
+**Solution**: Create a new token with the required scopes or update your existing token's permissions.
+
+### Expired Token
+
+```json
+{
+  "message": "Unauthenticated."
+}
+```
+
+**HTTP Status**: `401 Unauthorized`
+
+**Solution**: Generate a new access token from the dashboard.
+
+## Example: Complete Authentication Flow
+
+```javascript
+// Node.js example using fetch
+const API_TOKEN = process.env.PAYREQUEST_API_TOKEN;
+
+async function getInvoices() {
+  const response = await fetch('https://payrequest.app/api/v1/invoices', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${API_TOKEN}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Invalid or expired API token');
+    }
+    if (response.status === 403) {
+      throw new Error('Insufficient permissions');
+    }
+    throw new Error(`API error: ${response.status}`);
+  }
+
+  return response.json();
+}
+```
+
+```python
+# Python example using requests
+import os
+import requests
+
+API_TOKEN = os.environ.get('PAYREQUEST_API_TOKEN')
+
+def get_invoices():
+    response = requests.get(
+        'https://payrequest.app/api/v1/invoices',
+        headers={
+            'Authorization': f'Bearer {API_TOKEN}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    )
+
+    if response.status_code == 401:
+        raise Exception('Invalid or expired API token')
+    if response.status_code == 403:
+        raise Exception('Insufficient permissions')
+
+    response.raise_for_status()
+    return response.json()
+```

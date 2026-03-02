@@ -1,8 +1,342 @@
 ---
 title: Order Management
-description: 'Process and track customer orders'
+description: 'Process and track customer orders from checkout to fulfillment'
 ---
 
 # Order Management
 
-_Work in progress. Content coming soon._
+Manage customer orders from placement through fulfillment. Track payment status, create invoices, and handle order lifecycle efficiently.
+
+## Order Overview
+
+Orders are created when customers purchase products through your shop, payment page, or smart links. Each order contains:
+
+- **Order Number**: Unique identifier (e.g., ORD-1234567890-1)
+- **Customer Information**: Name, email, address
+- **Order Items**: Products, quantities, prices
+- **Payment Status**: Pending, Paid, Failed, Refunded
+- **Order Status**: Pending, Completed, Cancelled
+
+## Order Creation Modes
+
+Control when orders are created based on your business needs. This setting is configured per product.
+
+### Orders at Checkout (Default)
+
+The standard behavior where orders are created immediately when a customer starts checkout.
+
+**Flow:**
+1. Customer adds products to cart
+2. Customer enters checkout details
+3. **Order created immediately**
+4. Customer registration email sent
+5. Order confirmation email sent
+6. Customer redirected to payment
+7. On payment success: Order marked as paid
+8. On payment failure: Order marked as cancelled
+
+**Best For:**
+- Products requiring immediate order tracking
+- Businesses needing visibility into abandoned carts
+- Standard e-commerce workflows
+
+### Paid-Only Orders
+
+Orders are only created after successful payment. No records or emails until payment is confirmed.
+
+**Flow:**
+1. Customer adds products to cart
+2. Customer enters checkout details
+3. Cart data stored temporarily (24 hours)
+4. Customer redirected to payment
+5. On payment success: **Order created now**, emails sent
+6. On payment failure: No order created, no emails
+
+**Best For:**
+- High-traffic products with many abandoned checkouts
+- Reducing email noise and spam notifications
+- Cleaner order data (only paid orders appear)
+- Lead generation products where unpaid leads aren't valuable
+
+<Info>
+**How to Enable**: Go to your product settings and find "Order Creation" in the Custom Fields step. Select "Paid-only orders" to enable this mode.
+</Info>
+
+## Order Statuses
+
+### Payment Status
+
+| Status | Description |
+|--------|-------------|
+| **Pending** | Awaiting payment confirmation |
+| **Paid** | Payment successfully received |
+| **Failed** | Payment failed or was declined |
+| **Refunded** | Payment was refunded to customer |
+
+### Order Status
+
+| Status | Description |
+|--------|-------------|
+| **Pending** | Order placed, awaiting fulfillment |
+| **Completed** | Order fulfilled and delivered |
+| **Cancelled** | Order was cancelled |
+
+## Managing Orders
+
+### Viewing Orders
+
+1. Navigate to **Orders** in your dashboard
+2. Use filters to find specific orders:
+   - Date range
+   - Payment status
+   - Order status
+   - Customer name or email
+
+### Order Details
+
+Click any order to view:
+- Complete order information
+- Product line items with quantities
+- Custom field values submitted by customer
+- Payment history and transaction IDs
+- Associated invoice (if created)
+- Related subscription (for recurring products)
+
+### Order Location Tracking
+
+PayRequest automatically detects and displays customer location information for each order. This helps you understand where your customers are located geographically.
+
+**What's Captured:**
+- **Country**: Automatically detected from the customer's IP address
+- **IP Address**: The customer's IP at time of order
+- **Visual Map**: Interactive map showing the customer's country
+
+**How It Works:**
+
+1. When a customer places an order, PayRequest detects their location using Cloudflare headers (most accurate) or IP geolocation services
+2. The country code and IP address are stored with the order
+3. On the order detail page, you'll see an **Order Location** card displaying:
+   - Country flag emoji (e.g., 🇪🇸 for Spain)
+   - Full country name with code (e.g., "Spain (ES)")
+   - Visual map centered on the country
+   - Customer's IP address
+
+<Info>
+Location detection uses Cloudflare's geolocation headers when available, providing highly accurate country detection. This works automatically for orders from your shop, payment pages, and smart links.
+</Info>
+
+**Supported Countries:**
+
+The map display supports 24+ countries including all major European countries (Netherlands, Belgium, Germany, France, Spain, Italy, UK, etc.), North America (US, Canada, Mexico), and other regions (Australia, Japan, Brazil, etc.).
+
+**Privacy Note:**
+
+IP addresses and location data are only visible to you as the business owner. This information is not shared with other customers or third parties.
+
+### Creating Invoices from Orders
+
+Invoices can be automatically or manually created from orders:
+
+**Automatic Invoice Creation:**
+- Enable in Shop Settings
+- Invoice created when order is paid
+- Invoice number auto-generated
+
+**Manual Invoice Creation:**
+1. Open the order details
+2. Click "Create Invoice"
+3. Review and customize if needed
+4. Invoice linked to order automatically
+
+## Email Notifications
+
+### Orders at Checkout Mode
+
+| Event | Email Sent |
+|-------|------------|
+| Checkout started | Customer Registration (if new) |
+| Order created | Order Confirmation |
+| Payment received | Order Completed |
+| Order cancelled | Order Cancelled |
+
+### Paid-Only Orders Mode
+
+| Event | Email Sent |
+|-------|------------|
+| Checkout started | None |
+| Order created (after payment) | Order Confirmation + Order Completed |
+| Payment failed | None (no order exists) |
+
+<Tip>
+**Reducing Email Noise**: If you're getting too many "Customer registered" and "New order" notifications from abandoned checkouts, switch affected products to "Paid-only orders" mode.
+</Tip>
+
+## Order Subscriptions
+
+Manage subscriptions directly from the order detail page. The **Order Subscriptions** card appears when an order contains recurring products.
+
+### Automatic Subscription Creation
+
+When orders contain recurring products:
+
+1. Payment is processed
+2. Order marked as completed
+3. Subscription automatically created and linked to the order
+4. Customer receives subscription confirmation
+5. Future billings handled by subscription system
+
+### Creating Subscriptions Manually
+
+If a subscription wasn't created automatically (e.g., manual order entry):
+
+1. Open the order detail page
+2. Find the **Order Subscriptions** card in the sidebar
+3. Products without subscriptions show a **Create** button
+4. Click **Create** to generate a new subscription linked to this order
+
+### Linking Existing Subscriptions
+
+Connect an existing unlinked subscription to an order. This is useful when:
+- A subscription was created separately and needs to be associated with an order
+- You're reconciling historical data
+- A subscription was accidentally unlinked
+
+**To link a subscription:**
+
+1. Open the order detail page
+2. In the **Order Subscriptions** card, find "Or link an existing subscription to this order"
+3. Use the searchable dropdown to select from available subscriptions
+4. The dropdown shows: Product name, Subscription ID, Amount, Interval, and Status
+5. Click **Link Subscription to Order**
+
+<Info>
+Only subscriptions belonging to the same customer and matching the order's product types appear in the dropdown. Subscriptions already linked to other orders won't be shown.
+</Info>
+
+### Viewing Linked Subscriptions
+
+Subscriptions linked to an order display with:
+- Green background indicating active link
+- Product name and pricing
+- Current status (Active, Paused, etc.)
+- **View Subscription** button to open full subscription details
+
+## Order Tags
+
+Organize and categorize orders using tags. Tags help you segment orders by source, campaign, customer type, or any custom classification.
+
+### Viewing Tags
+
+Tags appear in the sidebar of the order detail page, below Order Notes. Each tag displays with its assigned color for easy identification.
+
+### Managing Tags
+
+1. Open an order's detail page
+2. Find the **Order Tags** section in the sidebar
+3. Click **Manage** to open the tag modal
+4. Select or deselect tags using the searchable dropdown
+5. Click **Save Tags** to apply changes
+
+### Creating New Tags
+
+From the tag management modal:
+
+1. Click **Create New Tag**
+2. Enter a tag name
+3. Select a color
+4. Click **Create Tag**
+
+The new tag is automatically selected and added to the order.
+
+### Tag Types
+
+Order tags use the **Order** and **Support** tag types. These are separate from product, customer, or invoice tags, allowing you to maintain organized tag categories.
+
+### Use Cases
+
+| Tag Example | Purpose |
+|-------------|---------|
+| **Marketing Campaign** | Track orders from specific promotions |
+| **Priority** | Flag orders needing urgent attention |
+| **Sales Channel** | Identify source (Website, Social, Referral) |
+| **Issue** | Mark orders with problems to resolve |
+| **VIP** | Highlight high-value customer orders |
+
+<Tip>
+**Bulk Tagging**: For tagging multiple orders at once, use the Orders list view with filters to identify orders, then tag them individually from their detail pages.
+</Tip>
+
+## Order Channels
+
+Orders can come from multiple sources:
+
+### Shop Checkout
+- Full cart experience
+- Multiple products per order
+- Custom field collection
+- Supports both order creation modes
+
+### Payment Page
+- Single product or custom amount
+- Quick checkout flow
+- Supports both order creation modes
+
+### Smart Links
+- Shareable payment links
+- Redirects to appropriate checkout
+- Inherits product's order creation mode
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Monitor Abandonment" icon="chart-line">
+    Track checkout-to-payment conversion rates to identify issues
+  </Card>
+  <Card title="Use Paid-Only Wisely" icon="filter">
+    Enable for high-volume products to reduce noise, keep default for premium products
+  </Card>
+  <Card title="Link to Invoices" icon="file-invoice">
+    Always create invoices for paid orders to maintain financial records
+  </Card>
+  <Card title="Tag Orders" icon="tags">
+    Use tags to organize orders by source, campaign, or customer type
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+### Order Not Created After Payment
+
+For paid-only mode products:
+- Check if payment was actually successful in your payment provider
+- Verify webhook is receiving payment notifications
+- Order may take a few seconds to appear after payment
+
+### Duplicate Order Emails
+
+- Each order sends one confirmation email
+- Duplicate emails may indicate webhook issues
+- Check webhook logs in Settings > Webhooks
+
+### Customer Not Found on Order
+
+- Customer was created during checkout
+- Check customer list with the email used
+- Customer may have used different email than expected
+
+## Related Topics
+
+<CardGroup cols={2}>
+  <Card title="Creating Products" icon="box" href="/products-and-pricing/creating-products">
+    Set up products with order creation modes
+  </Card>
+  <Card title="Tags System" icon="tags" href="/organization-and-automation/tags-system">
+    Learn about organizing with tags
+  </Card>
+  <Card title="Checkout Customization" icon="palette" href="/shop-and-checkout/checkout-customization">
+    Customize your checkout experience
+  </Card>
+  <Card title="Smart Links" icon="link" href="/payment-processing/smart-links">
+    Create shareable payment links
+  </Card>
+</CardGroup>

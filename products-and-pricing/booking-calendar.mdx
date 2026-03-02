@@ -1,0 +1,272 @@
+---
+title: Booking Calendar
+description: 'Accept appointments and reservations with the booking calendar system'
+---
+
+# Booking Calendar
+
+Create bookable products for appointments, consultations, equipment rentals, and services. Customers select available dates and time slots during checkout.
+
+## Overview
+
+The booking calendar system allows you to:
+- Offer time-based services and appointments
+- Set available days and time slots
+- Control lead time and maximum advance booking
+- Manage concurrent bookings
+- Automatic conflict prevention
+
+## Creating a Booking Product
+
+### Step 1: Create the Product
+
+1. Navigate to **Products** → **New Product**
+2. Select **Booking** as the product type
+3. Fill in product details:
+   - **Name**: e.g., "1-Hour Consultation"
+   - **Description**: What the booking includes
+   - **Price**: Amount per booking
+
+### Step 2: Configure Availability
+
+#### Available Days
+
+Select which days of the week accept bookings:
+- **Weekdays Only**: Monday through Friday (default)
+- **Custom Selection**: Choose specific days
+- **Every Day**: Include weekends
+
+#### Time Slots
+
+Define when bookings can be made:
+
+```
+Morning:   09:00 - 12:00
+Afternoon: 13:00 - 17:00
+Evening:   18:00 - 21:00
+```
+
+<Tip>
+**Multiple Time Ranges**: Add separate slots for different periods (e.g., skip lunch hours).
+</Tip>
+
+### Step 3: Booking Rules
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Slot Duration** | Length of each booking in minutes | 60 min |
+| **Buffer Time** | Break between bookings | 0 min |
+| **Lead Time** | Minimum hours before booking | 24 hours |
+| **Max Advance** | How far ahead customers can book | 90 days |
+| **Max Concurrent** | Bookings allowed per slot | 1 |
+
+## Configuration Options
+
+### Slot Duration
+
+The length of each booking appointment:
+- **15 minutes**: Quick consultations
+- **30 minutes**: Standard meetings
+- **60 minutes**: Full sessions (default)
+- **120+ minutes**: Extended services
+
+### Buffer Time
+
+Time between bookings for preparation:
+- **0 minutes**: Back-to-back bookings allowed
+- **15 minutes**: Quick cleanup/prep
+- **30 minutes**: Standard buffer
+
+### Lead Time
+
+Minimum notice required before a booking:
+- **1 hour**: Same-day appointments
+- **24 hours**: Next-day minimum (default)
+- **48 hours**: Two-day notice
+- **72+ hours**: Advance planning required
+
+### Maximum Advance Days
+
+How far in the future customers can book:
+- **7 days**: Week ahead only
+- **30 days**: Month ahead
+- **90 days**: Quarter ahead (default)
+- **365 days**: Year ahead
+
+### Concurrent Bookings
+
+How many bookings can overlap in the same time slot:
+- **1**: One customer per slot (default)
+- **2-5**: Small group sessions
+- **10+**: Larger capacity events
+
+## Customer Experience
+
+### Shop View
+
+When customers view a booking product:
+
+1. **Calendar Display**: Interactive calendar showing available dates
+2. **Unavailable Dates**: Grayed out (fully booked, closed days, past dates)
+3. **Date Selection**: Click to see available time slots
+4. **Time Slots**: Select from available times
+5. **Add to Cart**: Booking added with date/time
+
+### Checkout
+
+Booking details displayed in cart:
+- Product name
+- Selected date
+- Selected time
+- Duration
+- Price
+
+### Confirmation
+
+After payment:
+- Booking confirmation email sent to customer
+- Booking appears in your dashboard
+- Calendar automatically updated
+
+## Managing Bookings
+
+### Dashboard View
+
+Navigate to **Orders** to see bookings:
+- Filter by booking status
+- View booking details
+- Customer information
+- Date and time
+
+### Booking Statuses
+
+| Status | Description |
+|--------|-------------|
+| **Pending** | Awaiting payment confirmation |
+| **Confirmed** | Payment received, booking active |
+| **Completed** | Appointment has occurred |
+| **Cancelled** | Booking was cancelled |
+| **No Show** | Customer didn't attend |
+
+### Updating Bookings
+
+From the order details:
+- View customer contact information
+- Add internal notes
+- Update booking status
+- Cancel if needed
+
+## Payment Page Bookings
+
+Booking products also work on payment pages:
+
+1. Share payment page link with product parameter
+2. Customer sees booking calendar on payment page
+3. Selects date and time
+4. Completes payment
+5. Booking confirmed
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Set Realistic Lead Time" icon="clock">
+    Give yourself enough notice to prepare for appointments
+  </Card>
+  <Card title="Use Buffer Time" icon="pause">
+    Add buffer between bookings for breaks and prep work
+  </Card>
+  <Card title="Limit Advance Booking" icon="calendar">
+    Don't allow bookings too far ahead if your schedule changes
+  </Card>
+  <Card title="Enable Reminders" icon="bell">
+    Set up email reminders for upcoming bookings
+  </Card>
+</CardGroup>
+
+## Use Cases
+
+### Consultations
+- **Duration**: 30-60 minutes
+- **Lead Time**: 24-48 hours
+- **Buffer**: 15 minutes
+- **Concurrent**: 1
+
+### Equipment Rentals
+- **Duration**: Full day (480 minutes)
+- **Lead Time**: 24 hours
+- **Buffer**: 0 (overnight return)
+- **Concurrent**: Based on inventory
+
+### Group Classes
+- **Duration**: 60-90 minutes
+- **Lead Time**: 2-4 hours
+- **Buffer**: 30 minutes
+- **Concurrent**: Class capacity (e.g., 10)
+
+### Meeting Rooms
+- **Duration**: 30-60 minute blocks
+- **Lead Time**: 1 hour
+- **Buffer**: 15 minutes
+- **Concurrent**: 1 per room
+
+## Timezone Handling
+
+All bookings use your configured timezone:
+- **Default**: Europe/Amsterdam
+- **Display**: Times shown in customer's local context
+- **Storage**: All times stored in configured timezone
+
+<Warning>
+**Timezone Consistency**: Ensure your booking timezone matches your business location to avoid confusion.
+</Warning>
+
+## Integration with Orders
+
+When a booking is purchased:
+
+1. **Order Created**: Contains booking details in order items
+2. **Booking Record**: Separate booking record created
+3. **Calendar Updated**: Slot marked as taken
+4. **Notifications**: Confirmation emails sent
+
+For subscription products with booking:
+- Initial booking made at checkout
+- Recurring bookings handled separately
+
+## Troubleshooting
+
+### No Available Slots Showing
+
+- Check if all days are marked as unavailable
+- Verify time slots are configured
+- Ensure lead time isn't too long
+- Check if max advance days is too short
+
+### Double Bookings
+
+- Verify max concurrent is set to 1
+- Check buffer time settings
+- Ensure proper slot duration
+
+### Booking Not Created After Payment
+
+- Check webhook is receiving payments
+- Verify product type is "booking"
+- Review order for booking data
+
+## Related Topics
+
+<CardGroup cols={2}>
+  <Card title="Creating Products" icon="box" href="/products-and-pricing/creating-products">
+    Set up different product types
+  </Card>
+  <Card title="Order Management" icon="shopping-cart" href="/shop-and-checkout/order-management">
+    Manage orders and bookings
+  </Card>
+  <Card title="Payment Page" icon="credit-card" href="/payment-processing/payment-forms">
+    Accept bookings via payment links
+  </Card>
+  <Card title="Email Templates" icon="envelope" href="/invoices/email-templates">
+    Customize booking confirmations
+  </Card>
+</CardGroup>

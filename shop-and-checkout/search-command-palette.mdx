@@ -1,0 +1,212 @@
+---
+title: "Search Command Palette"
+description: "Powerful search functionality for customers to quickly find products, invoices, orders, and subscriptions in your shop"
+---
+
+## Overview
+
+The Search Command Palette provides customers with a powerful, keyboard-driven way to search across all available content in your shop. Similar to developer tools like VS Code, customers can quickly find products, their personal invoices, orders, and subscriptions using a modern command palette interface.
+
+## Accessing the Search
+
+### Keyboard Shortcut
+
+The fastest way to open search:
+- **Windows/Linux**: `Ctrl + K`
+- **Mac**: `⌘ + K`
+
+### Click Interface
+
+Customers can also click the search icon (🔍) in the shop's top navigation bar.
+
+### Mobile Support
+
+On mobile devices, customers can tap the search icon to open the full search interface.
+
+## Search Capabilities
+
+### Public Search (All Visitors)
+
+**Products**: Anyone can search your product catalog
+- Product names and descriptions
+- SKU codes
+- Custom product fields
+- Product categories
+
+### Personal Search (Logged-in Customers)
+
+When customers are logged in, they can also search their personal data:
+
+- **Invoices**: Invoice numbers, amounts, statuses
+- **Orders**: Order numbers, statuses, payment statuses
+- **Subscriptions**: Subscription names, statuses, custom fields
+
+## Search Features
+
+### Intelligent Results
+
+Results are grouped and sorted by relevance:
+- **Exact matches** appear first
+- **Partial matches** follow
+- **Results grouped by type** (Products, Invoices, Orders, Subscriptions)
+- **Status badges** with color coding
+- **Price information** for products
+
+### Real-time Search
+
+- **Live typing**: Results update as customers type
+- **Debounced input**: Optimized for performance (300ms delay)
+- **Minimum 2 characters** required for search
+- **Maximum 10 results** shown with option to be more specific
+
+### Custom Fields Support
+
+The search includes custom fields data:
+- **Product custom fields**: Any additional product information
+- **Subscription custom fields**: Domain names, special configurations, notes
+
+## User Interface
+
+### Welcome Screen
+
+When opening search without typing, customers see:
+- **Search instructions**: "Search your products, invoices, orders, and subscriptions"
+- **Login prompt**: Non-logged customers see invitation to log in for personal search
+
+### No Results
+
+When no matches are found:
+- **Clear messaging**: "No results found"
+- **Helpful suggestion**: "Try a different search term"
+
+### Quick Actions Panel
+
+Logged-in customers see quick navigation options:
+- **⌘I**: View All Invoices
+- **⌘O**: View All Orders
+- **⌘S**: View All Subscriptions
+- **⌘P**: Profile Settings
+
+## Search Examples
+
+### Product Search
+- Type: `"skateboard"` → Finds all products containing "skateboard"
+- Type: `"SK-001"` → Finds product with SKU "SK-001"
+- Type: `"monthly"` → Finds monthly subscription products
+
+### Personal Item Search (Logged-in)
+- Type: `"INV-123"` → Finds invoice with number INV-123
+- Type: `"active"` → Finds all active subscriptions
+- Type: `"pending"` → Finds pending orders and invoices
+- Type: `"smartskate.nl"` → Finds subscriptions with custom domain field
+
+## Status Badge Colors
+
+The search results show colored status badges:
+
+### Products
+- **Green**: Price information (€29.99)
+
+### Invoices
+- **Green**: Paid status
+- **Yellow**: Pending status
+- **Gray**: Other statuses
+
+### Orders
+- **Green**: Completed orders
+- **Blue**: Processing orders
+- **Gray**: Other statuses
+
+### Subscriptions
+- **Green**: Active subscriptions
+- **Blue**: Trial subscriptions
+- **Gray**: Other statuses
+
+## Technical Details
+
+### Search Performance
+
+- **Optimized queries**: PostgreSQL ILIKE for case-insensitive search
+- **Indexed searches**: Fast performance even with large datasets
+- **Result limitations**: Maximum 10 results to maintain speed
+- **Smart caching**: Efficient data retrieval
+
+### Multi-tenant Security
+
+- **Shop isolation**: Customers only see data from their shop
+- **Personal data**: Only logged-in customers see their own invoices/orders
+- **Secure queries**: All searches properly scoped to prevent data leaks
+
+### Custom Domain Support
+
+- **Seamless URLs**: Works perfectly with custom domains
+- **Proper routing**: All result links work correctly regardless of domain setup
+
+## Best Practices
+
+### For Business Owners
+
+**Product Optimization**:
+- Use clear, descriptive product names
+- Add relevant keywords to product descriptions
+- Utilize custom fields for additional searchable information
+- Keep SKU codes organized and meaningful
+
+**Customer Experience**:
+- Educate customers about the ⌘K shortcut
+- Encourage use of search for faster navigation
+- Consider search patterns when organizing your catalog
+
+### For Customers
+
+**Search Tips**:
+- Use specific terms for better results
+- Try different keywords if first search doesn't match
+- Use status terms like "active", "pending", "paid"
+- Remember keyboard shortcuts for quick access
+
+## Accessibility
+
+### Keyboard Navigation
+
+- **Full keyboard support**: Navigate entirely with keyboard
+- **Standard shortcuts**: Follows common keyboard conventions
+- **Escape to close**: Easy exit from search interface
+
+### Screen Reader Support
+
+- **Semantic HTML**: Proper markup for screen readers
+- **Alt text**: All icons have descriptive text
+- **Focus management**: Logical tab order and focus handling
+
+### Mobile Optimization
+
+- **Touch-friendly**: Large touch targets for mobile users
+- **Responsive design**: Adapts to all screen sizes
+- **Swipe gestures**: Natural mobile interaction patterns
+
+## Troubleshooting
+
+### Search Not Working
+
+1. **Check connection**: Ensure stable internet connection
+2. **Refresh page**: Try reloading the shop page
+3. **Clear browser cache**: Clear browser data if needed
+4. **Try different terms**: Use alternative search keywords
+
+### Results Not Appearing
+
+- **Minimum characters**: Ensure you've typed at least 2 characters
+- **Check spelling**: Verify search terms are spelled correctly
+- **Login status**: Personal items require customer login
+- **Wait briefly**: Allow 300ms for search to complete
+
+### Keyboard Shortcuts Not Working
+
+- **Browser compatibility**: Ensure modern browser version
+- **Focus state**: Click in the page before using shortcuts
+- **Operating system**: Verify correct modifier key (Ctrl vs ⌘)
+
+---
+
+*Last updated: September 2025*

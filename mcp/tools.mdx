@@ -1,0 +1,261 @@
+---
+title: 'MCP Tools Reference'
+description: 'Complete reference for PayRequest MCP billing tools'
+icon: 'screwdriver-wrench'
+---
+
+# MCP Tools Reference
+
+The PayRequest Billing Server provides four tools for managing invoices through AI assistants.
+
+## get-invoice-stats
+
+Get aggregated statistics about your invoices including totals, pending amounts, and overdue counts.
+
+### Parameters
+
+This tool takes no parameters.
+
+### Example Usage
+
+> "What are my invoice statistics?"
+
+### Response
+
+```
+Invoice Statistics:
+- Total invoices: 150
+- Pending: 23 (€15,750.00 outstanding)
+- Paid: 120
+- Overdue: 7 (€4,200.00)
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `total_invoices` | integer | Total number of invoices |
+| `pending_invoices` | integer | Invoices awaiting payment |
+| `paid_invoices` | integer | Fully paid invoices |
+| `overdue_invoices` | integer | Invoices past due date |
+| `total_outstanding` | decimal | Sum of all unpaid invoices (EUR) |
+| `total_overdue` | decimal | Sum of overdue invoices (EUR) |
+
+---
+
+## list-invoices
+
+List invoices with optional filtering by status. Returns invoice details including customer information, amounts, and dates.
+
+### Parameters
+
+<ParamField body="status" type="string">
+  Filter by invoice status. Options:
+  - `pending` - Includes pending, sent, and viewed invoices
+  - `paid` - Only paid invoices
+  - `canceled` - Only canceled invoices
+  - `refunded` - Only refunded invoices
+</ParamField>
+
+<ParamField body="limit" type="integer" default="20">
+  Maximum number of invoices to return (1-100)
+</ParamField>
+
+### Example Usage
+
+> "Show me all pending invoices"
+
+> "List my last 10 paid invoices"
+
+### Response
+
+```
+Invoices (filtered by: pending) - showing 5 results:
+
+- #INV-2025-050: €2,500.00 | Pending | Due: 2025-02-15
+  Customer: Acme Corp | Created: 2025-01-30
+
+- #INV-2025-048: €750.00 | Sent | Due: 2025-02-10
+  Customer: TechStart BV | Created: 2025-01-28
+
+- #INV-2025-045: €1,200.00 | Viewed | Due: 2025-02-05
+  Customer: Digital Agency | Created: 2025-01-25
+```
+
+---
+
+## get-overdue-invoices
+
+Get a list of all overdue invoices with customer details, amounts, and days overdue. Sorted by due date (oldest first).
+
+### Parameters
+
+<ParamField body="limit" type="integer" default="20">
+  Maximum number of overdue invoices to return (1-100)
+</ParamField>
+
+### Example Usage
+
+> "Which invoices are overdue?"
+
+> "Show me the 5 most overdue invoices"
+
+### Response
+
+```
+Overdue Invoices (3 total):
+
+- Invoice #INV-2025-042: €1,250.00
+  Customer: Acme Corp
+  Due: 2025-01-15 (14 days overdue)
+  Status: sent
+
+- Invoice #INV-2025-038: €600.00
+  Customer: TechStart BV
+  Due: 2025-01-10 (19 days overdue)
+  Status: viewed
+
+- Invoice #INV-2025-035: €450.00
+  Customer: StartupXYZ
+  Due: 2025-01-05 (24 days overdue)
+  Status: pending
+
+Total Overdue Amount: €2,300.00
+```
+
+### Use Cases
+
+<AccordionGroup>
+  <Accordion title="Daily billing review">
+    Ask: "What invoices are overdue?" to start your day with a clear picture of outstanding payments.
+  </Accordion>
+  <Accordion title="Priority follow-up">
+    Ask: "Show me the 5 most overdue invoices" to focus on the oldest unpaid invoices first.
+  </Accordion>
+  <Accordion title="Revenue recovery">
+    Ask: "How much revenue is tied up in overdue invoices?" to understand your cash flow impact.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## send-invoice-reminder
+
+Send a payment reminder email for a specific invoice. The reminder is sent to the customer's email address and logged in your activity history.
+
+### Parameters
+
+<ParamField body="invoice_id" type="integer">
+  The ID of the invoice to send a reminder for
+</ParamField>
+
+<ParamField body="invoice_number" type="string">
+  The invoice number (e.g., "INV-2025-042") to send a reminder for
+</ParamField>
+
+<Note>
+Provide either `invoice_id` OR `invoice_number`, not both.
+</Note>
+
+### Example Usage
+
+> "Send a reminder for invoice INV-2025-042"
+
+> "Remind the customer about invoice 1234"
+
+### Response
+
+```
+Payment reminder sent successfully!
+
+Invoice: #INV-2025-042
+Amount: €1,250.00 (14 days overdue)
+Customer: Acme Corp
+Email sent to: billing@acme.com
+```
+
+### Validation
+
+The tool validates before sending:
+
+| Check | Error Message |
+|-------|---------------|
+| Invoice not found | "Invoice not found or does not belong to your account." |
+| Already paid | "Invoice #X is already paid. No reminder needed." |
+| Canceled | "Invoice #X is canceled. Cannot send reminder." |
+| No customer email | "Invoice #X has no customer email address." |
+
+### Activity Logging
+
+Each reminder sent via MCP is logged with:
+- Timestamp
+- Customer email
+- Days overdue at time of sending
+- Source marked as "MCP API"
+
+You can view these in **Activity Log** → filter by "Invoice reminder sent".
+
+---
+
+## Error Handling
+
+All tools return errors in a consistent format:
+
+```
+Error: Authentication required to access invoice statistics.
+```
+
+### Common Errors
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| "Authentication required" | Missing or invalid token | Check your API token configuration |
+| "Invoice not found" | Invalid ID or wrong account | Verify the invoice ID/number |
+| "Already paid" | Invoice status is 'paid' | No action needed |
+
+---
+
+## Workflow Examples
+
+### Morning Billing Review
+
+```
+You: "Give me a billing summary"
+
+AI: Here's your invoice summary:
+    - Total invoices: 150
+    - Pending: 23 (€15,750.00 outstanding)
+    - Paid: 120
+    - Overdue: 7 (€4,200.00)
+
+You: "Which invoices are overdue?"
+
+AI: You have 7 overdue invoices totaling €4,200.00...
+```
+
+### Automated Follow-up
+
+```
+You: "Send reminders for all invoices more than 14 days overdue"
+
+AI: I found 3 invoices more than 14 days overdue. Let me send reminders:
+
+    ✓ Sent reminder for INV-2025-042 to billing@acme.com
+    ✓ Sent reminder for INV-2025-038 to finance@techstart.nl
+    ✓ Sent reminder for INV-2025-035 to ap@startupxyz.com
+
+    All 3 reminders sent successfully.
+```
+
+### Customer Query
+
+```
+You: "Show me all pending invoices for Acme Corp"
+
+AI: I found 2 pending invoices for Acme Corp:
+
+    - #INV-2025-050: €2,500.00 | Due: Feb 15
+    - #INV-2025-042: €1,250.00 | Due: Jan 15 (14 days overdue)
+
+    Total outstanding: €3,750.00
+```
