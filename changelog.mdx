@@ -7,6 +7,32 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-03-03" description="v3.6.0" tags={["Products", "Digital Delivery", "Shop"]}>
+## Digital Product File Delivery
+
+Sell digital files like PDFs, ebooks, and guides with automatic secure delivery. Upload a file to any digital product and customers receive unique download links immediately after payment.
+
+### What's New
+
+- **File upload on products** — Upload PDF, ZIP, or EPUB files (up to 50MB) when creating or editing a digital product
+- **Automatic delivery** — Customers receive secure, unique download links on the success page, in their order email, and in the customer portal
+- **Download limits** — Configure how many times a customer can download (1-100, default: 5) and how long the link stays active (1-365 days, default: 30)
+- **Download tracking** — See per-product and per-order download statistics including total downloads, active tokens, and exhausted tokens
+- **Payment page preview** — Digital products show an "Includes digital file" card on the payment page so customers know what they're getting
+- **Multi-domain support** — Download links work across all domains including payrequest.me, custom domains, and the dashboard
+- **Customer portal access** — Customers can re-download files from their order history with remaining download count and expiry info
+
+### How It Works
+
+1. Create a product with type **Digital** and upload your file
+2. Configure **Max Downloads** and **Link Expiry** in the download settings
+3. Customer purchases the product and pays via Mollie
+4. A unique download token is created with your configured limits
+5. Customer downloads from the success page, email link, or customer portal
+
+[Read the full documentation](/products-and-pricing/digital-products)
+</Update>
+
 <Update label="2026-03-02" description="v3.5.0" tags={["Invoices", "Subscriptions", "Cost Savings"]}>
 ## Consolidated Invoicing
 

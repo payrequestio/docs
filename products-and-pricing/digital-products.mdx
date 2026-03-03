@@ -1,0 +1,177 @@
+---
+title: "Digital Products"
+description: "Sell digital files like PDFs, ebooks, and guides with automatic secure delivery after payment"
+---
+
+# Digital Products
+
+Sell digital files and deliver them automatically to customers after payment. Upload your file once, and PayRequest handles secure download links, expiry, and download limits for every purchase.
+
+<Info>
+Digital products are available on all plans. Supported file types: **PDF**, **ZIP**, and **EPUB** (up to 50MB).
+</Info>
+
+<CardGroup cols={2}>
+  <Card title="Automatic Delivery" icon="bolt">
+    Customers receive download links instantly after payment — on the success page and in their email
+  </Card>
+  <Card title="Secure Downloads" icon="shield-check">
+    Unique tokens per purchase with configurable download limits and expiry dates
+  </Card>
+  <Card title="Download Tracking" icon="chart-bar">
+    See how many times each file was downloaded, with per-token and per-product statistics
+  </Card>
+  <Card title="Multi-Channel Access" icon="arrows-rotate">
+    Downloads accessible from success page, order email, customer portal, and direct link
+  </Card>
+</CardGroup>
+
+## Creating a Digital Product
+
+<Steps>
+  <Step title="Start a New Product">
+    Navigate to **Products** and click **New Product**. Select **Digital** as the product type.
+  </Step>
+  <Step title="Upload Your File">
+    In the product details step, you'll see a file upload zone. Drag and drop your file or click to browse. Accepted formats are **PDF**, **ZIP**, and **EPUB** up to **50MB**.
+  </Step>
+  <Step title="Set Your Price">
+    Enter the price for the digital product. You can also add a setup fee or tax rate if needed.
+  </Step>
+  <Step title="Configure Download Settings">
+    Set how customers can access the file after purchase:
+
+    - **Max Downloads** — How many times a customer can download the file (1-100, default: 5)
+    - **Link Expiry** — How many days the download link stays active (1-365, default: 30 days)
+  </Step>
+  <Step title="Save and Publish">
+    Save the product and make it visible in your shop. Customers can now purchase and receive the file automatically.
+  </Step>
+</Steps>
+
+## How Delivery Works
+
+When a customer purchases a digital product, PayRequest automatically creates a unique download token for them. Here's what happens:
+
+1. **Customer pays** — Payment is processed through Mollie
+2. **Token created** — A secure, unique download link is generated with the limits you configured
+3. **Instant access** — The download link appears immediately on the payment success page
+4. **Email delivery** — The order confirmation email includes the download link
+5. **Portal access** — The customer can re-download from their order history in the customer portal
+
+<Tip>
+Download links work across all your domains — your main PayRequest domain, custom domains, and the payrequest.me sales page. Customers always get a working link regardless of where they purchased.
+</Tip>
+
+## Managing Digital Files
+
+### Replacing a File
+
+To update the file for an existing digital product:
+
+1. Go to **Products** and open the product
+2. Click **Edit** and navigate to the **Digital File** tab
+3. Upload the new file — the old file is automatically removed
+4. Click **Save**
+
+New purchases will receive the updated file. Existing download tokens continue to serve the file that was active when the token was created.
+
+### Removing a File
+
+In the **Digital File** tab of the product editor, click **Remove** next to the current file. You'll be asked to confirm before the file is deleted.
+
+<Warning>
+Removing a digital file means existing download tokens for that product will no longer work. Make sure all customers have downloaded their files before removing.
+</Warning>
+
+## Download Limits & Expiry
+
+Each purchase creates a download token with its own limits:
+
+| Setting | Default | Range | Description |
+|---------|---------|-------|-------------|
+| **Max Downloads** | 5 | 1-100 | Number of times the customer can download |
+| **Link Expiry** | 30 days | 1-365 days | How long the link stays active |
+
+When a customer reaches the download limit or the link expires, they see a message explaining that the download is no longer available.
+
+<Tip>
+Set generous download limits (5-10) so customers can download on multiple devices. The expiry period ensures links don't stay active indefinitely.
+</Tip>
+
+## Tracking Downloads
+
+### Product Detail Page
+
+Open any digital product to see download statistics in the sidebar and the **Details** tab:
+
+- **Tokens issued** — Total number of download tokens created
+- **Total downloads** — How many times the file was downloaded across all customers
+- **Active tokens** — Tokens that are still valid
+- **Exhausted tokens** — Tokens that have expired or reached their download limit
+
+### Order Detail Page
+
+Open any order containing a digital product to see a **Digital Downloads** card with:
+
+- File name and download count per token
+- Expiry date
+- Status (Active, Expired, or Limit Reached)
+- A **Copy Link** button to share the download URL with the customer
+
+### Customer Portal
+
+Customers can view and download their digital files from their order detail page in the customer portal. They can see:
+
+- Remaining downloads
+- Expiry date
+- Download button (when the token is still valid)
+
+## Payment Page Preview
+
+When customers view a digital product on the payment page, they see an **Includes digital file** card showing the filename and an **Instant download** badge. This helps set expectations before purchase.
+
+## Email Delivery
+
+Order confirmation emails automatically include download links for any digital products in the order. The links appear in a **Your Downloads** section with the filename for each product.
+
+<Info>
+Download links in emails use the same token-based system. They count toward the same download limit as the success page and customer portal links.
+</Info>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I sell multiple digital files in one product?">
+    Currently, each digital product supports one file. To bundle multiple files, create a ZIP archive containing all files and upload that.
+  </Accordion>
+  <Accordion title="What happens if a customer needs more downloads?">
+    You can view the customer's download token on the order detail page. If they need more access, you can share the download link directly — or they can re-purchase the product for a new token.
+  </Accordion>
+  <Accordion title="Are files stored securely?">
+    Yes. Files are stored on encrypted cloud storage and can only be accessed through valid download tokens. Direct access to the storage is not possible.
+  </Accordion>
+  <Accordion title="Can I change download limits after creating a product?">
+    Yes. Changes to download settings apply to all future purchases. Existing tokens keep the limits they were created with.
+  </Accordion>
+  <Accordion title="Do digital products work with custom domains?">
+    Yes. Download links work on all domains — your PayRequest dashboard, payrequest.me sales pages, and custom domains.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Creating Products" icon="plus" href="/products-and-pricing/creating-products">
+    Learn about all product types and settings
+  </Card>
+  <Card title="Shop Setup" icon="store" href="/shop-and-checkout/shop-setup">
+    Configure your shop to showcase digital products
+  </Card>
+  <Card title="Email Automations" icon="envelope" href="/organization-and-automation/email-automations">
+    Customize order confirmation emails
+  </Card>
+  <Card title="Customer Portal" icon="user" href="/customer-management/customer-portal">
+    How customers access their downloads
+  </Card>
+</CardGroup>
