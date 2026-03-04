@@ -105,7 +105,8 @@
         "subscriptions/suspending-subscriptions",
         "subscriptions/sync-product-changes",
         "subscriptions/failed-payment-handling",
-        "subscriptions/customer-self-service"
+        "subscriptions/customer-self-service",
+        "subscriptions/cancellation-requests"
       ]
     },
     {

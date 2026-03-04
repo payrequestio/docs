@@ -1,8 +1,95 @@
 ---
-title: Customer Self-Service
-description: 'Portal for subscription management'
+title: "Customer Self-Service"
+description: "Configure what subscription actions customers can perform from the customer portal"
 ---
 
 # Customer Self-Service
 
-_Work in progress. Content coming soon._
+Control which subscription management actions are available to your customers in the customer portal. You can independently enable or disable pausing and canceling per product.
+
+<Info>
+Self-service settings are configured per product. Go to **Products** > edit a product > **Customer Portal Actions** to manage these settings.
+</Info>
+
+## Portal Actions
+
+<CardGroup cols={2}>
+  <Card title="Pause Subscription" icon="pause">
+    Customers can temporarily pause their subscription from the portal. Billing stops until they resume.
+  </Card>
+
+  <Card title="Cancel Subscription" icon="xmark">
+    Customers can request cancellation. Depending on the cancellation mode, this either creates a cancellation request with a notice period or cancels immediately.
+  </Card>
+</CardGroup>
+
+## Configuring Per Product
+
+Each product has two independent toggles in the **Customer Portal Actions** section:
+
+| Setting | What It Controls | Default |
+|---------|-----------------|---------|
+| **Allow Subscription Pause** | Shows/hides the Pause button in the customer portal | Enabled |
+| **Allow Subscription Cancel** | Shows/hides the Cancel button in the customer portal | Enabled |
+
+These toggles work independently — you can allow pausing but not canceling, or vice versa.
+
+<Tip>
+For high-value subscriptions, consider disabling self-service cancellation and directing customers to contact you directly. You can keep the pause option enabled as a middle ground.
+</Tip>
+
+## Cancellation Modes
+
+When cancellation is enabled, you can choose between two modes:
+
+### Request Mode (Default)
+
+The customer submits a cancellation request with a reason and optional message. A support ticket is created, and the subscription remains active during the notice period. This gives you the opportunity to:
+
+- Understand why the customer is leaving
+- Offer alternatives or discounts
+- Properly wind down linked services (domains, etc.)
+
+See [Cancellation Requests](/subscriptions/cancellation-requests) for full details.
+
+### Immediate Mode
+
+The subscription is canceled instantly when the customer clicks cancel, after a confirmation prompt. No notice period, no support request.
+
+## What Customers See
+
+### When Both Actions Are Enabled
+
+The subscription detail page shows both **Pause Subscription** and **Cancel Subscription** buttons in the actions area.
+
+### When Only Pause Is Enabled
+
+Only the **Pause Subscription** button appears. Customers who want to cancel need to contact you through support.
+
+### When Only Cancel Is Enabled
+
+Only the **Cancel Subscription** button appears.
+
+### When Both Are Disabled
+
+No self-service action buttons are shown. Customers must contact support for any subscription changes.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Cancellation Requests" icon="calendar-xmark" href="/subscriptions/cancellation-requests">
+    Set up notice periods and reason collection for cancellations
+  </Card>
+
+  <Card title="Pausing & Resuming" icon="pause" href="/subscriptions/pausing-and-resuming">
+    Learn how subscription pausing works
+  </Card>
+
+  <Card title="Customer Portal" icon="browser" href="/customer-management/customer-portal">
+    Overview of the full customer portal experience
+  </Card>
+
+  <Card title="Support Requests" icon="ticket" href="/customer-management/support-requests">
+    Manage customer communications and cancellation requests
+  </Card>
+</CardGroup>

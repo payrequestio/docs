@@ -7,6 +7,32 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-03-04" description="v3.7.0" tags={["Subscriptions", "Customer Portal", "Support"]}>
+## Subscription Cancellation Requests
+
+Subscription cancellations now go through a structured request process with configurable notice periods, reason collection, and automatic domain management. Customers submit a cancellation request from the portal, and the subscription stays active until the notice period ends.
+
+### What's New
+
+- **Cancellation request flow** — Customers select a reason and submit a request instead of instantly canceling. A support ticket is automatically created for admin review.
+- **Configurable notice period** — Set a notice period per product (default 30 days). The effective date is the later of the notice period end or the next billing date.
+- **Automatic domain management** — Linked domain auto-renewals are automatically disabled when a cancellation is requested.
+- **Admin controls** — Withdraw cancellation requests or cancel immediately from the subscription detail page.
+- **Separate pause and cancel toggles** — Per-product settings to independently enable or disable pause and cancel actions in the customer portal.
+- **Cancellation mode choice** — Choose between "Request" mode (notice period + support ticket) or "Immediate" mode (instant cancel) per product.
+- **Automatic processing** — A daily scheduled job cancels subscriptions that have passed their effective cancellation date.
+
+### How It Works
+
+1. Customer clicks **Cancel Subscription** in the portal and selects a reason
+2. A support request is created and the notice period begins
+3. The subscription stays active until the effective date
+4. Admin can review, communicate, withdraw, or cancel immediately
+5. After the notice period, the subscription is automatically canceled
+
+[Read the full documentation](/subscriptions/cancellation-requests)
+</Update>
+
 <Update label="2026-03-03" description="v3.6.0" tags={["Products", "Digital Delivery", "Shop"]}>
 ## Digital Product File Delivery
 

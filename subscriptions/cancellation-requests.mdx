@@ -1,0 +1,153 @@
+---
+title: "Cancellation Requests"
+description: "Handle subscription cancellations with notice periods, reason collection, and automatic domain management"
+---
+
+# Cancellation Requests
+
+Instead of instantly canceling subscriptions, PayRequest lets you collect cancellation requests with a configurable notice period. This gives you time to retain customers, properly wind down services, and automatically disable domain auto-renewals.
+
+<Info>
+Cancellation requests integrate with the [Support Requests](/customer-management/support-requests) system. Each request creates a support ticket you can review and respond to before the cancellation takes effect.
+</Info>
+
+## Overview
+
+<CardGroup cols={3}>
+  <Card title="Notice Period" icon="calendar">
+    Configurable notice period (default 30 days) before the subscription actually cancels
+  </Card>
+
+  <Card title="Reason Collection" icon="clipboard-question">
+    Customers select a reason and can leave a message explaining why they're canceling
+  </Card>
+
+  <Card title="Domain Management" icon="globe">
+    Linked domain auto-renewals are automatically disabled when a cancellation is requested
+  </Card>
+</CardGroup>
+
+## How It Works
+
+<Steps>
+  <Step title="Customer Requests Cancellation">
+    From the customer portal subscription detail page, the customer clicks **Cancel Subscription**. A modal asks for their cancellation reason and an optional message.
+  </Step>
+
+  <Step title="Notice Period Calculated">
+    The system calculates the effective cancellation date as the later of:
+    - Today + the configured notice period (default: 30 days)
+    - The next billing date (so the customer gets what they've already paid for)
+  </Step>
+
+  <Step title="Support Request Created">
+    A **Cancel Subscription** support request is automatically created with the customer's reason and message, linked to the subscription. You can review it from the Support Requests page.
+  </Step>
+
+  <Step title="Domain Auto-Renew Disabled">
+    If the subscription has a linked domain registration with auto-renew enabled, it's automatically turned off at the domain registrar (OpenProvider).
+  </Step>
+
+  <Step title="Subscription Cancels on Effective Date">
+    A daily scheduled job checks for subscriptions past their effective cancellation date and cancels them automatically. The linked support request is marked as resolved.
+  </Step>
+</Steps>
+
+## Cancellation Reasons
+
+When requesting cancellation, customers choose from these reasons:
+
+| Reason | Description |
+|--------|-------------|
+| **Too Expensive** | Price is a concern |
+| **Switching Provider** | Moving to a different service |
+| **No Longer Needed** | Service is no longer required |
+| **Other** | Custom reason with free text |
+
+Customers can also add a personal message explaining their situation in more detail.
+
+## Product-Level Settings
+
+Each product has its own cancellation configuration. Edit a product and scroll to the **Cancellation Settings** section:
+
+| Setting | Options | Default |
+|---------|---------|---------|
+| **Cancellation Mode** | Request (with notice period) / Immediate | Request |
+| **Notice Period** | 1–365 days | 30 days |
+| **Allow Cancel** | Enable/disable the cancel button in the portal | Enabled |
+| **Allow Pause** | Enable/disable the pause button in the portal | Enabled |
+
+<Tip>
+Set **Cancellation Mode** to **Immediate** if you want the old behavior where clicking cancel stops the subscription right away — no notice period, no support request.
+</Tip>
+
+## Managing Pending Cancellations
+
+### Customer Portal
+
+When a cancellation is pending, the customer sees:
+
+- An amber banner showing the requested date and effective cancellation date
+- A **Withdraw Cancellation** button if they change their mind
+- The cancel button is hidden while a request is pending
+
+### Admin Dashboard
+
+On the subscription detail page, admins see:
+
+- A cancellation pending callout with requested and effective dates
+- **Withdraw Cancellation** — cancels the request and keeps the subscription active
+- **Cancel Now** — immediately cancels without waiting for the notice period
+- A link to the related support request for review and communication
+
+## Automatic Processing
+
+A scheduled command runs daily at 06:15 to process cancellation requests:
+
+- Finds all active subscriptions where the effective cancellation date has passed
+- Cancels each subscription automatically
+- Closes the linked support request as resolved
+
+<Warning>
+Once a subscription is automatically canceled after the notice period, it cannot be undone. Use the **Withdraw Cancellation** option before the effective date if the customer wants to stay.
+</Warning>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What happens if the next billing date is after the notice period?">
+    The effective cancellation date is always the later of the notice period end and the next billing date. This ensures customers aren't charged again after requesting cancellation while still getting the service they've already paid for.
+  </Accordion>
+
+  <Accordion title="Can I still cancel a subscription immediately as an admin?">
+    Yes. On the subscription detail page, you can use the regular **Cancel Subscription** action for immediate cancellation, or use **Cancel Now** on a pending cancellation request.
+  </Accordion>
+
+  <Accordion title="What if the customer withdraws their cancellation?">
+    The cancellation request is removed, the support request is closed, and the subscription continues as normal. If a domain auto-renew was disabled, you may need to re-enable it manually.
+  </Accordion>
+
+  <Accordion title="Does the customer get notified?">
+    The cancellation creates a support request, so you can communicate with the customer through the ticket. You can also send email notifications from the support request detail page.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Pausing & Resuming" icon="pause" href="/subscriptions/pausing-and-resuming">
+    Temporarily pause subscriptions instead of canceling
+  </Card>
+
+  <Card title="Support Requests" icon="ticket" href="/customer-management/support-requests">
+    Manage cancellation requests alongside other support tickets
+  </Card>
+
+  <Card title="Customer Self-Service" icon="user-gear" href="/subscriptions/customer-self-service">
+    Configure what customers can do in the portal
+  </Card>
+
+  <Card title="Subscription Lifecycle" icon="rotate" href="/subscriptions/subscription-lifecycle">
+    Understand the full subscription status flow
+  </Card>
+</CardGroup>
