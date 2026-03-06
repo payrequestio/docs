@@ -41,7 +41,7 @@ Cancellation requests integrate with the [Support Requests](/customer-management
   </Step>
 
   <Step title="Support Request Created">
-    A **Cancel Subscription** support request is automatically created with the customer's reason and message, linked to the subscription. You can review it from the Support Requests page.
+    A **Cancel Subscription** support request is automatically created with the customer's reason and message, linked to the specific subscription. When submitting from the portal, the subscription selection is required — the dropdown shows subscription names with amounts and status for easy identification. You can review the request from the Support Requests page.
   </Step>
 
   <Step title="Domain Auto-Renew Disabled">
@@ -93,12 +93,21 @@ When a cancellation is pending, the customer sees:
 
 ### Admin Dashboard
 
-On the subscription detail page, admins see:
+On the **subscription detail page**, admins see:
 
 - A cancellation pending callout with requested and effective dates
 - **Withdraw Cancellation** — cancels the request and keeps the subscription active
 - **Cancel Now** — immediately cancels without waiting for the notice period
 - A link to the related support request for review and communication
+
+On the **support request detail page**, the linked subscription shows a hover popover with status, amount, billing interval, next billing date, and cancellation details. Two dedicated action buttons let you handle the request directly:
+
+- **Approve & Cancel** — Cancels the subscription and resolves the support request in one click
+- **Reject & Keep Active** — Clears the cancellation fields from the subscription and rejects the request
+
+<Tip>
+The approve/reject buttons appear only while the request is still open or in review. Use these for quick decisions without navigating to the subscription detail page.
+</Tip>
 
 ## Automatic Processing
 

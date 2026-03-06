@@ -223,6 +223,30 @@ The detail page has a two-column layout:
 - Status and priority management dropdowns
 - Activity timeline
 
+### Related Record Popover
+
+When a request is linked to a subscription, hovering over the related record badge shows a detailed popover with:
+
+- **Subscription name** and ID
+- **Status badge** (active, cancelled, etc.)
+- **Amount and billing interval** (e.g. €9.25 / month)
+- **Next billing date** and creation date
+- **Cancellation details** if a cancellation is pending (requested date, effective date, reason)
+- **Quick link** to the full subscription detail page
+
+For invoices and orders, the link shows the invoice number or order number alongside the ID.
+
+### Cancellation Decision Actions
+
+When viewing a **Cancel Subscription** request, the detail page shows a dedicated **Cancellation Decision** panel with the customer's requested effective date and two action buttons:
+
+- **Approve & Cancel** — Cancels the subscription immediately and marks the request as resolved
+- **Reject & Keep Active** — Clears the cancellation from the subscription and marks the request as rejected
+
+<Tip>
+These actions are only visible while the request is still open or in review. Once resolved or closed, the buttons are hidden.
+</Tip>
+
 ### Quick Actions
 
 Action buttons at the top of the page let you quickly:
@@ -234,10 +258,12 @@ Action buttons at the top of the page let you quickly:
 
 Customers interact with support through the portal at `/shop/{storename}/support`:
 
-- **View all their tickets** with status badges
+- **View all their tickets** with status badges and filtering
 - **Create new tickets** with subject, message, type, and priority
 - **Reply to existing tickets** (automatically reopens closed tickets)
 - **See admin responses** (internal notes are hidden)
+
+When creating a request with type **Cancel Subscription** or **Pause Subscription**, the form automatically selects "Subscription" as the related record type and requires the customer to choose which subscription the request is about. The dropdown shows subscription names with amounts and status for easy identification.
 
 <Info>
 **Custom Domains**: Support works on custom domains too. If your shop uses `shop.yourbusiness.com`, support is available at `shop.yourbusiness.com/support`.
