@@ -1,8 +1,112 @@
 ---
-title: Bulk Operations
-description: 'Mass updates and exports'
+title: "Bulk Operations"
+description: "Perform mass updates, price adjustments, and exports across subscriptions, customers, products, invoices, and orders."
 ---
 
 # Bulk Operations
 
-_Work in progress. Content coming soon._
+The Bulk Actions wizard lets you perform mass operations on multiple items at once. Select your items manually or filter by tags, validate before executing, and track every action in the history log.
+
+<Info>
+Access Bulk Operations from **Dashboard > Bulk Actions** or navigate directly to `/bulk`.
+</Info>
+
+## Supported Entity Types
+
+<CardGroup cols={3}>
+  <Card title="Subscriptions" icon="arrows-spin">
+    Price adjustments, pause, resume, cancel, change interval
+  </Card>
+  <Card title="Customers" icon="users">
+    Apply tags, change language, toggle tax exemption, send email
+  </Card>
+  <Card title="Products" icon="box">
+    Update prices, change tax rate, toggle active status, apply category
+  </Card>
+  <Card title="Invoices" icon="file-invoice">
+    Mark as paid, send reminders, apply late fees, export PDF
+  </Card>
+  <Card title="Orders" icon="cart-shopping">
+    Update status, apply shipping, send notifications
+  </Card>
+  <Card title="Export" icon="download">
+    Export any entity type to CSV
+  </Card>
+</CardGroup>
+
+## How It Works
+
+<Steps>
+  <Step title="Select Type">
+    Choose the entity type you want to work with (subscriptions, customers, products, etc.)
+  </Step>
+  <Step title="Select Items">
+    Pick items manually from a searchable list, or use **tag-based selection** with AND/OR logic to filter automatically.
+  </Step>
+  <Step title="Choose Action">
+    Select the action and configure its parameters. Different actions show different configuration fields.
+  </Step>
+  <Step title="Validate">
+    Review validation results. Errors block execution, while warnings allow you to proceed with caution.
+  </Step>
+  <Step title="Execute">
+    Confirm and run the action. Results are saved to the action history for auditing.
+  </Step>
+</Steps>
+
+## Subscription Actions
+
+| Action | Description |
+|--------|-------------|
+| **Apply Inflation Adjustment** | Increase prices by percentage, fixed amount, or set a specific price. Supports rounding, scheduling, and customer notifications. [Full guide](/subscriptions/price-adjustments) |
+| **Pause Until Date** | Pause selected subscriptions until a specific date, then auto-resume |
+| **Resume Subscriptions** | Resume paused or canceled subscriptions immediately or on a specific date |
+| **Cancel at End of Period** | Schedule cancellation at the end of the current billing period |
+| **Change Billing Interval** | Switch between daily, weekly, monthly, quarterly, or yearly billing |
+
+## Customer Actions
+
+| Action | Description |
+|--------|-------------|
+| **Apply Tags** | Add one or more tags to selected customers |
+| **Change Language** | Update the preferred language for communications |
+| **Toggle Tax Exemption** | Enable or disable tax-exempt status |
+| **Send Email** | Send a custom email to selected customers |
+
+## Selection Methods
+
+### Manual Selection
+Browse or search the paginated item list and select individual items with checkboxes. Use **Select All** to pick everything on the current page.
+
+### Tag-Based Selection
+Filter items by tags using two logic modes:
+
+- **OR** — Items with **any** of the selected tags (broader selection)
+- **AND** — Items with **all** of the selected tags (narrower selection)
+
+<Tip>
+Use tags to organize subscriptions into groups like "Annual Review", "Enterprise", or "Legacy Pricing". This makes it easy to select the right subscriptions for targeted price adjustments.
+</Tip>
+
+## Action History
+
+Every bulk action is logged with full details:
+
+- Entity type and action performed
+- Number of items affected
+- Action parameters used
+- Success or failure status
+- Timestamp
+
+View recent history at the bottom of the Bulk Actions page, or click **View Details** on any entry for a full breakdown.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Bulk Price Adjustments" icon="chart-line" href="/subscriptions/price-adjustments">
+    Detailed guide for subscription inflation and pricing changes
+  </Card>
+  <Card title="Tags System" icon="tags" href="/organization-and-automation/tags-system">
+    Organize items with tags for easier bulk selection
+  </Card>
+</CardGroup>

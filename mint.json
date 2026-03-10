@@ -106,7 +106,8 @@
         "subscriptions/sync-product-changes",
         "subscriptions/failed-payment-handling",
         "subscriptions/customer-self-service",
-        "subscriptions/cancellation-requests"
+        "subscriptions/cancellation-requests",
+        "subscriptions/price-adjustments"
       ]
     },
     {

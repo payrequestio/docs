@@ -1,0 +1,179 @@
+---
+title: "Bulk Price Adjustments"
+description: "Apply inflation adjustments and price increases to multiple subscriptions at once with scheduling, rounding, and customer notifications."
+---
+
+# Bulk Price Adjustments
+
+Adjust subscription prices in bulk to keep up with inflation, cost changes, or new pricing tiers. The price adjustment wizard lets you preview the impact before applying, schedule changes for the future, and notify customers automatically.
+
+<Info>
+Bulk price adjustments are available from the **Bulk Actions** page at **Dashboard > Bulk Actions > Subscriptions > Apply Inflation Adjustment**.
+</Info>
+
+<CardGroup cols={2}>
+  <Card title="Multiple Methods" icon="calculator">
+    Increase by percentage, fixed amount, or set a specific new price
+  </Card>
+  <Card title="Smart Rounding" icon="circle-dot">
+    Round results to the nearest EUR 0.50, EUR 1.00, or EUR 5.00
+  </Card>
+  <Card title="Schedule Changes" icon="calendar">
+    Apply immediately, on a specific date, or at each subscription's next renewal
+  </Card>
+  <Card title="Legal Compliance" icon="scale-balanced">
+    Built-in Dutch law compliance with 30-day notice and cancellation rights
+  </Card>
+</CardGroup>
+
+## How It Works
+
+<Steps>
+  <Step title="Select Subscriptions">
+    Go to **Bulk Actions** and select **Subscriptions** as the entity type. Choose the subscriptions you want to adjust — either manually or by filtering with tags.
+  </Step>
+  <Step title="Configure the Increase">
+    Select **Apply Inflation Adjustment** as the action, then configure:
+    - **Increase method** — Percentage, fixed amount, or set specific price
+    - **Rounding** — Optional rounding to keep prices clean
+    - **Price cap** — Optional maximum price after increase
+    - **Schedule** — When the change should take effect
+    - **Customer notification** — Whether to send an email
+  </Step>
+  <Step title="Preview the Impact">
+    Review the price change preview showing each subscription's current and new price, plus MRR impact cards showing total revenue change.
+  </Step>
+  <Step title="Confirm and Execute">
+    Review the summary and execute. For scheduled changes, the prices will be applied automatically on the configured date.
+  </Step>
+</Steps>
+
+## Increase Methods
+
+Choose how to calculate the new price for each subscription:
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| **Percentage** | Increase by a percentage of the current price | 5.2% on EUR 19.99 = EUR 21.03 |
+| **Fixed Amount** | Add a fixed euro amount to each subscription | +EUR 2.00 on EUR 19.99 = EUR 21.99 |
+| **Set Specific Price** | Override all selected subscriptions to one price | Set to EUR 24.99 regardless of current price |
+
+## Rounding Options
+
+After calculating the new price, you can apply rounding to keep prices clean:
+
+| Option | Direction | Example (EUR 21.37) |
+|--------|-----------|---------------------|
+| **Round to nearest EUR 0.50** | Nearest | EUR 21.50 |
+| **Round to nearest EUR 1.00** | Nearest | EUR 21.00 |
+| **Round to nearest EUR 5.00** | Nearest | EUR 20.00 |
+| **Round up to EUR 0.50** | Always up | EUR 21.50 |
+| **Round up to EUR 1.00** | Always up | EUR 22.00 |
+| **Round up to EUR 5.00** | Always up | EUR 25.00 |
+| **Round down to EUR 0.50** | Always down | EUR 21.00 |
+| **Round down to EUR 1.00** | Always down | EUR 21.00 |
+| **Round down to EUR 5.00** | Always down | EUR 20.00 |
+
+<Tip>
+Use **Round up to EUR 1.00** for the cleanest pricing. This avoids awkward amounts like EUR 21.37 and rounds up to EUR 22.00.
+</Tip>
+
+## Price Cap
+
+Set an optional **Maximum Price Cap** to prevent subscriptions from exceeding a certain amount after the increase. This is useful when you have a mix of price tiers and want to ensure no subscription goes above a specific limit.
+
+For example, with a 10% increase and a cap of EUR 50.00, a subscription at EUR 48.00 would increase to EUR 50.00 instead of EUR 52.80.
+
+## Scheduling Options
+
+Control when the price change takes effect:
+
+| Schedule | Description | Best For |
+|----------|-------------|----------|
+| **Immediately** | Price updates right away, takes effect on the next billing cycle | Urgent corrections |
+| **On a Specific Date** | Price changes on a future date you choose | Annual inflation adjustments |
+| **At Next Renewal** | Each subscription changes at its own next billing date | Customer-friendly rollout |
+
+<Info>
+Scheduled price increases are processed automatically every day at 04:45 AM (before billing runs at 05:00 AM). This ensures the new price is in place before the next invoice is generated.
+</Info>
+
+## Customer Notifications
+
+When enabled, PayRequest automatically sends a price increase notification email to each affected customer. The email includes:
+
+- **Current and new price** clearly displayed
+- **Effective date** of the price change
+- **Cancellation link** to the customer portal
+- **Business contact information**
+
+### Dutch Law Compliance
+
+<Warning>
+Dutch consumer law (ACM guidelines) requires a **minimum 30-day advance notice** for subscription price increases. The notification must include the customer's right to cancel before the increase takes effect.
+</Warning>
+
+PayRequest helps you stay compliant:
+
+- A warning is shown if the scheduled date is less than 30 days away
+- The notification email automatically includes a cancellation link
+- Validation checks flag subscriptions with renewals too close to the effective date
+
+The email template can be customized from **Settings > Email Templates** under the **Subscription Price Increase** type. Available variables include `{{old_price}}`, `{{new_price}}`, `{{effective_date}}`, and `{{cancel_link}}`.
+
+## MRR Impact Preview
+
+Before executing, the validation step shows a full impact analysis:
+
+- **Current MRR** — Total monthly recurring revenue from selected subscriptions
+- **New MRR** — Projected MRR after the price change
+- **MRR Increase** — Absolute euro increase
+- **Percentage Change** — Overall percentage impact
+
+Each subscription is listed with its current price, new price, and the difference. This lets you spot outliers and verify the changes before applying.
+
+<Tip>
+The MRR calculation normalizes all billing intervals to monthly. Weekly subscriptions are multiplied by 4.33, quarterly divided by 3, and yearly divided by 12.
+</Tip>
+
+## Audit Trail
+
+Every bulk price adjustment is recorded in the **Bulk Action History** at the bottom of the Bulk Actions page. The history includes:
+
+- Which subscriptions were affected
+- Old and new prices for each subscription
+- The increase method, value, and rounding used
+- Whether it was applied immediately or scheduled
+- Whether customer notifications were sent
+
+<AccordionGroup>
+  <Accordion title="Can I undo a price increase?">
+    Immediately applied changes cannot be automatically reversed. You can use the bulk action again with a decrease (negative fixed amount or lower set price) to revert. Scheduled increases that haven't been applied yet can be found in the database and cancelled.
+  </Accordion>
+  <Accordion title="What happens to scheduled increases if a subscription is canceled?">
+    Scheduled increases are automatically skipped for subscriptions that are no longer active. The increase status is set to "cancelled" and no change is applied.
+  </Accordion>
+  <Accordion title="Can I apply different rates to different subscriptions?">
+    The bulk action applies the same rate to all selected subscriptions. To apply different rates, run the wizard multiple times with different selections and configurations. Use tags to organize subscriptions into groups for easier selection.
+  </Accordion>
+  <Accordion title="Does the price change sync to Mollie?">
+    PayRequest manages its own billing cycle. Price changes update the subscription amount in PayRequest, which is used when generating the next invoice. There is no reverse sync to Mollie subscription objects.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Bulk Operations" icon="layer-group" href="/organization-and-automation/bulk-operations">
+    Learn about all available bulk actions
+  </Card>
+  <Card title="Billing Cycles" icon="arrows-spin" href="/subscriptions/billing-cycles">
+    Understand how billing intervals work
+  </Card>
+  <Card title="Email Templates" icon="envelope" href="/invoices/email-templates">
+    Customize the price increase notification email
+  </Card>
+  <Card title="Tags System" icon="tags" href="/organization-and-automation/tags-system">
+    Organize subscriptions with tags for targeted adjustments
+  </Card>
+</CardGroup>
