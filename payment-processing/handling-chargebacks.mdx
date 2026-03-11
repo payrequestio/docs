@@ -32,6 +32,38 @@ PayRequest intelligently links chargebacks to their related:
 - **Reversed Date** - If the chargeback was later reversed
 - **Settlement Amount** - Only shown if different from the chargeback amount
 
+## Invoice Chargeback Status
+
+When a chargeback is received, the linked invoice is automatically updated:
+
+- Invoice status changes from **Paid** to **Chargeback** (shown as a red badge)
+- The chargeback amount, date, and reason are stored on the invoice
+
+<Info>
+  The chargeback status is protected — webhooks and payment syncs will never overwrite it back to "Paid". This ensures your records accurately reflect the reversed payment.
+</Info>
+
+### Chargeback Details on Invoice Page
+
+When viewing an invoice with chargeback status, a **Chargeback Details** card appears in the sidebar showing:
+
+- **Chargeback amount** — The reversed amount
+- **Date** — When the chargeback was initiated
+- **Reason code** — The SEPA reason code with description (e.g., MD06 - Return of funds requested by end customer)
+- **Chargeback ID** — The Mollie chargeback reference
+
+If the invoice is linked to a subscription, the card also shows the **Payment Retry Status**:
+
+- **Failed attempts** — Current failures vs maximum allowed (e.g., "1 / 2")
+- **Last failure date** — When the most recent failure occurred
+- **Next retry** — When the next automatic retry is scheduled (if applicable)
+- **Retry history** — Complete timeline of all retry attempts with amounts and reasons
+- **Direct link** to the associated subscription for further management
+
+<Tip>
+  You can see chargeback and retry information directly on the invoice page without navigating to the subscription. This gives you a complete picture of the payment issue at a glance.
+</Tip>
+
 ## SEPA Reason Codes
 
 PayRequest displays color-coded reason codes to help you quickly understand why a chargeback occurred:
@@ -59,10 +91,22 @@ PayRequest displays color-coded reason codes to help you quickly understand why 
 - **MS03** - Multiple possible reasons (Cyan)
 - **SL01** - Bank refused (daily limit or blocked account) (Indigo)
 
+### Retryable vs Non-Retryable Reason Codes
+
+| Retryable | Non-Retryable |
+|-----------|---------------|
+| AM04 (Insufficient Funds) | MD06 (Customer Reversed) |
+| MS03 (Not Specified) | MS02 (Customer Declined) |
+| | AC04 (Account Closed) |
+| | MD07 (Customer Deceased) |
+| | AG01 (Transaction Forbidden) |
+
+Retryable chargebacks automatically schedule payment retries on the linked subscription. Non-retryable chargebacks mark the subscription as **Payment Failed** immediately.
+
 ## What to Do When You Receive a Chargeback
 
 1. **Check the Reason Code** - Understand why the chargeback occurred
-2. **Review Customer Details** - Check subscription and transaction history
+2. **Review the Invoice** - Open the invoice to see chargeback details and retry status in one place
 3. **Contact Your Customer** - For codes like MD06, MS02, or MS03, reach out to understand the issue
 4. **Update Payment Details** - For AC01, AC04, or AC06, request new bank account information
 5. **Fix Technical Issues** - For AG02, review your payment type settings
@@ -100,6 +144,7 @@ All chargeback information is kept up-to-date automatically, ensuring you always
 
 ## Related Resources
 
+- [Failed Payment Handling](/subscriptions/failed-payment-handling)
 - [Payment Methods Overview](/payment-processing/payment-methods-overview)
 - [Setting Up Payment Providers](/payment-processing/setting-up-payment-providers)
 - [Customer Management](/customer-management)

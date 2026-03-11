@@ -7,6 +7,29 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-03-11" description="v3.8.1" tags={["Invoices", "Chargebacks", "Payment Recovery"]}>
+## Chargeback Details on Invoice Page
+
+Invoice detail pages now show chargeback information and payment retry status directly in the sidebar, eliminating the need to navigate to the subscription page to understand a failed payment.
+
+### What's New
+
+- **Chargeback status badge** — Invoices with chargebacks display a red "Chargeback" badge instead of "Paid"
+- **Chargeback details card** — Shows amount, date, SEPA reason code, and chargeback ID on the invoice sidebar
+- **Payment retry status** — Failed attempts, last failure date, next retry schedule, and full retry history visible on the invoice
+- **Status protection** — Chargeback status can no longer be accidentally overwritten back to "Paid" by webhooks or payment syncs
+- **Direct subscription link** — Quick navigation to the associated subscription from the chargeback card
+
+### How It Works
+
+1. When a chargeback is received, the invoice status automatically changes to **Chargeback**
+2. Open the invoice to see the **Chargeback Details** card in the sidebar
+3. If linked to a subscription, the card also shows **Payment Retry Status** with attempt history
+4. Click **View Subscription** to manage retry settings or take further action
+
+[Read the full documentation](/payment-processing/handling-chargebacks)
+</Update>
+
 <Update label="2026-03-11" description="v3.8.0" tags={["Subscriptions", "Pricing", "Bulk Operations", "Compliance"]}>
 ## Bulk Subscription Price Adjustments
 
