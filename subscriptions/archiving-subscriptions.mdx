@@ -1,49 +1,90 @@
 ---
 title: "Archiving Subscriptions"
-description: "Remove ghost and duplicate subscriptions from view without deleting data"
+description: "Permanently shelve subscriptions you no longer need — keep your list clean while preserving all history"
 ---
 
 # Archiving Subscriptions
 
-Archiving lets you permanently shelve subscriptions that should no longer be active, visible to customers, or included in billing — without deleting any data. This is ideal for cleaning up duplicate or ghost subscriptions that were created in error.
+Over time, your subscription list fills up with entries that are no longer relevant: customers who switched to a different plan, one-time projects that ended, businesses that closed down. Canceling keeps them visible in your list and in the customer portal. Archiving removes them from view entirely — while keeping every invoice, transaction, and note intact for your records.
 
 <Info>
-Archived subscriptions are hidden from the customer portal, excluded from billing, and not counted in MRR calculations. They remain in your database for audit and reference purposes.
+Archived subscriptions are hidden from the customer portal, excluded from billing, and not counted in MRR calculations. They stay in your database for audit and reference purposes.
 </Info>
 
 ## When to Archive
 
-Use archiving when a subscription:
+Archiving is the right choice when a subscription has run its course and no longer needs to be in your day-to-day view.
 
-- Was **created as a duplicate** (same customer + product, no order or Mollie link)
-- Is a **ghost subscription** from a failed checkout or migration issue
-- Should **not be deleted** because it has linked invoices or transactions
-- No longer needs to appear in your active subscription list
+<CardGroup cols={2}>
+  <Card title="Customer Switched Plans" icon="arrows-right-left">
+    A customer moved from **Basic** to **Professional**. The old subscription is canceled but still clutters your list. Archive it to keep focus on the active plan.
+  </Card>
+  <Card title="Former Customer" icon="user-minus">
+    A customer left permanently — they closed their business, moved to a competitor, or simply don't need the service anymore. Archive their subscription to keep your list current.
+  </Card>
+  <Card title="Completed Project" icon="check-badge">
+    A fixed-term project or seasonal subscription (event hosting, campaign website, temporary license) is finished. Archive it instead of leaving it in your canceled list.
+  </Card>
+  <Card title="Merged or Restructured" icon="building-office">
+    Two companies merged, or a customer restructured and consolidated multiple subscriptions into one. Archive the old entries to avoid confusion.
+  </Card>
+</CardGroup>
+
+### More Use Cases
+
+- **Product discontinued** — You stopped offering a service. Archive all subscriptions for that product so they don't show up in reports or confuse your team.
+- **Free trial that never converted** — The customer tried your service, never paid, and the trial expired months ago. Archive it to separate real customers from leads that didn't convert.
+- **Billing dispute resolved** — After a chargeback or dispute, you agreed to end the service. Archive the subscription to signal it's fully resolved — not just canceled.
+- **Internal or test subscriptions** — Subscriptions you created for demos, testing, or internal use that are no longer needed.
+- **Seasonal customer** — A customer only needs your service during summer or a specific quarter. Archive between seasons to keep your active list focused, reactivate when they return.
+- **Duplicate from migration** — After importing subscriptions from another system, duplicates may exist. Archive the extras without losing their payment history.
 
 <Warning>
-Archiving is not the same as canceling. Canceled subscriptions still appear in the customer portal and in your default subscription list. Archived subscriptions are hidden from both.
+Archiving is not the same as canceling. Canceled subscriptions still appear in the customer portal and in your subscription list. Archived subscriptions are hidden from both.
 </Warning>
 
-### Archiving vs. Other Statuses
+### Archiving vs. Canceling vs. Deleting
 
-| Action | Visible to customer | Bills automatically | In MRR | Reversible |
-|--------|-------------------|-------------------|--------|------------|
-| **Active** | Yes | Yes | Yes | N/A |
-| **Paused** | Yes | No | No | Yes |
-| **Suspended** | Yes | No | No | Yes |
-| **Canceled** | Yes | No | No | Can reactivate |
-| **Archived** | No | No | No | Can reactivate |
+| | **Cancel** | **Archive** | **Delete** |
+|---|---|---|---|
+| Visible to customer | Yes | No | No |
+| Visible in subscription list | Yes | Only in Archived tab | Gone |
+| Invoices & transactions | Preserved | Preserved | Lost |
+| Can be reactivated | Yes | Yes | No |
+| Counted in reports | As canceled | Not counted | Not counted |
+| **Best for** | Customer might come back | Done permanently, keep records | N/A (not supported) |
 
-## How It Works
+## How to Archive a Subscription
 
-Archived subscriptions:
+<Steps>
+  <Step title="Open the subscription">
+    Go to **Subscriptions**, find the subscription, and open its detail page.
+  </Step>
+  <Step title="Cancel first (if still active)">
+    A subscription must be **canceled** before it can be archived. If it's still active, cancel it first.
+  </Step>
+  <Step title="Click Archive">
+    On a canceled subscription, click the **Archive Subscription** button below the Reactivate button.
+  </Step>
+  <Step title="Confirm">
+    A confirmation dialog explains what archiving does. Click **Archive Subscription** to confirm.
+  </Step>
+</Steps>
 
-1. **Stop billing** — `next_billing_at` is cleared, the 05:00 billing job skips them
-2. **Disappear from the customer portal** — customers won't see archived subscriptions
-3. **Show in a dedicated tab** — the Subscriptions page has an **Archived** tab with a count badge (zinc/gray color)
-4. **Cannot be bulk-resumed or bulk-canceled** — bulk actions reject archived subscriptions with a validation error
-5. **Don't block duplicate detection** — new subscriptions for the same customer + product are allowed
-6. **Preserve all linked data** — invoices, transactions, orders, and tags remain intact
+<Tip>
+The archive button only appears on canceled subscriptions. This two-step flow (cancel → archive) prevents accidentally archiving an active subscription.
+</Tip>
+
+## What Happens When You Archive
+
+- **Billing stops** — `next_billing_at` is cleared, the billing job skips it
+- **Hidden from customer portal** — the customer no longer sees this subscription
+- **Moved to Archived tab** — visible only under **Subscriptions > Archived** with a zinc/gray badge
+- **MRR excluded** — not counted in your revenue calculations
+- **Bulk action protected** — cannot be resumed or canceled via bulk actions
+- **Duplicate detection cleared** — new subscriptions for the same customer + product are allowed
+- **All data preserved** — invoices, transactions, orders, tags, and notes remain intact
+- **Activity logged** — the archive action appears in the subscription's history
 
 ## Viewing Archived Subscriptions
 
@@ -52,36 +93,42 @@ Go to **Subscriptions** and click the **Archived** tab. The zinc-colored badge s
 On the subscription detail page, archived subscriptions show:
 
 - A **zinc/gray "Archived" badge** in the header
-- An info message: "This subscription has been archived. No actions available."
-- A **Reactivate Subscription** button (for emergency use)
+- An info message explaining no actions are available
+- A **Reactivate Subscription** button for when you need to bring it back
 
 ## Reactivating an Archived Subscription
 
-If an archived subscription was archived by mistake:
+Sometimes a customer comes back, or you archived something by mistake. You can always reactivate:
 
-1. Go to the subscription detail page
-2. Click **Reactivate Subscription**
-3. Set up the billing details (next billing date, mandate)
-4. The subscription returns to **Active** status
+1. Go to **Subscriptions > Archived** tab
+2. Click the subscription to open its detail page
+3. Click **Reactivate Subscription**
+4. Set up the billing details (next billing date, payment mandate)
+5. The subscription returns to **Active** status
 
 <Tip>
-Reactivation is the only transition available from the archived state. This prevents accidental status changes on subscriptions that should stay archived.
+Reactivation is the only action available on archived subscriptions. This prevents accidental status changes on subscriptions that should stay shelved.
 </Tip>
 
-## Status Transitions
+## Best Practices
 
-Subscriptions can be archived from:
+<AccordionGroup>
+  <Accordion title="Archive after the dust settles">
+    Don't archive immediately after canceling. Wait until any pending invoices are paid or resolved, chargebacks are settled, and the customer confirms they don't need reactivation. Then archive.
+  </Accordion>
 
-- **Active**
-- **Paused**
-- **Canceled**
-- **Failed**
-- **Suspended**
-- **Expired**
+  <Accordion title="Use tags before archiving">
+    Tag subscriptions before archiving to make them easier to find later. For example: "churned-2026-Q1", "migrated-to-pro", or "dispute-resolved". Tags are preserved after archiving.
+  </Accordion>
 
-Archived subscriptions can transition to:
+  <Accordion title="Review your Archived tab periodically">
+    Once a quarter, glance at the Archived tab to verify nothing was archived by mistake. The count badge makes this easy — if it suddenly jumps, investigate.
+  </Accordion>
 
-- **Active** (reactivation only)
+  <Accordion title="Archive in batches when discontinuing a product">
+    When you stop offering a product, cancel all related subscriptions first, then archive them together. Use tags to mark the reason (e.g., "product-discontinued").
+  </Accordion>
+</AccordionGroup>
 
 ## FAQs
 
@@ -91,19 +138,27 @@ Archived subscriptions can transition to:
   </Accordion>
 
   <Accordion title="Are archived subscriptions included in MRR calculations?">
-    No. The billing job and MRR calculations only consider active subscriptions.
-  </Accordion>
-
-  <Accordion title="Can I archive subscriptions in bulk?">
-    Currently, archiving is done via scripts or directly on individual subscriptions. Future updates may add a bulk archive action.
+    No. Only active subscriptions are counted in MRR and revenue reports.
   </Accordion>
 
   <Accordion title="Will archiving delete any invoices or transactions?">
-    No. All linked data is preserved. Archiving only changes the subscription status.
+    No. All linked data is preserved. Archiving only changes the subscription status. You can still view all invoices and transactions on the subscription detail page.
   </Accordion>
 
-  <Accordion title="What happens to open invoices on archived subscriptions?">
-    Open invoices should be canceled separately before or during the archive process. The ghost cleanup script automatically cancels open invoices on archived subscriptions.
+  <Accordion title="Can I archive an active subscription directly?">
+    No. You need to cancel it first, then archive. This two-step process prevents accidentally hiding a subscription that's still billing.
+  </Accordion>
+
+  <Accordion title="What's the difference between archiving and soft-deleting?">
+    PayRequest doesn't support deleting subscriptions because of linked invoices and transactions. Archiving gives you the same clean-list result without breaking any data relationships.
+  </Accordion>
+
+  <Accordion title="Can I search for archived subscriptions?">
+    Yes. Use the **Archived** tab in the subscription list, or search by customer name — archived subscriptions appear when you're on the Archived tab.
+  </Accordion>
+
+  <Accordion title="What happens to open invoices when I archive?">
+    Open invoices are not automatically canceled when you archive from the UI. Review and cancel any open invoices manually before archiving, or they will remain open but unbilled.
   </Accordion>
 </AccordionGroup>
 
@@ -114,12 +169,12 @@ Archived subscriptions can transition to:
     Understand all subscription statuses and transitions
   </Card>
   <Card title="Tags System" icon="tags" href="/organization-and-automation/tags-system">
-    Tag archived subscriptions for organization
+    Tag subscriptions for easy filtering and organization
   </Card>
-  <Card title="Bulk Operations" icon="layer-group" href="/organization-and-automation/bulk-operations">
-    Manage multiple subscriptions at once
+  <Card title="Cancellation Requests" icon="x-circle" href="/subscriptions/cancellation-requests">
+    Structured cancellation with notice periods
   </Card>
   <Card title="Suspending Subscriptions" icon="pause" href="/subscriptions/suspending-subscriptions">
-    Halt service for non-paying customers
+    Temporarily halt service for non-paying customers
   </Card>
 </CardGroup>

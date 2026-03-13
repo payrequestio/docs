@@ -7,29 +7,29 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
-<Update label="2026-03-13" description="v3.8.2" tags={["Subscriptions", "Data Cleanup", "Customer Portal"]}>
-## Archived Subscription Status
+<Update label="2026-03-13" description="v3.8.2" tags={["Subscriptions", "Customer Portal", "Organization"]}>
+## Archive Subscriptions
 
-A new **Archived** status for subscriptions lets you clean up ghost and duplicate subscriptions without deleting any data. Archived subscriptions are hidden from billing, MRR calculations, and the customer portal while preserving all linked invoices and transactions.
+A new **Archived** status lets you permanently shelve subscriptions you no longer need — customers who switched plans, former clients, completed projects, discontinued products — while keeping all invoices and transaction history intact.
 
 ### What's New
 
-- **Archived status** — New terminal status (zinc/gray badge) for subscriptions that should no longer be active or visible
-- **Dedicated Archived tab** — The subscription list includes an Archived tab with count badge for easy access
-- **Customer portal filtering** — Archived subscriptions are automatically hidden from the customer portal
-- **Billing exclusion** — Archived subscriptions are skipped by the billing job and excluded from MRR calculations
-- **Duplicate guard update** — Archived subscriptions no longer block new subscriptions for the same customer + product
+- **Archive button on canceled subscriptions** — Open any canceled subscription and click **Archive Subscription** to move it out of your active list
+- **Confirmation modal** — Clear explanation of what archiving does before you confirm
+- **Dedicated Archived tab** — The subscription list includes an Archived tab with count badge
+- **Hidden from customer portal** — Archived subscriptions are invisible to customers
+- **Billing & MRR excluded** — No more accidental billing, not counted in revenue calculations
+- **Reactivation support** — Bring back any archived subscription if a customer returns
 - **Bulk action protection** — Archived subscriptions cannot be resumed or canceled via bulk actions
-- **Reactivation support** — Archived subscriptions can be reactivated from the detail page if needed
-- **Ghost cleanup script** — Included script to archive ~500 duplicate/ghost subscriptions, cancel their open invoices, and tag them as "duplicate"
+- **All data preserved** — Invoices, transactions, tags, and notes remain accessible on the detail page
 
 ### How It Works
 
-1. Ghost or duplicate subscriptions are set to **Archived** status
-2. Their open invoices are automatically canceled
-3. Tagged with a red **duplicate** tag for identification
-4. The subscriptions disappear from the customer portal and stop billing
-5. Admins can still view them under the **Archived** tab and reactivate if needed
+1. **Cancel** the subscription (if still active)
+2. Click **Archive Subscription** on the canceled subscription's detail page
+3. Confirm in the modal — the subscription moves to the **Archived** tab
+4. Customer no longer sees it, billing stops, your list stays clean
+5. Need it back? Click **Reactivate Subscription** any time
 
 [Read the full documentation](/subscriptions/archiving-subscriptions)
 </Update>
