@@ -7,6 +7,33 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-03-13" description="v3.8.2" tags={["Subscriptions", "Data Cleanup", "Customer Portal"]}>
+## Archived Subscription Status
+
+A new **Archived** status for subscriptions lets you clean up ghost and duplicate subscriptions without deleting any data. Archived subscriptions are hidden from billing, MRR calculations, and the customer portal while preserving all linked invoices and transactions.
+
+### What's New
+
+- **Archived status** — New terminal status (zinc/gray badge) for subscriptions that should no longer be active or visible
+- **Dedicated Archived tab** — The subscription list includes an Archived tab with count badge for easy access
+- **Customer portal filtering** — Archived subscriptions are automatically hidden from the customer portal
+- **Billing exclusion** — Archived subscriptions are skipped by the billing job and excluded from MRR calculations
+- **Duplicate guard update** — Archived subscriptions no longer block new subscriptions for the same customer + product
+- **Bulk action protection** — Archived subscriptions cannot be resumed or canceled via bulk actions
+- **Reactivation support** — Archived subscriptions can be reactivated from the detail page if needed
+- **Ghost cleanup script** — Included script to archive ~500 duplicate/ghost subscriptions, cancel their open invoices, and tag them as "duplicate"
+
+### How It Works
+
+1. Ghost or duplicate subscriptions are set to **Archived** status
+2. Their open invoices are automatically canceled
+3. Tagged with a red **duplicate** tag for identification
+4. The subscriptions disappear from the customer portal and stop billing
+5. Admins can still view them under the **Archived** tab and reactivate if needed
+
+[Read the full documentation](/subscriptions/archiving-subscriptions)
+</Update>
+
 <Update label="2026-03-11" description="v3.8.1" tags={["Invoices", "Chargebacks", "Payment Recovery"]}>
 ## Chargeback Details on Invoice Page
 

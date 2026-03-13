@@ -1,0 +1,125 @@
+---
+title: "Archiving Subscriptions"
+description: "Remove ghost and duplicate subscriptions from view without deleting data"
+---
+
+# Archiving Subscriptions
+
+Archiving lets you permanently shelve subscriptions that should no longer be active, visible to customers, or included in billing — without deleting any data. This is ideal for cleaning up duplicate or ghost subscriptions that were created in error.
+
+<Info>
+Archived subscriptions are hidden from the customer portal, excluded from billing, and not counted in MRR calculations. They remain in your database for audit and reference purposes.
+</Info>
+
+## When to Archive
+
+Use archiving when a subscription:
+
+- Was **created as a duplicate** (same customer + product, no order or Mollie link)
+- Is a **ghost subscription** from a failed checkout or migration issue
+- Should **not be deleted** because it has linked invoices or transactions
+- No longer needs to appear in your active subscription list
+
+<Warning>
+Archiving is not the same as canceling. Canceled subscriptions still appear in the customer portal and in your default subscription list. Archived subscriptions are hidden from both.
+</Warning>
+
+### Archiving vs. Other Statuses
+
+| Action | Visible to customer | Bills automatically | In MRR | Reversible |
+|--------|-------------------|-------------------|--------|------------|
+| **Active** | Yes | Yes | Yes | N/A |
+| **Paused** | Yes | No | No | Yes |
+| **Suspended** | Yes | No | No | Yes |
+| **Canceled** | Yes | No | No | Can reactivate |
+| **Archived** | No | No | No | Can reactivate |
+
+## How It Works
+
+Archived subscriptions:
+
+1. **Stop billing** — `next_billing_at` is cleared, the 05:00 billing job skips them
+2. **Disappear from the customer portal** — customers won't see archived subscriptions
+3. **Show in a dedicated tab** — the Subscriptions page has an **Archived** tab with a count badge (zinc/gray color)
+4. **Cannot be bulk-resumed or bulk-canceled** — bulk actions reject archived subscriptions with a validation error
+5. **Don't block duplicate detection** — new subscriptions for the same customer + product are allowed
+6. **Preserve all linked data** — invoices, transactions, orders, and tags remain intact
+
+## Viewing Archived Subscriptions
+
+Go to **Subscriptions** and click the **Archived** tab. The zinc-colored badge shows the count.
+
+On the subscription detail page, archived subscriptions show:
+
+- A **zinc/gray "Archived" badge** in the header
+- An info message: "This subscription has been archived. No actions available."
+- A **Reactivate Subscription** button (for emergency use)
+
+## Reactivating an Archived Subscription
+
+If an archived subscription was archived by mistake:
+
+1. Go to the subscription detail page
+2. Click **Reactivate Subscription**
+3. Set up the billing details (next billing date, mandate)
+4. The subscription returns to **Active** status
+
+<Tip>
+Reactivation is the only transition available from the archived state. This prevents accidental status changes on subscriptions that should stay archived.
+</Tip>
+
+## Status Transitions
+
+Subscriptions can be archived from:
+
+- **Active**
+- **Paused**
+- **Canceled**
+- **Failed**
+- **Suspended**
+- **Expired**
+
+Archived subscriptions can transition to:
+
+- **Active** (reactivation only)
+
+## FAQs
+
+<AccordionGroup>
+  <Accordion title="Can customers see archived subscriptions?">
+    No. Archived subscriptions are completely hidden from the customer portal.
+  </Accordion>
+
+  <Accordion title="Are archived subscriptions included in MRR calculations?">
+    No. The billing job and MRR calculations only consider active subscriptions.
+  </Accordion>
+
+  <Accordion title="Can I archive subscriptions in bulk?">
+    Currently, archiving is done via scripts or directly on individual subscriptions. Future updates may add a bulk archive action.
+  </Accordion>
+
+  <Accordion title="Will archiving delete any invoices or transactions?">
+    No. All linked data is preserved. Archiving only changes the subscription status.
+  </Accordion>
+
+  <Accordion title="What happens to open invoices on archived subscriptions?">
+    Open invoices should be canceled separately before or during the archive process. The ghost cleanup script automatically cancels open invoices on archived subscriptions.
+  </Accordion>
+</AccordionGroup>
+
+## Related Articles
+
+<CardGroup cols={2}>
+  <Card title="Subscription Lifecycle" icon="arrows-spin" href="/subscriptions/subscription-lifecycle">
+    Understand all subscription statuses and transitions
+  </Card>
+  <Card title="Tags System" icon="tags" href="/organization-and-automation/tags-system">
+    Tag archived subscriptions for organization
+  </Card>
+  <Card title="Bulk Operations" icon="layer-group" href="/organization-and-automation/bulk-operations">
+    Manage multiple subscriptions at once
+  </Card>
+  <Card title="Suspending Subscriptions" icon="pause" href="/subscriptions/suspending-subscriptions">
+    Halt service for non-paying customers
+  </Card>
+</CardGroup>

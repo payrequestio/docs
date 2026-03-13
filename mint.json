@@ -107,6 +107,7 @@
         "subscriptions/failed-payment-handling",
         "subscriptions/customer-self-service",
         "subscriptions/cancellation-requests",
+        "subscriptions/archiving-subscriptions",
         "subscriptions/price-adjustments"
       ]
     },
