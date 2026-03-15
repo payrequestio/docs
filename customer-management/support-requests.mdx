@@ -1,6 +1,6 @@
 ---
 title: "Support Requests"
-description: "Manage customer support tickets with rich text replies, email notifications, and customer activity tracking"
+description: "Manage customer support tickets with email-to-ticket, rich text replies, email notifications, and two-way email conversations"
 ---
 
 # Support Requests 🎫
@@ -13,9 +13,13 @@ A built-in ticketing system that lets you manage customer inquiries, complaints,
 
 ## 🎯 Overview
 
-<CardGroup cols={3}>
+<CardGroup cols={4}>
   <Card title="📥 Receive" icon="inbox">
-    Customers submit tickets from the portal with subject, message, type, and priority
+    Customers submit tickets from the portal or by replying to any email
+  </Card>
+
+  <Card title="📧 Email-to-Ticket" icon="envelope">
+    Customer replies to invoices, orders, or reminders automatically create support tickets
   </Card>
 
   <Card title="💬 Respond" icon="comment-dots">
@@ -145,6 +149,89 @@ The submit button changes based on your selection:
 
 After sending, a confirmation message shows the recipient's email address.
 
+## 📨 Email-to-Ticket (Inbound Email)
+
+Customers can create support tickets simply by **replying to any email** they receive from your business — invoices, payment reminders, order confirmations, subscription notices, and more. No portal login needed.
+
+<Info>
+**How it works**: Every outgoing email includes a Reply-To address at your business's `payreque.st` address (e.g., `yourshop@payreque.st`). When a customer replies, the email is automatically converted into a support ticket.
+</Info>
+
+### Supported Emails
+
+All customer-facing emails include the Reply-To header:
+
+| Email Type | Example |
+|-----------|---------|
+| New Invoice | Invoice created notification |
+| Invoice Paid | Payment confirmation |
+| Invoice Reminder | Overdue payment reminders |
+| Order Confirmation | New order acknowledgment |
+| Order Completed | Order fulfillment notice |
+| Payment Link | Smart link sent to customer |
+| Payment Reminder | Smart link follow-up |
+| Subscription Suspended | Pause/suspension notice |
+| Price Increase | Subscription price change |
+| Mandate Request | iDEAL mandate setup |
+| Mandate Activation | Mandate confirmed |
+| Security Deposit | Deposit authorization |
+| Debt Collection | Payment collection notices |
+| Checkout Recovery | Abandoned cart reminders |
+| Portal Notification | Custom portal alerts |
+| Support Reply | Your reply to an existing ticket |
+
+### How Tickets Are Created
+
+<Steps>
+  <Step title="Customer Replies to Email">
+    The customer hits "Reply" on any email from your business and writes their message.
+  </Step>
+
+  <Step title="Email Received">
+    The reply is received at your `payreque.st` address and processed automatically.
+  </Step>
+
+  <Step title="Customer Matched">
+    The sender's email is matched to an existing customer in your account. If no exact match is found, the system checks for customers with the same email domain (e.g., `jan@company.com` matches `support@company.com`).
+  </Step>
+
+  <Step title="Ticket Created">
+    A new support ticket is created with the email subject and full message body, set to type **Support** and priority **Medium**.
+  </Step>
+
+  <Step title="You're Notified">
+    You receive an email notification about the new ticket with a direct link to your dashboard.
+  </Step>
+</Steps>
+
+<Tip>
+**Domain Matching**: If a customer emails from a different address at the same company domain, the system still matches them. For example, if `support@acme.com` is your customer, an email from `jan@acme.com` will also be matched. Common email providers like Gmail, Outlook, etc. are excluded from domain matching to prevent false matches.
+</Tip>
+
+### Reply via Email (Two-Way Conversations)
+
+When you receive a notification about a new ticket, you can **reply directly to the notification email** instead of opening the dashboard. Your reply is automatically added to the ticket conversation and forwarded to the customer.
+
+Similarly, when a customer receives your reply notification, they can reply back by email — their response is appended to the same ticket thread.
+
+<Warning>
+**Unknown Senders**: Emails from addresses that don't match any customer in your account are automatically ignored. This prevents spam from creating unwanted tickets.
+</Warning>
+
+### Reply-To Address
+
+Your business's Reply-To address is determined automatically:
+
+| Business Type | Reply-To Address |
+|--------------|-----------------|
+| **Shop owners** | `{shopname}@payreque.st` |
+| **Freelancers** (sales page) | `{handle}@payreque.st` |
+| **Fallback** | `u{userid}@payreque.st` |
+
+<Info>
+**No Setup Required**: The Reply-To address is generated automatically based on your shop name or sales page handle. No DNS or email configuration needed on your end.
+</Info>
+
 ## 👁️ Customer Activity Tracking
 
 ### Ticket Views
@@ -174,7 +261,7 @@ Up to 15 events are shown, with a summary if there are more.
 
 <Steps>
   <Step title="Customer Submits Request">
-    Customer creates a ticket from the portal with subject, message, type, and priority. Status: **Open**
+    Customer creates a ticket from the portal, or by replying to any business email. Status: **Open**. You receive an email notification.
   </Step>
 
   <Step title="You Review the Request">

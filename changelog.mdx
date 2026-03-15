@@ -7,6 +7,33 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-03-15" description="v3.8.3" tags={["Support", "Email", "Customer Portal", "Automation"]}>
+## Email-to-Ticket: Inbound Email Support
+
+Customers can now create support tickets by **replying to any email** they receive from your business — invoices, payment reminders, order confirmations, and more. Business owners are notified instantly and can reply directly from email for a seamless two-way conversation.
+
+### What's New
+
+- **Reply-To on all outgoing emails** — Every invoice, order, reminder, and notification email now includes a Reply-To address at your business's `payreque.st` address
+- **Automatic ticket creation** — Customer replies are parsed and converted into support tickets with full message body
+- **Smart customer matching** — Matches sender by exact email or company domain (e.g., `jan@acme.com` matches existing customer `support@acme.com`)
+- **Spam protection** — Emails from unknown senders (not matching any customer) are automatically rejected
+- **Two-way email conversations** — Business owners can reply to ticket notification emails, which appends to the conversation and notifies the customer
+- **New ticket notifications** — Business owners receive an email when a new ticket is created (both from portal and inbound email)
+- **Freelancer support** — Works for businesses with shops and freelancers with sales pages alike
+- **Attachment references** — Email attachments are tracked in ticket metadata for future retrieval
+
+### How It Works
+
+1. Customer receives an invoice, reminder, or any other email from your business
+2. Customer replies to the email with their question or concern
+3. A support ticket is automatically created and you receive a notification
+4. Reply to the notification email or open the ticket in your dashboard
+5. Your reply is sent to the customer — they can reply back to continue the conversation
+
+[Read the full documentation](/customer-management/support-requests#-email-to-ticket-inbound-email)
+</Update>
+
 <Update label="2026-03-13" description="v3.8.2" tags={["Subscriptions", "Customer Portal", "Organization"]}>
 ## Archive Subscriptions
 

@@ -4,9 +4,10 @@
 
 ## Email Automation System
 
-**Components**: Automation Model, AutomationService, ResendWebhookController, EmailIssue Model
-**Triggers**: email_bounced, email_complained, email_failed
+**Components**: Automation Model, AutomationService, ResendWebhookController, EmailIssue Model, InboundEmailService
+**Triggers**: email_bounced, email_complained, email_failed, email_received (inbound)
 **Actions**: add_tag, remove_tag, update_status
+**Inbound Email**: All outgoing customer emails have Reply-To: {identifier}@payreque.st. Replies create support tickets via InboundEmailService. Domain: payreque.st (Resend receiving). Admin ticket replies use ticket-{id}@payreque.st for two-way conversations.
 **UI**: /automations route, card-based interface
 **Health Badges**: Healthy (green), Bounced (red), Complained (orange), Failed (yellow)
 
