@@ -7,6 +7,32 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-04-22" description="v3.8.4" tags={["Support", "Customer Portal", "Email"]}>
+## File Attachments on Support Requests
+
+Replies on support tickets can now carry file attachments — screenshots, PDFs, signed documents, anything that helps resolve an issue. Attachments show up inline in the conversation on both sides, and are sent along as real attachments in the reply email so customers never have to open the portal to get them.
+
+### What's New
+
+- **Drag-and-drop upload** — A new Attachments dropzone below the reply editor accepts files via drop or file picker
+- **Admin and customer uploads** — Both the dashboard reply form and the customer portal reply form support attachments
+- **Up to 10 files per reply, 20 MB each** — Any file type (images, PDFs, spreadsheets, ZIPs, etc.)
+- **Inline conversation display** — Images render as previews, other files appear as download cards with filename and size
+- **Real email attachments** — When you send a reply notification, the files are attached to the email itself, not just linked
+- **Ticket-scoped access** — Downloads are served through an authorized endpoint that checks ticket ownership, with unguessable file identifiers
+- **Automatic cleanup** — Attachments are tied to their reply; removing the reply removes the files
+
+### How It Works
+
+1. Open a support request and scroll to the reply form
+2. Drop files onto the **Attachments** dropzone or click to browse
+3. Remove any queued file before sending by clicking its remove icon
+4. Send the reply — attachments appear in the conversation history and, if email notification is enabled, arrive in the customer's inbox as real attachments
+5. Customers see the same dropzone in the portal when replying, and downloaded files from your replies through a secure link
+
+[Read the full documentation](/customer-management/support-requests#-file-attachments)
+</Update>
+
 <Update label="2026-03-15" description="v3.8.3" tags={["Support", "Email", "Customer Portal", "Automation"]}>
 ## Email-to-Ticket: Inbound Email Support
 

@@ -1,6 +1,6 @@
 ---
 title: "Support Requests"
-description: "Manage customer support tickets with email-to-ticket, rich text replies, email notifications, and two-way email conversations"
+description: "Manage customer support tickets with email-to-ticket, rich text replies, file attachments, email notifications, and two-way email conversations"
 ---
 
 # Support Requests 🎫
@@ -121,6 +121,46 @@ The dropdown also includes a **Business Name** option that inserts your company 
 
 Check **"Internal Note (only visible to admin)"** to add notes that customers cannot see. Internal notes appear with an amber highlight in the conversation and are excluded from the customer portal view.
 
+## 📎 File Attachments
+
+You and your customers can add files to any reply — screenshots, PDFs, invoices, signed documents, anything that helps resolve the ticket. Attachments appear inline in the conversation and are automatically included as real attachments on the reply email.
+
+<Info>
+**Both sides can attach**: Admins upload from the dashboard reply form; customers can attach files when replying from the customer portal.
+</Info>
+
+### Uploading Files
+
+Below the reply editor is a drag-and-drop **Attachments** area. Drop files onto it, or click to browse.
+
+- **Up to 10 files** per reply
+- **Maximum 20 MB** per file
+- Any file type is accepted — images, PDFs, spreadsheets, ZIPs, etc.
+- Remove a queued file by clicking the remove icon on its preview card before sending
+
+### How Attachments Are Shown
+
+In the conversation history:
+
+- **Images** (JPG, PNG, GIF, etc.) are rendered as inline previews — click to open full-size
+- **Other files** appear as download cards with filename and size
+- Each attachment belongs to a specific reply and shows alongside that message
+
+### Attachments in Emails
+
+When you send a reply with **"Send reply notification to customer via email"** enabled, any files you attached are included as **real email attachments** — the customer receives them directly in their inbox, no portal login needed.
+
+<Warning>
+**Email size limits**: Most email providers reject messages over 25–40 MB total. The 20 MB per-file limit gives room for one large attachment plus the email body, but combining many large files in a single reply may cause delivery issues.
+</Warning>
+
+### Privacy & Storage
+
+- Files are stored on PayRequest's private object storage with unguessable unique identifiers
+- Downloads from the portal or dashboard are routed through an authorized download endpoint that verifies ticket ownership on every request
+- Internal notes and their attachments are never visible to customers
+- Attachments inherit the ticket's lifecycle — deleting a reply removes its files automatically
+
 ## 📧 Email Notifications
 
 ### Sending Reply Notifications
@@ -134,6 +174,7 @@ The email includes:
 - **Request subject** for context
 - **Reply preview** (first 200 characters)
 - **"View Full Reply" button** linking to the customer portal
+- **Any attachments** you added to the reply, sent as real email attachments
 - **Business branding** in the footer
 
 <Tip>
@@ -348,7 +389,9 @@ Customers interact with support through the portal at `/shop/{storename}/support
 - **View all their tickets** with status badges and filtering
 - **Create new tickets** with subject, message, type, and priority
 - **Reply to existing tickets** (automatically reopens closed tickets)
+- **Attach files** to replies — same 10 files / 20 MB limits as the admin side
 - **See admin responses** (internal notes are hidden)
+- **Download attachments** sent by your team through a secure, ticket-scoped link
 
 When creating a request with type **Cancel Subscription** or **Pause Subscription**, the form automatically selects "Subscription" as the related record type and requires the customer to choose which subscription the request is about. The dropdown shows subscription names with amounts and status for easy identification.
 
