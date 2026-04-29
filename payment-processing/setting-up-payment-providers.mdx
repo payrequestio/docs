@@ -1,8 +1,116 @@
 ---
-title: Setting Up Payment Providers
-description: 'Connect and configure payment accounts'
+title: "Setting Up Payment Providers"
+description: "Connect Mollie, Stripe, or PayPal to start accepting payments through PayRequest"
 ---
 
 # Setting Up Payment Providers
 
-_Work in progress. Content coming soon._
+PayRequest works with three payment providers: **Mollie**, **Stripe**, and **PayPal**. You only need one to get started, but you can connect all three and let your customers pick their preferred method.
+
+<Info>
+Each provider has its own connect flow and runs through your own merchant account. PayRequest never holds your money — payments land directly in your provider's account, and you withdraw on your own schedule.
+</Info>
+
+## Which Provider Should I Pick?
+
+There's no wrong answer — most businesses start with one and add a second later as customer demand changes.
+
+<CardGroup cols={3}>
+  <Card title="Mollie" icon="building-columns">
+    Best for **European invoicing** and **subscriptions**. Strong on iDEAL, Bancontact, SEPA, and recurring billing.
+  </Card>
+  <Card title="Stripe" icon="credit-card">
+    Best for **payment links** with global reach. Auto-localizes prices to the buyer's currency in 150+ countries.
+  </Card>
+  <Card title="PayPal" icon="paypal">
+    Best for **international payment links**. Adds Pay Later and Venmo where eligible — many buyers prefer the familiar PayPal checkout.
+  </Card>
+</CardGroup>
+
+<Tip>
+**You can connect all three.** The payment page picks the right one for each transaction, and your customers see whichever methods you've enabled.
+</Tip>
+
+## What Each Provider Supports
+
+| Capability | Mollie | Stripe | PayPal |
+|---|:---:|:---:|:---:|
+| Payment links | ✓ | ✓ | ✓ |
+| Invoices | ✓ | — | — |
+| Subscriptions | ✓ | — | — |
+| Customer-currency display | — | ✓ | — |
+| Pay Later / BNPL | Klarna | Klarna, Afterpay | Pay Later |
+| Refunds | ✓ | ✓ | ✓ |
+
+<Info>
+**Stripe and PayPal currently power payment links only.** Invoices, subscriptions, and customer billing flows continue to use Mollie. We're rolling out broader Stripe and PayPal support in stages.
+</Info>
+
+## How to Connect a Provider
+
+The fastest way is through the onboarding wizard the first time you sign in. After that, you can add or swap providers any time from the Provider Settings page.
+
+<Steps>
+  <Step title="Open Provider Settings">
+    Click your avatar in the top-right and choose **Provider Settings**, or visit `/provider-settings` directly.
+  </Step>
+  <Step title="Pick a provider">
+    You'll see a card for each available provider. Click **Connect** on the one you want.
+  </Step>
+  <Step title="Authorize on the provider's site">
+    PayRequest sends you to Mollie, Stripe, or PayPal to log in (or create an account) and grant permission. You stay on the provider's own pages — we never see your password.
+  </Step>
+  <Step title="Land back in PayRequest">
+    Once you authorize, you're returned to PayRequest with the connection live. You'll see a green confirmation banner with the connected account's name.
+  </Step>
+</Steps>
+
+## Connecting Multiple Providers
+
+You can have all three connected at the same time. Each one shows up as its own card in Provider Settings with its own enable/disable switch. PayRequest applies a simple priority: when a customer pays an invoice or subscription, it goes through Mollie. When they pay through a payment link, they see whichever of Stripe and PayPal you've enabled (or both, side by side).
+
+<Warning>
+If you disconnect a provider while subscriptions are active, those subscriptions will stop charging at the next renewal. Make sure to migrate active subscriptions before disconnecting.
+</Warning>
+
+## Provider-Specific Guides
+
+<CardGroup cols={3}>
+  <Card title="Connect Mollie" icon="building-columns" href="/payment-processing/payment-methods-overview">
+    Configure iDEAL, Bancontact, SEPA, and recurring billing for European customers.
+  </Card>
+  <Card title="Connect Stripe" icon="credit-card" href="/payment-processing/connect-stripe">
+    Accept cards, Apple Pay, Google Pay, Klarna, and more — with auto-localized pricing.
+  </Card>
+  <Card title="Connect PayPal" icon="paypal" href="/payment-processing/connect-paypal">
+    Add PayPal, Pay Later, and Venmo to your payment links.
+  </Card>
+</CardGroup>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Does PayRequest take a fee on top of the provider's fees?">
+    Free-plan accounts pay a **2% platform fee** that PayRequest takes from each transaction. Paid plans (Freelancer and Business) don't pay any platform fee — you only pay your provider's standard processing fees. The provider's fees go directly to Mollie, Stripe, or PayPal — PayRequest never touches them.
+  </Accordion>
+  <Accordion title="Where does the money go?">
+    Straight to your own merchant account. Mollie deposits into your bank account, Stripe and PayPal hold the balance until you withdraw it. PayRequest is just the storefront and accounting layer — we don't act as a marketplace or payment aggregator.
+  </Accordion>
+  <Accordion title="Can I use my existing Mollie / Stripe / PayPal account?">
+    Yes. The connect flow links your existing account — you don't need to create a new one. If you don't have an account yet, the provider will offer to create one during the connect flow.
+  </Accordion>
+  <Accordion title="Can I switch providers later?">
+    Yes. Disconnect the old one in Provider Settings and connect a new one. Existing transactions stay searchable in your dashboard regardless of which provider is currently active.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods Overview" icon="list-check" href="/payment-processing/payment-methods-overview">
+    See every payment method PayRequest supports across all three providers.
+  </Card>
+  <Card title="Create a Payment Link" icon="link" href="/payment-processing/payment-page-dynamic-links">
+    Generate a shareable link or QR code your customers can pay through.
+  </Card>
+</CardGroup>

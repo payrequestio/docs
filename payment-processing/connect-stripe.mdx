@@ -1,0 +1,155 @@
+---
+title: "Connecting Stripe"
+description: "Accept cards, Apple Pay, Google Pay, Klarna, iDEAL and more through Stripe — with prices auto-localized to your buyer's currency."
+---
+
+# Connecting Stripe
+
+Stripe gives PayRequest payment links a worldwide reach. Customers can pay with cards, Apple Pay, Google Pay, Klarna, Afterpay, iDEAL, Bancontact, and many more — and **Adaptive Pricing** automatically shows them the price in their own local currency.
+
+<Info>
+**Phase 1 scope**: Stripe currently powers payment links only. Invoices, subscriptions, and customer billing continue to use Mollie. We're rolling out wider Stripe support over the coming releases.
+</Info>
+
+## Why Add Stripe
+
+<CardGroup cols={2}>
+  <Card title="Global checkout" icon="globe">
+    Cards in 200+ countries, plus regional methods that drop in automatically based on the buyer's location.
+  </Card>
+  <Card title="Adaptive Pricing" icon="coins">
+    A buyer in Canada sees CAD, a buyer in Japan sees JPY — without you doing the FX math. The conversion fee is paid by the buyer, not you.
+  </Card>
+  <Card title="Apple & Google Pay" icon="mobile">
+    One-tap mobile checkout that consistently lifts conversion. Enabled out of the box on supported devices.
+  </Card>
+  <Card title="Buy Now, Pay Later" icon="calendar">
+    Klarna and Afterpay surface for orders above the regional threshold, helping convert higher-ticket sales.
+  </Card>
+</CardGroup>
+
+## How to Connect
+
+<Steps>
+  <Step title="Open Provider Settings">
+    Go to `/provider-settings` and find the **Stripe** card.
+  </Step>
+  <Step title="Click Connect">
+    You'll be sent to Stripe's secure onboarding page. Sign in to your Stripe account, or create one if you don't have it yet.
+  </Step>
+  <Step title="Approve the connection">
+    Stripe asks for permission to charge on your behalf. Approve, and you're returned to PayRequest with the connection live.
+  </Step>
+  <Step title="Confirm in PayRequest">
+    The Stripe card now shows a green **Connected** banner with your account name and email.
+  </Step>
+</Steps>
+
+<Tip>
+First time using Stripe? The onboarding wizard guides you through identity verification, bank details, and payout settings — required by Stripe before you can take live payments.
+</Tip>
+
+## What Customers See
+
+When a customer opens a payment link, the Stripe checkout shows up as an embedded form on your payment page — no redirect to a separate site. They pick their preferred method, fill in card or bank details, and confirm. Cards are charged instantly; methods like iDEAL or Bancontact bounce briefly through the buyer's bank for authorization.
+
+<CardGroup cols={2}>
+  <Card title="Branded experience" icon="palette">
+    The payment form uses a dark theme that matches PayRequest's checkout chrome. Buyers stay on your payment page from start to finish.
+  </Card>
+  <Card title="Smart method labels" icon="tag">
+    The pay button updates as the buyer picks a method — "Pay with iDEAL", "Pay with Apple Pay", and so on — so they always know what they're confirming.
+  </Card>
+</CardGroup>
+
+## Adaptive Pricing
+
+Adaptive Pricing is what makes Stripe especially valuable for international payment links. Stripe detects each buyer's country and shows the price converted to their local currency, with the exchange rate locked in for 24 hours.
+
+<Info>
+**You don't pay anything extra.** Stripe takes a 2–4% conversion fee, and that fee is added to the buyer's price — not yours. You receive the original amount in your account's settlement currency.
+</Info>
+
+### How It Works for Buyers
+
+1. Buyer opens a €25 payment link from Toronto
+2. Stripe detects their location and converts the price (e.g., to CAD 36.50)
+3. The Currency Selector lets them switch back to your default currency if they prefer
+4. They pay in their own currency through whichever method they choose
+5. You receive €25 in your Stripe account — Stripe handles the conversion
+
+### Managing Adaptive Pricing
+
+Adaptive Pricing is **enabled by default** when you connect Stripe. To turn it off for your account:
+
+<Steps>
+  <Step title="Open Provider Settings">
+    Visit `/provider-settings` and find your connected Stripe card.
+  </Step>
+  <Step title="Toggle Adaptive Pricing">
+    In the Stripe section there's a panel labelled **Adaptive Pricing** with a switch. Flip it off if you want all buyers to see your account currency only.
+  </Step>
+</Steps>
+
+<Tip>
+Most merchants leave Adaptive Pricing on — it's a free conversion lift for international buyers. The only common reason to disable it is if you have legal or pricing constraints that require a single currency display.
+</Tip>
+
+## Refunds and Disputes
+
+<AccordionGroup>
+  <Accordion title="Issuing a refund">
+    Open the transaction in your dashboard and click **Refund**. You can issue a full refund or a partial amount. Stripe handles the conversion if the original payment was in a different currency — the buyer gets back the exact amount they paid.
+  </Accordion>
+  <Accordion title="Chargebacks and disputes">
+    If a buyer disputes a charge with their bank, Stripe notifies PayRequest via webhook and the dispute is logged on the transaction. Use the Stripe Dashboard to upload evidence; the [Handling Chargebacks](/payment-processing/handling-chargebacks) guide covers the workflow.
+  </Accordion>
+  <Accordion title="Partial refunds">
+    Supported. Issue any amount up to the full charge value. Multiple partial refunds on a single transaction are allowed until the total reaches the original amount.
+  </Accordion>
+</AccordionGroup>
+
+## Disconnecting Stripe
+
+You can disconnect Stripe at any time from Provider Settings. Existing transactions stay accessible in your dashboard, and refunds on past transactions continue to work. Only new payments are blocked while Stripe is disconnected.
+
+<Warning>
+If you have payment links or QR codes that route to Stripe specifically, disconnecting will fall back to your other connected providers. If Stripe is your only provider, your payment links will be unavailable until you reconnect.
+</Warning>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What does Stripe charge?">
+    Stripe's standard processing fees apply — typically 2.9% + €0.25 for European cards, varying by region and method. Adaptive Pricing's 2–4% currency conversion fee is paid by the buyer, not you. PayRequest itself only charges its own platform fee on free-plan accounts (2% per transaction); paid plans pay nothing on top.
+  </Accordion>
+  <Accordion title="Do I need to verify my identity?">
+    Yes. Stripe requires identity verification (KYC) for any merchant taking live payments. The onboarding form asks for business details, owner identification, and payout bank details. Most merchants finish in under 10 minutes.
+  </Accordion>
+  <Accordion title="Which currencies can I accept?">
+    Stripe lets you settle in your account's primary currency (typically EUR, USD, GBP, CHF, or your local currency). Adaptive Pricing then handles displaying prices to buyers in any of 150+ presentment currencies.
+  </Accordion>
+  <Accordion title="Does it work with my custom domain?">
+    Yes, but make sure your custom domain is allowed to load Stripe's scripts. PayRequest's standard payment domain (`payrequest.me`) is configured out of the box.
+  </Accordion>
+  <Accordion title="Can I migrate from another payment provider?">
+    Yes. Connect Stripe alongside Mollie or PayPal, test with a small payment, then update your payment links once you're happy. You don't have to disconnect anything during the transition.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods Overview" icon="list-check" href="/payment-processing/payment-methods-overview">
+    See every payment method available through Stripe and other providers.
+  </Card>
+  <Card title="Connect PayPal" icon="paypal" href="/payment-processing/connect-paypal">
+    Add PayPal, Pay Later, and Venmo alongside Stripe for broader buyer reach.
+  </Card>
+  <Card title="Create a Payment Link" icon="link" href="/payment-processing/payment-page-dynamic-links">
+    Build the shareable link or QR code your customers will pay through.
+  </Card>
+  <Card title="Handle Chargebacks" icon="shield" href="/payment-processing/handling-chargebacks">
+    Learn how to respond to disputes from Stripe and other providers.
+  </Card>
+</CardGroup>

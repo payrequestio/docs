@@ -67,6 +67,8 @@
       "pages": [
         "payment-processing/payment-methods-overview",
         "payment-processing/setting-up-payment-providers",
+        "payment-processing/connect-stripe",
+        "payment-processing/connect-paypal",
         "payment-processing/saved-payment-methods",
         "payment-processing/payment-forms",
         "payment-processing/payment-page-dynamic-links",

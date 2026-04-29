@@ -7,6 +7,31 @@ description: "Track PayRequest platform updates, new features, and improvements"
 
 Stay up-to-date with the latest PayRequest improvements and new features. We're constantly enhancing your billing experience.
 
+<Update label="2026-04-29" description="v3.9.0" tags={["Payment Processing", "Stripe", "PayPal"]}>
+## Stripe and PayPal — Now Available Alongside Mollie
+
+PayRequest now supports **Stripe** and **PayPal** as payment providers in addition to Mollie. Connect any combination of the three, and your customers will see whichever methods you've enabled. This release covers payment links — invoices and subscriptions still run through Mollie for now, with broader Stripe and PayPal support coming in upcoming releases.
+
+### What's New
+
+- **Connect Stripe in one click** — A new Stripe card on Provider Settings runs the full Stripe Connect flow. Cards, Apple Pay, Google Pay, Klarna, iDEAL, Bancontact, and many more methods drop in automatically based on the buyer's location.
+- **Connect PayPal in one click** — A new PayPal card on Provider Settings runs PayPal's Partner onboarding. Adds the familiar PayPal button, plus Pay Later for higher-ticket orders and Venmo for US mobile buyers.
+- **Adaptive Pricing for Stripe** — Buyers see prices in their own local currency in 150+ countries. The 2–4% conversion fee is paid by the buyer, not you. Toggle on or off per merchant from Provider Settings.
+- **Embedded checkout** — Both providers render directly on your payment page. No redirect to a third-party site; buyers stay in your branded flow start to finish.
+- **Login with PayPal** — New merchants can sign up to PayRequest by authenticating with PayPal, which automatically chains a PayPal Connect step so their account is ready to take payments by the end of signup.
+- **Smart payment-method labels** — On Stripe checkouts, the pay button updates to show the chosen method ("Pay with iDEAL", "Pay with Apple Pay") so buyers always know what they're confirming.
+- **Multi-provider transaction view** — The transactions table now shows the source provider on each row, with deep-links to the right detail page for Mollie, Stripe, or PayPal.
+
+### How It Works
+
+1. Open `/provider-settings` from your dashboard
+2. Click **Connect** on the Stripe or PayPal card (or both)
+3. Authorize on the provider's onboarding page and return to PayRequest
+4. Share a payment link — your customers see the new options automatically
+
+[Read the full guide](/payment-processing/setting-up-payment-providers)
+</Update>
+
 <Update label="2026-04-22" description="v3.8.4" tags={["Support", "Customer Portal", "Email"]}>
 ## File Attachments on Support Requests
 

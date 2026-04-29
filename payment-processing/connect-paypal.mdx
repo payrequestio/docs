@@ -1,0 +1,145 @@
+---
+title: "Connecting PayPal"
+description: "Add PayPal, Pay Later, and Venmo to your payment links — for the millions of buyers who already trust the PayPal checkout."
+---
+
+# Connecting PayPal
+
+PayPal is the world's most familiar payment button — many buyers prefer it because their card and shipping details are already saved with PayPal. Connecting your account to PayRequest adds **PayPal**, **Pay Later**, and (where eligible) **Venmo** to your payment links.
+
+<Info>
+**Phase 1 scope**: PayPal currently powers payment links only. Invoices, subscriptions, and customer billing flows continue to use Mollie. We're rolling out wider PayPal support in upcoming releases.
+</Info>
+
+## Why Add PayPal
+
+<CardGroup cols={2}>
+  <Card title="Trusted by 400M+ buyers" icon="users">
+    Buyers can pay with their existing PayPal balance, linked bank, or saved cards in two clicks.
+  </Card>
+  <Card title="Pay Later" icon="calendar">
+    For orders above PayPal's regional threshold (typically €30+), buyers see Pay Later options — split payments or 30-day delay.
+  </Card>
+  <Card title="Venmo" icon="mobile">
+    For US buyers on mobile, Venmo appears as a checkout option. Higher conversion in the US Gen-Z and Millennial segments.
+  </Card>
+  <Card title="Buyer Protection" icon="shield-check">
+    PayPal's buyer protection program reassures hesitant first-time buyers — often the deciding factor for higher-ticket purchases.
+  </Card>
+</CardGroup>
+
+## How to Connect
+
+<Steps>
+  <Step title="Open Provider Settings">
+    Go to `/provider-settings` and find the **PayPal** card.
+  </Step>
+  <Step title="Click Connect">
+    PayRequest opens PayPal's Partner onboarding page. Sign in with your PayPal Business account, or create one if you don't have it yet.
+  </Step>
+  <Step title="Approve permissions">
+    PayPal asks you to grant PayRequest permission to charge customers and issue refunds on your behalf. Approve, and you're returned to PayRequest.
+  </Step>
+  <Step title="Confirm in PayRequest">
+    The PayPal card now shows a green **Connected** banner with your PayPal merchant ID and account email.
+  </Step>
+</Steps>
+
+<Tip>
+**Already have a PayPal Business account?** The onboarding flow detects it and links it instantly — no need to create a new account or migrate anything.
+</Tip>
+
+## What Customers See
+
+When a customer opens a payment link with PayPal enabled, they see one or more buttons appear directly on your payment page:
+
+<CardGroup cols={3}>
+  <Card title="PayPal button" icon="paypal">
+    The familiar yellow **Pay with PayPal** button. Opens PayPal's checkout in a popup so the buyer never leaves your page.
+  </Card>
+  <Card title="Pay Later button" icon="calendar">
+    Appears automatically for eligible orders. Lets the buyer split the payment or delay it for 30 days.
+  </Card>
+  <Card title="Venmo button" icon="mobile">
+    Shows up only for US-based mobile buyers. Tap-to-pay using their Venmo account.
+  </Card>
+</CardGroup>
+
+After confirming in the PayPal popup, the buyer lands back on your success page and the transaction is recorded in your PayRequest dashboard within seconds.
+
+## Login with PayPal
+
+If you'd like new merchants to sign up to PayRequest faster, the **Login with PayPal** option on `/login` and `/register` lets people skip the standard form. They authenticate with PayPal, and PayRequest automatically chains a PayPal Connect step right after — so by the time they finish signup, their account is already wired up to take payments.
+
+## Refunds and Disputes
+
+<AccordionGroup>
+  <Accordion title="Issuing a refund">
+    Open the transaction in your dashboard and click **Refund**. You can issue a full refund or a partial amount up to the original charge. PayPal returns the money to the buyer's original funding source.
+  </Accordion>
+  <Accordion title="Disputes and claims">
+    If a buyer files a dispute with PayPal (claiming "item not received" or "not as described"), PayPal notifies PayRequest and the dispute is logged on the transaction. You respond through the PayPal Resolution Center; the [Handling Chargebacks](/payment-processing/handling-chargebacks) guide covers the workflow.
+  </Accordion>
+  <Accordion title="Partial refunds">
+    Supported. Issue any amount up to the full charge value. Multiple partial refunds are allowed until the total reaches the original amount.
+  </Accordion>
+</AccordionGroup>
+
+## Eligibility Notes
+
+PayPal's checkout buttons are dynamically gated by PayPal itself based on:
+
+- **Buyer location**: Venmo only renders for US IPs; Pay Later thresholds vary by region
+- **Order amount**: Pay Later requires the cart value to exceed the regional minimum (typically €30+ in EU, $30+ in US)
+- **Currency**: Some methods only work with specific currencies — Venmo with USD, regional Pay Later schemes with the local currency
+- **Buyer eligibility**: PayPal's risk engine may suppress Pay Later for buyers who don't qualify
+
+If a buyer doesn't see Pay Later or Venmo, it's PayPal's own eligibility check — not a PayRequest setting.
+
+## Disconnecting PayPal
+
+You can disconnect PayPal at any time from Provider Settings. Existing transactions stay accessible, and refunds on past transactions continue to work. Only new payments are blocked while PayPal is disconnected.
+
+<Warning>
+If you disconnect PayPal while it's your only payment provider, your payment links will be unavailable until you reconnect (or connect another provider).
+</Warning>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What does PayPal charge?">
+    PayPal's standard merchant fees apply — typically 2.9% + a fixed fee for domestic transactions, slightly higher for cross-border. PayRequest itself only charges its own platform fee on free-plan accounts (2% per transaction); paid plans pay nothing on top.
+  </Accordion>
+  <Accordion title="Do I need a PayPal Business account?">
+    Yes. PayPal requires a Business (not Personal) account to accept payments through a partner integration. The onboarding flow can convert a Personal account during signup if needed.
+  </Accordion>
+  <Accordion title="Can I use my existing PayPal Business account?">
+    Yes. The connect flow detects existing accounts and links them — no need to create a new one or move existing transactions.
+  </Accordion>
+  <Accordion title="Why don't I see Pay Later on my payment page?">
+    Pay Later only renders when the order amount exceeds PayPal's regional threshold (typically €30+ in the EU, $30+ in the US). For amounts below that, only the standard PayPal button appears.
+  </Accordion>
+  <Accordion title="Why don't I see Venmo?">
+    Venmo only renders for buyers in the US, on mobile, with USD as the transaction currency. EU and UK buyers won't see it. If you're testing from outside the US and want to verify Venmo is configured, you'll need to use a US IP.
+  </Accordion>
+  <Accordion title="Can I run PayPal alongside Stripe and Mollie?">
+    Yes. All three can be connected simultaneously. Buyers see whichever methods you've enabled, and each transaction routes to the right provider based on what the buyer picks.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods Overview" icon="list-check" href="/payment-processing/payment-methods-overview">
+    See every payment method available through PayPal and other providers.
+  </Card>
+  <Card title="Connect Stripe" icon="credit-card" href="/payment-processing/connect-stripe">
+    Add Stripe alongside PayPal for cards, Apple Pay, Klarna, and Adaptive Pricing.
+  </Card>
+  <Card title="Create a Payment Link" icon="link" href="/payment-processing/payment-page-dynamic-links">
+    Build the shareable link or QR code your customers will pay through.
+  </Card>
+  <Card title="Handle Chargebacks" icon="shield" href="/payment-processing/handling-chargebacks">
+    Learn how to respond to PayPal disputes and chargebacks from other providers.
+  </Card>
+</CardGroup>
