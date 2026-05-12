@@ -1,0 +1,200 @@
+---
+title: 'How Long Can a Security Deposit Hold Last?'
+description: 'Authorization-hold expiration windows per payment provider and card network. Plan your capture deadlines for Mollie, PayPal, and Stripe deposits.'
+icon: 'clock'
+---
+
+## Overview
+
+When you collect a [security deposit](/payment-processing/security-deposits), you place a temporary **authorization hold** on the customer's payment method instead of charging it. That hold is not open-ended — every issuer and network enforces a maximum window after which the bank automatically releases the funds and you can no longer capture them.
+
+The window depends on three things:
+
+1. **Which PSP** authorized the payment (Mollie, PayPal, or Stripe)
+2. **Which payment method** the customer used (card brand, Klarna, PayPal, etc.)
+3. **Whether your PSP has extended-authorization features enabled** on your account
+
+<Warning>
+Once a hold expires, the funds are released by the bank and **cannot be re-captured**. Always capture or release before the deadline shown in your dashboard.
+</Warning>
+
+## Quick Reference — Maximum Hold Windows
+
+The table below shows the maximum guaranteed hold window per provider and method as supported by PayRequest. The actual `captureBefore` deadline returned by the PSP is what your dashboard and customer status page show.
+
+| Provider | Method | Default Window | Maximum (with extensions) |
+| :------- | :----- | :------------- | :------------------------ |
+| **Mollie** | Mastercard | 30 days | 30 days |
+| **Mollie** | Visa | 7 days | 7 days |
+| **Mollie** | American Express | 7 days | 7 days |
+| **Mollie** | Cartes Bancaires | 30 days | 30 days |
+| **Mollie** | Klarna | 28 days | 28 days |
+| **Mollie** | Billie | 28 days | 28 days |
+| **Mollie** | Riverty | 30 days | 30 days |
+| **Mollie** | Vipps | 180 days | 180 days |
+| **Mollie** | MobilePay | 14 days | 14 days |
+| **Mollie** | PayPal (via Mollie) | 29 days | 29 days |
+| **PayPal** (direct) | PayPal balance / card | 3 days guaranteed | 29 days (auto-reauth) |
+| **Stripe** | Card (default) | 7 days | 30 days (extended auth) |
+
+<Info>
+PayRequest reads the real `captureBefore` (Mollie), authorization expiry (PayPal), or `capture_before` from the latest charge (Stripe) and surfaces it on the deposit detail page and the customer-facing status page. The countdown is **the deadline the PSP committed to**, not a hardcoded estimate.
+</Info>
+
+## Mollie
+
+Mollie returns a `captureBefore` field on every authorized payment. PayRequest stores this on the deposit and uses it to drive the dashboard countdown and customer status page.
+
+### How the window is determined
+
+Mollie picks the window based on the **card scheme** (or alternative method) the customer paid with:
+
+- **Mastercard / Cartes Bancaires** → 30 days
+- **Visa / American Express** → 7 days
+- **Klarna / Billie** → 28 days
+- **Riverty** → 30 days (always manual capture, full capture only)
+- **Vipps** → 180 days
+- **MobilePay** → 14 days
+
+Because the card brand is not known until the customer pays, the actual deadline only becomes available after the deposit moves into the `authorized` state. The dashboard shows "Authorizing…" until then.
+
+<Tip>
+If your customers mostly use Visa, plan for a **7-day** capture window even if you configured a longer hold duration on the deposit product. The product's "Hold Duration" setting is your internal target; the bank's window is the hard ceiling.
+</Tip>
+
+### Hold-duration setting on the product
+
+The deposit product's **Hold Duration** field (1–28 days) sets the maximum number of days PayRequest will keep the deposit in `authorized` state before auto-expiring it on our side. It is **not** an instruction to the bank — the bank enforces its own window based on card brand.
+
+If the product Hold Duration is shorter than the bank's window, PayRequest auto-releases the hold on the configured day. If it is longer, the bank's window wins.
+
+## PayPal
+
+PayPal authorizations work differently from cards. PayPal **guarantees the funds for 3 days** after authorization. From day 4 to day 29, you can call the [reauthorize endpoint](https://developer.paypal.com/docs/api/payments/v2/#authorizations_reauthorize) to extend the honor period for another 3 days. After day 29, the authorization is permanently dead.
+
+### How PayRequest handles this
+
+PayRequest automates the reauthorization flow so you don't have to track 3-day windows yourself:
+
+1. **On authorization**, PayRequest sets `capture_before` to **72 hours from now**.
+2. A scheduled job (`deposits:reauthorize-paypal`) wakes up daily and finds any PayPal deposit whose `capture_before` is within the next 24 hours.
+3. It calls PayPal's `/reauthorize` endpoint, which returns a **new authorization ID** with a fresh 3-day honor period.
+4. The deposit's `capture_before` is pushed forward 72 hours.
+5. This repeats until day 29 of the original authorization, at which point reauthorization is no longer possible.
+
+<Warning>
+If a reauthorization call fails (e.g., the customer's card on file was cancelled), PayRequest flags the deposit and the hold is no longer guaranteed. Capture as soon as possible.
+</Warning>
+
+### Effective window
+
+From your perspective, a PayPal deposit can be held for **up to 29 days** without intervention, just like a Mastercard hold. The 3-day chunking is invisible — the dashboard shows the next `capture_before` deadline as a rolling countdown.
+
+## Stripe
+
+Stripe is the newest deposit provider. By default, Stripe card authorizations expire after **7 days**. Merchants on **Interchange-Plus (IC+) pricing** can enable **extended authorization**, which lifts the ceiling to **up to 30 days** for supported card brands and MCC codes.
+
+### Default: 7 days
+
+For Stripe accounts on **blended (standard) pricing**, the hold expires 7 days after authorization. PayRequest reads the real `capture_before` from the latest charge and surfaces it on the dashboard.
+
+### Extended: up to 30 days
+
+PayRequest creates Stripe Checkout Sessions with `request_extended_authorization=if_available`. When the merchant is on IC+ pricing **and** the card brand + MCC combination is eligible, Stripe automatically extends the hold to up to 30 days. The actual deadline depends on the brand:
+
+- **Mastercard** — typically 30 days
+- **Visa** — typically 7 days (extended-auth eligibility is narrower)
+- **American Express** — typically 7 days
+
+The Stripe Provider Settings tab in your dashboard includes a callout explaining how to opt into IC+ pricing — you contact Stripe support directly, because each connected Standard account owns its own pricing relationship.
+
+<Info>
+Stripe deposits **cannot be reauthorized**. Whatever window Stripe set at authorization time is the hard ceiling. Plan your captures accordingly.
+</Info>
+
+### Reading the deadline
+
+After `checkout.session.completed`, PayRequest's Stripe webhook handler reads `capture_before` off the latest charge and writes it to the deposit. The dashboard countdown and customer status page then use that exact timestamp.
+
+## Choosing the right PSP for your use case
+
+| Use case | Best PSP | Why |
+| :------- | :------- | :-- |
+| **Hotel stay (3–7 nights)** | Any PSP | All providers comfortably cover this window |
+| **Weekly car rental (5–10 days)** | Mollie (Mastercard) or PayPal | 29–30 day window on most cards |
+| **2–4 week equipment rental** | Mollie (Mastercard / Klarna / Billie) | 28–30 day guaranteed window |
+| **Long-term rental (>30 days)** | Mollie + Vipps (NO/SE) | 180-day window for Vipps users |
+| **B2B deposits with invoice-style payment** | Mollie (Klarna / Billie / Riverty) | 28–30 day window, no card needed |
+| **US/global card-only flows** | Stripe with IC+ | 30-day extended authorization |
+| **PayPal-first customers** | PayPal direct | Automatic 3-day → 29-day reauthorization |
+
+## What happens at expiration
+
+When a hold expires before you capture or release it:
+
+1. PayRequest receives the expiration webhook (Mollie) or detects expiry on the next status poll (PayPal/Stripe).
+2. The deposit status changes to **Expired** (red badge).
+3. The customer's bank releases the funds — typically within 1–3 business days, sometimes up to 7.
+4. The deposit detail page disables the **Capture** action. Only history remains visible.
+
+<Warning>
+Once expired, you cannot recover the deposit. If you still need to charge the customer (for damages or a service rendered), you'll have to invoice them separately and ask them to pay through normal means.
+</Warning>
+
+## Setting a sensible Hold Duration on your product
+
+The **Hold Duration** field on a deposit product (1–28 days) is PayRequest's internal expiry timer. It's useful for ensuring you don't hold customer funds longer than needed, but it doesn't override the bank's window.
+
+Recommended values:
+
+- **Short stays (1–3 nights)**: 5–7 days
+- **Weekly rentals**: 10–14 days
+- **Monthly rentals**: 28 days (the maximum)
+- **Equipment rental**: rental period + 2–3 buffer days
+
+Always add a small buffer beyond the expected service-end date so you have time to inspect before capturing.
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Why does my deposit show 7 days when I configured 28?">
+    The bank's hold window is the hard ceiling. If your customer paid with a Visa card via Mollie or via Stripe on blended pricing, the bank only guarantees the hold for 7 days regardless of what you configured on the product. The product's Hold Duration is PayRequest's internal target, not an instruction to the bank.
+  </Accordion>
+
+  <Accordion title="Can I extend a hold that's about to expire?">
+    Only for PayPal — and PayRequest does this automatically (every 3 days up to day 29). Mollie and Stripe do not support extending an existing authorization. For those, you'd need to release the existing hold and create a new deposit.
+  </Accordion>
+
+  <Accordion title="How do I get Stripe's 30-day extended authorization?">
+    You need to be on Interchange-Plus (IC+) pricing with Stripe. Contact Stripe support from your connected Stripe account to request a pricing migration. PayRequest is already sending `request_extended_authorization=if_available` on every Checkout Session, so the extension activates automatically once your account is eligible.
+  </Accordion>
+
+  <Accordion title="Does the customer see the deadline?">
+    Yes. The branded customer status page shows a progress bar with the remaining hold time and turns red when 2 days or less remain. The customer also sees the start date, expected end date, and the current status.
+  </Accordion>
+
+  <Accordion title="What if PayPal reauthorization fails before day 29?">
+    PayRequest logs the failure and flags the deposit. The hold is no longer guaranteed at that point — the bank may release the funds early. You'll want to capture immediately if you still need the funds, or contact the customer to set up a new deposit.
+  </Accordion>
+
+  <Accordion title="Are these windows guaranteed, or just typical?">
+    Mollie's `captureBefore`, PayPal's honor period, and Stripe's `capture_before` are the deadlines the PSP commits to. They're surfaced verbatim in PayRequest. The underlying bank may, in rare cases, release a hold earlier (for example if the customer disputes it). These windows are best treated as deadlines, not minimums.
+  </Accordion>
+</AccordionGroup>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card title="Security Deposits Overview" icon="shield-halved" href="/payment-processing/security-deposits">
+    Full guide to setting up and managing security deposits
+  </Card>
+  <Card title="Connect Stripe" icon="stripe" href="/payment-processing/connect-stripe">
+    Set up Stripe as a deposit provider
+  </Card>
+  <Card title="Connect PayPal" icon="paypal" href="/payment-processing/connect-paypal">
+    Set up PayPal as a deposit provider
+  </Card>
+  <Card title="Payment Providers" icon="plug" href="/payment-processing/setting-up-payment-providers">
+    Configure Mollie, PayPal, and Stripe
+  </Card>
+</CardGroup>

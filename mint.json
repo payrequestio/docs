@@ -74,6 +74,7 @@
         "payment-processing/payment-page-dynamic-links",
         "payment-processing/smart-links",
         "payment-processing/security-deposits",
+        "payment-processing/deposit-hold-duration",
         "payment-processing/checkout-links",
         "payment-processing/qr-code-payments",
         "payment-processing/bank-sync-ponto",

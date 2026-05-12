@@ -41,7 +41,7 @@ Security deposits only work with **credit card** payments. iDEAL, SEPA Direct De
 - **Authorization Hold**: Amount reserved on card, not charged
 - **Full or Partial Capture**: Charge the exact amount needed for damages
 - **Release Hold**: Return the full amount with one click
-- **Hold Duration**: Configurable from 1 to 28 days
+- **Hold Duration**: Configurable from 1 to 28 days (the bank's window is the hard ceiling — see [hold durations per PSP](/payment-processing/deposit-hold-duration))
 - **Customer Status Page**: Branded page where customers can track their deposit
 - **Progress Tracking**: Visual countdown showing remaining hold days
 - **Capture History**: Full audit trail of all captures
@@ -337,7 +337,7 @@ When a customer's deposit is authorized, they automatically receive a confirmati
   </Accordion>
 
   <Accordion title="What's the maximum hold duration?">
-    You can configure hold durations from 1 to 28 days. The actual maximum depends on Mollie's authorization hold limits, which are typically 7-28 days depending on the card issuer.
+    You can configure hold durations from 1 to 28 days on the product. The actual maximum the bank enforces depends on the PSP and card brand — anywhere from 7 days (Visa via Stripe blended pricing) to 180 days (Vipps via Mollie). See [Deposit Hold Duration](/payment-processing/deposit-hold-duration) for the full per-PSP and per-network breakdown.
   </Accordion>
 
   <Accordion title="Do I need a Business plan for security deposits?">

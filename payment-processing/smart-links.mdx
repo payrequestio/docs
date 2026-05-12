@@ -15,6 +15,7 @@ Smart Links are perfect for social media campaigns, QR codes on flyers, email si
 ## Key Features
 
 - **Pretty URLs**: `https://payrequest.me/[businessname]/[path]`
+- **Embed Button Snippet**: Copy a styled HTML button (Blue / Dark / Outline) and paste it on any website or WordPress page
 - **QR Code Generation**: Automatic QR code for every smart link
 - **Analytics Tracking**: View counts, payment counts, revenue, and conversion rates
 - **Two Link Types**: Product checkout or fixed amount payments
@@ -787,19 +788,77 @@ Donate to our cause: payrequest.me/charity/donate
 Track: Total donations and supporter count via analytics
 ```
 
-### Website Integration
+### Embed Button on Your Website
 
-Embed smart links on your website:
+Every Smart Link includes a ready-to-paste **payment button snippet** so you can drop a styled "Pay" button onto your own website, blog, landing page, or WordPress post — without writing any code yourself.
 
-**Button example:**
+<Tip>
+The embedded button is a simple link, not an iframe or popup. Customers click and are taken to your branded PayRequest checkout. It works in **any** website builder: WordPress, Squarespace, Wix, Webflow, plain HTML, or even an email signature.
+</Tip>
+
+#### How to Get the Snippet
+
+<Steps>
+  <Step title="Open the Smart Link">
+    Go to **Payment Page → Smart Links** and click the link you want to embed.
+  </Step>
+  <Step title="Click Share">
+    Press the **Share** button at the top right. The share dialog opens with the URL, QR code, and embed options.
+  </Step>
+  <Step title="Pick a Button Style">
+    Choose between three styles in the **Embed button on your website** section:
+
+    - **Blue** — PayRequest's default primary button, works on most sites
+    - **Dark** — Black button, ideal for light backgrounds
+    - **Outline** — Minimal transparent button with a border, blends into any design
+  </Step>
+  <Step title="Copy the Snippet">
+    Click **Copy snippet**. The full HTML is now on your clipboard.
+  </Step>
+  <Step title="Paste It Into Your Site">
+    Paste the snippet into any HTML block — WordPress' **Custom HTML** Gutenberg block, a Squarespace **Code** block, or directly in your theme files. The button appears instantly with the correct styling.
+  </Step>
+</Steps>
+
+#### What the Snippet Looks Like
+
 ```html
-<a href="https://payrequest.me/yourhandle/premium-plan"
-   class="btn btn-primary">
-  Subscribe to Premium - €49/month
-</a>
+<link rel="stylesheet" href="https://dashboard.payrequest.io/embed/button.css">
+<a href="https://payrequest.me/yourhandle/coffee"
+   class="pr-btn pr-btn--default"
+   target="_blank"
+   rel="noopener">Pay €4.50</a>
 ```
 
-**QR Code embed:**
+The first line loads the PayRequest button stylesheet (one-time include — paste it once and reuse the button as often as you like). The second line is the actual button.
+
+<Info>
+The button label defaults to the Smart Link's amount (e.g. **Pay €4.50**) or its name. You can edit the text inside the snippet after pasting — change it to "Buy now", "Donate", "Subscribe", or any language you prefer.
+</Info>
+
+#### WordPress
+
+1. Edit the post or page where you want the button
+2. Add a **Custom HTML** block (Gutenberg) or a **Code Snippet** widget (Classic editor)
+3. Paste the snippet
+4. Update/publish — the button appears with full styling
+
+#### Style Variants
+
+| Variant | Class | Best For |
+|---|---|---|
+| Blue | `pr-btn pr-btn--default` | Most sites, primary CTA |
+| Dark | `pr-btn pr-btn--dark` | Light backgrounds, minimal designs |
+| Outline | `pr-btn pr-btn--outline` | Already-styled pages, secondary CTAs |
+
+You can also add the `pr-btn--secure` modifier (e.g. `class="pr-btn pr-btn--default pr-btn--secure"`) to prefix the button with a small lock icon — useful for emphasising the secure-checkout cue.
+
+#### Tracking Still Works
+
+Buttons embedded on third-party sites continue to feed your **Smart Link analytics**: every click increments the view count, and every successful payment increments revenue and conversion rate, exactly as it would on a direct payment URL.
+
+### QR Code Embed
+
 ```html
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payrequest.me/yourhandle/donate"
      alt="Scan to donate">
