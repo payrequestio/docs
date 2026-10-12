@@ -65,6 +65,12 @@ The fastest way is through the onboarding wizard the first time you sign in. Aft
   </Step>
 </Steps>
 
+## Enable Mollie Pay by Bank
+
+To accept Pay by Bank, activate the method on your Mollie website profile and include it in your PayRequest payment-method selection. Automatic EUR subscriptions also require **SEPA Direct Debit**: the first bank payment establishes the mandate, and later payments are collected by SEPA.
+
+See [Pay by Bank](/payment-processing/pay-by-bank) for the customer bank-selection flow and troubleshooting.
+
 ## Connecting Multiple Providers
 
 You can have all three connected at the same time. Each one shows up as its own card in Provider Settings with its own enable/disable switch. PayRequest applies a simple priority: when a customer pays an invoice or subscription, it goes through Mollie. When they pay through a payment link, they see whichever of Stripe and PayPal you've enabled (or both, side by side).

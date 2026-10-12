@@ -31,6 +31,9 @@ PayRequest supports mandates created via:
 | **iDEAL** | SEPA Direct Debit | 1-3 business days | Lower |
 | **Credit Card** | Card recurring | Instant | Higher |
 | **Bancontact** | SEPA Direct Debit | 1-3 business days | Lower |
+| **Pay by Bank** | SEPA Direct Debit for EUR subscriptions | First-payment confirmation depends on the bank | Your Mollie tariff |
+
+For Pay by Bank, the customer selects their bank on Mollie's payment page and authorizes the first payment. Future collection uses the resulting SEPA mandate. Enable Pay by Bank and SEPA Direct Debit on your Mollie profile. See [Pay by Bank](/payment-processing/pay-by-bank) for setup and pending-payment behavior.
 
 <Info>
 iDEAL is the most common method in the Netherlands. When a customer pays with iDEAL, Mollie automatically creates a SEPA mandate from the bank account used.

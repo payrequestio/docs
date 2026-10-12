@@ -66,6 +66,7 @@
       "group": "💳 Payment Processing",
       "pages": [
         "payment-processing/payment-methods-overview",
+        "payment-processing/pay-by-bank",
         "payment-processing/setting-up-payment-providers",
         "payment-processing/connect-stripe",
         "payment-processing/connect-paypal",

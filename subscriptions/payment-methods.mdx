@@ -19,6 +19,14 @@ Every subscription in PayRequest can be billed in one of two ways: **automatical
 | **Automatic Payment** | Customer is charged automatically via their saved mandate (SEPA or credit card) | Recurring SaaS, memberships, ongoing services |
 | **Manual Payment** | An invoice is generated and emailed each billing period — customer pays via bank transfer | Customers without mandates, large invoices, B2B clients |
 
+## First Payment with Pay by Bank
+
+With Mollie, customers can authorize the first payment of an automatically collected EUR subscription using **Pay by Bank**. They choose their bank on Mollie's payment page. The payment establishes a SEPA Direct Debit mandate for future collection; renewals do not use Pay by Bank or VRP.
+
+Enable **Pay by Bank** and **SEPA Direct Debit** on your Mollie profile, and include Pay by Bank in your PayRequest payment-method selection. If checkout is configured for manual invoice payments, it may offer a one-time payment instead of mandate options.
+
+See [Pay by Bank](/payment-processing/pay-by-bank) for the full setup and customer flow.
+
 ## Viewing the Current Payment Method
 
 On each subscription detail page, you'll see the current payment method displayed:
@@ -75,7 +83,7 @@ When a subscription with a mandate reaches its billing date:
 
 1. PayRequest creates a payment via Mollie using the linked mandate
 2. The customer's bank account or credit card is charged automatically
-3. A transaction is recorded and the invoice is marked as paid
+3. A transaction is recorded; the invoice is marked as paid after the provider confirms successful payment
 4. Next billing date is calculated based on the interval
 
 **No action required** from you or the customer.

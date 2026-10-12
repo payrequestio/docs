@@ -20,6 +20,7 @@ PayRequest organizes payment methods into logical categories to help you choose 
     **Regional Specialists**
     - iDEAL (Netherlands)
     - Bancontact (Belgium)
+    - Pay by Bank via Mollie (supported European banks)
     - SEPA Direct Debit (EU-wide)
     - Sofort (Germany)
     - Giropay (Germany)
@@ -105,6 +106,12 @@ The most universally accepted payment method, perfect for international customer
 ## 🏦 European Bank Payment Methods
 
 Optimized for European customers with local banking preferences and lower processing costs.
+
+### Pay by Bank via Mollie
+
+Customers choose **Pay by Bank** in PayRequest, then select their bank and authorize the payment on Mollie's secure payment flow. For automatic EUR subscriptions, the first payment establishes a SEPA Direct Debit mandate; subsequent payments use SEPA, not recurring open banking. A payment may remain pending until Mollie receives the funds.
+
+See [Pay by Bank](/payment-processing/pay-by-bank) for activation, customer steps, supported payments and troubleshooting.
 
 ### iDEAL (Netherlands)
 

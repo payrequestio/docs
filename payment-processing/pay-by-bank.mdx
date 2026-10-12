@@ -1,0 +1,81 @@
+---
+title: "Pay by Bank"
+description: "Accept a first bank payment through Mollie and collect subscription renewals with SEPA Direct Debit"
+icon: "building-columns"
+---
+
+Pay by Bank lets customers pay from their bank account without entering card details. PayRequest redirects them to Mollie to choose their bank and authorize the payment in their banking app or online banking.
+
+For an automatically collected euro subscription, the first payment establishes a **SEPA Direct Debit mandate**. Later payments are collected through that mandate.
+
+<Info>
+Pay by Bank is the first-payment method. Subscription renewals use SEPA Direct Debit, with its usual processing times and refund rights. This is not recurring open banking or Variable Recurring Payments (VRP).
+</Info>
+
+## Enable Pay by Bank
+
+<Steps>
+  <Step title="Connect your Mollie account">
+    Open PayRequest's payment-provider settings and connect your own Mollie account. See [Setting Up Payment Providers](/payment-processing/setting-up-payment-providers).
+  </Step>
+  <Step title="Activate the methods at Mollie">
+    Enable **Pay by Bank** on the Mollie website profile used by PayRequest. For automatic euro subscriptions, also enable **SEPA Direct Debit**. Availability depends on your Mollie account and profile.
+  </Step>
+  <Step title="Check your PayRequest method selection">
+    If you selected specific payment methods in PayRequest, include **Pay by Bank** in that selection. Activating a method at Mollie does not override your PayRequest selection.
+  </Step>
+  <Step title="Use an automatic subscription checkout">
+    Share your recurring product's PayRequest Page or portal product link. Eligible customers can choose **Pay by Bank** when setting up automatic payments. Manual invoice billing does not establish a mandate; review the product and shop's manual-payment settings if checkout offers only a one-time payment.
+  </Step>
+</Steps>
+
+## What the customer does
+
+1. Reviews the product, amount and recurring terms in PayRequest.
+2. Chooses **Pay by Bank** and continues to Mollie.
+3. Selects their bank on the Mollie payment page.
+4. Authorizes the first payment in their bank's app or online banking.
+5. Returns to PayRequest to see the payment status.
+
+The customer chooses the bank **after leaving PayRequest**. Their billing-address country does not automatically select a bank: someone may have a bank account in a different country. The checkout language changes the interface text, not the payment method itself.
+
+## Supported payments
+
+| Payment | How it works |
+| --- | --- |
+| One-time payment | Customer authorizes the bank payment at Mollie. EUR and GBP are supported where available. |
+| First automatic subscription payment | PayRequest supports EUR Pay by Bank payments that establish a SEPA mandate. |
+| Subscription renewal | PayRequest collects through the saved SEPA Direct Debit mandate. The customer does not select their bank again each month. |
+
+Bank availability can vary. Some business bank accounts are not supported. See [Mollie's Pay by Bank documentation](https://docs.mollie.com/docs/pay-by-bank) for current coverage and limitations.
+
+## Pending payments and returns from the bank
+
+<Warning>
+Returning from the bank does not prove that payment is complete. A Pay by Bank payment can remain **pending** while Mollie waits for the funds. PayRequest confirms payment after Mollie reports it as paid. Some banks may take longer than others.
+</Warning>
+
+If the bank or bank-connection provider displays a blank page or an error after authorization, check the order and payment status before starting another payment. A payment can still succeed despite a return-page error. If the status is unclear, contact the merchant with your order number; the merchant can verify the payment in Mollie.
+
+## Manage future payments
+
+The mandate is linked to the customer's subscription. Use [Managing Mandates](/subscriptions/managing-mandates) to inspect its status and [Payment Methods for Subscriptions](/subscriptions/payment-methods) to manage collection.
+
+Canceling a subscription and refunding its first payment are separate actions. Customers can use the available [self-service cancellation options](/subscriptions/customer-self-service) to stop future billing according to the product's cancellation settings.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Why is Pay by Bank missing?">
+    Check Mollie activation, your PayRequest method selection, and SEPA Direct Debit activation for subscriptions. The amount, currency and checkout's collection settings must be suitable. The automatic subscription flow supports EUR.
+  </Accordion>
+  <Accordion title="Why do I see a one-time payment instead of mandate options?">
+    Your shop or product may permit manual subscription billing. That checkout collects a separate payment for the invoice rather than establishing automatic renewal payments. Review [subscription payment methods](/subscriptions/payment-methods).
+  </Accordion>
+  <Accordion title="Are renewals also instant bank payments?">
+    No. Only the first payment uses Pay by Bank. Renewals are SEPA Direct Debit payments and may remain pending while collection is processed.
+  </Accordion>
+  <Accordion title="Do I need to choose banks or embed a bank picker in PayRequest?">
+    No. Mollie handles bank selection and authorization on its payment page.
+  </Accordion>
+</AccordionGroup>
