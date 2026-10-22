@@ -1,0 +1,117 @@
+---
+title: "Manual Crypto Payments"
+description: "Accept crypto at your own wallet address and review pending payment notifications, verify transaction hashes, and confirm or reject receipt."
+icon: "wallet"
+---
+
+# Manual Crypto Payments
+
+Manual crypto payments let customers transfer BTC, USDT or another configured coin directly to your receiving wallet. When they click **I have paid**, PayRequest saves a notification for you to review under **Crypto payments** in the dashboard.
+
+<Warning>
+**A payment notification is not proof of payment.** Manual wallet payments are not automatically verified. Check the actual transfer in your receiving wallet or a blockchain explorer before confirming receipt or providing goods or services.
+</Warning>
+
+## Choose the Right Crypto Flow
+
+| Option | What the customer does | How receipt is checked |
+| --- | --- | --- |
+| **Manual receiving address** | Sends to your configured wallet, then clicks **I have paid** | You independently check the transfer and review the notification |
+| **Automatic USDC checkout** | Completes the dedicated USDC checkout on Base or Solana | PayRequest uses that checkout's on-chain verification |
+| **Shareable wallet address page** | Copies or scans your address | The address page does not track or confirm transfers |
+
+Adding a USDT or USDC receive address does not turn it into an automatic checkout. The token name alone does not identify its network. For automatic USDC checkout, use the dedicated USDC option in your payment provider settings. See the [Payment Methods Overview](/payment-processing/payment-methods-overview) for the available payment options. An address-only sharing page does not track or confirm transfers.
+
+## Set Up a Receiving Address
+
+<Steps>
+  <Step title="Open your crypto payment settings">
+    Go to **Settings → Payment Providers → Crypto** and find your manual crypto receive addresses. Adding a new receiving address requires an active Premium plan or higher.
+  </Step>
+  <Step title="Add the coin, network and address">
+    Enter the coin symbol, display name, network and your receiving address. Specify the actual network you accept; do not assume that all USDT or USDC transfers use the same chain. Double-check that your wallet can receive the selected asset on that network.
+  </Step>
+  <Step title="Enable the address">
+    Enable the saved address to show it on your payment page. Customers can copy the address or scan its QR code, send from their own wallet or exchange, and return to click **I have paid**.
+  </Step>
+</Steps>
+
+Customers can add their blockchain transaction hash and contact details. A saved notification means only that they reported a payment; it does not mean PayRequest found a transfer.
+
+## Find Pending Notifications
+
+Open [**Crypto payments**](https://payrequest.app/crypto-payments) from the dashboard sidebar. You can also open **Transactions → Review manual crypto payments**.
+
+The **Pending review** filter shows notifications that still need a decision, including existing notifications saved before the review screen was available. Each notification shows the coin, receiving address, submission time, supplied contact details, transaction hash and reported amount when available. New notifications include the receiving wallet's configured network in their notes when it was set.
+
+Only the business owner can access and review these notifications. Team member sessions cannot review them. Existing notifications remain accessible if your plan later changes.
+
+## Verify and Confirm Receipt
+
+<Steps>
+  <Step title="Open the notification">
+    Select **Review payment notification**. If no blockchain transaction hash is available, request it and the transfer network from the customer.
+  </Step>
+  <Step title="Check the actual transfer">
+    In your wallet or the explorer for the correct network, verify the transaction succeeded, the receiving address is yours, the asset is correct and the full expected amount arrived. Check the transfer's confirmation or finality status; a pending transfer is not confirmed receipt.
+
+    An exchange withdrawal ID, internal transfer reference or screenshot is not a blockchain transaction hash. If the transfer is internal to an exchange, investigate it directly in your receiving account; do not invent a hash to approve it here.
+  </Step>
+  <Step title="Check for duplicates">
+    Make sure you have not already counted the same transfer. Multiple clicks on **I have paid** can describe one payment. PayRequest blocks confirming an identical transaction hash twice within your account, but you must still check the actual receipt and any previous records.
+  </Step>
+  <Step title="Record your decision">
+    Enter the blockchain transaction hash and review notes describing the network, received amount and your findings. Select the checkbox confirming that you independently checked receipt, then choose **Confirm receipt** and accept the confirmation prompt.
+  </Step>
+</Steps>
+
+<Info>
+**Confirm receipt records your manual review only.** It does not create a paid transaction, mark an invoice paid, activate a subscription or deliver a product. Handle any related invoice or fulfillment separately after verifying the payment.
+</Info>
+
+## Reject an Invalid or Duplicate Notification
+
+Select **Review payment notification**, enter a reason in **Review notes**, then choose **Reject notification**. For example, record that it duplicates an already reviewed transfer or that you could not establish receipt.
+
+Rejecting a notification does not move or refund cryptocurrency. If an actual transfer needs a refund, handle that separately after checking the payment and the customer's return details.
+
+## What the Statuses Mean
+
+| Status | Meaning |
+| --- | --- |
+| **Pending review** | A customer reported a payment. Receipt has not been confirmed in this review workflow. Waiting does not automatically verify it. |
+| **Confirmed** | A recorded confirmation exists. New manual confirmations require the owner's independent receipt checks. |
+| **Rejected** | The owner reviewed and rejected the notification, with the reason saved in its notes. |
+
+Older notifications marked confirmed by the former scan may not have owner review notes. Do not rely on that historical scan result as proof of receipt; independently check the transfer before fulfillment.
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="The customer saw Payment logged. Where is the payment?">
+    Look under **Crypto payments → Pending review**. The former message meant that a notification was saved, not that funds were received. The checkout now explains that the merchant must verify receipt manually.
+  </Accordion>
+  <Accordion title="Will a pending USDT payment be verified automatically later?">
+    No. Manual receiving-address notifications are not processed by the automatic USDC checkout monitor. You must verify the transfer and review the notification yourself.
+  </Accordion>
+  <Accordion title="Why is the amount, network or transaction hash missing?">
+    Older notifications may not contain those details, and customer-supplied information can be incomplete. Ask for the coin, network, blockchain transaction hash and amount before confirming receipt. A reported amount is not independently verified by PayRequest.
+  </Accordion>
+  <Accordion title="Can I change a confirmed or rejected notification?">
+    This screen only allows decisions on pending notifications. It blocks repeated or stale decisions and preserves the recorded review notes.
+  </Accordion>
+  <Accordion title="Does approving the notification mark the invoice paid?">
+    No. Notification review is separate from invoice payment records and product delivery. It does not settle an invoice or trigger fulfillment.
+  </Accordion>
+</AccordionGroup>
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Payment Methods Overview" icon="coins" href="/payment-processing/payment-methods-overview">
+    Compare manual crypto notifications with your other payment options.
+  </Card>
+  <Card title="Payment Provider Setup" icon="wallet" href="/payment-processing/setting-up-payment-providers">
+    Find your payment provider settings. External payment handles such as Wise or Binance Pay use a different flow from blockchain wallet notifications.
+  </Card>
+</CardGroup>
