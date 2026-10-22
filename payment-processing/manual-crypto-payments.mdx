@@ -9,14 +9,14 @@ icon: "wallet"
 Manual crypto payments let customers transfer BTC, USDT or another configured coin directly to your receiving wallet. When they click **I have paid**, PayRequest saves a notification for you to review under **Crypto payments** in the dashboard.
 
 <Warning>
-**A payment notification is not proof of payment.** Manual wallet payments are not automatically verified. Check the actual transfer in your receiving wallet or a blockchain explorer before confirming receipt or providing goods or services.
+**A payment notification is not proof of payment.** New USDT/USDC transfers on BNB Smart Chain can use automatic verification when the customer prepares an exact quote and submits the blockchain transaction hash. Other notifications require your independent checks before confirming receipt or providing goods or services.
 </Warning>
 
 ## Choose the Right Crypto Flow
 
 | Option | What the customer does | How receipt is checked |
 | --- | --- | --- |
-| **Manual receiving address** | Sends to your configured wallet, then clicks **I have paid** | You independently check the transfer and review the notification |
+| **Manual receiving address** | Sends to your configured wallet, then clicks **I have paid** | Eligible new BEP-20 quotes can be checked automatically; otherwise you independently review receipt |
 | **Automatic USDC checkout** | Completes the dedicated USDC checkout on Base or Solana | PayRequest uses that checkout's on-chain verification |
 | **Shareable wallet address page** | Copies or scans your address | The address page does not track or confirm transfers |
 
@@ -38,15 +38,42 @@ Adding a USDT or USDC receive address does not turn it into an automatic checkou
 
 Customers can add their blockchain transaction hash and contact details. A saved notification means only that they reported a payment; it does not mean PayRequest found a transfer.
 
+## Automatic Verification for USDT and USDC on BNB Smart Chain
+
+Automatic verification is available for **new exact quotes** using the supported **Binance-Peg USDT or Binance-Peg USDC token on BNB Smart Chain (BEP-20)**. Your saved receiving address must explicitly identify that network. A missing or ambiguous network, another chain or another token contract does not qualify. These are Binance-Peg representations; they are not the issuer-native USDC checkout on Base or Solana.
+
+<Steps>
+  <Step title="Prepare an exact amount before sending">
+    The customer selects the configured BEP-20 coin and chooses **Prepare exact payment amount**. PayRequest calculates and freezes a quote, displays the network and token contract, and reserves an exact six-decimal amount with a small unique fraction for matching. The customer must send the exact displayed amount; the approximate amount from another quote is not interchangeable.
+  </Step>
+  <Step title="Send and submit the blockchain hash">
+    Send the displayed token amount to the displayed wallet within 30 minutes, pay network fees separately, then paste the full blockchain transaction hash and click **I have paid**. Exchange withdrawal fees must not reduce the amount received. An exchange withdrawal ID is not a blockchain hash.
+  </Step>
+  <Step title="Wait for verification">
+    A check runs every five minutes. PayRequest verifies the network, fixed token contract, recipient, exact amount, quote time window and finalized canonical transaction. The checkout can display the result while it remains open. A transfer cannot be automatically counted twice.
+  </Step>
+  <Step title="Review exceptions manually">
+    Wrong amounts or tokens, ambiguous transfers, expired submissions and other permanent mismatches remain pending for owner review. Temporary API failures receive bounded retries and never establish receipt. The customer can also choose **Continue with manual review** before submitting. Do not send a second payment just because verification is pending.
+  </Step>
+</Steps>
+
+<Info>
+Automatic confirmation updates the wallet notification only. It does **not** create a paid transaction, settle an invoice, activate a subscription or deliver a product. The quote confirms receipt of the customer-requested amount; it is not proof that a particular invoice or order has been paid in full. These blockchain reads require no customer wallet key and do not broadcast a transaction.
+</Info>
+
+Existing notifications without a server-generated quote cannot be upgraded to automatic verification just by adding a hash. Confirm their receipt independently. No historical notifications are automatically scanned or approved.
+
 ## Find Pending Notifications
 
 Open [**Crypto payments**](https://payrequest.app/crypto-payments) from the dashboard sidebar. You can also open **Transactions → Review manual crypto payments**.
 
-The **Pending review** filter shows notifications that still need a decision, including existing notifications saved before the review screen was available. Each notification shows the coin, receiving address, submission time, supplied contact details, transaction hash and reported amount when available. New notifications include the receiving wallet's configured network in their notes when it was set.
+The **Pending review** filter shows notifications that still need a decision, including existing notifications saved before the review screen was available. Each notification shows the coin, receiving address, submission time, supplied contact details, transaction hash and reported amount when available. Eligible BEP-20 quotes also show the exact quoted amount and automatic verification state. New notifications include the receiving wallet's configured network in their notes when it was set.
 
 Only the business owner can access and review these notifications. Team member sessions cannot review them. Existing notifications remain accessible if your plan later changes.
 
 ## Verify and Confirm Receipt
+
+Use these owner review steps for notifications that do not qualify for automatic verification or need manual investigation.
 
 <Steps>
   <Step title="Open the notification">
@@ -79,8 +106,8 @@ Rejecting a notification does not move or refund cryptocurrency. If an actual tr
 
 | Status | Meaning |
 | --- | --- |
-| **Pending review** | A customer reported a payment. Receipt has not been confirmed in this review workflow. Waiting does not automatically verify it. |
-| **Confirmed** | A recorded confirmation exists. New manual confirmations require the owner's independent receipt checks. |
+| **Pending review** | A customer reported a payment. Receipt has not been confirmed in this review workflow. Unquoted notifications are not automatically verified. Eligible new BEP-20 quotes may still be awaiting their scheduled blockchain check. |
+| **Confirmed** | A recorded confirmation exists. Eligible new BEP-20 quotes can be confirmed by blockchain verification; manual confirmations require the owner's independent receipt checks. The notification shows how it was reviewed. |
 | **Rejected** | The owner reviewed and rejected the notification, with the reason saved in its notes. |
 
 Older notifications marked confirmed by the former scan may not have owner review notes. Do not rely on that historical scan result as proof of receipt; independently check the transfer before fulfillment.
@@ -92,7 +119,7 @@ Older notifications marked confirmed by the former scan may not have owner revie
     Look under **Crypto payments → Pending review**. The former message meant that a notification was saved, not that funds were received. The checkout now explains that the merchant must verify receipt manually.
   </Accordion>
   <Accordion title="Will a pending USDT payment be verified automatically later?">
-    No. Manual receiving-address notifications are not processed by the automatic USDC checkout monitor. You must verify the transfer and review the notification yourself.
+    Only a new supported BEP-20 quote with its exact amount and blockchain transaction hash can be automatically verified. Older USDT notifications and unquoted transfers require owner review. This is separate from the automatic USDC checkout on Base and Solana.
   </Accordion>
   <Accordion title="Why is the amount, network or transaction hash missing?">
     Older notifications may not contain those details, and customer-supplied information can be incomplete. Ask for the coin, network, blockchain transaction hash and amount before confirming receipt. A reported amount is not independently verified by PayRequest.
